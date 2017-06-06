@@ -7,7 +7,6 @@ import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.common.disk.NoOpDiskTrimmableRegistry;
 import com.facebook.common.internal.Supplier;
 import com.facebook.common.memory.MemoryTrimType;
-import com.facebook.common.memory.MemoryTrimmable;
 import com.facebook.common.memory.NoOpMemoryTrimmableRegistry;
 import com.facebook.common.util.ByteConstants;
 import com.facebook.imagepipeline.cache.MemoryCacheParams;
@@ -41,12 +40,7 @@ public class ImagePipelineConfigUtils {
                 MAX_MEMORY_CACHE_SIZE,
                 Integer.MAX_VALUE,
                 Integer.MAX_VALUE);
-        Supplier<MemoryCacheParams> mSupplierMemoryCacheParams = new Supplier<MemoryCacheParams>() {
-            @Override
-            public MemoryCacheParams get() {
-                return bitmapCacheParams;
-            }
-        } ;
+        Supplier<MemoryCacheParams> mSupplierMemoryCacheParams = () -> bitmapCacheParams;
         DiskCacheConfig diskCacheConfig = DiskCacheConfig.newBuilder(context)
                 // 缓存文件目录
                 .setBaseDirectoryPath(new File(InitParams.CACHE_PATH))
@@ -64,17 +58,14 @@ public class ImagePipelineConfigUtils {
                 .setMemoryTrimmableRegistry(NoOpMemoryTrimmableRegistry.getInstance())
                 .setResizeAndRotateEnabledForNetwork(true)
                 .setDownsampleEnabled(true);
-        NoOpMemoryTrimmableRegistry.getInstance().registerMemoryTrimmable(new MemoryTrimmable() {
-            @Override
-            public void trim(MemoryTrimType trimType) {
-                final double suggestedTrimRatio = trimType.getSuggestedTrimRatio();
+        NoOpMemoryTrimmableRegistry.getInstance().registerMemoryTrimmable(trimType -> {
+            final double suggestedTrimRatio = trimType.getSuggestedTrimRatio();
 
-                if (MemoryTrimType.OnCloseToDalvikHeapLimit.getSuggestedTrimRatio() == suggestedTrimRatio
-                        || MemoryTrimType.OnSystemLowMemoryWhileAppInBackground.getSuggestedTrimRatio() == suggestedTrimRatio
-                        || MemoryTrimType.OnSystemLowMemoryWhileAppInForeground.getSuggestedTrimRatio() == suggestedTrimRatio
-                        ) {
-                    ImagePipelineFactory.getInstance().getImagePipeline().clearMemoryCaches();
-                }
+            if (MemoryTrimType.OnCloseToDalvikHeapLimit.getSuggestedTrimRatio() == suggestedTrimRatio
+                    || MemoryTrimType.OnSystemLowMemoryWhileAppInBackground.getSuggestedTrimRatio() == suggestedTrimRatio
+                    || MemoryTrimType.OnSystemLowMemoryWhileAppInForeground.getSuggestedTrimRatio() == suggestedTrimRatio
+                    ) {
+                ImagePipelineFactory.getInstance().getImagePipeline().clearMemoryCaches();
             }
         });
         return configBuilder.build();

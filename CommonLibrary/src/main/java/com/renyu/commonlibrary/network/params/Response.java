@@ -3,33 +3,17 @@ package com.renyu.commonlibrary.network.params;
 /**
  * Created by renyu on 15/12/16.
  */
-public class Response<T> {
+public interface Response<T> {
 
-    T data;
-    int result;
-    String message;
+    T getData();
 
-    public T getData() {
-        return data;
-    }
+    void setData(T data);
 
-    public void setData(T data) {
-        this.data = data;
-    }
+    int getResult();
 
-    public int getResult() {
-        return result;
-    }
+    void setResult(int result);
 
-    public void setResult(int result) {
-        this.result = result;
-    }
+    String getMessage();
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    void setMessage(String message);
 }

@@ -247,9 +247,9 @@ public class AppUpdateDialogFragment extends DialogFragment {
         String url = model.getUrl();
         if (url.indexOf("?") != -1) {
             String url_ = url.substring(0, url.indexOf("?"));
-            file = new File(InitParams.FILE_DOWNLOAD_PATH + File.separator + url_.substring(url_.lastIndexOf("/") + 1));
+            file = new File(InitParams.FILE_PATH + File.separator + url_.substring(url_.lastIndexOf("/") + 1));
         } else {
-            file = new File(InitParams.FILE_DOWNLOAD_PATH  + File.separator + url.substring(url.lastIndexOf("/") + 1));
+            file = new File(InitParams.FILE_PATH  + File.separator + url.substring(url.lastIndexOf("/") + 1));
         }
         if (file.exists() && Utils.checkAPKState(getActivity(), file.getPath())) {
             return file;

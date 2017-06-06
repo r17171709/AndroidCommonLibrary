@@ -69,7 +69,7 @@ public class UpdateService extends Service {
                             ContextCompat.getColor(this, R.color.colorPrimary),
                             intent.getExtras().getInt("smallIcon"), intent.getExtras().getInt("largeIcon"));
 
-            httpHelper.downloadFile(url, InitParams.FILE_DOWNLOAD_PATH, new OKHttpHelper.RequestListener() {
+            httpHelper.downloadFile(url, InitParams.FILE_PATH, new OKHttpHelper.RequestListener() {
                 @Override
                 public void onSuccess(String string) {
                     UpdateModel model=new UpdateModel();
@@ -171,9 +171,9 @@ public class UpdateService extends Service {
         String url = model.getUrl();
         if (url.indexOf("?") != -1) {
             String url_ = url.substring(0, url.indexOf("?"));
-            file = new File(InitParams.FILE_DOWNLOAD_PATH + File.separator + url_.substring(url_.lastIndexOf("/") + 1));
+            file = new File(InitParams.FILE_PATH + File.separator + url_.substring(url_.lastIndexOf("/") + 1));
         } else {
-            file = new File(InitParams.FILE_DOWNLOAD_PATH  + File.separator + url.substring(url.lastIndexOf("/") + 1));
+            file = new File(InitParams.FILE_PATH  + File.separator + url.substring(url.lastIndexOf("/") + 1));
         }
         if (file.exists() && Utils.checkAPKState(this, file.getPath())) {
             return file;

@@ -13,8 +13,6 @@ import com.renyu.commonlibrary.params.InitParams;
 
 import java.io.File;
 
-import static com.renyu.commonlibrary.params.InitParams.ROOT_PATH;
-
 /**
  * Created by renyu on 2016/12/26.
  */
@@ -28,7 +26,7 @@ public class ExampleApp extends MultiDexApplication {
         String processName= Utils.getProcessName(android.os.Process.myPid());
         if (processName.equals(getPackageName())) {
             // 初始化网络请求
-            Retrofit2Utils.getInstance("http://www.baidu.com");
+            Retrofit2Utils.getInstance("http://www.mocky.io/v2/");
 
             // 初始化工具库
             com.blankj.utilcode.util.Utils.init(this);
@@ -38,21 +36,21 @@ public class ExampleApp extends MultiDexApplication {
 
             // 初始化相关配置参数
             // 项目根目录
-            ROOT_PATH= Environment.getExternalStorageDirectory().getPath()+ File.separator + "demo";
+            // 请注意修改xml文件夹下filepaths.xml中的external-path节点，此值需与ROOT_PATH值相同，作为fileprovider使用
+            InitParams.ROOT_PATH= Environment.getExternalStorageDirectory().getPath()+ File.separator + "example";
             // 项目图片目录
-            InitParams.IMAGE_PATH= ROOT_PATH + File.separator + "image";
+            InitParams.IMAGE_PATH= InitParams.ROOT_PATH + File.separator + "image";
             // 项目文件目录
-            InitParams.FILE_PATH= ROOT_PATH + File.separator + "file";
+            InitParams.FILE_PATH= InitParams.ROOT_PATH + File.separator + "file";
             // 项目热修复目录
-            InitParams.HOTFIX_PATH= ROOT_PATH + File.separator + "hotfix";
+            InitParams.HOTFIX_PATH= InitParams.ROOT_PATH + File.separator + "hotfix";
             // 项目日志目录
-            InitParams.LOG_PATH= ROOT_PATH + File.separator + "log";
-            InitParams.LOG_NAME= "demo_log";
+            InitParams.LOG_PATH= InitParams.ROOT_PATH + File.separator + "log";
+            InitParams.LOG_NAME= "example_log";
             // 缓存目录
-            InitParams.CACHE_PATH= ROOT_PATH + File.separator + "cache";
+            InitParams.CACHE_PATH= InitParams.ROOT_PATH + File.separator + "cache";
             // fresco缓存目录
             InitParams.FRESCO_CACHE_NAME= "fresco_cache";
-            // 升级文件放在Download文件夹下
         }
     }
 

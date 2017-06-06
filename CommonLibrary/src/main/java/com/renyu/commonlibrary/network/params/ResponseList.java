@@ -5,32 +5,16 @@ import java.util.List;
 /**
  * Created by renyu on 15/12/25.
  */
-public class ResponseList<T> {
-    List<T> data;
-    int result;
-    String message;
+public interface ResponseList<T> {
+    List<T> getData();
 
-    public List<T> getData() {
-        return data;
-    }
+    void setData(List<T> data);
 
-    public void setData(List<T> data) {
-        this.data = data;
-    }
+    int getResult();
 
-    public int getResult() {
-        return result;
-    }
+    void setResult(int result);
 
-    public void setResult(int result) {
-        this.result = result;
-    }
+    String getMessage();
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    void setMessage(String message);
 }

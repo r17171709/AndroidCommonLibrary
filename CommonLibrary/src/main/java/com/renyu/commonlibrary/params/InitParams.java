@@ -15,13 +15,11 @@ public class InitParams {
     public static String IMAGE_PATH= ROOT_PATH + File.separator + "image";
     // 项目文件目录
     public static String FILE_PATH= ROOT_PATH + File.separator + "file";
-    // 项目文件下载目录
-    public static String FILE_DOWNLOAD_PATH= Environment.getExternalStorageDirectory().getPath() + File.pathSeparator + "Download";
     // 项目热修复目录
     public static String HOTFIX_PATH= ROOT_PATH + File.separator + "hotfix";
     // 项目日志目录
     public static String LOG_PATH= ROOT_PATH + File.separator + "log";
-    public static String LOG_NAME= "sostar_log";
+    public static String LOG_NAME= "demo_log";
     // 缓存目录
     public static String CACHE_PATH= ROOT_PATH + File.separator + "cache";
     // fresco缓存目录
