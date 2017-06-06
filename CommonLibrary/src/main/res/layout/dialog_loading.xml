@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+    <!-- 耗时加载中 -->
+    <RelativeLayout
+        android:id="@+id/loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="160dip"
+        android:layout_marginLeft="16dip"
+        android:layout_marginRight="16dip"
+        android:visibility="gone"
+        android:background="@drawable/shape_loadingdialog">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="110dip"
+            android:gravity="center">
+            <ProgressBar
+                android:id="@+id/loading_container_progressbar"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_centerVertical="true" />
+            <TextView
+                android:id="@+id/loading_container_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:text="正在加载中..."
+                android:layout_toRightOf="@+id/loading_container_progressbar"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#e5e5e5"></View>
+            <Button
+                android:id="@+id/loading_container_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="48dip"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="#999999"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+    <!-- 选择对话框 -->
+    <RelativeLayout
+        android:id="@+id/choice_container"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginLeft="16dip"
+        android:layout_marginRight="16dip"
+        android:visibility="gone"
+        android:background="@drawable/shape_loadingdialog">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/choice_container_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:layout_marginBottom="16dip"
+                android:gravity="center"
+                android:text="标题"
+                android:lineSpacingExtra="7dip"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/choice_container_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:gravity="center"
+                android:text="内容"
+                android:lineSpacingExtra="7dip"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#e5e5e5"></View>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/choice_container_negative"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="取消"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+                <View
+                    android:id="@+id/choice_container_line"
+                    android:layout_width="1dip"
+                    android:layout_height="match_parent"
+                    android:background="#e5e5e5"></View>
+                <Button
+                    android:id="@+id/choice_container_positive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="确定"
+                    android:textColor="#ffac00"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <!-- 只有标题的图文toast -->
+    <LinearLayout
+        android:id="@+id/toast_textimage_container"
+        android:layout_width="match_parent"
+        android:layout_height="160dip"
+        android:layout_marginLeft="16dip"
+        android:layout_marginRight="16dip"
+        android:background="@drawable/shape_loadingdialog"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="horizontal" >
+        <ImageView
+            android:id="@+id/toast_textimage_container_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/toast_textimage_container_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dip"
+            android:layout_marginRight="16dip"
+            android:lineSpacingExtra="7dip"
+            android:textColor="#666666"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <!-- 纯文字的toast -->
+    <LinearLayout
+        android:id="@+id/toast_text_container"
+        android:layout_width="match_parent"
+        android:layout_height="160dip"
+        android:layout_marginLeft="16dip"
+        android:layout_marginRight="16dip"
+        android:background="@drawable/shape_loadingdialog"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/toast_text_container_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:lineSpacingExtra="7dip"
+            android:layout_marginLeft="16dip"
+            android:layout_marginRight="16dip"
+            android:textColor="#666666"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <!-- 带正文的图文toast -->
+    <LinearLayout
+        android:id="@+id/toast_titletext_container"
+        android:layout_width="match_parent"
+        android:layout_height="160dip"
+        android:background="@drawable/shape_loadingdialog"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginLeft="16dip"
+        android:layout_marginRight="16dip"
+        android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/toast_titletext_container_image"
+                android:src="@mipmap/ios_thumb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/toast_titletext_container_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dip"
+                android:textColor="#666666"
+                android:textSize="20sp" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/toast_titletext_container_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:layout_marginLeft="16dip"
+            android:layout_marginRight="16dip"
+            android:lineSpacingExtra="7dip"
+            android:textColor="#666666"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/customer_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginLeft="16dip"
+        android:layout_marginRight="16dip"
+        android:orientation="vertical" >
+    </RelativeLayout>
+</RelativeLayout>

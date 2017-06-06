@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressCircleViewStyle">
+        <attr name="background_color" format="color"></attr>
+        <attr name="foreground_color" format="color"></attr>
+        <attr name="second_color" format="color"></attr>
+        <!-- 进度方向 -->
+        <attr name="pdirection" format="enum">
+            <enum name="left" value="1"></enum>
+            <enum name="right" value="2"></enum>
+        </attr>
+        <!-- 百分比 -->
+        <attr name="progress" format="integer"></attr>
+        <attr name="second_progress" format="integer"></attr>
+        <attr name="width" format="dimension"></attr>
+        <attr name="bgwidth" format="dimension"></attr>
+        <attr name="stoke_width" format="dimension"></attr>
+        <attr name="text_size" format="dimension"></attr>
+        <attr name="arror" format="reference"></attr>
+        <attr name="text_color" format="color"></attr>
+        <attr name="text" format="string"></attr>
+        <!-- 起始位置 -->
+        <attr name="start_direction" format="enum">
+            <enum name="left" value="1"></enum>
+            <enum name="top" value="2"></enum>
+            <enum name="right" value="3"></enum>
+            <enum name="botton" value="4"></enum>
+        </attr>
+        <!-- 是否显示圆球 -->
+        <attr name="showcircle" format="boolean"></attr>
+    </declare-styleable>
+</resources>

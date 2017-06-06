@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- material dialog相关配置 -->
+    <dimen name="mdtp_material_button_height">48dp</dimen>
+    <dimen name="mdtp_material_button_textsize">14sp</dimen>
+    <dimen name="mdtp_material_button_minwidth">64dp</dimen>
+    <dimen name="mdtp_material_button_textpadding_horizontal">8dp</dimen>
+</resources>
