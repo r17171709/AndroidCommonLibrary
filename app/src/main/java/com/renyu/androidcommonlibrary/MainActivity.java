@@ -1,12 +1,14 @@
 package com.renyu.androidcommonlibrary;
 
 import android.Manifest;
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
 import com.renyu.commonlibrary.baseact.BaseActivity;
+import com.renyu.commonlibrary.baseact.WebActivity;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 
@@ -75,6 +77,10 @@ public class MainActivity extends BaseActivity {
                 finish();
             }
         });
+
+        Intent intent=new Intent(MainActivity.this, WebActivity.class);
+        intent.putExtra("url", "http://www.baidu.com");
+        startActivity(intent);
     }
 
     @Override
