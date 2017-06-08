@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="left|center_vertical"
-                android:textColor="#0fc17d"
+                android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 android:layout_marginStart="12dip" />
             <TextView
@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="right|center_vertical"
-                android:textColor="#0fc17d"
+                android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 android:layout_marginEnd="12dip"
                 android:layout_gravity="right" />
