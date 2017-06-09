@@ -78,7 +78,7 @@ dependencies {
     // SwipyRefreshLayout  A SwipeRefreshLayout extension that allows to swipe in both direction
     compile 'com.github.orangegangsters:swipy:1.2.3'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
-    compile 'com.kyleduo.switchbutton:library:1.4.6'
+    compile 'com.kyleduo.switchbutton:library:1.4.5'
     // SwipeDelMenuLayout  史上最简单侧滑菜单，0耦合，支持任意ViewGroup。一步集成侧滑(删除)菜单，高仿QQ、IOS。~
     compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
     // RecyclerItemDecoration
