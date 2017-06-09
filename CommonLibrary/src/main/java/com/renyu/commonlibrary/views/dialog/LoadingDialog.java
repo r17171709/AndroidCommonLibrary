@@ -37,8 +37,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class LoadingDialog extends DialogFragment {
 
-    FragmentManager fragmentManager;
     boolean isDismiss = true;
+    boolean isChild = false;
 
     RelativeLayout loading_container;
     TextView loading_container_cancel;
@@ -481,7 +481,7 @@ public class LoadingDialog extends DialogFragment {
             Observable.timer(2000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<Long>() {
                 @Override
                 public void accept(Long aLong) throws Exception {
-                    if (getFragmentManager() != null) {
+                    if (getManager() != null) {
                         try {
                             dismiss();
                         } catch (Exception e) {
@@ -524,7 +524,7 @@ public class LoadingDialog extends DialogFragment {
             toast_text_container.setVisibility(View.VISIBLE);
             toast_text_container_content.setText(text);
             Observable.timer(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-                if (getFragmentManager() != null) {
+                if (getManager() != null) {
                     if (onDialogProceedListener != null) {
                         onDialogProceedListener.proceed();
                     }
@@ -585,7 +585,7 @@ public class LoadingDialog extends DialogFragment {
             }
             toast_textimage_container_content.setText(text);
             Observable.timer(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-                if (getFragmentManager() != null) {
+                if (getManager() != null) {
                     if (onDialogProceedListener != null) {
                         onDialogProceedListener.proceed();
                     }
@@ -781,7 +781,8 @@ public class LoadingDialog extends DialogFragment {
     public void setFinish() {
         try {
             dismiss();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
 
         }
         if (onDialogDismissListener != null) {
@@ -802,8 +803,8 @@ public class LoadingDialog extends DialogFragment {
         customer_container.setVisibility(View.GONE);
     }
 
-    public void show(FragmentManager manager, final String tag) {
-        this.fragmentManager=manager;
+    public void show(FragmentManager manager, boolean isChild, final String tag) {
+        LoadingDialog.this.isChild = isChild;
         if (manager.isDestroyed() || !isDismiss) {
             return;
         }
@@ -821,12 +822,12 @@ public class LoadingDialog extends DialogFragment {
             return;
         }
         isDismiss=true;
+        if (getActivity()!=null && getActivity().isFinishing()) {
+            return;
+        }
         new Handler().post(() -> {
-            if (getActivity()!=null && getActivity().isFinishing()) {
-                return;
-            }
-            fragmentManager.popBackStack();
-            FragmentTransaction transaction=fragmentManager.beginTransaction();
+            getManager().popBackStack();
+            FragmentTransaction transaction=getManager().beginTransaction();
             transaction.remove(LoadingDialog.this);
             transaction.commitAllowingStateLoss();
         });
@@ -843,10 +844,20 @@ public class LoadingDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (savedInstanceState!=null) {
             isDismiss=savedInstanceState.getBoolean("isDismiss");
+            dismiss();
         }
     }
 
     public View getCustomerView() {
         return customerView;
+    }
+
+    private FragmentManager getManager() {
+        if (isChild) {
+            return getChildFragmentManager();
+        }
+        else {
+            return getFragmentManager();
+        }
     }
 }
