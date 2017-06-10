@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.renyu.commonlibrary.R;
 import com.renyu.commonlibrary.commonutils.BarUtils;
+import com.renyu.commonlibrary.params.InitParams;
 
 /**
  * Created by renyu on 16/2/16.
@@ -101,4 +102,16 @@ public class WebActivity extends BaseActivity {
         web_webview.removeAllViews();
         web_webview.destroy();
     }
+
+    @Override
+    public void onBackPressed() {
+        //只有帮助中心可以跳转
+        if (web_webview.canGoBack() && getIntent().getExtras().getBoolean(InitParams.NEED_GOBACK, false)) {
+            web_webview.goBack();
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
 }
