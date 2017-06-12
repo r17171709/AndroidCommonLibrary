@@ -204,8 +204,10 @@ public class ActionSheetFragment extends Fragment {
                     dismiss();
                 }
             });
-            LinearLayout pop_morechoice= (LinearLayout) view.findViewById(R.id.pop_morechoice);
-            pop_morechoice.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(title)) {
+                LinearLayout pop_morechoice= (LinearLayout) view.findViewById(R.id.pop_morechoice);
+                pop_morechoice.setVisibility(View.VISIBLE);
+            }
         }
         else if (getArguments().getInt("type")==2) {
             GridLayout pop_grid= (GridLayout) view.findViewById(R.id.pop_grid);
