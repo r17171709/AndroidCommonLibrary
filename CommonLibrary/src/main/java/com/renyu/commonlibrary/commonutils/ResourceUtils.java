@@ -19,6 +19,10 @@ public class ResourceUtils {
         return context.getResources().getIdentifier(resName, "drawable", context.getPackageName());
     }
 
+    public static int getMipmapId(Context context, String resName) {
+        return context.getResources().getIdentifier(resName, "mipmap", context.getPackageName());
+    }
+
     public static int getStyleId(Context context, String resName) {
         return context.getResources().getIdentifier(resName, "style", context.getPackageName());
     }
