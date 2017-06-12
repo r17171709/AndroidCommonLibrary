@@ -82,4 +82,6 @@ dependencies {
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     //Android-ConvenientBanner  Simple and convenient banner, loop viewpager with 3D effects
     compile 'com.bigkoo:convenientbanner:2.0.5'
+    //ViewPagerTransforms  Library containing common animations needed for transforming ViewPager scrolling for Android v13+.
+    compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
 }
