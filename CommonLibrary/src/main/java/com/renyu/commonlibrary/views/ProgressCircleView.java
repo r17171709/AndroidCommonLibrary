@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -142,6 +143,12 @@ public class ProgressCircleView extends View {
     public void setText(String text, int progress) {
         this.text = text;
         this.progress=progress;
-        invalidate();
+        postInvalidate();
+    }
+
+    public void setSweepGradient(int[] arcColors) {
+        SweepGradient sweepGradient=new SweepGradient(getMeasuredWidth()/2, getMeasuredHeight()/2, arcColors, null);
+        paint_foreground.setShader(sweepGradient);
+        postInvalidate();
     }
 }
