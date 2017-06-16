@@ -22,7 +22,7 @@ public abstract class BaseFragment extends Fragment {
     public abstract int initViews();
     public abstract void loadData();
 
-    View view=null;
+    public View view=null;
 
     public OKHttpHelper httpHelper;
     public Retrofit retrofit=null;
