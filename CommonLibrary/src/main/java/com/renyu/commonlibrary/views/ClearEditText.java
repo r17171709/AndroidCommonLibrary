@@ -17,6 +17,7 @@ import com.renyu.commonlibrary.R;
 public class ClearEditText extends EditText implements View.OnTouchListener, View.OnFocusChangeListener, TextWatcher {
 
     Drawable clearDrawable;
+    OnFocusChangeListener focusChangeListener;
 
     public ClearEditText(Context context) {
         this(context, null);
@@ -44,6 +45,9 @@ public class ClearEditText extends EditText implements View.OnTouchListener, Vie
         }
         else {
             setClearIconVisible(false);
+        }
+        if (focusChangeListener!=null) {
+            focusChangeListener.onFocusChange(v, hasFocus);
         }
     }
 
@@ -80,5 +84,13 @@ public class ClearEditText extends EditText implements View.OnTouchListener, Vie
         clearDrawable.setVisible(visible, false);
         Drawable[] drawables=getCompoundDrawables();
         setCompoundDrawables(drawables[0], drawables[1], visible?clearDrawable:null, drawables[3]);
+    }
+
+    public interface OnFocusChangeListener {
+        void onFocusChange(View v, boolean hasFocus);
+    }
+
+    public void setFocusChangeListener(OnFocusChangeListener focusChangeListener) {
+        this.focusChangeListener = focusChangeListener;
     }
 }
