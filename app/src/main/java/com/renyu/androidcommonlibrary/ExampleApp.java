@@ -6,10 +6,12 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.renyu.androidcommonlibrary.dbhelper.PlainTextDBHelper;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
+import com.tencent.wcdb.database.SQLiteDatabase;
 
 import java.io.File;
 
@@ -18,6 +20,9 @@ import java.io.File;
  */
 
 public class ExampleApp extends MultiDexApplication {
+
+    public PlainTextDBHelper dbHelper;
+    public SQLiteDatabase db;
 
     @Override
     public void onCreate() {
@@ -33,6 +38,16 @@ public class ExampleApp extends MultiDexApplication {
 
             // 初始化fresco
             Fresco.initialize(this, ImagePipelineConfigUtils.getDefaultImagePipelineConfig(this));
+
+            // 初始化数据库
+            if (dbHelper!=null && db!=null && db.isOpen()) {
+                db.close();
+                db=null;
+                dbHelper=null;
+            }
+            dbHelper=new PlainTextDBHelper(getApplicationContext());
+            dbHelper.setWriteAheadLoggingEnabled(true);
+            db=dbHelper.getWritableDatabase();
 
             // 初始化相关配置参数
             // 项目根目录

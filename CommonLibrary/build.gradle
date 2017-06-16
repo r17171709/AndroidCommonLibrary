@@ -78,10 +78,12 @@ dependencies {
     compile 'com.github.magiepooh:recycler-itemdecoration:1.1.1@aar'
     // CircleImageView  A circular ImageView for Android
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    //sticky-headers-recyclerview  Sticky Headers decorator for Android's RecyclerView
+    // sticky-headers-recyclerview  Sticky Headers decorator for Android's RecyclerView
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
-    //Android-ConvenientBanner  Simple and convenient banner, loop viewpager with 3D effects
+    // Android-ConvenientBanner  Simple and convenient banner, loop viewpager with 3D effects
     compile 'com.bigkoo:convenientbanner:2.0.5'
-    //ViewPagerTransforms  Library containing common animations needed for transforming ViewPager scrolling for Android v13+.
+    // ViewPagerTransforms  Library containing common animations needed for transforming ViewPager scrolling for Android v13+.
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+    // wcdb  WCDB is a cross-platform database framework developed by WeChat.
+    compile 'com.tencent.wcdb:wcdb-android:1.0.0'
 }
