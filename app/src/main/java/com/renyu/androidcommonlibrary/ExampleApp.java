@@ -9,11 +9,18 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.renyu.androidcommonlibrary.dbhelper.PlainTextDBHelper;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.commonutils.Utils;
+import com.renyu.commonlibrary.network.HttpsUtils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.tencent.wcdb.database.SQLiteDatabase;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Created by renyu on 2016/12/26.
@@ -31,7 +38,28 @@ public class ExampleApp extends MultiDexApplication {
         String processName= Utils.getProcessName(android.os.Process.myPid());
         if (processName.equals(getPackageName())) {
             // 初始化网络请求
-            Retrofit2Utils.getInstance("http://www.mocky.io/v2/");
+            Retrofit2Utils retrofit2Utils=Retrofit2Utils.getInstance("http://www.mocky.io/v2/");
+            OkHttpClient.Builder baseBuilder=new OkHttpClient.Builder()
+//                    .addInterceptor(new TokenInterceptor(this))
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .writeTimeout(10, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS);
+            //https默认信任全部证书
+            HttpsUtils.SSLParams sslParams= HttpsUtils.getSslSocketFactory(null, null, null);
+            baseBuilder.hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String s, SSLSession sslSession) {
+                    return true;
+                }
+            }).sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
+            retrofit2Utils.addBaseOKHttpClient(baseBuilder.build());
+            retrofit2Utils.baseBuild();
+            OkHttpClient.Builder imageUploadOkBuilder=new OkHttpClient.Builder()
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(30, TimeUnit.SECONDS);
+            retrofit2Utils.addImageOKHttpClient(imageUploadOkBuilder.build());
+            retrofit2Utils.imageBuild();
 
             // 初始化工具库
             com.blankj.utilcode.util.Utils.init(this);

@@ -11,6 +11,6 @@ import retrofit2.http.GET;
  */
 
 public interface RetrofitImpl {
-    @GET("59364494100000cc0bf99bc0")
+    @GET("5943e4dc1200000f08fcb4d4")
     Observable<ExampleResponse<ExampleAResponse>> getExampleValue();
 }

@@ -1,10 +1,11 @@
-package com.renyu.androidcommonlibrary;
+package com.renyu.androidcommonlibrary.activity;
 
 import android.Manifest;
 import android.content.Intent;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.FileUtils;
+import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
 import com.renyu.commonlibrary.baseact.BaseActivity;
@@ -57,7 +58,7 @@ public class MainActivity extends BaseActivity {
 
                             @Override
                             public void onNext(ExampleAResponse value) {
-                                Toast.makeText(MainActivity.this, value.getAg_name(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, value.getU_id(), Toast.LENGTH_SHORT).show();
                             }
 
                             @Override

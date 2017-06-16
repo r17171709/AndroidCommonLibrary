@@ -7,7 +7,6 @@ import com.renyu.commonlibrary.network.params.Response;
 import com.renyu.commonlibrary.network.params.ResponseList;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -29,34 +28,39 @@ public class Retrofit2Utils {
 
     private static volatile Retrofit2Utils retrofit2Utils;
 
-    private static Retrofit retrofit;
-    private static Retrofit retrofitUploadImage;
+    private static Retrofit baseRetrofit;
+    private static Retrofit.Builder baseRetrofitBuilder;
+    private static Retrofit imageRetrofit;
+    private static Retrofit.Builder imageRetrofitBuilder;
 
     private Retrofit2Utils(String baseUrl) {
         // 基础请求
-        OkHttpClient.Builder baseOkBuilder=new OkHttpClient.Builder()
-                .readTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS);
-        //https默认信任全部证书
-        HttpsUtils.SSLParams sslParams=HttpsUtils.getSslSocketFactory(null, null, null);
-        baseOkBuilder.hostnameVerifier((hostname, session) -> true).sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-        retrofit=new Retrofit.Builder()
+        baseRetrofitBuilder=new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(baseOkBuilder.build()).baseUrl(baseUrl).build();
+                .addConverterFactory(GsonConverterFactory.create()).baseUrl(baseUrl);
 
         // 图片上传请求
-        OkHttpClient.Builder imageUploadOkBuilder=new OkHttpClient.Builder()
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .connectTimeout(30, TimeUnit.SECONDS);
-        retrofitUploadImage=new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(imageUploadOkBuilder.build()).baseUrl(baseUrl).build();
+        imageRetrofitBuilder=new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create()).baseUrl(baseUrl);
     }
 
-    public static void getInstance(String baseUrl) {
+    public void addBaseOKHttpClient(OkHttpClient okHttpClient) {
+        baseRetrofitBuilder.client(okHttpClient);
+    }
+
+    public void addImageOKHttpClient(OkHttpClient okHttpClient) {
+        imageRetrofitBuilder.client(okHttpClient);
+    }
+
+    public void baseBuild() {
+        baseRetrofit=baseRetrofitBuilder.build();
+    }
+
+    public void imageBuild() {
+        imageRetrofit=imageRetrofitBuilder.build();
+    }
+
+    public static Retrofit2Utils getInstance(String baseUrl) {
         if (retrofit2Utils==null) {
             synchronized (Retrofit2Utils.class) {
                 if (retrofit2Utils==null) {
@@ -64,14 +68,15 @@ public class Retrofit2Utils {
                 }
             }
         }
+        return retrofit2Utils;
     }
 
     public static Retrofit getBaseRetrofit() {
-        return retrofit;
+        return baseRetrofit;
     }
 
     public static Retrofit getImageUploadRetrofit() {
-        return retrofitUploadImage;
+        return imageRetrofit;
     }
 
     /**
