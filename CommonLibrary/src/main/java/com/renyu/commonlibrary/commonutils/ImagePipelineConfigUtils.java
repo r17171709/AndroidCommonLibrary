@@ -12,6 +12,7 @@ import com.facebook.common.util.ByteConstants;
 import com.facebook.imagepipeline.cache.MemoryCacheParams;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
+import com.facebook.imagepipeline.decoder.SimpleProgressiveJpegConfig;
 import com.renyu.commonlibrary.params.InitParams;
 
 import java.io.File;
@@ -52,6 +53,7 @@ public class ImagePipelineConfigUtils {
                 .setDiskTrimmableRegistry(NoOpDiskTrimmableRegistry.getInstance())
                 .build();
         ImagePipelineConfig.Builder configBuilder = ImagePipelineConfig.newBuilder(context)
+                .setProgressiveJpegConfig(new SimpleProgressiveJpegConfig())
                 .setMainDiskCacheConfig(diskCacheConfig)
                 .setBitmapMemoryCacheParamsSupplier(mSupplierMemoryCacheParams)
                 .setBitmapsConfig(Bitmap.Config.RGB_565)
