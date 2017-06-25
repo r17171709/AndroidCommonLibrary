@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.renyu.androidcommonlibrary"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -37,7 +37,4 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     compile project(':CommonLibrary')
 //    compile 'com.github.r17171709:AndroidCommonLibrary:v1.0.8'
-    // 腾讯bugly
-    compile 'com.tencent.bugly:crashreport:latest.release'
-    compile 'com.tencent.bugly:nativecrashreport:latest.release'
 }
