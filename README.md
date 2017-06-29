@@ -32,3 +32,4 @@
 * 支持网页浏览功能
 * 集成viewpager切换动画
 * 集成微信WCDB数据库
+* 集成ViewPager指示器控件
