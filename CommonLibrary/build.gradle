@@ -48,7 +48,7 @@ dependencies {
     // 添加支持multidex的兼容包
     compile 'com.android.support:multidex:1.0.1'
     // 工具类
-    compile 'com.blankj:utilcode:1.6.4'
+    compile 'com.blankj:utilcode:1.7.1'
     // retrofit2
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
