@@ -40,6 +40,15 @@
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="#333333"/>
+        <LinearLayout
+            android:id="@+id/layout_nav_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignLeft="@id/ib_nav_right"
+            android:orientation="horizontal">
+        </LinearLayout>
         <ImageView
             android:id="@+id/iv_nav_title"
             android:layout_width="wrap_content"
