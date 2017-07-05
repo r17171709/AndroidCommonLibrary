@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 public class ShowCaseImageView extends ImageView {
 
-    int mBackgroundColor= Color.TRANSPARENT;
     int mFocusBorderColor=Color.BLACK;
     int mFocusBorderSize=6;
     // 椭圆圆角范围
@@ -32,13 +31,14 @@ public class ShowCaseImageView extends ImageView {
     Bitmap mBitmap;
     // 高亮部分集合
     ArrayList<CalculatorBean> mCalculatorBeen;
+    Path mPath;
 
+    // 设置背景Paint
     Paint mBackgroundPaint;
     // 设置高亮点清除中心Paint
     Paint mErasePaint;
     // 设置高亮点Paint
     Paint mCircleBorderPaint;
-    Path mPath;
 
     // 设置是否可以播放动画
     boolean mAnimationEnabled=false;
@@ -73,18 +73,16 @@ public class ShowCaseImageView extends ImageView {
         // 由于性能限制，onDraw()方法不被执行的解决方法
         setWillNotDraw(false);
 
-        setBackgroundColor(Color.TRANSPARENT);
-
         mBackgroundPaint=new Paint();
         mBackgroundPaint.setAntiAlias(true);
-        mBackgroundPaint.setColor(mBackgroundColor);
-        mBackgroundPaint.setAlpha(0xFF);
 
         mErasePaint=new Paint();
+        mErasePaint.setAntiAlias(true);
         mErasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         mErasePaint.setAlpha(0xFF);
 
         mCircleBorderPaint=new Paint();
+        mCircleBorderPaint.setAntiAlias(true);
         mCircleBorderPaint.setColor(mFocusBorderColor);
         mCircleBorderPaint.setStrokeWidth(mFocusBorderSize);
         mCircleBorderPaint.setStyle(Paint.Style.STROKE);
@@ -111,7 +109,7 @@ public class ShowCaseImageView extends ImageView {
 
         if (mBitmap == null) {
             mBitmap= Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-            // 把图片设置成透明
+            // 把图片设置成半透明
             mBitmap.eraseColor(0xb2000000);
         }
         canvas.drawBitmap(mBitmap, 0, 0, mBackgroundPaint);
@@ -132,9 +130,9 @@ public class ShowCaseImageView extends ImageView {
                     mStep=1;
                 }
                 mAnimCounter+=mStep;
+                postInvalidate();
             }
         }
-        postInvalidate();
     }
 
     /**

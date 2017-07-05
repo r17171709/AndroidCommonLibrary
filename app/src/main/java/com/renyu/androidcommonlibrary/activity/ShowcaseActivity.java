@@ -60,7 +60,7 @@ public class ShowcaseActivity extends AppCompatActivity {
 
         View view= LayoutInflater.from(ShowcaseActivity.this).inflate(R.layout.view_showcase, null, false);
         ShowCaseImageView image_showcase= view.findViewById(R.id.image_showcase);
-        image_showcase.setmAnimationEnabled(false);
+        image_showcase.setmAnimationEnabled(true);
         image_showcase.setmCalculatorBeen(beanArrayList);
         image_showcase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +88,7 @@ public class ShowcaseActivity extends AppCompatActivity {
 
         View view= LayoutInflater.from(ShowcaseActivity.this).inflate(R.layout.view_showcase, null, false);
         ShowCaseImageView image_showcase= view.findViewById(R.id.image_showcase);
-        image_showcase.setmAnimationEnabled(false);
+        image_showcase.setmAnimationEnabled(true);
         image_showcase.setmCalculatorBeen(beanArrayList);
         image_showcase.setOnClickListener(new View.OnClickListener() {
             @Override
