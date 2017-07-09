@@ -33,3 +33,4 @@
 * 集成viewpager切换动画
 * 集成微信WCDB数据库
 * 集成ViewPager指示器控件
+* 集成DiscreteScrollView，以当前item为中心的可滚动列表

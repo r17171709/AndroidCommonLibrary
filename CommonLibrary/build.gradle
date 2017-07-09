@@ -84,6 +84,8 @@ dependencies {
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     // CircleIndicator  A lightweight viewpager indicator like in nexus 5 launcher
     compile 'me.relex:circleindicator:1.2.2@aar'
+    // DiscreteScrollView  Scrollable list of items, where current item is centered and can be changed using swipes
+    compile 'com.yarolegovich:discrete-scrollview:1.2.0'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     compile 'com.tencent.wcdb:wcdb-android:1.0.0'
 }
