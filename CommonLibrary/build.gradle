@@ -72,7 +72,7 @@ dependencies {
     compile 'com.kyleduo.switchbutton:library:1.4.6@aar'
     // SwipeDelMenuLayout  史上最简单侧滑菜单，0耦合，支持任意ViewGroup。一步集成侧滑(删除)菜单，高仿QQ、IOS。~
     compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
-    // RecyclerItemDecoration
+    // RecyclerItemDecoration  ItemDecoration for RecyclerView using LinearLayoutManager for Android
     compile 'com.github.magiepooh:recycler-itemdecoration:1.1.1@aar'
     // CircleImageView  A circular ImageView for Android
     compile 'de.hdodenhof:circleimageview:2.1.0'
