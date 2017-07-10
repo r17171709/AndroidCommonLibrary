@@ -47,7 +47,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:gravity="center_vertical"
-            android:layout_alignLeft="@id/ib_nav_right"
+            android:layout_toLeftOf="@id/ib_nav_right"
             android:orientation="horizontal">
         </LinearLayout>
         <ImageView

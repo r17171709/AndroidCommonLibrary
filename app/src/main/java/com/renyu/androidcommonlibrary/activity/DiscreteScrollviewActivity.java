@@ -1,10 +1,20 @@
 package com.renyu.androidcommonlibrary.activity;
 
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.adapter.ShopAdapter;
 import com.renyu.androidcommonlibrary.bean.DiscreteBean;
@@ -24,6 +34,10 @@ import butterknife.BindView;
 
 public class DiscreteScrollviewActivity extends BaseActivity {
 
+    @BindView(R.id.ib_nav_right)
+    ImageButton ib_nav_right;
+    @BindView(R.id.layout_nav_right)
+    LinearLayout layout_nav_right;
     @BindView(R.id.scroll_discrete)
     DiscreteScrollView scroll_discrete;
 
@@ -47,6 +61,15 @@ public class DiscreteScrollviewActivity extends BaseActivity {
 
     @Override
     public void loadData() {
+        ImageView imageView=new ImageView(this);
+        imageView.setImageResource(R.mipmap.ic_launcher);
+        imageView.setPadding(SizeUtils.dp2px(16), 0, SizeUtils.dp2px(16), 0);
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.rightMargin=SizeUtils.dp2px(16);
+        imageView.setLayoutParams(params);
+        layout_nav_right.addView(imageView);
+        ib_nav_right.setImageResource(R.mipmap.ic_arrow_gray_right);
+
         scroll_discrete.setOrientation(Orientation.HORIZONTAL);
         scroll_discrete.addOnItemChangedListener(new DiscreteScrollView.OnItemChangedListener<RecyclerView.ViewHolder>() {
             @Override
