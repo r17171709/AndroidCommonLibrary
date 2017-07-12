@@ -57,3 +57,5 @@
 ![DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView/raw/master/images/cards_shop.gif)
 
 ![DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView/raw/master/images/cards_weather.gif)
+
+* 解决SwipyRefreshLayout滑动冲突

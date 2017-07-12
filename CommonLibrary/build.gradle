@@ -87,5 +87,5 @@ dependencies {
     // DiscreteScrollView  Scrollable list of items, where current item is centered and can be changed using swipes
     compile 'com.yarolegovich:discrete-scrollview:1.2.0'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
-    compile 'com.tencent.wcdb:wcdb-android:1.0.0'
+    compile 'com.tencent.wcdb:wcdb-android:1.0.2'
 }
