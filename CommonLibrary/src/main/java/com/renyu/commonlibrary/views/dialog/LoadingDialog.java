@@ -153,7 +153,7 @@ public class LoadingDialog extends DialogFragment {
         LoadingDialog dialog = new LoadingDialog();
         Bundle bundle = new Bundle();
         bundle.putInt("type", 7);
-        bundle.putString("text", text);
+        bundle.putString("title", text);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -167,7 +167,7 @@ public class LoadingDialog extends DialogFragment {
         LoadingDialog dialog = new LoadingDialog();
         Bundle bundle = new Bundle();
         bundle.putInt("type", 8);
-        bundle.putString("text", text);
+        bundle.putString("title", text);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -535,7 +535,6 @@ public class LoadingDialog extends DialogFragment {
 
     /**
      * 设置加载成功单文字并关闭
-     * @param text
      * @param text
      */
     public void setTextSuccessWithClose(String text) {

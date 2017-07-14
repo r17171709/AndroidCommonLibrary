@@ -6,12 +6,12 @@
     android:background="@android:color/transparent">
     <LinearLayout
         android:id="@+id/pop_child_layout"
-        android:background="@android:color/white"
         android:orientation="vertical"
         android:gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:background="@android:color/white"
             android:id="@+id/pop_morechoice"
             android:visibility="gone"
             android:layout_width="match_parent"
@@ -132,5 +132,16 @@
 
             </LinearLayout>
         </LinearLayout>
+        <TextView
+            android:id="@+id/pop_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:layout_marginTop="10dip"
+            android:visibility="gone"
+            android:gravity="center"
+            android:text="取消"
+            android:background="@android:color/white"
+            android:textColor="#333333"
+            android:textSize="14sp"/>
     </LinearLayout>
 </LinearLayout>
