@@ -65,7 +65,6 @@ public class DiscreteScrollviewActivity extends BaseActivity {
         imageView.setImageResource(R.mipmap.ic_launcher);
         imageView.setPadding(SizeUtils.dp2px(16), 0, SizeUtils.dp2px(16), 0);
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.rightMargin=SizeUtils.dp2px(16);
         imageView.setLayoutParams(params);
         layout_nav_right.addView(imageView);
         ib_nav_right.setImageResource(R.mipmap.ic_arrow_gray_right);

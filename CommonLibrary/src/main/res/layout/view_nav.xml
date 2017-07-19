@@ -45,7 +45,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
             android:gravity="center_vertical"
             android:layout_toLeftOf="@id/ib_nav_right"
             android:orientation="horizontal">
