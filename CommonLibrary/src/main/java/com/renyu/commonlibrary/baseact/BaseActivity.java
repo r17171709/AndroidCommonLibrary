@@ -95,7 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         String[] permissionsSD={Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         if (!PermissionsUtils.lacksPermissions(this, permissionsSD)) {
             // 初始化xlog
-            Xlog.open(true, Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", path, InitParams.LOG_NAME);
+            Xlog.open(true, Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", path, InitParams.LOG_NAME, "");
             Xlog.setConsoleLogOpen(true);
             Log.setLogImp(new Xlog());
         }
@@ -106,7 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onResume();
 
         openLog(InitParams.LOG_PATH);
-
+        Log.d("test", "测试");
         if (isCheckAgain) {
             isCheckAgain=false;
             checkPermission();
