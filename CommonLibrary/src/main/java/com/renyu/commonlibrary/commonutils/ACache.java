@@ -109,23 +109,25 @@ public class ACache {
 	 *            保存的String数据
 	 */
 	public void put(String key, String value) {
-		File file = mCache.newFile(key);
-		BufferedWriter out = null;
-		try {
-			out = new BufferedWriter(new FileWriter(file), 1024);
-			out.write(value);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (out != null) {
-				try {
-					out.flush();
-					out.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+		synchronized (ACache.class) {
+			File file = mCache.newFile(key);
+			BufferedWriter out = null;
+			try {
+				out = new BufferedWriter(new FileWriter(file), 1024);
+				out.write(value);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (out != null) {
+					try {
+						out.flush();
+						out.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
+				mCache.put(file);
 			}
-			mCache.put(file);
 		}
 	}
 
@@ -150,37 +152,39 @@ public class ACache {
 	 * @return String 数据
 	 */
 	public String getAsString(String key) {
-		File file = mCache.get(key);
-		if (!file.exists())
-			return null;
-		boolean removeFile = false;
-		BufferedReader in = null;
-		try {
-			in = new BufferedReader(new FileReader(file));
-			String readString = "";
-			String currentLine;
-			while ((currentLine = in.readLine()) != null) {
-				readString += currentLine;
-			}
-			if (!Utils.isDue(readString)) {
-				return Utils.clearDateInfo(readString);
-			} else {
-				removeFile = true;
+		synchronized (ACache.class) {
+			File file = mCache.get(key);
+			if (!file.exists())
 				return null;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+			boolean removeFile = false;
+			BufferedReader in = null;
+			try {
+				in = new BufferedReader(new FileReader(file));
+				String readString = "";
+				String currentLine;
+				while ((currentLine = in.readLine()) != null) {
+					readString += currentLine;
 				}
+				if (!Utils.isDue(readString)) {
+					return Utils.clearDateInfo(readString);
+				} else {
+					removeFile = true;
+					return null;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			} finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				if (removeFile)
+					remove(key);
 			}
-			if (removeFile)
-				remove(key);
 		}
 	}
 
@@ -288,23 +292,25 @@ public class ACache {
 	 *            保存的数据
 	 */
 	public void put(String key, byte[] value) {
-		File file = mCache.newFile(key);
-		FileOutputStream out = null;
-		try {
-			out = new FileOutputStream(file);
-			out.write(value);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (out != null) {
-				try {
-					out.flush();
-					out.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+		synchronized (ACache.class) {
+			File file = mCache.newFile(key);
+			FileOutputStream out = null;
+			try {
+				out = new FileOutputStream(file);
+				out.write(value);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (out != null) {
+					try {
+						out.flush();
+						out.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
+				mCache.put(file);
 			}
-			mCache.put(file);
 		}
 	}
 
@@ -329,34 +335,36 @@ public class ACache {
 	 * @return byte 数据
 	 */
 	public byte[] getAsBinary(String key) {
-		RandomAccessFile RAFile = null;
-		boolean removeFile = false;
-		try {
-			File file = mCache.get(key);
-			if (!file.exists())
-				return null;
-			RAFile = new RandomAccessFile(file, "r");
-			byte[] byteArray = new byte[(int) RAFile.length()];
-			RAFile.read(byteArray);
-			if (!Utils.isDue(byteArray)) {
-				return Utils.clearDateInfo(byteArray);
-			} else {
-				removeFile = true;
-				return null;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			if (RAFile != null) {
-				try {
-					RAFile.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+		synchronized (ACache.class) {
+			RandomAccessFile RAFile = null;
+			boolean removeFile = false;
+			try {
+				File file = mCache.get(key);
+				if (!file.exists())
+					return null;
+				RAFile = new RandomAccessFile(file, "r");
+				byte[] byteArray = new byte[(int) RAFile.length()];
+				RAFile.read(byteArray);
+				if (!Utils.isDue(byteArray)) {
+					return Utils.clearDateInfo(byteArray);
+				} else {
+					removeFile = true;
+					return null;
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			} finally {
+				if (RAFile != null) {
+					try {
+						RAFile.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				if (removeFile)
+					remove(key);
 			}
-			if (removeFile)
-				remove(key);
 		}
 	}
 
