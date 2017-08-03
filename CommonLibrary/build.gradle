@@ -64,8 +64,8 @@ dependencies {
         exclude group: 'io.reactivex', module: 'rxjava'
     }
     // fresco
-    compile 'com.facebook.fresco:fresco:1.3.0'
-    compile 'com.facebook.fresco:animated-gif:1.3.0'
+    compile 'com.facebook.fresco:fresco:1.4.0'
+    compile 'com.facebook.fresco:animated-gif:1.4.0'
     // SwipyRefreshLayout  A SwipeRefreshLayout extension that allows to swipe in both direction
     compile 'com.github.orangegangsters:swipy:1.2.3@aar'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
