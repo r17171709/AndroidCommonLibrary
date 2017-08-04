@@ -31,7 +31,10 @@
 ![RecyclerItemDecoration](https://raw.githubusercontent.com/magiepooh/RecyclerItemDecoration/master/art/demo_horizontal.gif)
 
 * 集成仿IOS SwitchButton控件
-* 集成粘性头部RecyclerView控件
+* 集成vlayout
+
+![vlayout](https://camo.githubusercontent.com/2b947a15f5502af5a4639a5927d68052ccfb54a3/687474703a2f2f696d67332e746263646e2e636e2f4c312f3436312f312f31623962666234323030393034376637356365653038616537343135303564653263373461633061)
+
 * 集成效果极佳的轮播广告图控件
 
 ![ViewPagerTransforms](https://github.com/saiwu-bigkoo/Android-ConvenientBanner/raw/master/preview/convenientbannerdemo.gif)
