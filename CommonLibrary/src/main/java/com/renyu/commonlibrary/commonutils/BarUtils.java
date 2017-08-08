@@ -25,7 +25,7 @@ public class BarUtils {
      */
     public static void setColor(Activity activity, int color) {
         //设置contentview为fitsSystemWindows
-        ViewGroup viewGroup= (ViewGroup) activity.findViewById(android.R.id.content);
+        ViewGroup viewGroup= activity.findViewById(android.R.id.content);
         if (viewGroup.getChildAt(0)!=null) {
             viewGroup.getChildAt(0).setFitsSystemWindows(true);
         }
@@ -96,7 +96,7 @@ public class BarUtils {
     private static int calculateStatusColor(int color, int alpha) {
         try {
             Class BarUtilsClass=Class.forName("com.blankj.utilcode.util.BarUtils");
-            Method calculateStatusColorMethod=BarUtilsClass.getDeclaredMethod("calculateStatusColor", int.class, int.class);
+            Method calculateStatusColorMethod=BarUtilsClass.getDeclaredMethod("getStatusBarColor", int.class, int.class);
             calculateStatusColorMethod.setAccessible(true);
             return (int) calculateStatusColorMethod.invoke(null, color, alpha);
         } catch (ClassNotFoundException e) {
