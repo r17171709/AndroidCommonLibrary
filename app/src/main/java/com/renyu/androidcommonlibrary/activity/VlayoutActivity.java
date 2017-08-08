@@ -55,7 +55,7 @@ public class VlayoutActivity extends BaseActivity {
         RecyclerView.RecycledViewPool pool=new RecyclerView.RecycledViewPool();
         pool.setMaxRecycledViews(0, 20);
         rv_vlayout.setRecycledViewPool(pool);
-        DelegateAdapter delegateAdapter=new DelegateAdapter(manager, true);
+        DelegateAdapter delegateAdapter=new DelegateAdapter(manager, false);
         rv_vlayout.setAdapter(delegateAdapter);
         adapters.add(new HeaderViewAdapter(this, new StickyLayoutHelper(), linearLayoutBeansHeader1));
         adapters.add(new ItemViewAdapter(this, new LinearLayoutHelper(), linearLayoutBeans1));

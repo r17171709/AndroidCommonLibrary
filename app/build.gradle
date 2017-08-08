@@ -34,7 +34,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     // butterknife
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
     compile project(':CommonLibrary')
 //    compile 'com.github.r17171709:AndroidCommonLibrary:v1.0.8'
 }
