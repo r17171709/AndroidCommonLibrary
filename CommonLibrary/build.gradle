@@ -56,7 +56,7 @@ dependencies {
     // rxbinding
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     // butterknife
-    compile 'com.jakewharton:butterknife:8.8.0'
+    compile 'com.jakewharton:butterknife:8.8.1'
     // eventbus
     compile 'org.greenrobot:eventbus:3.0.0'
     // Compressor An android image compression library.
@@ -64,8 +64,8 @@ dependencies {
         exclude group: 'io.reactivex', module: 'rxjava'
     }
     // fresco
-    compile 'com.facebook.fresco:fresco:1.4.0'
-    compile 'com.facebook.fresco:animated-gif:1.4.0'
+    compile 'com.facebook.fresco:fresco:1.5.0'
+    compile 'com.facebook.fresco:animated-gif:1.5.0'
     // SwipyRefreshLayout  A SwipeRefreshLayout extension that allows to swipe in both direction
     compile 'com.github.orangegangsters:swipy:1.2.3@aar'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
