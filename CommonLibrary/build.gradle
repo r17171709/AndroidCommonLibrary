@@ -90,4 +90,6 @@ dependencies {
     compile 'com.yarolegovich:discrete-scrollview:1.2.0'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     compile 'com.tencent.wcdb:wcdb-android:1.0.2'
+    // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
+    compile 'com.tencent.sonic:sdk:1.0.0'
 }

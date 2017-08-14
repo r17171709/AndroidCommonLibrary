@@ -9,9 +9,12 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.renyu.androidcommonlibrary.dbhelper.PlainTextDBHelper;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.commonutils.Utils;
+import com.renyu.commonlibrary.commonutils.sonic.SonicRuntimeImpl;
 import com.renyu.commonlibrary.network.HttpsUtils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
+import com.tencent.sonic.sdk.SonicConfig;
+import com.tencent.sonic.sdk.SonicEngine;
 import com.tencent.wcdb.database.SQLiteDatabase;
 
 import java.io.File;
@@ -94,6 +97,11 @@ public class ExampleApp extends MultiDexApplication {
             InitParams.CACHE_PATH= InitParams.ROOT_PATH + File.separator + "cache";
             // fresco缓存目录
             InitParams.FRESCO_CACHE_NAME= "fresco_cache";
+
+            // 初始化Sonic
+            if (!SonicEngine.isGetInstanceAllowed()) {
+                SonicEngine.createInstance(new SonicRuntimeImpl(this), new SonicConfig.Builder().build());
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
+import com.renyu.androidcommonlibrary.impl.WebAppInterface;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.baseact.WebActivity;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
@@ -46,6 +47,15 @@ public class MainActivity extends BaseActivity {
                 FileUtils.createOrExistsDir(InitParams.LOG_PATH);
                 FileUtils.createOrExistsDir(InitParams.CACHE_PATH);
 
+                // js调用示例
+                Intent intent=new Intent(MainActivity.this, WebActivity.class);
+                // 定义跨平台交互关键字
+                intent.putExtra("WebAppImplName", "android");
+                // 定义方法实现接口
+                intent.putExtra("WebAppImpl", new WebAppInterface());
+                intent.putExtra("url", "file:///android_asset/new_file.html");
+                startActivity(intent);
+
                 // 测试网络请求
                 retrofit.create(RetrofitImpl.class)
                         .getExampleValue()
@@ -78,10 +88,6 @@ public class MainActivity extends BaseActivity {
                 finish();
             }
         });
-
-        Intent intent=new Intent(MainActivity.this, WebActivity.class);
-        intent.putExtra("url", "http://www.baidu.com");
-        startActivity(intent);
     }
 
     @Override
