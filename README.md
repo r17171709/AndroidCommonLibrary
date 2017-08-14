@@ -62,3 +62,13 @@
 ![DiscreteScrollView](https://github.com/yarolegovich/DiscreteScrollView/raw/master/images/cards_weather.gif)
 
 * 解决SwipyRefreshLayout滑动冲突
+* 集成VasSonic，Hybird框架
+
+Before Using VasSonic
+
+![Before Using VasSonic](https://github.com/Tencent/VasSonic/raw/master/assets/20170705120005424.gif)
+
+After Using VasSonic
+
+![After Using VasSonic](https://github.com/Tencent/VasSonic/raw/master/assets/20170705120029897.gif)
+
