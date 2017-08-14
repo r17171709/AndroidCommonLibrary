@@ -274,7 +274,7 @@ public class LoopView extends View {
 
     public final void setItems(List<String> items) {
         this.items = items;
-        remeasure();
+        requestLayout();
         invalidate();
     }
 
