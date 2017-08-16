@@ -320,7 +320,6 @@ public class LoadingDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //设置背景颜色,只有设置了这个属性,宽度才能全屏MATCH_PARENT
         //无标题
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         //透明状态栏
