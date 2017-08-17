@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity {
                 intent.putExtra("WebAppImplName", "android");
                 // 定义方法实现接口
                 intent.putExtra("WebAppImpl", new WebAppInterface());
-                intent.putExtra("url", "file:///android_asset/new_file.html");
+                intent.putExtra("url", "http://m.aizuna.com/index.php?m=Home&c=AugustActivity&a=index&city=nj&referer=azn_app");
                 startActivity(intent);
 
                 // 测试网络请求

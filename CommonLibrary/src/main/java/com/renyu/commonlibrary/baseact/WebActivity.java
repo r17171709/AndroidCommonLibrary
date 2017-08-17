@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JsResult;
@@ -101,14 +102,6 @@ public class WebActivity extends BaseActivity {
         web_webview = (WebView) findViewById(R.id.web_webview);
         web_webview.setSaveEnabled(true);
         web_webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        web_webview.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // TODO Auto-generated method stub
-                view.loadUrl(url);
-                return false;
-            }
-        });
         web_webview.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
@@ -138,6 +131,13 @@ public class WebActivity extends BaseActivity {
         impl.setWebView(web_webview);
         web_webview.addJavascriptInterface(impl, getIntent().getStringExtra("WebAppImplName"));
         web_webview.removeJavascriptInterface("searchBoxJavaBridge_");
+        web_webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                Log.d("WebActivity", url);
+            }
+        });
         settings.setAllowContentAccess(true);
         settings.setAllowFileAccess(true);
         settings.setNeedInitialFocus(true);
