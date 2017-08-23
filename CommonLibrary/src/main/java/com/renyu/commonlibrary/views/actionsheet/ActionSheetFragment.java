@@ -42,6 +42,8 @@ public class ActionSheetFragment extends Fragment {
 
     //是否已经关闭
     boolean isDismiss=true;
+    // 区分从Activtiy而来还是Fragment而来
+    boolean isChild;
 
     View decorView;
     //添加进入的view
@@ -50,8 +52,6 @@ public class ActionSheetFragment extends Fragment {
     View pop_child_layout;
     //待添加的view
     View customerView;
-
-    FragmentManager fragmentManager;
 
     //提供类型
     public enum CHOICE {
@@ -165,6 +165,10 @@ public class ActionSheetFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (savedInstanceState!=null) {
+            isDismiss=savedInstanceState.getBoolean("isDismiss");
+            isChild=savedInstanceState.getBoolean("isChild");
+        }
         InputMethodManager manager= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager.isActive()) {
             View focusView=getActivity().getCurrentFocus();
@@ -687,8 +691,8 @@ public class ActionSheetFragment extends Fragment {
         });
     }
 
-    private void show(FragmentManager manager, final String tag) {
-        this.fragmentManager=manager;
+    private void show(FragmentManager manager, boolean isChild, final String tag) {
+        this.isChild=isChild;
         if (manager.isDestroyed() || !isDismiss) {
             return;
         }
@@ -706,26 +710,26 @@ public class ActionSheetFragment extends Fragment {
             return;
         }
         isDismiss=true;
+        if (getActivity()!=null && getActivity().isFinishing()) {
+            return;
+        }
         new Handler().post(() -> {
-            fragmentManager.popBackStack();
-            FragmentTransaction transaction=fragmentManager.beginTransaction();
+            getManager(isChild).popBackStack();
+            FragmentTransaction transaction=getManager(isChild).beginTransaction();
             transaction.remove(ActionSheetFragment.this);
             transaction.commitAllowingStateLoss();
         });
+    }
+
+    public void restoreCustomerView(View customerView) {
+        this.customerView = customerView;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("isDismiss", isDismiss);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState!=null) {
-            isDismiss=savedInstanceState.getBoolean("isDismiss");
-        }
+        outState.putBoolean("isChild", isChild);
     }
 
     @Override
@@ -735,31 +739,41 @@ public class ActionSheetFragment extends Fragment {
         new Handler().postDelayed(() -> ((ViewGroup) decorView).removeView(realView), 500);
     }
 
-    public static Builder build(FragmentManager fragmentManager) {
-        Builder builder=new Builder(fragmentManager);
+    public static Builder build(FragmentManager manager) {
+        Builder builder=new Builder(manager);
         return builder;
     }
 
     public static class Builder {
 
-        FragmentManager fragmentManager;
+        FragmentManager manager;
+
+        public Builder(FragmentManager manager) {
+            this.manager=manager;
+        }
 
         String tag="ActionSheetFragment";
+        // 区分从Activtiy而来还是Fragment而来
+        boolean isChild;
+        // 标题
         String title="";
+        // 确定
         String okTitle="";
+        // 取消
         String cancelTitle="";
+        // 弹窗类型
         CHOICE choice;
+        // list或者grid选择项
         String[] items;
         int[] images;
+        // 是否可以点击确定之后关闭
         boolean canDismiss=true;
+        // 监听事件
         OnItemClickListener onItemClickListener;
         OnCancelListener onCancelListener;
         OnOKListener onOKListener;
+        // 自定义视图
         View customerView;
-
-        public Builder(FragmentManager fragmentManager) {
-            this.fragmentManager=fragmentManager;
-        }
 
         public Builder setTag(String tag) {
             this.tag = tag;
@@ -819,46 +833,60 @@ public class ActionSheetFragment extends Fragment {
             return this;
         }
 
+        public Builder setChild(boolean child) {
+            isChild = child;
+            return this;
+        }
+
         public ActionSheetFragment show() {
             ActionSheetFragment fragment=null;
             if (choice== CHOICE.ITEM) {
                 fragment=ActionSheetFragment.newItemInstance(title, items);
                 fragment.setOnItemClickListener(onItemClickListener);
                 fragment.setOnCancelListener(onCancelListener);
-                fragment.show(fragmentManager, tag);
+                fragment.show(manager, isChild, tag);
             }
             if (choice== CHOICE.GRID) {
                 fragment=ActionSheetFragment.newGridInstance(title, items, images);
                 fragment.setOnItemClickListener(onItemClickListener);
-                fragment.show(fragmentManager, tag);
+                fragment.show(manager, isChild, tag);
             }
             if (choice== CHOICE.BEFOREDATE) {
                 fragment=ActionSheetFragment.newBeforeDateInstance(title, okTitle, cancelTitle);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
-                fragment.show(fragmentManager, tag);
+                fragment.show(manager, isChild, tag);
             }
             if (choice== CHOICE.AFTERDATE) {
                 fragment=ActionSheetFragment.newAfterDateInstance(title, okTitle, cancelTitle);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
-                fragment.show(fragmentManager, tag);
+                fragment.show(manager, isChild, tag);
             }
             if (choice== CHOICE.TIME) {
                 fragment=ActionSheetFragment.newTimeInstance(title, okTitle, cancelTitle);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
-                fragment.show(fragmentManager, tag);
+                fragment.show(manager, isChild, tag);
             }
             if (choice== CHOICE.CUSTOMER) {
                 fragment=ActionSheetFragment.newCustomerInstance(title, okTitle, cancelTitle);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
                 fragment.setCustomerView(customerView);
-                fragment.show(fragmentManager, tag);
+                fragment.show(manager, isChild, tag);
             }
             fragment.setCanDismiss(canDismiss);
             return fragment;
+        }
+    }
+
+    private FragmentManager getManager(boolean isChild) {
+        if (isChild) {
+            return getChildFragmentManager();
+        }
+        else {
+            return getFragmentManager();
         }
     }
 }
