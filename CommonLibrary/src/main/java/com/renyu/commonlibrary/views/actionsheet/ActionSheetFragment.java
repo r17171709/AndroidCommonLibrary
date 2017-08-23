@@ -637,6 +637,7 @@ public class ActionSheetFragment extends Fragment {
             LinearLayout pop_customer_layout= view.findViewById(R.id.pop_customer_layout);
             pop_customer_layout.setVisibility(View.VISIBLE);
             if (customerView!=null) {
+                pop_customer_layout.removeAllViews();
                 pop_customer_layout.addView(customerView);
             }
         }
