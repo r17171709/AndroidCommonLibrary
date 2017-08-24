@@ -17,7 +17,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
-        <activity android:name=".baseact.WebActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".views.WebActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -10,7 +10,7 @@ import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
 import com.renyu.androidcommonlibrary.impl.WebAppInterface;
 import com.renyu.commonlibrary.baseact.BaseActivity;
-import com.renyu.commonlibrary.baseact.WebActivity;
+import com.renyu.commonlibrary.views.WebActivity;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 

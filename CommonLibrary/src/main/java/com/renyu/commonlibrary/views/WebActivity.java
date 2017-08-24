@@ -1,4 +1,4 @@
-package com.renyu.commonlibrary.baseact;
+package com.renyu.commonlibrary.views;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.renyu.commonlibrary.R;
+import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.BarUtils;
 import com.renyu.commonlibrary.commonutils.sonic.SonicRuntimeImpl;
 import com.renyu.commonlibrary.commonutils.sonic.SonicSessionClientImpl;
