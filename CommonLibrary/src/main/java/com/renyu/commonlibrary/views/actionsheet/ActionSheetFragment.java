@@ -192,16 +192,16 @@ public class ActionSheetFragment extends Fragment {
         pop_child_layout.setOnTouchListener((v, event) -> true);
         realView.setOnClickListener(v -> dismiss());
         String title=getArguments().getString("title");
-        TextView pop_title= view.findViewById(R.id.pop_title);
+        TextView pop_title= (TextView) view.findViewById(R.id.pop_title);
         pop_title.setText(title);
         if (TextUtils.isEmpty(title)) {
             pop_title.setVisibility(View.GONE);
         }
         if (getArguments().getInt("type")==1) {
-            TextView pop_cancel=view.findViewById(R.id.pop_cancel);
+            TextView pop_cancel= (TextView) view.findViewById(R.id.pop_cancel);
             pop_cancel.setVisibility(View.VISIBLE);
             pop_cancel.setOnClickListener(view12 -> dismiss());
-            ListView pop_listview= view.findViewById(R.id.pop_listview);
+            ListView pop_listview= (ListView) view.findViewById(R.id.pop_listview);
             pop_listview.setVisibility(View.VISIBLE);
             ActionSheetAdapter adapter=new ActionSheetAdapter(getActivity(), getArguments().getStringArray("items"));
             pop_listview.setAdapter(adapter);
@@ -212,26 +212,26 @@ public class ActionSheetFragment extends Fragment {
                 }
             });
             if (!TextUtils.isEmpty(title)) {
-                LinearLayout pop_morechoice= view.findViewById(R.id.pop_morechoice);
+                LinearLayout pop_morechoice= (LinearLayout) view.findViewById(R.id.pop_morechoice);
                 pop_morechoice.setVisibility(View.VISIBLE);
             }
         }
         else if (getArguments().getInt("type")==2) {
-            GridLayout pop_grid= view.findViewById(R.id.pop_grid);
+            GridLayout pop_grid= (GridLayout) view.findViewById(R.id.pop_grid);
             pop_grid.setVisibility(View.VISIBLE);
             int width=(ScreenUtils.getScreenWidth()-SizeUtils.dp2px(20))/(getArguments().getStringArray("items").length<4?getArguments().getStringArray("items").length:4);
             for (int i=0;i<getArguments().getStringArray("items").length;i++) {
                 final int i_=i;
                 View viewChild=LayoutInflater.from(getActivity()).inflate(R.layout.adapter_share, null, false);
-                LinearLayout adapter_share_layout= viewChild.findViewById(R.id.adapter_share_layout);
+                LinearLayout adapter_share_layout= (LinearLayout) viewChild.findViewById(R.id.adapter_share_layout);
                 RxView.clicks(adapter_share_layout).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(aVoid -> {
                     if (onItemClickListener!=null) {
                         onItemClickListener.onItemClick(i_);
                     }
                     dismiss();
                 });
-                ImageView adapter_share_image= viewChild.findViewById(R.id.adapter_share_image);
-                TextView adapter_share_text= viewChild.findViewById(R.id.adapter_share_text);
+                ImageView adapter_share_image= (ImageView) viewChild.findViewById(R.id.adapter_share_image);
+                TextView adapter_share_text= (TextView) viewChild.findViewById(R.id.adapter_share_text);
                 adapter_share_image.setImageResource(getArguments().getIntArray("images")[i]);
                 adapter_share_text.setText(getArguments().getStringArray("items")[i]);
                 GridLayout.LayoutParams params=new GridLayout.LayoutParams();
@@ -258,12 +258,12 @@ public class ActionSheetFragment extends Fragment {
                 days.add(""+i);
             }
 
-            LinearLayout pop_wheel_yearlayout= view.findViewById(R.id.pop_wheel_yearlayout);
+            LinearLayout pop_wheel_yearlayout= (LinearLayout) view.findViewById(R.id.pop_wheel_yearlayout);
             pop_wheel_yearlayout.setVisibility(View.VISIBLE);
 
-            LoopView pop_wheel_yearlayout_year= view.findViewById(R.id.pop_wheel_yearlayout_year);
-            LoopView pop_wheel_yearlayout_month= view.findViewById(R.id.pop_wheel_yearlayout_month);
-            LoopView pop_wheel_yearlayout_day= view.findViewById(R.id.pop_wheel_yearlayout_day);
+            LoopView pop_wheel_yearlayout_year= (LoopView) view.findViewById(R.id.pop_wheel_yearlayout_year);
+            LoopView pop_wheel_yearlayout_month= (LoopView) view.findViewById(R.id.pop_wheel_yearlayout_month);
+            LoopView pop_wheel_yearlayout_day= (LoopView) view.findViewById(R.id.pop_wheel_yearlayout_day);
 
             pop_wheel_yearlayout_year.setListener(index -> {
                 months.clear();
@@ -369,9 +369,9 @@ public class ActionSheetFragment extends Fragment {
             pop_wheel_yearlayout_day.setTextSize(18);
             pop_wheel_yearlayout_day.setInitPosition(days.size()-1);
 
-            LinearLayout pop_morechoice= view.findViewById(R.id.pop_morechoice);
+            LinearLayout pop_morechoice= (LinearLayout) view.findViewById(R.id.pop_morechoice);
             pop_morechoice.setVisibility(View.VISIBLE);
-            TextView pop_ok1= view.findViewById(R.id.pop_ok1);
+            TextView pop_ok1= (TextView) view.findViewById(R.id.pop_ok1);
             pop_ok1.setText(getArguments().getString("okTitle"));
             pop_ok1.setOnClickListener(v -> {
                 if (onOKListener!=null) {
@@ -381,7 +381,7 @@ public class ActionSheetFragment extends Fragment {
                 }
                 dismiss();
             });
-            TextView pop_cancel1= view.findViewById(R.id.pop_cancel1);
+            TextView pop_cancel1= (TextView) view.findViewById(R.id.pop_cancel1);
             pop_cancel1.setText(getArguments().getString("cancelTitle"));
             pop_cancel1.setOnClickListener(v -> {
                 if (onCancelListener!=null) {
@@ -407,12 +407,12 @@ public class ActionSheetFragment extends Fragment {
                 days.add(""+i);
             }
 
-            LinearLayout pop_wheel_yearlayout= view.findViewById(R.id.pop_wheel_yearlayout);
+            LinearLayout pop_wheel_yearlayout= (LinearLayout) view.findViewById(R.id.pop_wheel_yearlayout);
             pop_wheel_yearlayout.setVisibility(View.VISIBLE);
 
-            LoopView pop_wheel_yearlayout_year= view.findViewById(R.id.pop_wheel_yearlayout_year);
-            LoopView pop_wheel_yearlayout_month= view.findViewById(R.id.pop_wheel_yearlayout_month);
-            LoopView pop_wheel_yearlayout_day= view.findViewById(R.id.pop_wheel_yearlayout_day);
+            LoopView pop_wheel_yearlayout_year= (LoopView) view.findViewById(R.id.pop_wheel_yearlayout_year);
+            LoopView pop_wheel_yearlayout_month= (LoopView) view.findViewById(R.id.pop_wheel_yearlayout_month);
+            LoopView pop_wheel_yearlayout_day= (LoopView) view.findViewById(R.id.pop_wheel_yearlayout_day);
 
             pop_wheel_yearlayout_year.setListener(index -> {
                 Calendar calendar=Calendar.getInstance();
@@ -548,9 +548,9 @@ public class ActionSheetFragment extends Fragment {
             pop_wheel_yearlayout_day.setTextSize(18);
             pop_wheel_yearlayout_day.setInitPosition(0);
 
-            LinearLayout pop_morechoice= view.findViewById(R.id.pop_morechoice);
+            LinearLayout pop_morechoice= (LinearLayout) view.findViewById(R.id.pop_morechoice);
             pop_morechoice.setVisibility(View.VISIBLE);
-            TextView pop_ok1= view.findViewById(R.id.pop_ok1);
+            TextView pop_ok1= (TextView) view.findViewById(R.id.pop_ok1);
             pop_ok1.setText(getArguments().getString("okTitle"));
             pop_ok1.setOnClickListener(v -> {
                 if (onOKListener!=null) {
@@ -562,7 +562,7 @@ public class ActionSheetFragment extends Fragment {
                     dismiss();
                 }
             });
-            TextView pop_cancel1= view.findViewById(R.id.pop_cancel1);
+            TextView pop_cancel1= (TextView) view.findViewById(R.id.pop_cancel1);
             pop_cancel1.setText(getArguments().getString("cancelTitle"));
             pop_cancel1.setOnClickListener(v -> {
                 if (onCancelListener!=null) {
@@ -581,9 +581,9 @@ public class ActionSheetFragment extends Fragment {
                 minutes.add(i<10?"0"+i:""+i);
             }
 
-            LinearLayout pop_wheel_timelayout= view.findViewById(R.id.pop_wheel_timelayout);
-            LoopView pop_wheel_timelayout_hour= view.findViewById(R.id.pop_wheel_timelayout_hour);
-            LoopView pop_wheel_timelayout_minute= view.findViewById(R.id.pop_wheel_timelayout_minute);
+            LinearLayout pop_wheel_timelayout= (LinearLayout) view.findViewById(R.id.pop_wheel_timelayout);
+            LoopView pop_wheel_timelayout_hour= (LoopView) view.findViewById(R.id.pop_wheel_timelayout_hour);
+            LoopView pop_wheel_timelayout_minute= (LoopView) view.findViewById(R.id.pop_wheel_timelayout_minute);
             pop_wheel_timelayout.setVisibility(View.VISIBLE);
             pop_wheel_timelayout_hour.setNotLoop();
             pop_wheel_timelayout_hour.setViewPadding(SizeUtils.dp2px(60), SizeUtils.dp2px(15), SizeUtils.dp2px(30), SizeUtils.dp2px(15));
@@ -594,9 +594,9 @@ public class ActionSheetFragment extends Fragment {
             pop_wheel_timelayout_minute.setItems(minutes);
             pop_wheel_timelayout_minute.setTextSize(18);
 
-            LinearLayout pop_morechoice= view.findViewById(R.id.pop_morechoice);
+            LinearLayout pop_morechoice= (LinearLayout) view.findViewById(R.id.pop_morechoice);
             pop_morechoice.setVisibility(View.VISIBLE);
-            TextView pop_ok1= view.findViewById(R.id.pop_ok1);
+            TextView pop_ok1= (TextView) view.findViewById(R.id.pop_ok1);
             pop_ok1.setText(getArguments().getString("okTitle"));
             pop_ok1.setOnClickListener(v -> {
                 if (onOKListener!=null) {
@@ -604,7 +604,7 @@ public class ActionSheetFragment extends Fragment {
                 }
                 dismiss();
             });
-            TextView pop_cancel1= view.findViewById(R.id.pop_cancel1);
+            TextView pop_cancel1= (TextView) view.findViewById(R.id.pop_cancel1);
             pop_cancel1.setText(getArguments().getString("cancelTitle"));
             pop_cancel1.setOnClickListener(v -> {
                 if (onCancelListener!=null) {
@@ -614,9 +614,9 @@ public class ActionSheetFragment extends Fragment {
             });
         }
         else if (getArguments().getInt("type")==7) {
-            LinearLayout pop_morechoice= view.findViewById(R.id.pop_morechoice);
+            LinearLayout pop_morechoice= (LinearLayout) view.findViewById(R.id.pop_morechoice);
             pop_morechoice.setVisibility(View.VISIBLE);
-            TextView pop_ok1= view.findViewById(R.id.pop_ok1);
+            TextView pop_ok1= (TextView) view.findViewById(R.id.pop_ok1);
             pop_ok1.setText(getArguments().getString("okTitle"));
             pop_ok1.setOnClickListener(v -> {
                 if (onOKListener!=null) {
@@ -626,7 +626,7 @@ public class ActionSheetFragment extends Fragment {
                     dismiss();
                 }
             });
-            TextView pop_cancel1= view.findViewById(R.id.pop_cancel1);
+            TextView pop_cancel1= (TextView) view.findViewById(R.id.pop_cancel1);
             pop_cancel1.setText(getArguments().getString("cancelTitle"));
             pop_cancel1.setOnClickListener(v -> {
                 if (onCancelListener!=null) {
@@ -634,7 +634,7 @@ public class ActionSheetFragment extends Fragment {
                 }
                 dismiss();
             });
-            LinearLayout pop_customer_layout= view.findViewById(R.id.pop_customer_layout);
+            LinearLayout pop_customer_layout= (LinearLayout) view.findViewById(R.id.pop_customer_layout);
             pop_customer_layout.setVisibility(View.VISIBLE);
             if (customerView!=null) {
                 pop_customer_layout.removeAllViews();

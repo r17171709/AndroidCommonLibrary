@@ -31,7 +31,7 @@ public class AndroidBug5497Workaround {
             int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
             statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
         }
-        FrameLayout content = activity.findViewById(android.R.id.content);
+        FrameLayout content = (FrameLayout) activity.findViewById(android.R.id.content);
         mChildOfContent = content.getChildAt(0);
         mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             if (isfirst) {

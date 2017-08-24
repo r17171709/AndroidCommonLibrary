@@ -109,12 +109,12 @@ public class ActionSheetActivity extends BaseActivity {
             floor4.add(""+i);
         }
         View view_threeloopertitle_floor= LayoutInflater.from(this).inflate(R.layout.view_releaserental_threeloopertitle, null, false);
-        final LoopView view_releaserental_threelooptitleview1=view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview1);
-        final LoopView view_releaserental_threelooptitleview2=view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview2);
-        final LoopView view_releaserental_threelooptitleview3=view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview3);
-        final LoopView view_releaserental_threelooptitleview4=view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview4);
+        final LoopView view_releaserental_threelooptitleview1= (LoopView) view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview1);
+        final LoopView view_releaserental_threelooptitleview2= (LoopView) view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview2);
+        final LoopView view_releaserental_threelooptitleview3= (LoopView) view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview3);
+        final LoopView view_releaserental_threelooptitleview4= (LoopView) view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview4);
         view_releaserental_threelooptitleview4.setVisibility(View.GONE);
-        final TextView tv_releaserental_threelooptitleview4=view_threeloopertitle_floor.findViewById(R.id.tv_releaserental_threelooptitleview4);
+        final TextView tv_releaserental_threelooptitleview4= (TextView) view_threeloopertitle_floor.findViewById(R.id.tv_releaserental_threelooptitleview4);
         tv_releaserental_threelooptitleview4.setVisibility(View.GONE);
         view_releaserental_threelooptitleview1.setListener(new OnItemSelectedListener() {
             @Override

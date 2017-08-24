@@ -43,7 +43,7 @@ public class ActionSheetAdapter extends BaseAdapter {
         if (convertView==null) {
             convertView= LayoutInflater.from(context).inflate(R.layout.adapter_pop, parent, false);
             holder=new ViewHolder();
-            holder.pop_desp= convertView.findViewById(R.id.pop_desp);
+            holder.pop_desp= (TextView) convertView.findViewById(R.id.pop_desp);
             convertView.setTag(holder);
         }
         else {

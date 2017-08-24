@@ -25,7 +25,7 @@ public class BarUtils {
      */
     public static void setColor(Activity activity, int color) {
         //设置contentview为fitsSystemWindows
-        ViewGroup viewGroup= activity.findViewById(android.R.id.content);
+        ViewGroup viewGroup= (ViewGroup) activity.findViewById(android.R.id.content);
         if (viewGroup.getChildAt(0)!=null) {
             viewGroup.getChildAt(0).setFitsSystemWindows(true);
         }
