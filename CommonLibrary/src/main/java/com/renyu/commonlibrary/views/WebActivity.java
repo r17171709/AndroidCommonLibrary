@@ -128,9 +128,11 @@ public class WebActivity extends BaseActivity {
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptEnabled(true);
         impl=getIntent().getParcelableExtra("WebAppImpl");
-        impl.setContext(this);
-        impl.setWebView(web_webview);
-        web_webview.addJavascriptInterface(impl, getIntent().getStringExtra("WebAppImplName"));
+        if (impl!=null) {
+            impl.setContext(this);
+            impl.setWebView(web_webview);
+            web_webview.addJavascriptInterface(impl, getIntent().getStringExtra("WebAppImplName"));
+        }
         web_webview.removeJavascriptInterface("searchBoxJavaBridge_");
         web_webview.setWebViewClient(new WebViewClient() {
             @Override
@@ -188,15 +190,17 @@ public class WebActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode==RESULT_OK) {
-            for (Method method : impl.getClass().getDeclaredMethods()) {
-                String name=method.getName();
-                if (name.startsWith("onActivityResult_") && name.split("_")[1].equals(""+requestCode)) {
-                    try {
-                        method.invoke(impl);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
+            if (impl!=null) {
+                for (Method method : impl.getClass().getDeclaredMethods()) {
+                    String name=method.getName();
+                    if (name.startsWith("onActivityResult_") && name.split("_")[1].equals(""+requestCode)) {
+                        try {
+                            method.invoke(impl);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

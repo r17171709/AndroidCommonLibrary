@@ -8,11 +8,10 @@ import com.blankj.utilcode.util.FileUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
-import com.renyu.androidcommonlibrary.impl.WebAppInterface;
 import com.renyu.commonlibrary.baseact.BaseActivity;
-import com.renyu.commonlibrary.views.WebActivity;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
+import com.renyu.commonlibrary.views.WebActivity;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -52,7 +51,7 @@ public class MainActivity extends BaseActivity {
                 // 定义跨平台交互关键字
                 intent.putExtra("WebAppImplName", "android");
                 // 定义方法实现接口
-                intent.putExtra("WebAppImpl", new WebAppInterface());
+//                intent.putExtra("WebAppImpl", new WebAppInterface());
                 intent.putExtra("url", "http://m.aizuna.com/index.php?m=Home&c=AugustActivity&a=index&city=nj&referer=azn_app");
                 startActivity(intent);
 
