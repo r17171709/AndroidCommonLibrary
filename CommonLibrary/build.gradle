@@ -60,7 +60,7 @@ dependencies {
     // eventbus
     compile 'org.greenrobot:eventbus:3.0.0'
     // Compressor An android image compression library.
-    compile('id.zelory:compressor:1.0.4') {
+    compile('id.zelory:compressor:2.1.0') {
         exclude group: 'io.reactivex', module: 'rxjava'
     }
     // fresco
