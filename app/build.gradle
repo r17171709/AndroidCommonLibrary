@@ -37,4 +37,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile project(':CommonLibrary')
 //    compile 'com.github.r17171709:AndroidCommonLibrary:v1.0.8'
+    compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.5.7'
 }

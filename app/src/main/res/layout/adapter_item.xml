@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="190dip"
+    android:layout_height="170dip">
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="170dip"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginBottom="5dip"
+        android:id="@+id/layout_releaserentalsuccess_"
+        android:background="@drawable/shape_btn_stroke_gray"
+        android:elevation="4dip">
+        <com.facebook.drawee.view.SimpleDraweeView
+            xmlns:fresco="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/iv_releaserentalsuccess"
+            android:layout_width="match_parent"
+            android:layout_height="110dip"
+            fresco:roundedCornerRadius="2dp"
+            fresco:placeholderImage="@mipmap/img_list"
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:retryImage="@mipmap/img_list"
+            fresco:retryImageScaleType="centerCrop"
+            fresco:failureImage="@mipmap/img_list"
+            fresco:failureImageScaleType="centerCrop"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/layout_releaserentalsuccess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_releaserentalsuccess_title"
+                    android:textSize="12sp"
+                    android:textColor="#333333"
+                    android:singleLine="true"
+                    android:text="213213"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_releaserentalsuccess_address"
+                    android:layout_below="@id/tv_releaserentalsuccess_title"
+                    android:layout_marginTop="8dip"
+                    android:text="213213"
+                    android:textSize="9sp"
+                    android:textColor="#999999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_releaserentalsuccess_price"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@id/layout_releaserentalsuccess"
+                android:textSize="14sp"
+                android:text="213213"
+                android:layout_marginRight="8dip"
+                android:textColor="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

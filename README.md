@@ -72,3 +72,6 @@ After Using VasSonic
 
 ![After Using VasSonic](https://github.com/Tencent/VasSonic/raw/master/assets/20170705120029897.gif)
 
+* 新增跑马灯特效
+
+![MarqueeViewLibrary](https://github.com/gongwen/MarqueeViewLibrary/raw/master/screenshot/screen_shot.gif)

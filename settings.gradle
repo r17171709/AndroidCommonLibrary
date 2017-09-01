@@ -1,1 +1,1 @@
-include ':app', ':CommonLibrary'
+include ':app', ':CommonLibrary', ':ConvenientbannerLibrary'
