@@ -116,7 +116,7 @@ public class Retrofit2Utils {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static  <T> ObservableTransformer backgroundList() {
+    public static <T> ObservableTransformer backgroundList() {
         return upstream -> upstream
                 .flatMap(new Function<ResponseList<T>, ObservableSource<List<T>>>() {
                     @Override

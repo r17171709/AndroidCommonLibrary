@@ -169,13 +169,6 @@ public class ScrollRVActivity extends BaseActivity {
         rv_scrollrv.setLayoutManager(linearLayoutManager);
         adapter=new ScrollRVAdapter(this, linearLayoutBeans2);
         rv_scrollrv.setAdapter(adapter);
-
-        cb_scrollrv.post(new Runnable() {
-            @Override
-            public void run() {
-                cb_scrollrv.startTurning(4000);
-            }
-        });
     }
 
     private void refreshScrollView() {
@@ -232,6 +225,12 @@ public class ScrollRVActivity extends BaseActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+        cb_scrollrv.post(new Runnable() {
+            @Override
+            public void run() {
+                cb_scrollrv.startTurning(4000);
             }
         });
     }
