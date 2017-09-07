@@ -50,6 +50,7 @@ public class MainActivity extends BaseActivity {
                 Intent intent=new Intent(MainActivity.this, WebActivity.class);
                 // 定义跨平台交互关键字
                 intent.putExtra("WebAppImplName", "android");
+                intent.putExtra("title", "测试");
                 // 定义方法实现接口
 //                intent.putExtra("WebAppImpl", new WebAppInterface());
                 intent.putExtra("url", "http://m.aizuna.com/index.php?m=Home&c=AugustActivity&a=index&city=nj&referer=azn_app");

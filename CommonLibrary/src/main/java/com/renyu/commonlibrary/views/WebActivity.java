@@ -14,6 +14,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.renyu.commonlibrary.R;
@@ -45,6 +46,7 @@ import java.util.Map;
  */
 public class WebActivity extends BaseActivity {
 
+    ImageButton ib_nav_left;
     WebView web_webview;
     TextView tv_nav_title;
 
@@ -96,6 +98,9 @@ public class WebActivity extends BaseActivity {
             finish();
         }
 
+        ib_nav_left = (ImageButton) findViewById(R.id.ib_nav_left);
+        ib_nav_left.setImageResource(R.mipmap.ic_arrow_black_left);
+        ib_nav_left.setOnClickListener(v -> finish());
         tv_nav_title = (TextView) findViewById(R.id.tv_nav_title);
         if (!TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
             tv_nav_title.setText(getIntent().getStringExtra("title"));
@@ -112,6 +117,8 @@ public class WebActivity extends BaseActivity {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
+                if (TextUtils.isEmpty(tv_nav_title.getText().toString()))
+                    tv_nav_title.setText(title);
             }
         });
         web_webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
