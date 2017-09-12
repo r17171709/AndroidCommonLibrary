@@ -106,7 +106,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onResume();
 
         openLog(InitParams.LOG_PATH);
-        Log.d("test", "测试");
         if (isCheckAgain) {
             isCheckAgain=false;
             checkPermission();

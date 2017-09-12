@@ -113,8 +113,8 @@ public class HttpsUtils
                     if (certificate != null)
                         certificate.close();
                 } catch (IOException e)
-
                 {
+
                 }
             }
             TrustManagerFactory trustManagerFactory = null;

@@ -129,26 +129,29 @@ public class Utils {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
+        if (tabStrip != null) {
+            tabStrip.setAccessible(true);
+            LinearLayout ll_tab = null;
+            try {
+                ll_tab = (LinearLayout) tabStrip.get(tabs);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
 
-        tabStrip.setAccessible(true);
-        LinearLayout ll_tab = null;
-        try {
-            ll_tab = (LinearLayout) tabStrip.get(tabs);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+            int left = (int) (getDisplayMetrics(context).density * leftDip);
+            int right = (int) (getDisplayMetrics(context).density * rightDip);
 
-        int left = (int) (getDisplayMetrics(context).density * leftDip);
-        int right = (int) (getDisplayMetrics(context).density * rightDip);
-
-        for (int i = 0; i < ll_tab.getChildCount(); i++) {
-            View child = ll_tab.getChildAt(i);
-            child.setPadding(0, 0, 0, 0);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
-            params.leftMargin = left;
-            params.rightMargin = right;
-            child.setLayoutParams(params);
-            child.invalidate();
+            if (ll_tab != null) {
+                for (int i = 0; i < ll_tab.getChildCount(); i++) {
+                    View child = ll_tab.getChildAt(i);
+                    child.setPadding(0, 0, 0, 0);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                    params.leftMargin = left;
+                    params.rightMargin = right;
+                    child.setLayoutParams(params);
+                    child.invalidate();
+                }
+            }
         }
     }
 

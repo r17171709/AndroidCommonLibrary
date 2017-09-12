@@ -89,8 +89,6 @@ public class FullyLinearLayoutManager extends LinearLayoutManager {
             }
         } catch (Exception e) {
 
-        } finally {
-
         }
     }
 }

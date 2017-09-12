@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JsResult;
@@ -145,7 +144,6 @@ public class WebActivity extends BaseActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                Log.d("WebActivity", url);
             }
         });
         settings.setAllowContentAccess(true);
