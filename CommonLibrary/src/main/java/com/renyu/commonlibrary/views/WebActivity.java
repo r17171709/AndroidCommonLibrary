@@ -3,6 +3,7 @@ package com.renyu.commonlibrary.views;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -46,8 +47,8 @@ import java.util.Map;
 public class WebActivity extends BaseActivity {
 
     ImageButton ib_nav_left;
-    WebView web_webview;
-    TextView tv_nav_title;
+    public WebView web_webview;
+    public TextView tv_nav_title;
 
     private SonicSession sonicSession;
     private SonicSessionClientImpl sonicSessionClient = null;
@@ -116,13 +117,20 @@ public class WebActivity extends BaseActivity {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                if (TextUtils.isEmpty(tv_nav_title.getText().toString()))
+                if (!TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
+                    tv_nav_title.setText(getIntent().getStringExtra("title"));
+                }
+                else {
                     tv_nav_title.setText(title);
+                }
             }
         });
         web_webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         WebSettings settings=web_webview.getSettings();
         settings.setDomStorageEnabled(true);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);

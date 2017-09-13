@@ -11,7 +11,6 @@ import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
-import com.renyu.commonlibrary.views.WebActivity;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -47,13 +46,14 @@ public class MainActivity extends BaseActivity {
                 FileUtils.createOrExistsDir(InitParams.CACHE_PATH);
 
                 // js调用示例
-                Intent intent=new Intent(MainActivity.this, WebActivity.class);
+                Intent intent=new Intent(MainActivity.this, MyWebActivity.class);
                 // 定义跨平台交互关键字
-                intent.putExtra("WebAppImplName", "android");
-                intent.putExtra("title", "测试");
+//                intent.putExtra("WebAppImplName", "android");
+//                intent.putExtra("title", "测试");
                 // 定义方法实现接口
 //                intent.putExtra("WebAppImpl", new WebAppInterface());
-                intent.putExtra("url", "http://m.aizuna.com/index.php?m=Home&c=AugustActivity&a=index&city=nj&referer=azn_app");
+                intent.putExtra("url", "https://aznapi.house365.com/Home/Information/lists");
+                intent.putExtra(InitParams.NEED_GOBACK, true);
                 startActivity(intent);
 
                 // 测试网络请求
