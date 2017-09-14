@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayout;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -235,6 +236,7 @@ public class ActionSheetFragment extends Fragment {
                 adapter_share_image.setImageResource(getArguments().getIntArray("images")[i]);
                 adapter_share_text.setText(getArguments().getStringArray("items")[i]);
                 GridLayout.LayoutParams params=new GridLayout.LayoutParams();
+                params.setGravity(Gravity.CENTER);
                 params.width=width;
                 params.height=SizeUtils.dp2px(120);
                 params.columnSpec = GridLayout.spec(i%4);

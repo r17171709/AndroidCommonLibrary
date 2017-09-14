@@ -74,6 +74,8 @@
                 app:columnCount="4"
                 app:orientation="horizontal"
                 android:visibility="gone"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
