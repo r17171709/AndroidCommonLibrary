@@ -717,10 +717,12 @@ public class ActionSheetFragment extends Fragment {
             return;
         }
         new Handler().post(() -> {
-            getManager(isChild).popBackStack();
-            FragmentTransaction transaction=getManager(isChild).beginTransaction();
-            transaction.remove(ActionSheetFragment.this);
-            transaction.commitAllowingStateLoss();
+            if (getManager(isChild) != null) {
+                getManager(isChild).popBackStack();
+                FragmentTransaction transaction=getManager(isChild).beginTransaction();
+                transaction.remove(ActionSheetFragment.this);
+                transaction.commitAllowingStateLoss();
+            }
         });
     }
 
