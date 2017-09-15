@@ -17,10 +17,15 @@ public class LineIndicatorView extends LinearLayout {
 
     int choiceColor;
     int noneChoiceColor;
+    TYPE type;
 
     Context context;
 
     ArrayList<View> views;
+
+    public enum TYPE {
+        CIRCLE, LINE
+    }
 
     public LineIndicatorView(Context context) {
         this(context, null);
@@ -46,7 +51,11 @@ public class LineIndicatorView extends LinearLayout {
         this.noneChoiceColor=noneChoiceColor;
     }
 
-    public void setIndicatorNums(int nums) {
+    public void setType(TYPE type) {
+        this.type = type;
+    }
+
+    public void setLineIndicatorNums(int nums) {
         removeAllViews();
         views.clear();
 
@@ -60,12 +69,36 @@ public class LineIndicatorView extends LinearLayout {
         }
     }
 
+    public void setCircleIndicatorNums(int nums) {
+        removeAllViews();
+        views.clear();
+
+        for (int i = 0; i < nums; i++) {
+            View view=new View(context);
+            view.setBackgroundResource(noneChoiceColor);
+            LayoutParams params=new LayoutParams(SizeUtils.dp2px(5), SizeUtils.dp2px(5));
+            params.setMargins(SizeUtils.dp2px(5), 0, SizeUtils.dp2px(5), 0);
+            addView(view, params);
+            views.add(view);
+        }
+    }
+
     public void setCurrentPosition(int currentNum) {
         for (View view : views) {
-            view.setBackgroundColor(noneChoiceColor);
+            if (type == TYPE.CIRCLE) {
+                view.setBackgroundResource(noneChoiceColor);
+            }
+            else if (type == TYPE.LINE) {
+                view.setBackgroundColor(noneChoiceColor);
+            }
         }
         if (views.size()>0) {
-            views.get(currentNum).setBackgroundColor(choiceColor);
+            if (type == TYPE.CIRCLE) {
+                views.get(currentNum).setBackgroundResource(choiceColor);
+            }
+            else if (type == TYPE.LINE) {
+                views.get(currentNum).setBackgroundColor(choiceColor);
+            }
         }
     }
 }
