@@ -824,10 +824,12 @@ public class LoadingDialog extends DialogFragment {
             return;
         }
         new Handler().post(() -> {
-            getManager().popBackStack();
-            FragmentTransaction transaction=getManager().beginTransaction();
-            transaction.remove(LoadingDialog.this);
-            transaction.commitAllowingStateLoss();
+            if (getManager() != null) {
+                getManager().popBackStack();
+                FragmentTransaction transaction=getManager().beginTransaction();
+                transaction.remove(LoadingDialog.this);
+                transaction.commitAllowingStateLoss();
+            }
         });
     }
 
