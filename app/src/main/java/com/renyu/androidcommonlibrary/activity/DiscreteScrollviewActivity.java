@@ -15,6 +15,7 @@ import com.renyu.androidcommonlibrary.bean.DiscreteBean;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.Orientation;
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,10 @@ public class DiscreteScrollviewActivity extends BaseActivity {
         });
         scroll_discrete.setAdapter(new ShopAdapter(data));
         scroll_discrete.setItemTransitionTimeMillis(150);
+        scroll_discrete.setSlideOnFling(true);
+        scroll_discrete.setItemTransformer(new ScaleTransformer.Builder()
+                .setMinScale(0.8f)
+                .build());
 
         onItemChanged(data.get(0));
     }

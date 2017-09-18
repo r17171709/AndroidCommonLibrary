@@ -77,7 +77,7 @@ dependencies {
     // CircleImageView  A circular ImageView for Android
     compile 'de.hdodenhof:circleimageview:2.1.0'
     // vlayout
-    compile('com.alibaba.android:vlayout:1.2.0@aar') {
+    compile('com.alibaba.android:vlayout:1.2.1@aar') {
         transitive = true
     }
     // Android-ConvenientBanner  Simple and convenient banner, loop viewpager with 3D effects
@@ -87,9 +87,9 @@ dependencies {
     // CircleIndicator  A lightweight viewpager indicator like in nexus 5 launcher
     compile 'me.relex:circleindicator:1.2.2@aar'
     // DiscreteScrollView  Scrollable list of items, where current item is centered and can be changed using swipes
-    compile 'com.yarolegovich:discrete-scrollview:1.2.0'
+    compile 'com.yarolegovich:discrete-scrollview:1.3.0@aar'
     // MarqueeViewLibrary  一个帮您快速实现跑马灯效果的library
-    compile 'com.gongwen:marqueelibrary:1.0.4'
+    compile 'com.gongwen:marqueelibrary:1.1.1'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     compile 'com.tencent.wcdb:wcdb-android:1.0.2'
     // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
