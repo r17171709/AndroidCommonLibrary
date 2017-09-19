@@ -6,6 +6,7 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.readystatesoftware.chuck.ChuckInterceptor;
 import com.renyu.androidcommonlibrary.dbhelper.PlainTextDBHelper;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.commonutils.Utils;
@@ -44,6 +45,7 @@ public class ExampleApp extends MultiDexApplication {
             Retrofit2Utils retrofit2Utils=Retrofit2Utils.getInstance("http://www.mocky.io/v2/");
             OkHttpClient.Builder baseBuilder=new OkHttpClient.Builder()
 //                    .addInterceptor(new TokenInterceptor(this))
+                    .addInterceptor(new ChuckInterceptor(this))
                     .readTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(10, TimeUnit.SECONDS)
                     .connectTimeout(10, TimeUnit.SECONDS);
