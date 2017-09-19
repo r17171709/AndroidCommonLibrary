@@ -816,21 +816,25 @@ public class LoadingDialog extends DialogFragment {
     }
 
     public void dismiss() {
-        if (isDismiss) {
-            return;
-        }
-        isDismiss=true;
-        if (getActivity()!=null && getActivity().isFinishing()) {
-            return;
-        }
-        new Handler().post(() -> {
-            if (getManager() != null) {
-                getManager().popBackStack();
-                FragmentTransaction transaction=getManager().beginTransaction();
-                transaction.remove(LoadingDialog.this);
-                transaction.commitAllowingStateLoss();
+        try {
+            if (isDismiss) {
+                return;
             }
-        });
+            isDismiss=true;
+            if (getActivity()!=null && getActivity().isFinishing()) {
+                return;
+            }
+            new Handler().post(() -> {
+                if (getManager() != null) {
+                    getManager().popBackStack();
+                    FragmentTransaction transaction=getManager().beginTransaction();
+                    transaction.remove(LoadingDialog.this);
+                    transaction.commitAllowingStateLoss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

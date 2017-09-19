@@ -709,21 +709,25 @@ public class ActionSheetFragment extends Fragment {
     }
 
     public void dismiss() {
-        if (isDismiss) {
-            return;
-        }
-        isDismiss=true;
-        if (getActivity()!=null && getActivity().isFinishing()) {
-            return;
-        }
-        new Handler().post(() -> {
-            if (getManager(isChild) != null) {
-                getManager(isChild).popBackStack();
-                FragmentTransaction transaction=getManager(isChild).beginTransaction();
-                transaction.remove(ActionSheetFragment.this);
-                transaction.commitAllowingStateLoss();
+        try {
+            if (isDismiss) {
+                return;
             }
-        });
+            isDismiss=true;
+            if (getActivity()!=null && getActivity().isFinishing()) {
+                return;
+            }
+            new Handler().post(() -> {
+                if (getManager(isChild) != null) {
+                    getManager(isChild).popBackStack();
+                    FragmentTransaction transaction=getManager(isChild).beginTransaction();
+                    transaction.remove(ActionSheetFragment.this);
+                    transaction.commitAllowingStateLoss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void restoreCustomerView(View customerView) {

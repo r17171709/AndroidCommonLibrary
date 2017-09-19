@@ -355,15 +355,24 @@ public class AppUpdateDialogFragment extends DialogFragment {
     }
 
     public void dismiss() {
-        if (isDismiss) {
-            return;
+        try {
+            if (isDismiss) {
+                return;
+            }
+            isDismiss=true;
+            if (getActivity()!=null && getActivity().isFinishing()) {
+                return;
+            }
+            new Handler().post(() -> {
+                if (fragmentManager!=null) {
+                    fragmentManager.popBackStack();
+                    FragmentTransaction transaction=fragmentManager.beginTransaction();
+                    transaction.remove(AppUpdateDialogFragment.this);
+                    transaction.commitAllowingStateLoss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        isDismiss=true;
-        new Handler().post(() -> {
-            fragmentManager.popBackStack();
-            FragmentTransaction transaction=fragmentManager.beginTransaction();
-            transaction.remove(AppUpdateDialogFragment.this);
-            transaction.commitAllowingStateLoss();
-        });
     }
 }
