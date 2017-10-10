@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.WindowManager;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -184,9 +186,24 @@ public class WebActivity extends BaseActivity {
             sonicSession.destroy();
             sonicSession = null;
         }
+        if (web_webview!=null) {
+            ViewParent parent = web_webview.getParent();
+            if (parent != null) {
+                ((ViewGroup) parent).removeView(web_webview);
+            }
+            web_webview.stopLoading();
+            // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
+            web_webview.getSettings().setJavaScriptEnabled(false);
+            web_webview.clearHistory();
+            web_webview.clearView();
+            web_webview.removeAllViews();
+            try {
+                web_webview.destroy();
+            } catch (Throwable ex) {
+
+            }
+        }
         super.onDestroy();
-        web_webview.removeAllViews();
-        web_webview.destroy();
     }
 
     @Override
