@@ -48,7 +48,7 @@ dependencies {
     // 添加支持multidex的兼容包
     compile 'com.android.support:multidex:1.0.1'
     // 工具类
-    compile 'com.blankj:utilcode:1.8.1'
+    compile 'com.blankj:utilcode:1.9.2'
     // retrofit2
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -71,13 +71,13 @@ dependencies {
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
     compile 'com.kyleduo.switchbutton:library:1.4.6@aar'
     // SwipeDelMenuLayout  史上最简单侧滑菜单，0耦合，支持任意ViewGroup。一步集成侧滑(删除)菜单，高仿QQ、IOS。~
-    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
+    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
     // RecyclerItemDecoration  ItemDecoration for RecyclerView using LinearLayoutManager for Android
     compile 'com.github.magiepooh:recycler-itemdecoration:1.1.1@aar'
     // CircleImageView  A circular ImageView for Android
     compile 'de.hdodenhof:circleimageview:2.1.0'
     // vlayout
-    compile('com.alibaba.android:vlayout:1.2.1@aar') {
+    compile('com.alibaba.android:vlayout:1.2.2@aar') {
         transitive = true
     }
     // Android-ConvenientBanner  Simple and convenient banner, loop viewpager with 3D effects
@@ -93,5 +93,5 @@ dependencies {
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     compile 'com.tencent.wcdb:wcdb-android:1.0.2'
     // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
-    compile 'com.tencent.sonic:sdk:1.0.0'
+    compile 'com.tencent.sonic:sdk:1.1.1'
 }
