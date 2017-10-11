@@ -200,7 +200,7 @@ public class Utils {
      * @param view
      * @return
      */
-    private static Bitmap getViewBitmap(View view) {
+    public static Bitmap getViewBitmap(View view) {
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
