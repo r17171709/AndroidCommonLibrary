@@ -2,6 +2,7 @@ package com.renyu.androidcommonlibrary.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.FileUtils;
@@ -9,6 +10,7 @@ import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
 import com.renyu.commonlibrary.baseact.BaseActivity;
+import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 
@@ -81,6 +83,8 @@ public class MainActivity extends BaseActivity {
 
                             }
                         });
+
+                Log.d("MainActivity", Utils.getMD5("r17171709"));
             }
 
             @Override
