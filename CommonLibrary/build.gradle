@@ -75,7 +75,7 @@ dependencies {
     // RecyclerItemDecoration  ItemDecoration for RecyclerView using LinearLayoutManager for Android
     compile 'com.github.magiepooh:recycler-itemdecoration:1.1.1@aar'
     // CircleImageView  A circular ImageView for Android
-    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'de.hdodenhof:circleimageview:2.2.0'
     // vlayout
     compile('com.alibaba.android:vlayout:1.2.2@aar') {
         transitive = true
