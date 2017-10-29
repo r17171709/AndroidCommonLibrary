@@ -1,7 +1,6 @@
 package com.renyu.androidcommonlibrary.activity
 
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
 import com.renyu.commonlibrary.views.LineIndicatorView
@@ -11,15 +10,11 @@ import com.renyu.commonlibrary.views.LineIndicatorView
  */
 class ViewPagerActivity : BaseActivity() {
 
-    private val indicator_index: LineIndicatorView? by lazy {
-        findViewById(R.id.indicator_index) as LineIndicatorView
-    }
-
     override fun initParams() {
-        indicator_index?.setType(LineIndicatorView.TYPE.CIRCLE)
-        indicator_index?.setColor(R.drawable.shape_select, R.drawable.shape_normal)
-        indicator_index?.setCircleIndicatorNums(2)
-        indicator_index?.setCurrentPosition(0)
+        findViewById<LineIndicatorView>(R.id.indicator_index).setType(LineIndicatorView.TYPE.CIRCLE)
+        findViewById<LineIndicatorView>(R.id.indicator_index).setColor(R.drawable.shape_select, R.drawable.shape_normal)
+        findViewById<LineIndicatorView>(R.id.indicator_index).setCircleIndicatorNums(2)
+        findViewById<LineIndicatorView>(R.id.indicator_index).setCurrentPosition(0)
     }
 
     override fun initViews(): Int {
