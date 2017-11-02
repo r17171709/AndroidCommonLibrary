@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
+import com.renyu.androidcommonlibrary.impl.WebAppInterface;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
@@ -50,11 +51,11 @@ public class MainActivity extends BaseActivity {
                 // js调用示例
                 Intent intent=new Intent(MainActivity.this, MyWebActivity.class);
                 // 定义跨平台交互关键字
-//                intent.putExtra("WebAppImplName", "android");
-//                intent.putExtra("title", "测试");
+                intent.putExtra("WebAppImplName", "android");
+                intent.putExtra("title", "测试");
                 // 定义方法实现接口
-//                intent.putExtra("WebAppImpl", new WebAppInterface());
-                intent.putExtra("url", "https://aznapi.house365.com/Home/Information/lists");
+                intent.putExtra("WebAppImpl", new WebAppInterface());
+                intent.putExtra("url", "file:///android_asset/new_file.html");
                 intent.putExtra(InitParams.NEED_GOBACK, true);
                 startActivity(intent);
 

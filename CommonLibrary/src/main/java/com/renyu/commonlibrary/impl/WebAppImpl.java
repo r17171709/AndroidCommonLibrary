@@ -1,7 +1,8 @@
 package com.renyu.commonlibrary.impl;
 
 import android.content.Context;
-import android.webkit.WebView;
+
+import com.tencent.smtt.sdk.WebView;
 
 /**
  * Created by renyu on 2017/8/14.

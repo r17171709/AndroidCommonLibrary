@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
@@ -90,6 +90,4 @@ dependencies {
     compile 'com.gongwen:marqueelibrary:1.1.1'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     compile 'com.tencent.wcdb:wcdb-android:1.0.2'
-    // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
-    compile 'com.tencent.sonic:sdk:1.1.1'
 }

@@ -4,18 +4,17 @@ import android.content.Context;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 import com.renyu.androidcommonlibrary.dbhelper.PlainTextDBHelper;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.commonutils.Utils;
-import com.renyu.commonlibrary.commonutils.sonic.SonicRuntimeImpl;
 import com.renyu.commonlibrary.network.HttpsUtils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
-import com.tencent.sonic.sdk.SonicConfig;
-import com.tencent.sonic.sdk.SonicEngine;
+import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.wcdb.database.SQLiteDatabase;
 
 import java.io.File;
@@ -100,10 +99,21 @@ public class ExampleApp extends MultiDexApplication {
             // fresco缓存目录
             InitParams.FRESCO_CACHE_NAME= "fresco_cache";
 
-            // 初始化Sonic
-            if (!SonicEngine.isGetInstanceAllowed()) {
-                SonicEngine.createInstance(new SonicRuntimeImpl(this), new SonicConfig.Builder().build());
-            }
+            // x5内核初始化接口
+            QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+
+                @Override
+                public void onViewInitFinished(boolean arg0) {
+                    //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+                    Log.d(getPackageName(), " x5加载成功：" + arg0);
+                }
+
+                @Override
+                public void onCoreInitFinished() {
+
+                }
+            };
+            QbSdk.initX5Environment(getApplicationContext(),  cb);
         }
     }
 

@@ -4,10 +4,10 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.renyu.commonlibrary.impl.WebAppImpl;
+import com.tencent.smtt.sdk.WebView;
 
 /**
  * Created by renyu on 2017/8/14.
