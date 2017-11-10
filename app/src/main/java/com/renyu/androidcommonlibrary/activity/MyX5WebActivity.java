@@ -4,19 +4,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
-import android.webkit.JsResult;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
 import android.widget.ImageButton;
 
 import com.renyu.androidcommonlibrary.R;
-import com.renyu.commonlibrary.views.web.WebActivity;
+import com.renyu.commonlibrary.views.web.X5WebActivity;
+import com.tencent.smtt.export.external.interfaces.JsResult;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebView;
 
 /**
  * Created by Administrator on 2017/9/13.
  */
 
-public class MyWebActivity extends WebActivity {
+public class MyX5WebActivity extends X5WebActivity {
 
     ImageButton ib_nav_right;
 

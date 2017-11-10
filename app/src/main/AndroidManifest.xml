@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MyWebActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.MyX5WebActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

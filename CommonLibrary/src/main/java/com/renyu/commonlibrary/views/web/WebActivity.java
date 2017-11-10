@@ -1,7 +1,9 @@
-package com.renyu.commonlibrary.views;
+package com.renyu.commonlibrary.views.web;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,22 +12,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
+import android.webkit.JsResult;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.renyu.commonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.BarUtils;
+import com.renyu.commonlibrary.commonutils.sonic.SonicRuntimeImpl;
+import com.renyu.commonlibrary.commonutils.sonic.SonicSessionClientImpl;
 import com.renyu.commonlibrary.impl.WebAppImpl;
 import com.renyu.commonlibrary.params.InitParams;
-import com.tencent.smtt.export.external.interfaces.JsResult;
-import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebSettings;
-import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
+import com.tencent.sonic.sdk.SonicCacheInterceptor;
+import com.tencent.sonic.sdk.SonicConfig;
+import com.tencent.sonic.sdk.SonicConstants;
+import com.tencent.sonic.sdk.SonicEngine;
+import com.tencent.sonic.sdk.SonicSession;
+import com.tencent.sonic.sdk.SonicSessionConfig;
+import com.tencent.sonic.sdk.SonicSessionConnection;
+import com.tencent.sonic.sdk.SonicSessionConnectionInterceptor;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by renyu on 16/2/16.
@@ -35,6 +53,9 @@ public class WebActivity extends BaseActivity {
     ImageButton ib_nav_left;
     public WebView web_webview;
     public TextView tv_nav_title;
+
+    private SonicSession sonicSession;
+    private SonicSessionClientImpl sonicSessionClient = null;
 
     WebAppImpl impl;
 
@@ -57,6 +78,30 @@ public class WebActivity extends BaseActivity {
 
     @Override
     public void initParams() {
+        if (!SonicEngine.isGetInstanceAllowed()) {
+            SonicEngine.createInstance(new SonicRuntimeImpl(getApplication()), new SonicConfig.Builder().build());
+        }
+        sonicSessionClient=new SonicSessionClientImpl();
+        SonicSessionConfig.Builder sessionConfigBuilder = new SonicSessionConfig.Builder();
+        sessionConfigBuilder.setCacheInterceptor(new SonicCacheInterceptor(null) {
+            @Override
+            public String getCacheData(SonicSession session) {
+                return null;
+            }
+        });
+        sessionConfigBuilder.setConnectionInterceptor(new SonicSessionConnectionInterceptor() {
+            @Override
+            public SonicSessionConnection getConnection(SonicSession session, Intent intent) {
+                return new OfflinePkgSessionConnection(WebActivity.this, session, intent);
+            }
+        });
+        sonicSession = SonicEngine.getInstance().createSession(getIntent().getStringExtra("url"), sessionConfigBuilder.build());
+        if (null != sonicSession) {
+            sonicSession.bindClient(sonicSessionClient);
+        } else {
+            finish();
+        }
+
         ib_nav_left = (ImageButton) findViewById(R.id.ib_nav_left);
         ib_nav_left.setImageResource(R.mipmap.ic_arrow_black_left);
         ib_nav_left.setOnClickListener(v -> finish());
@@ -88,7 +133,7 @@ public class WebActivity extends BaseActivity {
         WebSettings settings=web_webview.getSettings();
         settings.setDomStorageEnabled(true);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            settings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
         settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
@@ -112,13 +157,25 @@ public class WebActivity extends BaseActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
             }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                // 接受所有网站的证书
+                handler.proceed();
+                super.onReceivedSslError(view, handler, error);
+            }
         });
         settings.setAllowContentAccess(true);
         settings.setAllowFileAccess(true);
         settings.setNeedInitialFocus(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setBuiltInZoomControls(false);
-        web_webview.loadUrl(getIntent().getStringExtra("url"));
+        if (sonicSessionClient != null) {
+            sonicSessionClient.bindWebView(web_webview);
+            sonicSessionClient.clientReady();
+        } else {
+            web_webview.loadUrl(getIntent().getStringExtra("url"));
+        }
         findViewById(R.id.ib_nav_left).setOnClickListener(v -> finish());
     }
 
@@ -134,6 +191,10 @@ public class WebActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        if (null != sonicSession) {
+            sonicSession.destroy();
+            sonicSession = null;
+        }
         if (web_webview!=null) {
             ViewParent parent = web_webview.getParent();
             if (parent != null) {
@@ -182,6 +243,49 @@ public class WebActivity extends BaseActivity {
                     }
                 }
             }
+        }
+    }
+
+    private static class OfflinePkgSessionConnection extends SonicSessionConnection {
+
+        public OfflinePkgSessionConnection(Context context, SonicSession session, Intent intent) {
+            super(session, intent);
+        }
+
+        @Override
+        protected int internalConnect() {
+            return SonicConstants.ERROR_CODE_UNKNOWN;
+        }
+
+        @Override
+        protected BufferedInputStream internalGetResponseStream() {
+            return responseStream;
+        }
+
+        @Override
+        public void disconnect() {
+            if (null != responseStream) {
+                try {
+                    responseStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public int getResponseCode() {
+            return 200;
+        }
+
+        @Override
+        public Map<String, List<String>> getResponseHeaderFields() {
+            return new HashMap<>(0);
+        }
+
+        @Override
+        public String getResponseHeaderField(String key) {
+            return "";
         }
     }
 }

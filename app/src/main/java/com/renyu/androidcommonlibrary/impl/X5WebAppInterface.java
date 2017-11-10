@@ -4,37 +4,37 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.renyu.commonlibrary.impl.WebAppImpl;
+import com.renyu.commonlibrary.impl.X5WebAppImpl;
+import com.tencent.smtt.sdk.WebView;
 
 /**
  * Created by renyu on 2017/8/14.
  */
 
-public class WebAppInterface implements Parcelable, WebAppImpl {
+public class X5WebAppInterface implements Parcelable, X5WebAppImpl {
 
     Context context;
     WebView webView;
 
-    public WebAppInterface() {
+    public X5WebAppInterface() {
         super();
     }
 
-    protected WebAppInterface(Parcel in) {
+    protected X5WebAppInterface(Parcel in) {
 
     }
 
-    public static final Creator<WebAppInterface> CREATOR = new Creator<WebAppInterface>() {
+    public static final Creator<X5WebAppInterface> CREATOR = new Creator<X5WebAppInterface>() {
         @Override
-        public WebAppInterface createFromParcel(Parcel in) {
-            return new WebAppInterface(in);
+        public X5WebAppInterface createFromParcel(Parcel in) {
+            return new X5WebAppInterface(in);
         }
 
         @Override
-        public WebAppInterface[] newArray(int size) {
-            return new WebAppInterface[size];
+        public X5WebAppInterface[] newArray(int size) {
+            return new X5WebAppInterface[size];
         }
     };
 
