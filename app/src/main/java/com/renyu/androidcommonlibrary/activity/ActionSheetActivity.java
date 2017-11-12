@@ -54,28 +54,22 @@ public class ActionSheetActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_click:
-//                View view_threeloopertitle_floor = addAction();
-//                ActionSheetFragment.build(getSupportFragmentManager())
-//                        .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
-//                        .setCanDismiss(false)
-//                        .setCancelTitle("取消")
-//                        .setOkTitle("确定")
-//                        .setOnOKListener(new ActionSheetFragment.OnOKListener() {
-//                            @Override
-//                            public void onOKClick(Object value) {
-//
-//                            }
-//                        })
-//                        .setCustomerView(view_threeloopertitle_floor)
-//                        .show();
-                ActionSheetFragment.build(getSupportFragmentManager()).setChoice(ActionSheetFragment.CHOICE.GRID).setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
-                        new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
-                        new ActionSheetFragment.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int position) {
+                View view_threeloopertitle_floor = addAction();
+                ActionSheetFragment.build(getSupportFragmentManager())
+                        .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
+                        .setCanDismiss(false)
+                        .setCancelTitle("取消")
+                        .setOkTitle("确定")
+                        .setOnOKListener(value -> {
 
-                            }
-                        }).show();
+                        })
+                        .setCustomerView(view_threeloopertitle_floor)
+                        .show();
+//                ActionSheetFragment.build(getSupportFragmentManager()).setChoice(ActionSheetFragment.CHOICE.GRID).setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
+//                        new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
+//                        position -> {
+//
+//                        }).show();
                 break;
         }
     }

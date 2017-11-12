@@ -640,6 +640,11 @@ public class ActionSheetFragment extends Fragment {
             pop_customer_layout.setVisibility(View.VISIBLE);
             if (customerView!=null) {
                 pop_customer_layout.removeAllViews();
+                if (customerView.getParent() != null) {
+                    // 上一个引用customerView的地方会出现留白
+                    // 这不是解决问题的正确方法，应该避免传入正在使用的同一个对象
+                    ((ViewGroup) customerView.getParent()).removeAllViews();
+                }
                 pop_customer_layout.addView(customerView);
             }
         }
