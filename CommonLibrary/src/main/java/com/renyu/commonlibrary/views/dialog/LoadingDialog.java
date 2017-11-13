@@ -347,7 +347,7 @@ public class LoadingDialog extends DialogFragment {
                 onDialogCancelListener.onCancel();
             }
             try {
-                dismiss();
+                dismissDialog();
             } catch (Exception e) {
 
             }
@@ -365,7 +365,7 @@ public class LoadingDialog extends DialogFragment {
             }
             if (isChoiceNeedClose) {
                 try {
-                    dismiss();
+                    dismissDialog();
                 } catch (Exception e) {
 
                 }
@@ -377,7 +377,7 @@ public class LoadingDialog extends DialogFragment {
                 onDialogNegListener.onNeg();
             }
             try {
-                dismiss();
+                dismissDialog();
             } catch (Exception e) {
 
             }
@@ -482,7 +482,7 @@ public class LoadingDialog extends DialogFragment {
                 public void accept(Long aLong) throws Exception {
                     if (getManager() != null) {
                         try {
-                            dismiss();
+                            dismissDialog();
                         } catch (Exception e) {
 
                         }
@@ -549,7 +549,7 @@ public class LoadingDialog extends DialogFragment {
             toast_text_container_content.setText(text);
             Observable.timer(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
                 try {
-                    dismiss();
+                    dismissDialog();
                 } catch (Exception e) {
 
                 }
@@ -617,7 +617,7 @@ public class LoadingDialog extends DialogFragment {
             Observable.timer(2000, TimeUnit.MILLISECONDS)
                     .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
                 try {
-                    dismiss();
+                    dismissDialog();
                 } catch (Exception e) {
 
                 }
@@ -778,7 +778,7 @@ public class LoadingDialog extends DialogFragment {
 
     public void setFinish() {
         try {
-            dismiss();
+            dismissDialog();
         }
         catch (Exception e) {
 
@@ -815,7 +815,7 @@ public class LoadingDialog extends DialogFragment {
         });
     }
 
-    public void dismiss() {
+    private void dismissDialog() {
         try {
             if (isDismiss) {
                 return;
@@ -848,7 +848,11 @@ public class LoadingDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (savedInstanceState!=null) {
             isDismiss=savedInstanceState.getBoolean("isDismiss");
-            dismiss();
+            try {
+                dismissDialog();
+            } catch (Exception e) {
+
+            }
         }
     }
 

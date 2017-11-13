@@ -15,6 +15,7 @@ import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
+import com.renyu.commonlibrary.views.dialog.LoadingDialog;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -49,16 +50,16 @@ public class MainActivity extends BaseActivity {
                 FileUtils.createOrExistsDir(InitParams.LOG_PATH);
                 FileUtils.createOrExistsDir(InitParams.CACHE_PATH);
 
-                // js调用示例
-                Intent intent=new Intent(MainActivity.this, MyX5WebActivity.class);
-                // 定义跨平台交互关键字
-                intent.putExtra("WebAppImplName", "android");
-                intent.putExtra("title", "测试");
-                // 定义方法实现接口
-                intent.putExtra("WebAppImpl", new X5WebAppInterface());
-                intent.putExtra("url", "https://aznapi.house365.com/Home/Information/lists");
-                intent.putExtra(InitParams.NEED_GOBACK, true);
-                startActivity(intent);
+//                // js调用示例
+//                Intent intent=new Intent(MainActivity.this, MyX5WebActivity.class);
+//                // 定义跨平台交互关键字
+//                intent.putExtra("WebAppImplName", "android");
+//                intent.putExtra("title", "测试");
+//                // 定义方法实现接口
+//                intent.putExtra("WebAppImpl", new X5WebAppInterface());
+//                intent.putExtra("url", "https://aznapi.house365.com/Home/Information/lists");
+//                intent.putExtra(InitParams.NEED_GOBACK, true);
+//                startActivity(intent);
 
                 // 测试网络请求
                 retrofit.create(RetrofitImpl.class)
@@ -87,6 +88,8 @@ public class MainActivity extends BaseActivity {
                         });
 
                 Log.d("MainActivity", Utils.getMD5("r17171709"));
+
+                LoadingDialog.getInstance_TextCommit("Hello Content", "This is Title").show(getSupportFragmentManager(), false, "LoadingDailog");
             }
 
             @Override
