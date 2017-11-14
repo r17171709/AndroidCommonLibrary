@@ -37,20 +37,16 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     // butterknife
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile project(':CommonLibrary')
-    debugCompile 'com.readystatesoftware.chuck:library:1.1.0'
-    releaseCompile 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    implementation project(':CommonLibrary')
+    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
+    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     //    compile 'com.github.r17171709:AndroidCommonLibrary:v1.0.8'
-}
-repositories {
-    google()
-    mavenCentral()
 }
