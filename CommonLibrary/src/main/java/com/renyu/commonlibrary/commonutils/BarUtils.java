@@ -163,20 +163,29 @@ public class BarUtils {
     public static void setDark(Activity activity) {
         String brand= Build.BRAND;
         if (brand.indexOf("Xiaomi")!=-1) {
-            setStatusBarDarkMode(true, activity);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                setMstatusBarDarkMode(activity);
+            }
+            else {
+                setMIStatusBarDarkMode(true, activity);
+            }
         }
         else if (brand.indexOf("Meizu")!=-1) {
-            setStatusBarDarkIcon(activity.getWindow(), true);
+            StatusbarColorUtils.setStatusBarDarkIcon(activity, true);
         }
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decor = activity.getWindow().getDecorView();
-            int ui = decor.getSystemUiVisibility();
-            // 设置浅色状态栏时的界面显示
-            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            // 设置深色状态栏时的界面显示
-//            ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            decor.setSystemUiVisibility(ui);
+            setMstatusBarDarkMode(activity);
         }
+    }
+
+    private static void setMstatusBarDarkMode(Activity activity) {
+        View decor = activity.getWindow().getDecorView();
+        int ui = decor.getSystemUiVisibility();
+        // 设置浅色状态栏时的界面显示
+        ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        // 设置深色状态栏时的界面显示
+//            ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        decor.setSystemUiVisibility(ui);
     }
 
     /**
@@ -184,7 +193,7 @@ public class BarUtils {
      * @param darkmode
      * @param activity
      */
-    private static void setStatusBarDarkMode(boolean darkmode, Activity activity) {
+    private static void setMIStatusBarDarkMode(boolean darkmode, Activity activity) {
         Class<? extends Window> clazz = activity.getWindow().getClass();
         try {
             int darkModeFlag = 0;
@@ -196,37 +205,5 @@ public class BarUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 魅族修改状态栏字体颜色
-     * @param window
-     * @param dark
-     * @return
-     */
-    private static boolean setStatusBarDarkIcon(Window window, boolean dark) {
-        boolean result = false;
-        if (window != null) {
-            try {
-                WindowManager.LayoutParams lp = window.getAttributes();
-                Field darkFlag = WindowManager.LayoutParams.class.getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");
-                Field meizuFlags = WindowManager.LayoutParams.class.getDeclaredField("meizuFlags");
-                darkFlag.setAccessible(true);
-                meizuFlags.setAccessible(true);
-                int bit = darkFlag.getInt(null);
-                int value = meizuFlags.getInt(lp);
-                if (dark) {
-                    value |= bit;
-                } else {
-                    value &= ~bit;
-                }
-                meizuFlags.setInt(lp, value);
-                window.setAttributes(lp);
-                result = true;
-            } catch (Exception e) {
-
-            }
-        }
-        return result;
     }
 }
