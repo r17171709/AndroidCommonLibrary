@@ -12,7 +12,7 @@ import com.renyu.commonlibrary.R;
 import com.renyu.commonlibrary.bean.UpdateModel;
 import com.renyu.commonlibrary.commonutils.NotificationUtils;
 import com.renyu.commonlibrary.commonutils.Utils;
-import com.renyu.commonlibrary.network.OKHttpHelper;
+import com.renyu.commonlibrary.network.OKHttpUtils;
 import com.renyu.commonlibrary.params.InitParams;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,7 +26,7 @@ import java.util.HashMap;
  */
 public class UpdateService extends Service {
 
-    OKHttpHelper httpHelper;
+    OKHttpUtils okHttpUtils;
 
     public static ArrayList<String> downloadUrls;
     HashMap<String, Integer> ids;
@@ -41,7 +41,7 @@ public class UpdateService extends Service {
 
         ids=new HashMap<>();
 
-        httpHelper=new OKHttpHelper();
+        okHttpUtils=new OKHttpUtils();
     }
 
     @Nullable
@@ -69,7 +69,12 @@ public class UpdateService extends Service {
                             ContextCompat.getColor(this, R.color.colorPrimary),
                             intent.getExtras().getInt("smallIcon"), intent.getExtras().getInt("largeIcon"));
 
-            httpHelper.downloadFile(url, InitParams.FILE_PATH, new OKHttpHelper.RequestListener() {
+            okHttpUtils.asyncDownload(url, InitParams.FILE_PATH, new OKHttpUtils.RequestListener() {
+                @Override
+                public void onStart() {
+
+                }
+
                 @Override
                 public void onSuccess(String string) {
                     UpdateModel model=new UpdateModel();
@@ -105,7 +110,7 @@ public class UpdateService extends Service {
             }
             //取消下载移除标志
             downloadUrls.remove(url);
-            httpHelper.cancel(url);
+            okHttpUtils.cancel(url);
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -157,9 +162,8 @@ public class UpdateService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        httpHelper=new OKHttpHelper();
         for (String downloadUrl : downloadUrls) {
-            httpHelper.cancel(downloadUrl);
+            okHttpUtils.cancel(downloadUrl);
         }
         NotificationUtils.getNotificationCenter(this.getApplicationContext()).cancelAll();
     }

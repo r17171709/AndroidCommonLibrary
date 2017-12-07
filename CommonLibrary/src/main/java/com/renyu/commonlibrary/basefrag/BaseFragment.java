@@ -17,7 +17,6 @@ import retrofit2.Retrofit;
  * Created by renyu on 15/12/3.
  */
 public abstract class BaseFragment extends Fragment {
-
     public abstract void initParams();
     public abstract int initViews();
     public abstract void loadData();
@@ -34,7 +33,7 @@ public abstract class BaseFragment extends Fragment {
             view=LayoutInflater.from(getActivity()).inflate(initViews(), container, false);
             ButterKnife.bind(this, view);
 
-            httpHelper=new OKHttpHelper();
+            httpHelper=OKHttpHelper.getInstance();
             retrofit = Retrofit2Utils.getBaseRetrofit();
 
             initParams();

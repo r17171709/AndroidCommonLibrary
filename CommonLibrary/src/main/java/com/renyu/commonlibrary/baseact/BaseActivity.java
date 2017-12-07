@@ -31,7 +31,6 @@ import retrofit2.Retrofit;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
-
     // 权限接口相关
     public OnPermissionCheckedListener listener;
     private List<String> permission;
@@ -83,7 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             BarUtils.setTranslucent(this);
         }
 
-        httpHelper = new OKHttpHelper();
+        httpHelper = OKHttpHelper.getInstance();
         retrofit = Retrofit2Utils.getBaseRetrofit();
         retrofitUploadImage = Retrofit2Utils.getImageUploadRetrofit();
 
