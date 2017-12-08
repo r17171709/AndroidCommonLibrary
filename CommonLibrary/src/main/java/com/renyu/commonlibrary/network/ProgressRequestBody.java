@@ -15,18 +15,18 @@ import okio.Sink;
  */
 public class ProgressRequestBody extends RequestBody {
 
-    public interface OkHttpProgressListener {
+    public interface UpProgressListener {
         void onProgress(long currentBytesCount, long totalBytesCount);
     }
 
     //实际的待包装请求体
     private final RequestBody requestBody;
     //进度回调接口
-    private final OkHttpProgressListener progressListener;
+    private final UpProgressListener progressListener;
     //包装完成的BufferedSink
     private BufferedSink bufferedSink;
 
-    public ProgressRequestBody(RequestBody requestBody, OkHttpProgressListener progressListener) {
+    public ProgressRequestBody(RequestBody requestBody, UpProgressListener progressListener) {
         this.requestBody = requestBody;
         this.progressListener = progressListener;
     }

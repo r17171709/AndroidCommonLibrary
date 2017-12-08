@@ -439,7 +439,7 @@ public class OKHttpUtils {
      * @param files
      * @return
      */
-    private Call uploadPrepare(String url, HashMap<String, String> params, HashMap<String, File> files) {
+    private Call uploadPrepare(String url, HashMap<String, String> params, HashMap<String, File> files, ProgressRequestBody.UpProgressListener listener) {
         MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
         multipartBuilder.setType(MultipartBody.FORM);
         Iterator<Map.Entry<String, String>> params_it=params.entrySet().iterator();
@@ -459,6 +459,7 @@ public class OKHttpUtils {
             multipartBuilder.addFormDataPart(entry.getKey(), entry.getValue().getName(), RequestBody.create(MediaType.parse("application/octet-stream"), entry.getValue()));
         }
         RequestBody formBody = multipartBuilder.build();
+        formBody = new ProgressRequestBody(formBody, listener);
         Request request = new Request.Builder()
                 .url(url)
                 .tag(url)
@@ -474,8 +475,8 @@ public class OKHttpUtils {
      * @param files
      * @return
      */
-    public Response syncUpload(String url, HashMap<String, String> params, HashMap<String, File> files) {
-        Call call=uploadPrepare(url, params, files);
+    public Response syncUpload(String url, HashMap<String, String> params, HashMap<String, File> files, ProgressRequestBody.UpProgressListener listener) {
+        Call call=uploadPrepare(url, params, files, listener);
         try {
             Response response=call.execute();
             return response;
@@ -492,8 +493,8 @@ public class OKHttpUtils {
      * @param files
      * @param requestListener
      */
-    public void asyncUpload(HashMap<String, File> files, String url, HashMap<String, String> params, final RequestListener requestListener) {
-        Call call=uploadPrepare(url, params, files);
+    public void asyncUpload(HashMap<String, File> files, String url, HashMap<String, String> params, final RequestListener requestListener, ProgressRequestBody.UpProgressListener listener) {
+        Call call=uploadPrepare(url, params, files, listener);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
