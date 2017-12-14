@@ -1,5 +1,9 @@
 package com.renyu.commonlibrary.network;
 
+import android.util.Log;
+
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -475,12 +479,14 @@ public class OKHttpUtils {
      * @param files
      * @return
      */
-    public Response syncUpload(String url, HashMap<String, String> params, HashMap<String, File> files, ProgressRequestBody.UpProgressListener listener) {
+    public String syncUpload(String url, HashMap<String, String> params, HashMap<String, File> files, ProgressRequestBody.UpProgressListener listener) {
         Call call=uploadPrepare(url, params, files, listener);
         try {
             Response response=call.execute();
-            return response;
-        } catch (IOException e) {
+            if (response!=null && response.isSuccessful()) {
+                return response.body().string();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

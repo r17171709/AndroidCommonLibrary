@@ -821,7 +821,7 @@ public class LoadingDialog extends DialogFragment {
                 return;
             }
             isDismiss=true;
-            if (getActivity()!=null && getActivity().isFinishing()) {
+            if (getActivity() == null || getActivity().isFinishing()) {
                 return;
             }
             new Handler().post(() -> {
