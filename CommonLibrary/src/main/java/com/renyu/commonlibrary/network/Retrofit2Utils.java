@@ -89,7 +89,7 @@ public class Retrofit2Utils {
         return RequestBody.create(JSON, json);
     }
 
-    public static <T> ObservableTransformer background() {
+    public static <T> ObservableTransformer<Response<T>, T> background() {
         return upstream -> upstream
                 .flatMap(new Function<Response<T>, ObservableSource<T>>() {
                     @Override
@@ -116,7 +116,7 @@ public class Retrofit2Utils {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T> ObservableTransformer backgroundList() {
+    public static <T> ObservableTransformer<ResponseList<T>, List<T>> backgroundList() {
         return upstream -> upstream
                 .flatMap(new Function<ResponseList<T>, ObservableSource<List<T>>>() {
                     @Override
@@ -141,7 +141,7 @@ public class Retrofit2Utils {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T> ObservableTransformer asyncEmptyBackground() {
+    public static <T> ObservableTransformer<ResponseList<T>, T> asyncEmptyBackground() {
         return upstream -> upstream
                 .flatMap(new Function<ResponseList<T>, ObservableSource<T>>() {
                     @Override

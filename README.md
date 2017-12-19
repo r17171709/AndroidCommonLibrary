@@ -76,3 +76,7 @@ After Using VasSonic
 * 新增跑马灯特效
 
 ![MarqueeViewLibrary](https://github.com/gongwen/MarqueeViewLibrary/raw/master/screenshot/screen_shot.gif)
+
+* 支持自由定制外观、拖拽消除的MaterialDesign风格Android BadgeView
+
+![BadgeView](https://github.com/qstumn/BadgeView/raw/master/demo_gif.gif)

@@ -75,6 +75,8 @@ dependencies {
     compile('com.alibaba.android:vlayout:1.2.6@aar') {
         transitive = true
     }
+    // BadgeView  支持自由定制外观、拖拽消除的MaterialDesign风格Android BadgeView
+    compile 'q.rorbin:badgeview:1.1.3'
     // Android-ConvenientBanner  Simple and convenient banner, loop viewpager with 3D effects
     compile 'com.bigkoo:convenientbanner:2.0.5@aar'
     // ViewPagerTransforms  Library containing common animations needed for transforming ViewPager scrolling for Android v13+.
