@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/swipe_vlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srl_direction="bottom">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_vlayout"
             android:layout_width="match_parent"
@@ -15,5 +17,5 @@
             android:paddingRight="0dp"
             android:requiresFadingEdge="none"
             android:scrollbars="vertical"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 </LinearLayout>
