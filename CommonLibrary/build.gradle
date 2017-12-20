@@ -61,8 +61,6 @@ dependencies {
     // fresco
     compile 'com.facebook.fresco:fresco:1.5.0'
     compile 'com.facebook.fresco:animated-gif:1.5.0'
-    // SwipyRefreshLayout  A SwipeRefreshLayout extension that allows to swipe in both direction
-    compile 'com.github.orangegangsters:swipy:1.2.3@aar'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
     compile 'com.kyleduo.switchbutton:library:2.0.0@aar'
     // SwipeDelMenuLayout  史上最简单侧滑菜单，0耦合，支持任意ViewGroup。一步集成侧滑(删除)菜单，高仿QQ、IOS。
