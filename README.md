@@ -15,10 +15,6 @@
 * 集成腾讯xlog日志记录框架
 * 使用ButterKnife完成控件绑定
 * 使用EventBus完成发布/订阅事件
-* 集成Compressor，具有更好的图片压缩能力
-
-![Compressor](https://raw.githubusercontent.com/zetbaitsu/Compressor/master/ss.png)
-
 * 使用SwipyRefreshLayout完成下拉上拉加载
 * 集成侧滑删除RecyclerView子项控件
 
