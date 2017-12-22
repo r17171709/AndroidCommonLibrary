@@ -144,6 +144,15 @@ public class LoadingDialog extends DialogFragment {
         return dialog;
     }
 
+    public static LoadingDialog getInstance_TextLoading(String text) {
+        LoadingDialog dialog = new LoadingDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", 1);
+        bundle.putString("loadingText", text);
+        dialog.setArguments(bundle);
+        return dialog;
+    }
+
     /**
      * 仿Toast弹出框
      * @param text
@@ -399,7 +408,7 @@ public class LoadingDialog extends DialogFragment {
         customer_container= (RelativeLayout) view.findViewById(R.id.customer_container);
 
         if (getArguments().getInt("type") == 1) {
-            setloading();
+            setloading(getArguments().getString("loadingText"));
         }
         if (getArguments().getInt("type") == 2) {
             setNetWorkError();
@@ -496,16 +505,21 @@ public class LoadingDialog extends DialogFragment {
     }
 
     /**
-     * 设置耗时加载中
+     * 设置自定义加载文字的耗时加载中
      */
-    public void setloading() {
+    public void setloading(String loadingText) {
         closeAll();
         if (loading_container == null || loading_container_cancel == null) {
             return;
         }
+        if (!TextUtils.isEmpty(loadingText)) {
+            loading_container_tips.setText(loadingText);
+        }
         loading_container.setVisibility(View.VISIBLE);
         loading_container_cancel.setText("取消");
     }
+
+
 
     /**
      * 设置加载成功单文字并关闭
