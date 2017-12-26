@@ -83,8 +83,6 @@ public class MainActivity extends BaseActivity {
 
                             }
                         });
-
-
             }
 
             @Override
@@ -92,7 +90,7 @@ public class MainActivity extends BaseActivity {
                 finish();
             }
         });
-        LoadingDialog.getInstance_TextLoading("Hello").show(MainActivity.this, "LoadingDailog");
+        LoadingDialog.getInstance_TextLoading("Hello").show(MainActivity.this);
     }
 
     @Override
