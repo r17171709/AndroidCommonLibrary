@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +40,7 @@ import io.reactivex.schedulers.Schedulers;
 public class LoadingDialog extends DialogFragment {
 
     boolean isDismiss = true;
-    boolean isChild = false;
+    FragmentManager manager = null;
 
     RelativeLayout loading_container;
     TextView loading_container_cancel;
@@ -489,7 +491,7 @@ public class LoadingDialog extends DialogFragment {
             Observable.timer(2000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<Long>() {
                 @Override
                 public void accept(Long aLong) throws Exception {
-                    if (getManager() != null) {
+                    if (manager != null) {
                         try {
                             dismissDialog();
                         } catch (Exception e) {
@@ -537,7 +539,7 @@ public class LoadingDialog extends DialogFragment {
             toast_text_container.setVisibility(View.VISIBLE);
             toast_text_container_content.setText(text);
             Observable.timer(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-                if (getManager() != null) {
+                if (manager != null) {
                     if (onDialogProceedListener != null) {
                         onDialogProceedListener.proceed();
                     }
@@ -597,7 +599,7 @@ public class LoadingDialog extends DialogFragment {
             }
             toast_textimage_container_content.setText(text);
             Observable.timer(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-                if (getManager() != null) {
+                if (manager != null) {
                     if (onDialogProceedListener != null) {
                         onDialogProceedListener.proceed();
                     }
@@ -815,12 +817,20 @@ public class LoadingDialog extends DialogFragment {
         customer_container.setVisibility(View.GONE);
     }
 
-    public void show(FragmentManager manager, boolean isChild, final String tag) {
-        LoadingDialog.this.isChild = isChild;
-        if (manager.isDestroyed() || !isDismiss) {
+    public View getCustomerView() {
+        return customerView;
+    }
+
+    public void show(FragmentActivity fragmentActivity) {
+        show(fragmentActivity, "loadingDialog");
+    }
+
+    public void show(FragmentActivity fragmentActivity, final String tag) {
+        if (fragmentActivity.isDestroyed() || !isDismiss) {
             return;
         }
         isDismiss=false;
+        manager = fragmentActivity.getSupportFragmentManager();
         new Handler().post(() -> {
             FragmentTransaction transaction=manager.beginTransaction();
             transaction.add(LoadingDialog.this, tag);
@@ -830,6 +840,7 @@ public class LoadingDialog extends DialogFragment {
     }
 
     private void dismissDialog() {
+        Log.d("LoadingDialog", "" + isDismiss);
         try {
             if (isDismiss) {
                 return;
@@ -839,9 +850,9 @@ public class LoadingDialog extends DialogFragment {
                 return;
             }
             new Handler().post(() -> {
-                if (getManager() != null) {
-                    getManager().popBackStack();
-                    FragmentTransaction transaction=getManager().beginTransaction();
+                if (manager != null) {
+                    manager.popBackStack();
+                    FragmentTransaction transaction=manager.beginTransaction();
                     transaction.remove(LoadingDialog.this);
                     transaction.commitAllowingStateLoss();
                 }
@@ -858,28 +869,19 @@ public class LoadingDialog extends DialogFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         if (savedInstanceState!=null) {
             isDismiss=savedInstanceState.getBoolean("isDismiss");
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                manager = activity.getSupportFragmentManager();
+            }
             try {
                 dismissDialog();
             } catch (Exception e) {
 
             }
-        }
-    }
-
-    public View getCustomerView() {
-        return customerView;
-    }
-
-    private FragmentManager getManager() {
-        if (isChild) {
-            return getChildFragmentManager();
-        }
-        else {
-            return getFragmentManager();
         }
     }
 }

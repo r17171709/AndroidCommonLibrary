@@ -84,7 +84,6 @@ public class MainActivity extends BaseActivity {
                             }
                         });
 
-                LoadingDialog.getInstance_TextLoading("Hello").show(getSupportFragmentManager(), false, "LoadingDailog");
 
             }
 
@@ -93,6 +92,7 @@ public class MainActivity extends BaseActivity {
                 finish();
             }
         });
+        LoadingDialog.getInstance_TextLoading("Hello").show(MainActivity.this, "LoadingDailog");
     }
 
     @Override
