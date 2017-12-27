@@ -129,7 +129,7 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:text="确定"
-                    android:textColor="#ffac00"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
