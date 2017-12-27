@@ -639,18 +639,7 @@ public class SwipyRefreshLayout extends ViewGroup {
      * scroll up. Override this if the child view is a custom view.
      */
     public boolean canChildScrollUp() {
-        if (Build.VERSION.SDK_INT < 14) {
-            if (mTarget instanceof AbsListView) {
-                final AbsListView absListView = (AbsListView) mTarget;
-                return !(absListView.getChildCount() > 0 && (absListView
-                        .getFirstVisiblePosition() > 0 || absListView
-                        .getChildAt(0).getTop() < absListView.getPaddingTop()));
-            } else {
-                return !(mTarget.getScrollY() > 0);
-            }
-        } else {
-            return !ViewCompat.canScrollVertically(mTarget, -1);
-        }
+        return !ViewCompat.canScrollVertically(mTarget, -1);
     }
 
     /**
@@ -659,7 +648,7 @@ public class SwipyRefreshLayout extends ViewGroup {
      * @return
      */
     public boolean canChildScrollDown() {
-        if (canChildScrollUp()) {
+        if (ViewCompat.canScrollVertically(mTarget, 1)) {
             return false;
         }
         if (mTarget instanceof RecyclerView) {

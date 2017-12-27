@@ -100,7 +100,7 @@ public class VlayoutActivity extends BaseActivity {
     private ArrayList<Object> getBeans() {
         ArrayList<Object> linearLayoutBeans=new ArrayList<>();
         Random random=new Random();
-        for (int i=0;i<10+random.nextInt(20);i++) {
+        for (int i=0;i<5+random.nextInt(5);i++) {
             linearLayoutBeans.add(""+i);
         }
         return linearLayoutBeans;
