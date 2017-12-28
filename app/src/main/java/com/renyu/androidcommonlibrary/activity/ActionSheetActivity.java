@@ -58,8 +58,6 @@ public class ActionSheetActivity extends BaseActivity {
                 ActionSheetFragment.build(getSupportFragmentManager())
                         .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
                         .setCanDismiss(false)
-                        .setCancelTitle("取消")
-                        .setOkTitle("确定")
                         .setOnOKListener(value -> {
 
                         })

@@ -617,25 +617,30 @@ public class ActionSheetFragment extends Fragment {
         }
         else if (getArguments().getInt("type")==7) {
             LinearLayout pop_morechoice= (LinearLayout) view.findViewById(R.id.pop_morechoice);
-            pop_morechoice.setVisibility(View.VISIBLE);
-            TextView pop_ok1= (TextView) view.findViewById(R.id.pop_ok1);
-            pop_ok1.setText(getArguments().getString("okTitle"));
-            pop_ok1.setOnClickListener(v -> {
-                if (onOKListener!=null) {
-                    onOKListener.onOKClick("");
-                }
-                if (canDismiss) {
+            if (TextUtils.isEmpty(title) && TextUtils.isEmpty(getArguments().getString("okTitle")) && TextUtils.isEmpty(getArguments().getString("cancelTitle"))) {
+                pop_morechoice.setVisibility(View.GONE);
+            }
+            else {
+                pop_morechoice.setVisibility(View.VISIBLE);
+                TextView pop_ok1= (TextView) view.findViewById(R.id.pop_ok1);
+                pop_ok1.setText(getArguments().getString("okTitle"));
+                pop_ok1.setOnClickListener(v -> {
+                    if (onOKListener!=null) {
+                        onOKListener.onOKClick("");
+                    }
+                    if (canDismiss) {
+                        dismiss();
+                    }
+                });
+                TextView pop_cancel1= (TextView) view.findViewById(R.id.pop_cancel1);
+                pop_cancel1.setText(getArguments().getString("cancelTitle"));
+                pop_cancel1.setOnClickListener(v -> {
+                    if (onCancelListener!=null) {
+                        onCancelListener.onCancelClick();
+                    }
                     dismiss();
-                }
-            });
-            TextView pop_cancel1= (TextView) view.findViewById(R.id.pop_cancel1);
-            pop_cancel1.setText(getArguments().getString("cancelTitle"));
-            pop_cancel1.setOnClickListener(v -> {
-                if (onCancelListener!=null) {
-                    onCancelListener.onCancelClick();
-                }
-                dismiss();
-            });
+                });
+            }
             LinearLayout pop_customer_layout= (LinearLayout) view.findViewById(R.id.pop_customer_layout);
             pop_customer_layout.setVisibility(View.VISIBLE);
             if (customerView!=null) {
