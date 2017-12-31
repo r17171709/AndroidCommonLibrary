@@ -31,6 +31,8 @@ import com.renyu.commonlibrary.R;
 import com.renyu.commonlibrary.commonutils.BarUtils;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -305,8 +307,12 @@ public class ActionSheetFragment extends Fragment {
                 }
                 else {
                     Calendar cl=Calendar.getInstance();
-                    cl.set(Calendar.YEAR, Integer.parseInt(years.get(index)));
-                    cl.set(Calendar.MONTH, Integer.parseInt(months.get(pop_wheel_yearlayout_month.getSelectedItem()))-1);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        cl.setTime(format.parse(years.get(index)+"-"+months.get(pop_wheel_yearlayout_month.getSelectedItem())+"-01"));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     dayCount=cl.getActualMaximum(Calendar.DATE);
                     for (int i=1;i<=dayCount;i++) {
                         days.add(""+i);
@@ -343,8 +349,12 @@ public class ActionSheetFragment extends Fragment {
                 }
                 else {
                     Calendar cl=Calendar.getInstance();
-                    cl.set(Calendar.YEAR, Integer.parseInt(years.get(pop_wheel_yearlayout_year.getSelectedItem())));
-                    cl.set(Calendar.MONTH, Integer.parseInt(months.get(index))-1);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        cl.setTime(format.parse(years.get(pop_wheel_yearlayout_year.getSelectedItem())+"-"+months.get(index)+"-01"));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     dayCount=cl.getActualMaximum(Calendar.DATE);
                     for (int i=1;i<=dayCount;i++) {
                         days.add(""+i);
@@ -468,8 +478,12 @@ public class ActionSheetFragment extends Fragment {
                 }
                 else {
                     Calendar cl=Calendar.getInstance();
-                    cl.set(Calendar.YEAR, Integer.parseInt(years.get(index)));
-                    cl.set(Calendar.MONTH, Integer.parseInt(months.get(pop_wheel_yearlayout_month.getSelectedItem()))-1);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        cl.setTime(format.parse(years.get(index)+"-"+months.get(pop_wheel_yearlayout_month.getSelectedItem())+"-01"));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     for (int i=1;i<=cl.getActualMaximum(Calendar.DATE);i++) {
                         days.add(""+i);
                     }
@@ -517,8 +531,12 @@ public class ActionSheetFragment extends Fragment {
                 }
                 else {
                     Calendar cl=Calendar.getInstance();
-                    cl.set(Calendar.YEAR, Integer.parseInt(years.get(pop_wheel_yearlayout_year.getSelectedItem())));
-                    cl.set(Calendar.MONTH, Integer.parseInt(months.get(index))-1);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        cl.setTime(format.parse(years.get(pop_wheel_yearlayout_year.getSelectedItem())+"-"+months.get(index)+"-01"));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     for (int i=1;i<=cl.getActualMaximum(Calendar.DATE);i++) {
                         days.add(""+i);
                     }

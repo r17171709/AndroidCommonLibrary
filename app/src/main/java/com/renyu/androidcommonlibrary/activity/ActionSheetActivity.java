@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.views.actionsheet.ActionSheetFragment;
+import com.renyu.commonlibrary.views.actionsheet.ActionSheetUtils;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
 import com.renyu.commonlibrary.views.wheelview.OnItemSelectedListener;
 
@@ -54,20 +55,33 @@ public class ActionSheetActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_click:
-                View view_threeloopertitle_floor = addAction();
-                ActionSheetFragment.build(getSupportFragmentManager())
-                        .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
-                        .setCanDismiss(false)
-                        .setOnOKListener(value -> {
+//                View view_threeloopertitle_floor = addAction();
+//                ActionSheetFragment.build(getSupportFragmentManager())
+//                        .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
+//                        .setCanDismiss(false)
+//                        .setOnOKListener(value -> {
+//
+//                        })
+//                        .setCustomerView(view_threeloopertitle_floor)
+//                        .show();
 
-                        })
-                        .setCustomerView(view_threeloopertitle_floor)
-                        .show();
 //                ActionSheetFragment.build(getSupportFragmentManager()).setChoice(ActionSheetFragment.CHOICE.GRID).setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
 //                        new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
 //                        position -> {
 //
 //                        }).show();
+
+//                ActionSheetUtils.showBeforeDate(getSupportFragmentManager(), false, "", "", "", new ActionSheetFragment.OnOKListener() {
+//                    @Override
+//                    public void onOKClick(Object value) {
+//
+//                    }
+//                }, new ActionSheetFragment.OnCancelListener() {
+//                    @Override
+//                    public void onCancelClick() {
+//
+//                    }
+//                });
                 break;
         }
     }
