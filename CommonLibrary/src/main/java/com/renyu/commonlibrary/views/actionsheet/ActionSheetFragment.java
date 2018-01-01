@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayout;
@@ -45,8 +46,7 @@ public class ActionSheetFragment extends Fragment {
 
     //是否已经关闭
     boolean isDismiss=true;
-    // 区分从Activtiy而来还是Fragment而来
-    boolean isChild;
+    FragmentManager manager = null;
 
     View decorView;
     //添加进入的view
@@ -58,7 +58,7 @@ public class ActionSheetFragment extends Fragment {
 
     //提供类型
     public enum CHOICE {
-        ITEM, BEFOREDATE, AFTERDATE, TIME, GRID, CUSTOMER
+        ITEM, BEFOREDATE, AFTERDATE, DATERANGE, TIME, GRID, CUSTOMER
     }
 
     //是否自动关闭
@@ -143,6 +143,19 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
+    public static ActionSheetFragment newDateRangeInstance(String title, String okTitle, String cancelTitle, long startRangeTime, long endRangeTime) {
+        ActionSheetFragment fragment=new ActionSheetFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("title", title);
+        bundle.putString("okTitle", okTitle);
+        bundle.putString("cancelTitle", cancelTitle);
+        bundle.putLong("startRangeTime", startRangeTime);
+        bundle.putLong("endRangeTime", endRangeTime);
+        bundle.putInt("type", 6);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     public static ActionSheetFragment newTimeInstance(String title, String okTitle, String cancelTitle) {
         ActionSheetFragment fragment=new ActionSheetFragment();
         Bundle bundle=new Bundle();
@@ -168,10 +181,6 @@ public class ActionSheetFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (savedInstanceState!=null) {
-            isDismiss=savedInstanceState.getBoolean("isDismiss");
-            isChild=savedInstanceState.getBoolean("isChild");
-        }
         InputMethodManager manager= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager.isActive()) {
             View focusView=getActivity().getCurrentFocus();
@@ -187,6 +196,23 @@ public class ActionSheetFragment extends Fragment {
         startPlay();
 
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState!=null) {
+            isDismiss=savedInstanceState.getBoolean("isDismiss");
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                manager = activity.getSupportFragmentManager();
+            }
+            try {
+                dismiss();
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     private void initViews(View view) {
@@ -248,17 +274,28 @@ public class ActionSheetFragment extends Fragment {
         }
         else if (getArguments().getInt("type")==3) {
             final ArrayList<String> years=new ArrayList<>();
+
             Calendar calendar_today=Calendar.getInstance();
             calendar_today.setTime(new Date());
-            for (int i=1950;i<=calendar_today.get(Calendar.YEAR);i++) {
+
+            Calendar calendar_start=Calendar.getInstance();
+            Calendar calendar_end=Calendar.getInstance();
+            SimpleDateFormat format_temp = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                calendar_start.setTime(format_temp.parse("1950-01-01"));
+                calendar_end.setTime(new Date());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            for (int i=calendar_start.get(Calendar.YEAR);i<=calendar_end.get(Calendar.YEAR);i++) {
                 years.add(""+i);
             }
             final ArrayList<String> months=new ArrayList<>();
-            for (int i=1;i<=(calendar_today.get(Calendar.MONTH)+1);i++) {
+            for (int i=calendar_start.get(Calendar.MONTH)+1;i<=(calendar_end.get(Calendar.MONTH)+1);i++) {
                 months.add(""+i);
             }
             final ArrayList<String> days=new ArrayList<>();
-            for (int i=1;i<=calendar_today.get(Calendar.DAY_OF_MONTH);i++) {
+            for (int i=calendar_start.get(Calendar.DAY_OF_MONTH);i<=calendar_end.get(Calendar.DAY_OF_MONTH);i++) {
                 days.add(""+i);
             }
 
@@ -591,6 +628,152 @@ public class ActionSheetFragment extends Fragment {
                 dismiss();
             });
         }
+        else if (getArguments().getInt("type")==6) {
+            final ArrayList<String> years=new ArrayList<>();
+
+            Calendar calendar_today=Calendar.getInstance();
+            calendar_today.setTime(new Date());
+
+            Calendar calendar_start=Calendar.getInstance();
+            Calendar calendar_end=Calendar.getInstance();
+            calendar_start.setTime(new Date(getArguments().getLong("startRangeTime")));
+            calendar_end.setTime(new Date(getArguments().getLong("endRangeTime")));
+            for (int i=calendar_start.get(Calendar.YEAR);i<=calendar_end.get(Calendar.YEAR);i++) {
+                years.add(""+i);
+            }
+            final ArrayList<String> months=new ArrayList<>();
+            for (int i=calendar_start.get(Calendar.MONTH)+1;i<=(calendar_end.get(Calendar.MONTH)+1);i++) {
+                months.add(""+i);
+            }
+            final ArrayList<String> days=new ArrayList<>();
+            for (int i=calendar_start.get(Calendar.DAY_OF_MONTH);i<=calendar_today.getActualMaximum(Calendar.DATE);i++) {
+                days.add(""+i);
+            }
+
+            LinearLayout pop_wheel_yearlayout= (LinearLayout) view.findViewById(R.id.pop_wheel_yearlayout);
+            pop_wheel_yearlayout.setVisibility(View.VISIBLE);
+
+            LoopView pop_wheel_yearlayout_year= (LoopView) view.findViewById(R.id.pop_wheel_yearlayout_year);
+            LoopView pop_wheel_yearlayout_month= (LoopView) view.findViewById(R.id.pop_wheel_yearlayout_month);
+            LoopView pop_wheel_yearlayout_day= (LoopView) view.findViewById(R.id.pop_wheel_yearlayout_day);
+
+            pop_wheel_yearlayout_year.setListener(index -> {
+                months.clear();
+                days.clear();
+                Calendar calendar=Calendar.getInstance();
+                calendar.setTime(new Date());
+                for (int i=1;i<=12;i++) {
+                    months.add(""+i);
+                }
+                pop_wheel_yearlayout_month.setItems(months);
+
+                //当前月份最大天数
+                Calendar cl=Calendar.getInstance();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    cl.setTime(format.parse(years.get(index)+"-"+months.get(pop_wheel_yearlayout_month.getSelectedItem())+"-01"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                int dayCount=cl.getActualMaximum(Calendar.DATE);
+                for (int i=1;i<=dayCount;i++) {
+                    days.add(""+i);
+                }
+
+                if (pop_wheel_yearlayout_day.getSelectedItem()+1>dayCount) {
+                    pop_wheel_yearlayout_day.setInitPosition(0);
+                    pop_wheel_yearlayout_day.setTotalScrollYPosition(dayCount-1);
+                }
+                else {
+                    pop_wheel_yearlayout_day.setInitPosition(0);
+                    pop_wheel_yearlayout_day.setTotalScrollYPosition(pop_wheel_yearlayout_day.getSelectedItem());
+                }
+                pop_wheel_yearlayout_day.setItems(days);
+            });
+            pop_wheel_yearlayout_year.setNotLoop();
+            pop_wheel_yearlayout_year.setViewPadding(SizeUtils.dp2px(20), SizeUtils.dp2px(15), SizeUtils.dp2px(20), SizeUtils.dp2px(15));
+            pop_wheel_yearlayout_year.setItems(years);
+            pop_wheel_yearlayout_year.setTextSize(18);
+            for (int i = 0; i < years.size(); i++) {
+                if (calendar_today.get(Calendar.YEAR) == Integer.parseInt(years.get(i))) {
+                    pop_wheel_yearlayout_year.setInitPosition(i);
+                    break;
+                }
+            }
+
+            pop_wheel_yearlayout_month.setNotLoop();
+            pop_wheel_yearlayout_month.setListener(index -> {
+                days.clear();
+                //当前月份最大天数
+                Calendar cl=Calendar.getInstance();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    cl.setTime(format.parse(years.get(pop_wheel_yearlayout_year.getSelectedItem())+"-"+months.get(index)+"-01"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                int dayCount=cl.getActualMaximum(Calendar.DATE);
+                for (int i=1;i<=dayCount;i++) {
+                    days.add(""+i);
+                }
+
+                if (pop_wheel_yearlayout_day.getSelectedItem()+1>dayCount) {
+                    pop_wheel_yearlayout_day.setInitPosition(0);
+                    pop_wheel_yearlayout_day.setTotalScrollYPosition(dayCount-1);
+                }
+                else {
+                    pop_wheel_yearlayout_day.setInitPosition(0);
+                    pop_wheel_yearlayout_day.setTotalScrollYPosition(pop_wheel_yearlayout_day.getSelectedItem());
+                }
+                pop_wheel_yearlayout_day.setItems(days);
+            });
+            pop_wheel_yearlayout_month.setViewPadding(SizeUtils.dp2px(30), SizeUtils.dp2px(15), SizeUtils.dp2px(30), SizeUtils.dp2px(15));
+            pop_wheel_yearlayout_month.setItems(months);
+            pop_wheel_yearlayout_month.setTextSize(18);
+            for (int i = 0; i < months.size(); i++) {
+                if (calendar_today.get(Calendar.MONTH)+1 == Integer.parseInt(months.get(i))) {
+                    pop_wheel_yearlayout_month.setInitPosition(i);
+                    break;
+                }
+            }
+
+            pop_wheel_yearlayout_day.setNotLoop();
+            pop_wheel_yearlayout_day.setViewPadding(SizeUtils.dp2px(30), SizeUtils.dp2px(15), SizeUtils.dp2px(30), SizeUtils.dp2px(15));
+            pop_wheel_yearlayout_day.setItems(days);
+            pop_wheel_yearlayout_day.setTextSize(18);
+            if (getArguments().getInt("type")==3) {
+                pop_wheel_yearlayout_day.setInitPosition(days.size()-1);
+            }
+            else if (getArguments().getInt("type")==6) {
+                for (int i = 0; i < days.size(); i++) {
+                    if (calendar_today.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(days.get(i))) {
+                        pop_wheel_yearlayout_day.setInitPosition(i);
+                        break;
+                    }
+                }
+            }
+
+            LinearLayout pop_morechoice= (LinearLayout) view.findViewById(R.id.pop_morechoice);
+            pop_morechoice.setVisibility(View.VISIBLE);
+            TextView pop_ok1= (TextView) view.findViewById(R.id.pop_ok1);
+            pop_ok1.setText(getArguments().getString("okTitle"));
+            pop_ok1.setOnClickListener(v -> {
+                if (onOKListener!=null) {
+                    onOKListener.onOKClick(years.get(pop_wheel_yearlayout_year.getSelectedItem())+"-"
+                            +months.get(pop_wheel_yearlayout_month.getSelectedItem())+"-"
+                            +days.get(pop_wheel_yearlayout_day.getSelectedItem()));
+                }
+                dismiss();
+            });
+            TextView pop_cancel1= (TextView) view.findViewById(R.id.pop_cancel1);
+            pop_cancel1.setText(getArguments().getString("cancelTitle"));
+            pop_cancel1.setOnClickListener(v -> {
+                if (onCancelListener!=null) {
+                    onCancelListener.onCancelClick();
+                }
+                dismiss();
+            });
+        }
         else if (getArguments().getInt("type")==4) {
             ArrayList<String> hours=new ArrayList<>();
             for (int i=0;i<24;i++) {
@@ -722,12 +905,12 @@ public class ActionSheetFragment extends Fragment {
         });
     }
 
-    private void show(FragmentManager manager, boolean isChild, final String tag) {
-        this.isChild=isChild;
-        if (manager.isDestroyed() || !isDismiss) {
+    private void show(FragmentActivity fragmentActivity, final String tag) {
+        if (fragmentActivity.isDestroyed() || !isDismiss) {
             return;
         }
         isDismiss=false;
+        manager = fragmentActivity.getSupportFragmentManager();
         new Handler().post(() -> {
             FragmentTransaction transaction=manager.beginTransaction();
             transaction.add(ActionSheetFragment.this, tag);
@@ -746,9 +929,9 @@ public class ActionSheetFragment extends Fragment {
                 return;
             }
             new Handler().post(() -> {
-                if (getManager(isChild) != null) {
-                    getManager(isChild).popBackStack();
-                    FragmentTransaction transaction=getManager(isChild).beginTransaction();
+                if (manager != null) {
+                    manager.popBackStack();
+                    FragmentTransaction transaction=manager.beginTransaction();
                     transaction.remove(ActionSheetFragment.this);
                     transaction.commitAllowingStateLoss();
                 }
@@ -766,7 +949,6 @@ public class ActionSheetFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("isDismiss", isDismiss);
-        outState.putBoolean("isChild", isChild);
     }
 
     @Override
@@ -776,22 +958,17 @@ public class ActionSheetFragment extends Fragment {
         new Handler().postDelayed(() -> ((ViewGroup) decorView).removeView(realView), 500);
     }
 
-    public static Builder build(FragmentManager manager) {
-        Builder builder=new Builder(manager);
+    public static Builder build() {
+        Builder builder=new Builder();
         return builder;
     }
 
     public static class Builder {
+        public Builder() {
 
-        FragmentManager manager;
-
-        public Builder(FragmentManager manager) {
-            this.manager=manager;
         }
 
         String tag="ActionSheetFragment";
-        // 区分从Activtiy而来还是Fragment而来
-        boolean isChild;
         // 标题
         String title="";
         // 确定
@@ -811,6 +988,9 @@ public class ActionSheetFragment extends Fragment {
         OnOKListener onOKListener;
         // 自定义视图
         View customerView;
+        //时间范围选择
+        long startRangeTime;
+        long endRangeTime;
 
         public Builder setTag(String tag) {
             this.tag = tag;
@@ -870,60 +1050,52 @@ public class ActionSheetFragment extends Fragment {
             return this;
         }
 
-        public Builder setChild(boolean child) {
-            isChild = child;
+        public Builder setTimeRange(long startRangeTime, long endRangeTime) {
+            this.startRangeTime = startRangeTime;
+            this.endRangeTime = endRangeTime;
             return this;
         }
 
-        public ActionSheetFragment show() {
+        public ActionSheetFragment show(FragmentActivity fragmentActivity) {
             ActionSheetFragment fragment=null;
             if (choice== CHOICE.ITEM) {
                 fragment=ActionSheetFragment.newItemInstance(title, items);
                 fragment.setOnItemClickListener(onItemClickListener);
                 fragment.setOnCancelListener(onCancelListener);
-                fragment.show(manager, isChild, tag);
             }
             if (choice== CHOICE.GRID) {
                 fragment=ActionSheetFragment.newGridInstance(title, items, images);
                 fragment.setOnItemClickListener(onItemClickListener);
-                fragment.show(manager, isChild, tag);
             }
             if (choice== CHOICE.BEFOREDATE) {
                 fragment=ActionSheetFragment.newBeforeDateInstance(title, okTitle, cancelTitle);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
-                fragment.show(manager, isChild, tag);
             }
             if (choice== CHOICE.AFTERDATE) {
                 fragment=ActionSheetFragment.newAfterDateInstance(title, okTitle, cancelTitle);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
-                fragment.show(manager, isChild, tag);
+            }
+            if (choice== CHOICE.DATERANGE) {
+                fragment=ActionSheetFragment.newDateRangeInstance(title, okTitle, cancelTitle, startRangeTime, endRangeTime);
+                fragment.setOnOKListener(onOKListener);
+                fragment.setOnCancelListener(onCancelListener);
             }
             if (choice== CHOICE.TIME) {
                 fragment=ActionSheetFragment.newTimeInstance(title, okTitle, cancelTitle);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
-                fragment.show(manager, isChild, tag);
             }
             if (choice== CHOICE.CUSTOMER) {
                 fragment=ActionSheetFragment.newCustomerInstance(title, okTitle, cancelTitle);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
                 fragment.setCustomerView(customerView);
-                fragment.show(manager, isChild, tag);
             }
             fragment.setCanDismiss(canDismiss);
+            fragment.show(fragmentActivity, tag);
             return fragment;
-        }
-    }
-
-    private FragmentManager getManager(boolean isChild) {
-        if (isChild) {
-            return getChildFragmentManager();
-        }
-        else {
-            return getFragmentManager();
         }
     }
 }

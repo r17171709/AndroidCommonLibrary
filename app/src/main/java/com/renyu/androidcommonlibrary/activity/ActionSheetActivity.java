@@ -71,17 +71,17 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                        }).show();
 
-//                ActionSheetUtils.showBeforeDate(getSupportFragmentManager(), false, "", "", "", new ActionSheetFragment.OnOKListener() {
-//                    @Override
-//                    public void onOKClick(Object value) {
-//
-//                    }
-//                }, new ActionSheetFragment.OnCancelListener() {
-//                    @Override
-//                    public void onCancelClick() {
-//
-//                    }
-//                });
+                ActionSheetUtils.showDateRange(this, "", "", "", 946656000000L, 1924876800000L, new ActionSheetFragment.OnOKListener() {
+                    @Override
+                    public void onOKClick(Object value) {
+
+                    }
+                }, new ActionSheetFragment.OnCancelListener() {
+                    @Override
+                    public void onCancelClick() {
+
+                    }
+                });
                 break;
         }
     }
@@ -97,16 +97,16 @@ public class ActionSheetActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState!=null) {
-            if (getSupportFragmentManager().getFragments().size()>0) {
-                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-                    if (fragment instanceof ActionSheetFragment) {
-                        View view_threeloopertitle_floor = addAction();
-                        ((ActionSheetFragment) fragment).restoreCustomerView(view_threeloopertitle_floor);
-                    }
-                }
-            }
-        }
+//        if (savedInstanceState!=null) {
+//            if (getSupportFragmentManager().getFragments().size()>0) {
+//                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+//                    if (fragment instanceof ActionSheetFragment) {
+//                        View view_threeloopertitle_floor = addAction();
+//                        ((ActionSheetFragment) fragment).restoreCustomerView(view_threeloopertitle_floor);
+//                    }
+//                }
+//            }
+//        }
     }
 
     @NonNull
