@@ -13,7 +13,6 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.views.actionsheet.ActionSheetFragment;
-import com.renyu.commonlibrary.views.actionsheet.ActionSheetUtils;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
 import com.renyu.commonlibrary.views.wheelview.OnItemSelectedListener;
 
@@ -55,33 +54,33 @@ public class ActionSheetActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_click:
-//                View view_threeloopertitle_floor = addAction();
-//                ActionSheetFragment.build(getSupportFragmentManager())
-//                        .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
-//                        .setCanDismiss(false)
-//                        .setOnOKListener(value -> {
-//
-//                        })
-//                        .setCustomerView(view_threeloopertitle_floor)
-//                        .show();
+                View view_threeloopertitle_floor = addAction();
+                ActionSheetFragment.build()
+                        .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
+                        .setCanDismiss(false)
+                        .setOnOKListener(value -> {
 
-//                ActionSheetFragment.build(getSupportFragmentManager()).setChoice(ActionSheetFragment.CHOICE.GRID).setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
+                        })
+                        .setCustomerView(view_threeloopertitle_floor)
+                        .show(this);
+
+//                ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.GRID).setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
 //                        new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
 //                        position -> {
 //
-//                        }).show();
+//                        }).show(this);
 
-                ActionSheetUtils.showDateRange(this, "", "", "", 946656000000L, 1924876800000L, new ActionSheetFragment.OnOKListener() {
-                    @Override
-                    public void onOKClick(Object value) {
-
-                    }
-                }, new ActionSheetFragment.OnCancelListener() {
-                    @Override
-                    public void onCancelClick() {
-
-                    }
-                });
+//                ActionSheetUtils.showDateRange(this, "", "取消", "确定", 946656000000L, 1924876800000L, new ActionSheetFragment.OnOKListener() {
+//                    @Override
+//                    public void onOKClick(Object value) {
+//                        Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show();
+//                    }
+//                }, new ActionSheetFragment.OnCancelListener() {
+//                    @Override
+//                    public void onCancelClick() {
+//
+//                    }
+//                });
                 break;
         }
     }
@@ -97,16 +96,16 @@ public class ActionSheetActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (savedInstanceState!=null) {
-//            if (getSupportFragmentManager().getFragments().size()>0) {
-//                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-//                    if (fragment instanceof ActionSheetFragment) {
-//                        View view_threeloopertitle_floor = addAction();
-//                        ((ActionSheetFragment) fragment).restoreCustomerView(view_threeloopertitle_floor);
-//                    }
-//                }
-//            }
-//        }
+        if (savedInstanceState!=null) {
+            if (getSupportFragmentManager().getFragments().size()>0) {
+                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                    if (fragment instanceof ActionSheetFragment) {
+                        View view_threeloopertitle_floor = addAction();
+                        ((ActionSheetFragment) fragment).restoreCustomerView(view_threeloopertitle_floor);
+                    }
+                }
+            }
+        }
     }
 
     @NonNull
