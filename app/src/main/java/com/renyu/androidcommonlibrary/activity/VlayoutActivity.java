@@ -1,16 +1,12 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.alibaba.android.vlayout.layout.StickyLayoutHelper;
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.adapter.HeaderViewAdapter;
 import com.renyu.androidcommonlibrary.adapter.ItemViewAdapter;
@@ -29,8 +25,6 @@ import butterknife.BindView;
 
 public class VlayoutActivity extends BaseActivity {
 
-    @BindView(R.id.swipe_vlayout)
-    SwipyRefreshLayout swipe_vlayout;
     @BindView(R.id.rv_vlayout)
     RecyclerView rv_vlayout;
 
@@ -65,36 +59,21 @@ public class VlayoutActivity extends BaseActivity {
         adapters.add(new ItemViewAdapter(this, new LinearLayoutHelper(), linearLayoutBeans2));
         delegateAdapter.setAdapters(adapters);
 
-        swipe_vlayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh(SwipyRefreshLayoutDirection direction) {
-//                linearLayoutBeans1.addAll(getBeans());
-//                adapters.get(1).notifyDataSetChanged();
-
-                ArrayList<Object> linearLayoutBeansHeader1=new ArrayList<>();
-                linearLayoutBeansHeader1.add("cccc3");
-                ArrayList<Object> linearLayoutBeans1=new ArrayList<>();
-                linearLayoutBeans1.addAll(getBeans());
-                Log.d("VlayoutActivity", "linearLayoutBeans2.size():" + linearLayoutBeans1.size());
-                ArrayList<Object> linearLayoutBeansHeader2=new ArrayList<>();
-                linearLayoutBeansHeader2.add("cccc4");
-                ArrayList<Object> linearLayoutBeans2=new ArrayList<>();
-                linearLayoutBeans2.addAll(getBeans());
-                Log.d("VlayoutActivity", "linearLayoutBeans2.size():" + linearLayoutBeans2.size());
-                delegateAdapter.addAdapter(new HeaderViewAdapter(VlayoutActivity.this, new StickyLayoutHelper(), linearLayoutBeansHeader1));
-                delegateAdapter.addAdapter(new ItemViewAdapter(VlayoutActivity.this, new LinearLayoutHelper(), linearLayoutBeans1));
-                delegateAdapter.addAdapter(new HeaderViewAdapter(VlayoutActivity.this, new StickyLayoutHelper(), linearLayoutBeansHeader2));
-                delegateAdapter.addAdapter(new ItemViewAdapter(VlayoutActivity.this, new LinearLayoutHelper(), linearLayoutBeans2));
-                delegateAdapter.notifyDataSetChanged();
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipe_vlayout.setRefreshing(false);
-                    }
-                }, 1000);
-            }
-        });
+//        ArrayList<Object> linearLayoutBeansHeader1=new ArrayList<>();
+//        linearLayoutBeansHeader1.add("cccc3");
+//        ArrayList<Object> linearLayoutBeans1=new ArrayList<>();
+//        linearLayoutBeans1.addAll(getBeans());
+//        Log.d("VlayoutActivity", "linearLayoutBeans2.size():" + linearLayoutBeans1.size());
+//        ArrayList<Object> linearLayoutBeansHeader2=new ArrayList<>();
+//        linearLayoutBeansHeader2.add("cccc4");
+//        ArrayList<Object> linearLayoutBeans2=new ArrayList<>();
+//        linearLayoutBeans2.addAll(getBeans());
+//        Log.d("VlayoutActivity", "linearLayoutBeans2.size():" + linearLayoutBeans2.size());
+//        delegateAdapter.addAdapter(new HeaderViewAdapter(VlayoutActivity.this, new StickyLayoutHelper(), linearLayoutBeansHeader1));
+//        delegateAdapter.addAdapter(new ItemViewAdapter(VlayoutActivity.this, new LinearLayoutHelper(), linearLayoutBeans1));
+//        delegateAdapter.addAdapter(new HeaderViewAdapter(VlayoutActivity.this, new StickyLayoutHelper(), linearLayoutBeansHeader2));
+//        delegateAdapter.addAdapter(new ItemViewAdapter(VlayoutActivity.this, new LinearLayoutHelper(), linearLayoutBeans2));
+//        delegateAdapter.notifyDataSetChanged();
     }
 
     private ArrayList<Object> getBeans() {

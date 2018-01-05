@@ -76,6 +76,8 @@ dependencies {
     compile 'com.bigkoo:convenientbanner:2.0.5@aar'
     // ViewPagerTransforms  Library containing common animations needed for transforming ViewPager scrolling for Android v13+.
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+    // SwipyRefreshLayout  A SwipeRefreshLayout extension that allows to swipe in both direction
+    compile 'com.github.orangegangsters:swipy:1.2.3@aar'
     // CircleIndicator  A lightweight viewpager indicator like in nexus 5 launcher
     compile 'me.relex:circleindicator:1.2.2@aar'
     // DiscreteScrollView  Scrollable list of items, where current item is centered and can be changed using swipes
