@@ -35,14 +35,19 @@ public abstract class BaseFragment extends Fragment {
 
             httpHelper=OKHttpHelper.getInstance();
             retrofit = Retrofit2Utils.getBaseRetrofit();
-
-            initParams();
-            loadData();
         }
         ViewGroup parent= (ViewGroup) view.getParent();
         if (parent!=null) {
             parent.removeView(view);
         }
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initParams();
+        loadData();
     }
 }
