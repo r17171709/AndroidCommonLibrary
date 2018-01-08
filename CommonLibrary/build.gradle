@@ -1,7 +1,18 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.novoda.bintray-release'
 
 group='com.github.renyu'
+
+publish {
+    userOrg = 'r17171709'
+    groupId = 'com.github.renyu'
+    artifactId = 'AndroidCommonLibrary'
+    publishVersion = '1.9.12'
+    desc = 'Common Library'
+    website = 'https://github.com/r17171709'
+    repoName = 'AndroidCommonLibrary'
+}
 
 android {
     compileSdkVersion 26
