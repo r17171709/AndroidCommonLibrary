@@ -55,41 +55,41 @@ class OKHttpActivity : BaseActivity() {
             temp.version = "3"
             temp.forced = 0
             temp.url = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk"
-            AppUpdateDialogFragment.getInstance(temp, 1).show(supportFragmentManager, "update")
+            AppUpdateDialogFragment.getInstance(temp, 1, R.mipmap.ic_launcher, R.mipmap.ic_launcher).show(this)
         }
 
         // 下载
-        httpHelper.okHttpUtils.asyncDownload("http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk",
-                InitParams.FILE_PATH,
-                object : OKHttpUtils.RequestListener {
-                    override fun onStart() {
-
-                    }
-
-                    override fun onSuccess(string: String?) {
-                        println("onSuccess:$string")
-                    }
-
-                    override fun onError() {
-
-                    }
-                }) { progress, _, _ -> println("1:$progress")}
-
-        httpHelper.okHttpUtils.asyncDownload("https://bos.pgzs.com/cloudsto/weitest/official_website6.0.3.268.apk",
-                InitParams.FILE_PATH,
-                object : OKHttpUtils.RequestListener {
-                    override fun onStart() {
-
-                    }
-
-                    override fun onSuccess(string: String?) {
-                        println("onSuccess:$string")
-                    }
-
-                    override fun onError() {
-
-                    }
-                }) { progress, _, _ -> println("2:$progress")}
+//        httpHelper.okHttpUtils.asyncDownload("http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk",
+//                InitParams.FILE_PATH,
+//                object : OKHttpUtils.RequestListener {
+//                    override fun onStart() {
+//
+//                    }
+//
+//                    override fun onSuccess(string: String?) {
+//                        println("onSuccess:$string")
+//                    }
+//
+//                    override fun onError() {
+//
+//                    }
+//                }) { progress, _, _ -> println("1:$progress")}
+//
+//        httpHelper.okHttpUtils.asyncDownload("https://bos.pgzs.com/cloudsto/weitest/official_website6.0.3.268.apk",
+//                InitParams.FILE_PATH,
+//                object : OKHttpUtils.RequestListener {
+//                    override fun onStart() {
+//
+//                    }
+//
+//                    override fun onSuccess(string: String?) {
+//                        println("onSuccess:$string")
+//                    }
+//
+//                    override fun onError() {
+//
+//                    }
+//                }) { progress, _, _ -> println("2:$progress")}
 
         // 上传
         for (i in 0 until pics.size) {

@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -840,7 +839,6 @@ public class LoadingDialog extends DialogFragment {
     }
 
     private void dismissDialog() {
-        Log.d("LoadingDialog", "" + isDismiss);
         try {
             if (isDismiss) {
                 return;

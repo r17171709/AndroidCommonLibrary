@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -60,7 +61,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
     // 是否为首次刷新
     private boolean isFirstRefresh=true;
 
-    FragmentManager fragmentManager;
+    FragmentManager manager;
 
     // 是否已经关闭
     boolean isDismiss=true;
@@ -83,11 +84,13 @@ public class AppUpdateDialogFragment extends DialogFragment {
         this.dismissListener = dismissListener;
     }
 
-    public static AppUpdateDialogFragment getInstance(UpdateModel model, int ids) {
+    public static AppUpdateDialogFragment getInstance(UpdateModel model, int ids, int smallIcon, int largeIcon) {
         AppUpdateDialogFragment fragment = new AppUpdateDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("model", model);
         bundle.putInt("ids", ids);
+        bundle.putInt("smallIcon", smallIcon);
+        bundle.putInt("largeIcon", largeIcon);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -136,6 +139,8 @@ public class AppUpdateDialogFragment extends DialogFragment {
             bundle.putBoolean("download", false);
             bundle.putInt("ids", ids);
             bundle.putString("name", model.getNotificationTitle());
+            bundle.putInt("smallIcon", getArguments().getInt("smallIcon"));
+            bundle.putInt("largeIcon", getArguments().getInt("largeIcon"));
             intent.putExtras(bundle);
             getActivity().startService(intent);
 
@@ -211,6 +216,8 @@ public class AppUpdateDialogFragment extends DialogFragment {
                     bundle.putBoolean("download", true);
                     bundle.putInt("ids", ids);
                     bundle.putString("name", model.getNotificationTitle());
+                    bundle.putInt("smallIcon", getArguments().getInt("smallIcon"));
+                    bundle.putInt("largeIcon", getArguments().getInt("largeIcon"));
                     intent.putExtras(bundle);
                     getActivity().startService(intent);
                     isFirstRefresh=true;
@@ -340,12 +347,16 @@ public class AppUpdateDialogFragment extends DialogFragment {
         }
     }
 
-    public void show(FragmentManager manager, final String tag) {
-        this.fragmentManager=manager;
-        if (manager.isDestroyed() || !isDismiss) {
+    public void show(FragmentActivity fragmentActivity) {
+        show(fragmentActivity, "update");
+    }
+
+    public void show(FragmentActivity fragmentActivity, final String tag) {
+        if (fragmentActivity.isDestroyed() || !isDismiss) {
             return;
         }
         isDismiss=false;
+        manager = fragmentActivity.getSupportFragmentManager();
         new Handler().post(() -> {
             FragmentTransaction transaction=manager.beginTransaction();
             transaction.add(AppUpdateDialogFragment.this, tag);
@@ -354,25 +365,48 @@ public class AppUpdateDialogFragment extends DialogFragment {
         });
     }
 
-    public void dismiss() {
+    private void dismissDialog() {
         try {
             if (isDismiss) {
                 return;
             }
             isDismiss=true;
-            if (getActivity()!=null && getActivity().isFinishing()) {
+            if (getActivity() == null || getActivity().isFinishing()) {
                 return;
             }
             new Handler().post(() -> {
-                if (fragmentManager!=null) {
-                    fragmentManager.popBackStack();
-                    FragmentTransaction transaction=fragmentManager.beginTransaction();
+                if (manager != null) {
+                    manager.popBackStack();
+                    FragmentTransaction transaction=manager.beginTransaction();
                     transaction.remove(AppUpdateDialogFragment.this);
                     transaction.commitAllowingStateLoss();
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("isDismiss", isDismiss);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState!=null) {
+            isDismiss=savedInstanceState.getBoolean("isDismiss");
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                manager = activity.getSupportFragmentManager();
+            }
+            try {
+                dismissDialog();
+            } catch (Exception e) {
+
+            }
         }
     }
 }
