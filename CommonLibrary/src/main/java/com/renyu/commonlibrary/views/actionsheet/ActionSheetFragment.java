@@ -898,7 +898,7 @@ public class ActionSheetFragment extends Fragment {
                     ArgbEvaluator argbEvaluator=new ArgbEvaluator();
                     realView.setBackgroundColor((Integer) argbEvaluator.evaluate(animation.getAnimatedFraction(), Color.parseColor("#00000000"), Color.parseColor("#70000000")));
                     //当底部存在导航栏并且decorView获取的高度不包含底部状态栏的时候，需要去掉这个高度差
-                    if (BarUtils.getNavBarHeight(pop_child_layout.getContext())>0 && decorView.getMeasuredHeight()!=ScreenUtils.getScreenHeight()) {
+                    if (BarUtils.getNavBarHeight(pop_child_layout.getContext())>0) {
                         pop_child_layout.setTranslationY((moveHeight+BarUtils.getNavBarHeight(pop_child_layout.getContext()))*(1-animation.getAnimatedFraction())-BarUtils.getNavBarHeight(pop_child_layout.getContext()));
                     }
                     else {
