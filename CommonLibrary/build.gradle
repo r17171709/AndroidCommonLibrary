@@ -8,7 +8,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '1.9.13'
+    publishVersion = '1.9.14'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -54,7 +54,7 @@ dependencies {
     // 添加支持multidex的兼容包
     compile 'com.android.support:multidex:1.0.2'
     // 工具类
-    compile 'com.blankj:utilcode:1.10.0'
+    compile 'com.blankj:utilcode:1.11.0'
     // retrofit2
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
