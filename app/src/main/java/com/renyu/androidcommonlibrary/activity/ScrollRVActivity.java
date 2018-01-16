@@ -109,10 +109,10 @@ public class ScrollRVActivity extends BaseActivity {
         MarqueeFactory<TextView, String> marqueeFactory1 = new NoticeMF(this);
         marquee_scrollrv.setMarqueeFactory(marqueeFactory1);
         marquee_scrollrv.startFlipping();
-        marqueeFactory1.setOnItemClickListener(new MarqueeFactory.OnItemClickListener<TextView, String>() {
+        marquee_scrollrv.setOnItemClickListener(new com.gongwen.marqueen.util.OnItemClickListener() {
             @Override
-            public void onItemClickListener(MarqueeFactory.ViewHolder<TextView, String> holder) {
-                Toast.makeText(ScrollRVActivity.this, holder.data, Toast.LENGTH_SHORT).show();
+            public void onItemClickListener(View mView, Object mData, int mPosition) {
+                Toast.makeText(ScrollRVActivity.this, mData.toString(), Toast.LENGTH_SHORT).show();
             }
         });
         marqueeFactory1.setData(info);
