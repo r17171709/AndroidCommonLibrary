@@ -1,5 +1,6 @@
 package com.renyu.commonlibrary.views.dialog;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -70,7 +71,7 @@ public class LoadingDialog extends DialogFragment {
     // 自定义的View
     View customerView;
 
-    //是否需要关闭
+    // 是否需要关闭
     boolean isChoiceNeedClose = false;
 
     public interface OnDialogCancel {
@@ -356,11 +357,7 @@ public class LoadingDialog extends DialogFragment {
             if (onDialogCancelListener != null) {
                 onDialogCancelListener.onCancel();
             }
-            try {
-                dismissDialog();
-            } catch (Exception e) {
-
-            }
+            dismissDialog();
         });
         loading_container_progressbar= (ProgressBar) view.findViewById(R.id.loading_container_progressbar);
         loading_container_tips= (TextView) view.findViewById(R.id.loading_container_tips);
@@ -374,11 +371,7 @@ public class LoadingDialog extends DialogFragment {
                 onDialogPosListener.onPos();
             }
             if (isChoiceNeedClose) {
-                try {
-                    dismissDialog();
-                } catch (Exception e) {
-
-                }
+                dismissDialog();
             }
         });
         choice_container_negative = (Button) view.findViewById(R.id.choice_container_negative);
@@ -386,11 +379,7 @@ public class LoadingDialog extends DialogFragment {
             if (onDialogNegListener != null) {
                 onDialogNegListener.onNeg();
             }
-            try {
-                dismissDialog();
-            } catch (Exception e) {
-
-            }
+            dismissDialog();
         });
         choice_container_line = view.findViewById(R.id.choice_container_line);
 
@@ -491,11 +480,7 @@ public class LoadingDialog extends DialogFragment {
                 @Override
                 public void accept(Long aLong) throws Exception {
                     if (manager != null) {
-                        try {
-                            dismissDialog();
-                        } catch (Exception e) {
-
-                        }
+                        dismissDialog();
                         if (onDialogDismissListener != null) {
                             onDialogDismissListener.onDismiss();
                         }
@@ -563,11 +548,7 @@ public class LoadingDialog extends DialogFragment {
             toast_text_container.setVisibility(View.VISIBLE);
             toast_text_container_content.setText(text);
             Observable.timer(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-                try {
-                    dismissDialog();
-                } catch (Exception e) {
-
-                }
+                dismissDialog();
                 if (onDialogDismissListener != null) {
                     onDialogDismissListener.onDismiss();
                 }
@@ -631,11 +612,7 @@ public class LoadingDialog extends DialogFragment {
             toast_textimage_container_content.setText(text);
             Observable.timer(2000, TimeUnit.MILLISECONDS)
                     .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-                try {
-                    dismissDialog();
-                } catch (Exception e) {
-
-                }
+                dismissDialog();
                 if (onDialogDismissListener != null) {
                     onDialogDismissListener.onDismiss();
                 }
@@ -792,12 +769,7 @@ public class LoadingDialog extends DialogFragment {
     }
 
     public void setFinish() {
-        try {
-            dismissDialog();
-        }
-        catch (Exception e) {
-
-        }
+        dismissDialog();
         if (onDialogDismissListener != null) {
             onDialogDismissListener.onDismiss();
         }
@@ -828,36 +800,26 @@ public class LoadingDialog extends DialogFragment {
         if (fragmentActivity.isDestroyed() || !isDismiss) {
             return;
         }
-        isDismiss=false;
         manager = fragmentActivity.getSupportFragmentManager();
         new Handler().post(() -> {
-            FragmentTransaction transaction=manager.beginTransaction();
-            transaction.add(LoadingDialog.this, tag);
-            transaction.addToBackStack(null);
-            transaction.commitAllowingStateLoss();
+            super.show(manager, tag);
+
+            isDismiss=false;
         });
     }
 
     private void dismissDialog() {
-        try {
+        new Handler().post(() -> {
             if (isDismiss) {
                 return;
             }
             isDismiss=true;
-            if (getActivity() == null || getActivity().isFinishing()) {
-                return;
+            try {
+                dismissAllowingStateLoss();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            new Handler().post(() -> {
-                if (manager != null) {
-                    manager.popBackStack();
-                    FragmentTransaction transaction=manager.beginTransaction();
-                    transaction.remove(LoadingDialog.this);
-                    transaction.commitAllowingStateLoss();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     @Override
@@ -875,10 +837,14 @@ public class LoadingDialog extends DialogFragment {
             if (activity != null) {
                 manager = activity.getSupportFragmentManager();
             }
-            try {
-                dismissDialog();
-            } catch (Exception e) {
+            dismissDialog();
+        }
 
+        InputMethodManager manager= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (manager.isActive()) {
+            View focusView=getActivity().getCurrentFocus();
+            if (focusView!=null) {
+                manager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
             }
         }
     }

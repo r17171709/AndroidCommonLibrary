@@ -19,6 +19,8 @@ import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends BaseActivity {
 
+    LoadingDialog loadingDialog;
+
     @Override
     public void initParams() {
 
@@ -65,12 +67,15 @@ public class MainActivity extends BaseActivity {
                         .subscribe(new Observer<ExampleAResponse>() {
                             @Override
                             public void onSubscribe(Disposable d) {
+                                loadingDialog = LoadingDialog.getInstance_TextLoading("Hello");
+                                loadingDialog.show(MainActivity.this);
 
                             }
 
                             @Override
                             public void onNext(ExampleAResponse value) {
                                 Toast.makeText(MainActivity.this, value.getU_id(), Toast.LENGTH_SHORT).show();
+                                loadingDialog.setCloseChoice("title", "确定", "取消");
                             }
 
                             @Override
@@ -90,7 +95,6 @@ public class MainActivity extends BaseActivity {
                 finish();
             }
         });
-        LoadingDialog.getInstance_TextLoading("Hello").show(MainActivity.this);
     }
 
     @Override

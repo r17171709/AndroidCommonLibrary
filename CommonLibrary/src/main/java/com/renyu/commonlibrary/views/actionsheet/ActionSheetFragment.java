@@ -181,14 +181,6 @@ public class ActionSheetFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        InputMethodManager manager= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (manager.isActive()) {
-            View focusView=getActivity().getCurrentFocus();
-            if (focusView!=null) {
-                manager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
-            }
-        }
-
         realView=inflater.inflate(R.layout.view_actionsheet, container, false);
         initViews(realView);
         decorView=getActivity().getWindow().getDecorView();
@@ -211,6 +203,13 @@ public class ActionSheetFragment extends Fragment {
                 dismiss();
             } catch (Exception e) {
 
+            }
+        }
+        InputMethodManager manager= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (manager.isActive()) {
+            View focusView=getActivity().getCurrentFocus();
+            if (focusView!=null) {
+                manager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
             }
         }
     }
