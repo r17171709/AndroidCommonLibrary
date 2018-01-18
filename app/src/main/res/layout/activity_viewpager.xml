@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/layout_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
     <com.renyu.commonlibrary.views.LineIndicatorView
-        android:id="@+id/indicator_index"
+        android:id="@+id/indicator_vp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="15dip"
         android:layout_alignParentBottom="true">
 
     </com.renyu.commonlibrary.views.LineIndicatorView>
-</LinearLayout>
+</RelativeLayout>
