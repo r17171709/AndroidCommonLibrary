@@ -12,15 +12,6 @@
         android:background="@android:color/transparent"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
-    <ImageButton
-        android:id="@+id/ib_nav_right"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:background="@android:color/transparent"
-        android:paddingStart="16dip"
-        android:paddingEnd="16dip"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
     <TextView
         android:id="@+id/tv_nav_right"
         android:layout_centerVertical="true"
@@ -31,13 +22,16 @@
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
-    <TextView
-        android:id="@+id/tv_nav_title"
+    <ImageButton
+        android:id="@+id/ib_nav_right"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toLeftOf="@id/tv_nav_right"
+        android:background="@android:color/transparent"
+        android:paddingStart="16dip"
+        android:paddingEnd="16dip"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="16sp"
-        android:textColor="#333333"/>
+        android:layout_height="match_parent" />
     <LinearLayout
         android:id="@+id/layout_nav_right"
         android:layout_width="wrap_content"
@@ -52,6 +46,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
+    <TextView
+        android:id="@+id/tv_nav_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="250dip"
+        android:layout_centerInParent="true"
+        android:textSize="16sp"
+        android:singleLine="true"
+        android:textColor="#333333"/>
     <View
         android:id="@+id/view_nav_line"
         android:layout_alignParentBottom="true"
