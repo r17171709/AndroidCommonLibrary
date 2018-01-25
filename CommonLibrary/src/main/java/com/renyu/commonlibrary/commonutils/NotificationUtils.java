@@ -1,12 +1,15 @@
 package com.renyu.commonlibrary.commonutils;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
@@ -32,6 +35,9 @@ public class NotificationUtils {
 
 	private static HashMap<String, Integer> lastPercentMaps;
 
+	public static final String id = "channel_default";
+	public static final String name = "channel_name_default";
+
 	/**
 	 * 通知栏中心调度
 	 * @param context
@@ -43,6 +49,9 @@ public class NotificationUtils {
 				if (center==null) {
 					center=new NotificationUtils();
 					manager=(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+					if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+						createNotificationChannel();
+					}
 					builders=new HashMap<>();
 					lastPercentMaps=new HashMap<>();
 				}
@@ -62,9 +71,21 @@ public class NotificationUtils {
 		return false;
 	}
 
+	@TargetApi(Build.VERSION_CODES.O)
+	private static void createNotificationChannel(){
+		NotificationChannel channel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH);
+		// 是否在桌面icon右上角展示小红点
+		channel.enableLights(true);
+		// 小红点颜色
+		channel.setLightColor(Color.RED);
+		// 是否在久按桌面图标时显示此渠道的通知
+		channel.setShowBadge(true);
+		manager.createNotificationChannel(channel);
+	}
+
 	@NonNull
-	private NotificationCompat.Builder getSimpleBuilder(Context context, String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent) {
-		NotificationCompat.Builder builder=new NotificationCompat.Builder(context);
+	private NotificationCompat.Builder getSimpleBuilder(Context context, String ticker, String title, String content, int color, int smallIcon, int largeIcon, String channelId, Intent intent) {
+		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, channelId);
 		builder.setTicker(ticker);
 		builder.setContentTitle(title);
 		builder.setContentText(content);
@@ -89,7 +110,7 @@ public class NotificationUtils {
 	 * @param content
 	 */
 	public void createNormalNotification(Context context, String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
@@ -111,7 +132,7 @@ public class NotificationUtils {
 										 int color, int smallIcon, int largeIcon,
 										 int actionIcon1, String actionTitle1, Class actionClass1,
 										 Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
 		builder.addAction(actionIcon1, actionTitle1, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass1), PendingIntent.FLAG_UPDATE_CURRENT));
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
@@ -122,7 +143,7 @@ public class NotificationUtils {
 										  int actionIcon1, String actionTitle1, Class actionClass1,
 										  int actionIcon2, String actionTitle2, Class actionClass2,
 										  Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
 		builder.addAction(actionIcon1, actionTitle1, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass1), PendingIntent.FLAG_UPDATE_CURRENT));
 		builder.addAction(actionIcon2, actionTitle2, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass2), PendingIntent.FLAG_UPDATE_CURRENT));
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
@@ -144,7 +165,7 @@ public class NotificationUtils {
 										   String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
 										   int max, int progress, Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
 		builder.setProgress(max, progress, false);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
@@ -163,7 +184,7 @@ public class NotificationUtils {
 														String ticker, String title, String content,
 														int color, int smallIcon, int largeIcon,
 														Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
 		builder.setProgress(0, 0, true);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
@@ -190,7 +211,7 @@ public class NotificationUtils {
 		style.bigText(bigText);
 		style.setBigContentTitle(bigContentTitle);
 		style.setSummaryText(summaryText);
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
 		builder.setStyle(style);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
@@ -219,7 +240,7 @@ public class NotificationUtils {
 		style.bigPicture(BitmapFactory.decodeResource(context.getResources(), bigPicture));
 		style.setBigContentTitle(bigContentTitle);
 		style.setSummaryText(summaryText);
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
 		builder.setStyle(style);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
@@ -248,7 +269,7 @@ public class NotificationUtils {
 		}
 		style.setBigContentTitle(bigContentTitle);
 		style.setSummaryText(summaryText);
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
 		builder.setStyle(style);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
@@ -268,7 +289,7 @@ public class NotificationUtils {
 		views.setInt(R.id.no_title, "setTextColor", isDarkNotificationTheme(context)?Color.WHITE:Color.BLACK);
 		views.setTextViewText(R.id.no_pb_num, "0%");
 		views.setInt(R.id.no_pb_num, "setTextColor", isDarkNotificationTheme(context)?Color.WHITE:Color.BLACK);
-		NotificationCompat.Builder builder=new NotificationCompat.Builder(context);
+		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.id);
 		builder.setSmallIcon(smallIcon);
 		builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon));
 		builder.setWhen(System.currentTimeMillis());
@@ -335,6 +356,11 @@ public class NotificationUtils {
 		manager.cancelAll();
 		builders.clear();
 		lastPercentMaps.clear();
+	}
+
+	@TargetApi(Build.VERSION_CODES.O)
+	public void deleteChannel(String id) {
+		manager.deleteNotificationChannel(id);
 	}
 
 	/**

@@ -2,6 +2,8 @@ package com.renyu.androidcommonlibrary.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.FileUtils;
@@ -10,20 +12,27 @@ import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
 import com.renyu.androidcommonlibrary.impl.X5WebAppInterface;
 import com.renyu.commonlibrary.baseact.BaseActivity;
+import com.renyu.commonlibrary.commonutils.NotificationUtils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.renyu.commonlibrary.views.dialog.LoadingDialog;
 
+import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends BaseActivity {
 
+    @BindView(R.id.tv_hello)
+    TextView tv_hello;
+
     LoadingDialog loadingDialog;
 
     @Override
     public void initParams() {
-
+        tv_hello.setOnClickListener(v -> {
+            NotificationUtils.getNotificationCenter(this).createNormalNotification(this, "ticker", "title", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new Intent());
+        });
     }
 
     @Override
