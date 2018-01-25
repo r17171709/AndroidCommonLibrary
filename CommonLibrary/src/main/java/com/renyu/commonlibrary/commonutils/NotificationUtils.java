@@ -1,6 +1,5 @@
 package com.renyu.commonlibrary.commonutils;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,6 +11,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -71,7 +71,7 @@ public class NotificationUtils {
 		return false;
 	}
 
-	@TargetApi(Build.VERSION_CODES.O)
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	private static void createNotificationChannel(){
 		NotificationChannel channel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH);
 		// 是否在桌面icon右上角展示小红点
@@ -358,7 +358,7 @@ public class NotificationUtils {
 		lastPercentMaps.clear();
 	}
 
-	@TargetApi(Build.VERSION_CODES.O)
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	public void deleteChannel(String id) {
 		manager.deleteNotificationChannel(id);
 	}
