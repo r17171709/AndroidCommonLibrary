@@ -15,10 +15,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.RemoteViews;
 import android.widget.TextView;
-
-import com.renyu.commonlibrary.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -283,25 +280,19 @@ public class NotificationUtils {
 		if (checkContainId(id)) {
 			return;
 		}
-		RemoteViews views=new RemoteViews(context.getPackageName(), R.layout.view_notification);
-		views.setProgressBar(R.id.no_pb, 100, 0, false);
-		views.setTextViewText(R.id.no_title, title);
-		views.setInt(R.id.no_title, "setTextColor", isDarkNotificationTheme(context)?Color.WHITE:Color.BLACK);
-		views.setTextViewText(R.id.no_pb_num, "0%");
-		views.setInt(R.id.no_pb_num, "setTextColor", isDarkNotificationTheme(context)?Color.WHITE:Color.BLACK);
 		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.id);
 		builder.setSmallIcon(smallIcon);
 		builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon));
 		builder.setWhen(System.currentTimeMillis());
 		builder.setPriority(NotificationCompat.PRIORITY_MAX);
 		builder.setColor(color);
-		builder.setContentTitle(title);
 		builder.setOngoing(true);
 		builder.setTicker(title);
-		builder.setContentText(title);
 		builder.setDefaults(Notification.DEFAULT_LIGHTS);
-		builder.setContent(views);
+		builder.setContentTitle(title);
+		builder.setProgress(100, 0,false);
 		builder.setAutoCancel(false);
+		builder.setShowWhen(false);
 		builder.setContentIntent(PendingIntent.getBroadcast(context, (int) SystemClock.uptimeMillis(), new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
 		manager.notify(id, builder.build());
 		builders.put(""+id, builder);
@@ -310,10 +301,11 @@ public class NotificationUtils {
 
 	/**
 	 * 更新相应id的通知栏
-	 * @param context
+	 * @param persent
 	 * @param id
+	 * @param title
 	 */
-	public void updateDownloadNotification(Context context, int id, int persent, String title) {
+	public void updateDownloadNotification(int id, int persent, String title) {
 		if (!checkContainId(id)) {
 			return;
 		}
@@ -328,14 +320,10 @@ public class NotificationUtils {
 		else {
 			return;
 		}
-		RemoteViews views=new RemoteViews(context.getPackageName(), R.layout.view_notification);
-		views.setProgressBar(R.id.no_pb, 100, persent, false);
-		views.setTextViewText(R.id.no_title, title);
-		views.setInt(R.id.no_title, "setTextColor", isDarkNotificationTheme(context)?Color.WHITE:Color.BLACK);
-		views.setTextViewText(R.id.no_pb_num, persent+"%");
-		views.setInt(R.id.no_pb_num, "setTextColor", isDarkNotificationTheme(context)?Color.WHITE:Color.BLACK);
 		NotificationCompat.Builder builder=builders.get(""+id);
-		builder.setContent(views);
+		builder.setContentTitle(title);
+		builder.setContentText("已下载"+persent+"%");
+		builder.setProgress(100, persent,false);
 		manager.notify(id, builder.build());
 	}
 

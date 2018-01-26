@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,7 +144,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
             getActivity().startService(intent);
 
             if (isCanCancel) {
-                dismiss();
+                dismissDialog();
             } else {
                 if (mandatoryUpdateListener!=null) {
                     mandatoryUpdateListener.something();
@@ -170,7 +169,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
             if (isCanCancel) {
                 custom_positiveButton.setText("后台下载");
                 custom_positiveButton.setOnClickListener(v -> {
-                    dismiss();
+                    dismissDialog();
                 });
                 custom_positiveButton.setVisibility(View.VISIBLE);
                 custom_negativeButton.setVisibility(View.VISIBLE);
@@ -206,7 +205,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
             if (file!=null) {
                 startActivity(Utils.install(getActivity(), file.getPath()));
                 if (isCanCancel) {
-                    dismiss();
+                    dismissDialog();
                 }
             } else {
                 if (!UpdateService.downloadUrls.contains(model.getUrl())) {
@@ -225,7 +224,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
                     //直接设置成下载时的样式
                     if (isCanCancel) {
                         custom_positiveButton.setText("后台下载");
-                        custom_positiveButton.setOnClickListener(v1 -> dismiss());
+                        custom_positiveButton.setOnClickListener(v1 -> dismissDialog());
                         custom_positiveButton.setVisibility(View.VISIBLE);
                         custom_negativeButton.setVisibility(View.VISIBLE);
                     } else {
@@ -282,7 +281,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
                 if (isCanCancel) {
                     custom_positiveButton.setText("后台下载");
                     custom_positiveButton.setOnClickListener(v -> {
-                        dismiss();
+                        dismissDialog();
                     });
                     custom_positiveButton.setVisibility(View.VISIBLE);
                     custom_negativeButton.setVisibility(View.VISIBLE);
@@ -321,6 +320,9 @@ public class AppUpdateDialogFragment extends DialogFragment {
                 custom_negativeButton.setVisibility(View.GONE);
             }
             normalClick();
+            if (isCanCancel) {
+                dismissDialog();
+            }
         } else if (model.getState() == UpdateModel.State.FAIL) {
             custom_positiveButton.setEnabled(true);
             custom_pb.setVisibility(View.GONE);
@@ -358,33 +360,24 @@ public class AppUpdateDialogFragment extends DialogFragment {
         isDismiss=false;
         manager = fragmentActivity.getSupportFragmentManager();
         new Handler().post(() -> {
-            FragmentTransaction transaction=manager.beginTransaction();
-            transaction.add(AppUpdateDialogFragment.this, tag);
-            transaction.addToBackStack(null);
-            transaction.commitAllowingStateLoss();
+            super.show(manager, tag);
+
+            isDismiss=false;
         });
     }
 
     private void dismissDialog() {
-        try {
+        new Handler().post(() -> {
             if (isDismiss) {
                 return;
             }
             isDismiss=true;
-            if (getActivity() == null || getActivity().isFinishing()) {
-                return;
+            try {
+                dismissAllowingStateLoss();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            new Handler().post(() -> {
-                if (manager != null) {
-                    manager.popBackStack();
-                    FragmentTransaction transaction=manager.beginTransaction();
-                    transaction.remove(AppUpdateDialogFragment.this);
-                    transaction.commitAllowingStateLoss();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     @Override

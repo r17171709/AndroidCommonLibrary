@@ -142,6 +142,7 @@ class OKHttpActivity : BaseActivity() {
                 // 升级测试
                 Handler().post {
                     val temp = UpdateModel()
+                    temp.notificationTitle = "Demo"
                     temp.content = "测试"
                     temp.title = "标题"
                     temp.version = "3"

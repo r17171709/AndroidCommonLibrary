@@ -118,7 +118,7 @@ public class UpdateService extends Service {
     public void updateInfo(UpdateModel model) {
         if (model.getState()== UpdateModel.State.DOWNLOADING) {
             if (ids.containsKey(model.getUrl())) {
-                NotificationUtils.getNotificationCenter(this.getApplicationContext()).updateDownloadNotification(this.getApplicationContext(), ids.get(model.getUrl()), model.getProcess(), model.getNotificationTitle());
+                NotificationUtils.getNotificationCenter(this.getApplicationContext()).updateDownloadNotification(ids.get(model.getUrl()), model.getProcess(), model.getNotificationTitle());
             }
         }
         else if (model.getState()== UpdateModel.State.SUCCESS) {
