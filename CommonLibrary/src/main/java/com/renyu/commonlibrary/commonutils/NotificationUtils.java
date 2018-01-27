@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -28,12 +29,14 @@ public class NotificationUtils {
 	private volatile static NotificationUtils center=null;
 	private static NotificationManager manager=null;
 
+	private static Context context=null;
+
 	private static HashMap<String, NotificationCompat.Builder> builders;
 
 	private static HashMap<String, Integer> lastPercentMaps;
 
-	public static final String id = "channel_default";
-	public static final String name = "channel_name_default";
+	public static final String channelId = "channel_default";
+	public static final String channelName = "channel_name_default";
 
 	/**
 	 * 通知栏中心调度
@@ -45,12 +48,13 @@ public class NotificationUtils {
 			synchronized (NotificationUtils.class) {
 				if (center==null) {
 					center=new NotificationUtils();
-					manager=(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+					manager=(NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 					if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
 						createNotificationChannel();
 					}
 					builders=new HashMap<>();
 					lastPercentMaps=new HashMap<>();
+					NotificationUtils.context = context.getApplicationContext();
 				}
 			}
 		}
@@ -70,7 +74,7 @@ public class NotificationUtils {
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
 	private static void createNotificationChannel(){
-		NotificationChannel channel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH);
+		NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
 		// 是否在桌面icon右上角展示小红点
 		channel.enableLights(true);
 		// 小红点颜色
@@ -81,7 +85,7 @@ public class NotificationUtils {
 	}
 
 	@NonNull
-	private NotificationCompat.Builder getSimpleBuilder(Context context, String ticker, String title, String content, int color, int smallIcon, int largeIcon, String channelId, Intent intent) {
+	private NotificationCompat.Builder getSimpleBuilder(String ticker, String title, String content, int color, int smallIcon, int largeIcon, String channelId, Intent intent) {
 		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, channelId);
 		builder.setTicker(ticker);
 		builder.setContentTitle(title);
@@ -101,19 +105,17 @@ public class NotificationUtils {
 
 	/**
 	 * 普通通知栏
-	 * @param context
 	 * @param ticker
 	 * @param title
 	 * @param content
 	 */
-	public void createNormalNotification(Context context, String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
+	public void createNormalNotification(String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent) {
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
 	/**
 	 * 创建有按钮的通知
-	 * @param context
 	 * @param ticker
 	 * @param title
 	 * @param content
@@ -124,23 +126,21 @@ public class NotificationUtils {
 	 * @param actionTitle1
 	 * @param actionClass1
 	 */
-	public void createButtonNotification(Context context,
-										 String ticker, String title, String content,
+	public void createButtonNotification(String ticker, String title, String content,
 										 int color, int smallIcon, int largeIcon,
 										 int actionIcon1, String actionTitle1, Class actionClass1,
 										 Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.addAction(actionIcon1, actionTitle1, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass1), PendingIntent.FLAG_UPDATE_CURRENT));
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
-	public void createButton2Notification(Context context,
-										  String ticker, String title, String content,
+	public void createButton2Notification(String ticker, String title, String content,
 										  int color, int smallIcon, int largeIcon,
 										  int actionIcon1, String actionTitle1, Class actionClass1,
 										  int actionIcon2, String actionTitle2, Class actionClass2,
 										  Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.addAction(actionIcon1, actionTitle1, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass1), PendingIntent.FLAG_UPDATE_CURRENT));
 		builder.addAction(actionIcon2, actionTitle2, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass2), PendingIntent.FLAG_UPDATE_CURRENT));
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
@@ -148,7 +148,6 @@ public class NotificationUtils {
 
 	/**
 	 * 精确进度条通知
-	 * @param context
 	 * @param ticker
 	 * @param title
 	 * @param content
@@ -158,18 +157,16 @@ public class NotificationUtils {
 	 * @param max
 	 * @param progress
 	 */
-	public void createProgressNotification(Context context,
-										   String ticker, String title, String content,
+	public void createProgressNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
 										   int max, int progress, Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.setProgress(max, progress, false);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
 	/**
 	 * 模糊进度条通知
-	 * @param context
 	 * @param ticker
 	 * @param title
 	 * @param content
@@ -177,18 +174,16 @@ public class NotificationUtils {
 	 * @param smallIcon
 	 * @param largeIcon
 	 */
-	public void createIndeterminateProgressNotification(Context context,
-														String ticker, String title, String content,
+	public void createIndeterminateProgressNotification(String ticker, String title, String content,
 														int color, int smallIcon, int largeIcon,
 														Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.setProgress(0, 0, true);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
 	/**
 	 * 长文本通知
-	 * @param context
 	 * @param ticker
 	 * @param title
 	 * @param content
@@ -199,8 +194,7 @@ public class NotificationUtils {
 	 * @param bigContentTitle
 	 * @param summaryText
 	 */
-	public void createBigTextNotification(Context context,
-										  String ticker, String title, String content,
+	public void createBigTextNotification(String ticker, String title, String content,
 										  int color, int smallIcon, int largeIcon,
 										  String bigText, String bigContentTitle, String summaryText,
 										  Intent intent) {
@@ -208,14 +202,13 @@ public class NotificationUtils {
 		style.bigText(bigText);
 		style.setBigContentTitle(bigContentTitle);
 		style.setSummaryText(summaryText);
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.setStyle(style);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
 	/**
 	 * 大图通知
-	 * @param context
 	 * @param ticker
 	 * @param title
 	 * @param content
@@ -227,8 +220,7 @@ public class NotificationUtils {
 	 * @param bigContentTitle
 	 * @param summaryText
 	 */
-	public void createBigImageNotification(Context context,
-										   String ticker, String title, String content,
+	public void createBigImageNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
 										   int bigLargeIcon, int bigPicture, String bigContentTitle, String summaryText,
 										   Intent intent) {
@@ -237,14 +229,13 @@ public class NotificationUtils {
 		style.bigPicture(BitmapFactory.decodeResource(context.getResources(), bigPicture));
 		style.setBigContentTitle(bigContentTitle);
 		style.setSummaryText(summaryText);
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.setStyle(style);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
 	/**
 	 * 列表型通知
-	 * @param context
 	 * @param ticker
 	 * @param title
 	 * @param content
@@ -255,8 +246,7 @@ public class NotificationUtils {
 	 * @param bigContentTitle
 	 * @param summaryText
 	 */
-	public void createTextListNotification(Context context,
-										   String ticker, String title, String content,
+	public void createTextListNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
 										   ArrayList<String> linesString, String bigContentTitle, String summaryText,
 										   Intent intent) {
@@ -266,21 +256,20 @@ public class NotificationUtils {
 		}
 		style.setBigContentTitle(bigContentTitle);
 		style.setSummaryText(summaryText);
-		NotificationCompat.Builder builder = getSimpleBuilder(context, ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.id, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.setStyle(style);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
 	/**
-	 * 开启新通知
-	 * @param context
+	 * 开启新下载通知
 	 * @param id
 	 */
-	public void createDownloadNotification(Context context, int id, String title, int color, int smallIcon, int largeIcon) {
+	public void createDownloadNotification(int id, String title, int color, int smallIcon, int largeIcon) {
 		if (checkContainId(id)) {
 			return;
 		}
-		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.id);
+		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.channelId);
 		builder.setSmallIcon(smallIcon);
 		builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon));
 		builder.setWhen(System.currentTimeMillis());
@@ -353,10 +342,9 @@ public class NotificationUtils {
 
 	/**
 	 * 最后提示
-	 * @param context
 	 * @param id
 	 */
-	public void showEndNotification(Context context, int id) {
+	public void showEndNotification(int id) {
 		if (!checkContainId(id)) {
 			return;
 		}
@@ -368,17 +356,51 @@ public class NotificationUtils {
 		lastPercentMaps.remove(""+id);
 	}
 
-	private static boolean isDarkNotificationTheme(Context context) {
-		return !isSimilarColor(Color.BLACK, getNotificationColor(context));
+	/**
+	 * 8.0开启后台服务
+	 * @param service
+	 * @param ticker
+	 * @param title
+	 * @param content
+	 * @param color
+	 * @param smallIcon
+	 * @param largeIcon
+	 * @param id
+	 */
+	public void showStartForeground(Service service, String ticker, String title, String content, int color, int smallIcon, int largeIcon, int id) {
+		NotificationCompat.Builder builder = getSimpleBuilder(
+				ticker,
+				title,
+				content,
+				color,
+				smallIcon,
+				largeIcon,
+				NotificationUtils.channelId,
+				new Intent());
+		builder.setAutoCancel(false);
+		service.startForeground(id, builder.build());
+	}
+
+	/**
+	 * 8.0关闭后台服务
+	 * @param service
+	 * @param id
+	 */
+	public void hideStartForeground(Service service, int id) {
+		service.stopForeground(true);
+		manager.cancel(id);
+	}
+
+	private static boolean isDarkNotificationTheme() {
+		return !isSimilarColor(Color.BLACK, getNotificationColor());
 	}
 
 	/**
 	 * 获取通知栏颜色
-	 * @param context
 	 * @return
 	 */
-	private static int getNotificationColor(Context context) {
-		NotificationCompat.Builder builder=new NotificationCompat.Builder(context);
+	private static int getNotificationColor() {
+		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.channelId);
 		Notification notification=builder.build();
 		// 7.0没有解决
 		if (notification.contentView==null) {

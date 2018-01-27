@@ -30,9 +30,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initParams() {
-        tv_hello.setOnClickListener(v -> {
-            NotificationUtils.getNotificationCenter(this).createNormalNotification(this, "ticker", "title", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new Intent());
-        });
+        tv_hello.setOnClickListener(v -> NotificationUtils.getNotificationCenter(getApplicationContext()).createNormalNotification("ticker", "title", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new Intent()));
     }
 
     @Override

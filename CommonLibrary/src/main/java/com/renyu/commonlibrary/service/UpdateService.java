@@ -2,6 +2,7 @@ package com.renyu.commonlibrary.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -63,7 +64,7 @@ public class UpdateService extends Service {
             ids.put(url, intent.getExtras().getInt("ids"));
 
             NotificationUtils.getNotificationCenter(getApplicationContext())
-                    .createDownloadNotification(getApplicationContext(),
+                    .createDownloadNotification(
                             intent.getExtras().getInt("ids"),
                             intent.getExtras().getString("name"),
                             ContextCompat.getColor(this, R.color.colorPrimary),
@@ -106,19 +107,33 @@ public class UpdateService extends Service {
         }
         else {
             if (ids.containsKey(url)) {
-                NotificationUtils.getNotificationCenter(this.getApplicationContext()).cancelNotification(ids.get(url));
+                NotificationUtils.getNotificationCenter(getApplicationContext()).cancelNotification(ids.get(url));
             }
             //取消下载移除标志
             downloadUrls.remove(url);
             okHttpUtils.cancel(url);
         }
+
+        // android o 开启后台服务
+        if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+            NotificationUtils.getNotificationCenter(getApplicationContext()).showStartForeground(
+                    this,
+                    "提示",
+                    "升级服务",
+                    "App在升级",
+                    R.color.colorPrimary,
+                    intent.getExtras().getInt("smallIcon"),
+                    intent.getExtras().getInt("largeIcon"),
+                    1000);
+        }
+
         return super.onStartCommand(intent, flags, startId);
     }
 
     public void updateInfo(UpdateModel model) {
         if (model.getState()== UpdateModel.State.DOWNLOADING) {
             if (ids.containsKey(model.getUrl())) {
-                NotificationUtils.getNotificationCenter(this.getApplicationContext()).updateDownloadNotification(ids.get(model.getUrl()), model.getProcess(), model.getNotificationTitle());
+                NotificationUtils.getNotificationCenter(getApplicationContext()).updateDownloadNotification(ids.get(model.getUrl()), model.getProcess(), model.getNotificationTitle());
             }
         }
         else if (model.getState()== UpdateModel.State.SUCCESS) {
@@ -126,19 +141,20 @@ public class UpdateService extends Service {
             if (Utils.checkAPKState(this, new File(model.getLocalPath()).getPath())) {
                 Toast.makeText(this, "下载成功", Toast.LENGTH_SHORT).show();
                 if (ids.containsKey(model.getUrl())) {
-                    NotificationUtils.getNotificationCenter(this.getApplicationContext()).showEndNotification(this.getApplicationContext(), ids.get(model.getUrl()));
+                    NotificationUtils.getNotificationCenter(getApplicationContext()).showEndNotification(ids.get(model.getUrl()));
                 }
 
                 File file = fileExists(model);
                 if (file!=null) {
                     startActivity(Utils.install(this, file.getPath()));
+                    stopSelf();
                 }
             }
             else {
                 model.setState(UpdateModel.State.FAIL);
                 Toast.makeText(this, "下载失败", Toast.LENGTH_SHORT).show();
                 if (ids.containsKey(model.getUrl())) {
-                    NotificationUtils.getNotificationCenter(this.getApplicationContext()).cancelNotification(ids.get(model.getUrl()));
+                    NotificationUtils.getNotificationCenter(getApplicationContext()).cancelNotification(ids.get(model.getUrl()));
                 }
             }
             downloadUrls.remove(model.getUrl());
@@ -151,7 +167,7 @@ public class UpdateService extends Service {
             else {
                 Toast.makeText(this, "下载失败", Toast.LENGTH_SHORT).show();
                 if (ids.containsKey(model.getUrl())) {
-                    NotificationUtils.getNotificationCenter(this.getApplicationContext()).cancelNotification(ids.get(model.getUrl()));
+                    NotificationUtils.getNotificationCenter(getApplicationContext()).cancelNotification(ids.get(model.getUrl()));
                 }
                 downloadUrls.remove(model.getUrl());
             }
@@ -165,7 +181,11 @@ public class UpdateService extends Service {
         for (String downloadUrl : downloadUrls) {
             okHttpUtils.cancel(downloadUrl);
         }
-        NotificationUtils.getNotificationCenter(this.getApplicationContext()).cancelAll();
+        NotificationUtils.getNotificationCenter(getApplicationContext()).cancelAll();
+        // android o 关闭后台服务
+        if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+            NotificationUtils.getNotificationCenter(getApplicationContext()).hideStartForeground(this, 1000);
+        }
     }
 
 
