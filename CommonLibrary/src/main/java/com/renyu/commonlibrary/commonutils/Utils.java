@@ -78,8 +78,12 @@ public class Utils {
                 Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
                 Build.USER.length() % 10; //13 位
         try {
-            serial = android.os.Build.class.getField("SERIAL").get(null).toString();
-            //API>=9 使用serial号
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                serial = Build.getSerial();
+            }
+            else {
+                serial = Build.SERIAL;
+            }
             return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
         } catch (Exception exception) {
             //serial需要一个初始化

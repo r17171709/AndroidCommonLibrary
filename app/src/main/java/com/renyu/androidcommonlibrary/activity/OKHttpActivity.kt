@@ -14,7 +14,6 @@ import com.renyu.commonlibrary.commonutils.Utils
 import com.renyu.commonlibrary.views.AppUpdateDialogFragment
 import com.renyu.commonlibrary.views.dialog.LoadingDialog
 
-
 /**
  * Created by Administrator on 2017/12/7.
  */
@@ -49,21 +48,19 @@ class OKHttpActivity : BaseActivity() {
 
         // 普通请求
         Thread(Runnable {
-            for (i in 0..10) {
-                val timestamp = (System.currentTimeMillis() / 1000).toInt()
-                val random = "abcdefghijklmn"
-                val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
-                        Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
-                val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
-                        "&app_id=46877648&rand_str=" + random +
-                        "&signature=" + Utils.getMD5(signature) +
-                        "&device_id=" + Utils.getUniquePsuedoID()
-                val headMaps = HashMap<String, String>()
-                headMaps.put("version", "v1.0")
-                headMaps.put("debug", "0")
-                val tokenResponse = httpHelper.okHttpUtils.syncGet(url, headMaps)
-                println(tokenResponse.body()!!.string())
-            }
+            val timestamp = (System.currentTimeMillis() / 1000).toInt()
+            val random = "abcdefghijklmn"
+            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
+                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
+            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
+                    "&app_id=46877648&rand_str=" + random +
+                    "&signature=" + Utils.getMD5(signature) +
+                    "&device_id=" + Utils.getUniquePsuedoID()
+            val headMaps = HashMap<String, String>()
+            headMaps["version"] = "v1.0"
+            headMaps["debug"] = "0"
+            val tokenResponse = httpHelper.okHttpUtils.syncGet(url, headMaps)
+            println(tokenResponse.body()?.string())
         }).start()
 
 
@@ -132,7 +129,7 @@ class OKHttpActivity : BaseActivity() {
     }
 
     private fun update() {
-        var permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        var permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE)
         checkPermission(permissions, "请授予SD卡读写权限", object : OnPermissionCheckedListener {
             override fun checked(flag: Boolean) {
 

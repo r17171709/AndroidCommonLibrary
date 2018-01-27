@@ -136,10 +136,6 @@ public class AppUpdateDialogFragment extends DialogFragment {
             Bundle bundle = new Bundle();
             bundle.putString("url", model.getUrl());
             bundle.putBoolean("download", false);
-            bundle.putInt("ids", ids);
-            bundle.putString("name", model.getNotificationTitle());
-            bundle.putInt("smallIcon", getArguments().getInt("smallIcon"));
-            bundle.putInt("largeIcon", getArguments().getInt("largeIcon"));
             intent.putExtras(bundle);
             getActivity().startService(intent);
 

@@ -58,6 +58,19 @@ public class UpdateService extends Service {
         }
         String url=intent.getExtras().getString("url");
         if (intent.getExtras().getBoolean("download")) {
+            // android o 开启后台服务
+            if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+                NotificationUtils.getNotificationCenter(getApplicationContext()).showStartForeground(
+                        this,
+                        "提示",
+                        "升级服务",
+                        "App在升级",
+                        R.color.colorPrimary,
+                        intent.getExtras().getInt("smallIcon"),
+                        intent.getExtras().getInt("largeIcon"),
+                        1000);
+            }
+
             //新增下载添加标志
             downloadUrls.add(url);
             //这个无所谓是不是清空，只要保留键值对即可
@@ -112,21 +125,9 @@ public class UpdateService extends Service {
             //取消下载移除标志
             downloadUrls.remove(url);
             okHttpUtils.cancel(url);
-        }
 
-        // android o 开启后台服务
-        if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
-            NotificationUtils.getNotificationCenter(getApplicationContext()).showStartForeground(
-                    this,
-                    "提示",
-                    "升级服务",
-                    "App在升级",
-                    R.color.colorPrimary,
-                    intent.getExtras().getInt("smallIcon"),
-                    intent.getExtras().getInt("largeIcon"),
-                    1000);
+            stopSelf();
         }
-
         return super.onStartCommand(intent, flags, startId);
     }
 
