@@ -2,6 +2,7 @@ package com.renyu.commonlibrary.commonutils;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
+import android.app.NotificationChannelGroup;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -11,12 +12,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.renyu.commonlibrary.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,8 +38,15 @@ public class NotificationUtils {
 
 	private static HashMap<String, Integer> lastPercentMaps;
 
+	public static final String groupId = "channel_group_default";
+	public static final String groupName = "channel_group_name_default";
+	public static final String groupDownloadId = "channel_group_download";
+	public static final String groupDownloadName = "channel_group_name_download";
+
 	public static final String channelId = "channel_default";
 	public static final String channelName = "channel_name_default";
+	public static final String channelDownloadId = "channel_download";
+	public static final String channelDownloadName = "channel_name_download";
 
 	/**
 	 * 通知栏中心调度
@@ -50,7 +60,31 @@ public class NotificationUtils {
 					center=new NotificationUtils();
 					manager=(NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 					if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
-						createNotificationChannel();
+						ArrayList<NotificationChannelGroup> groups = new ArrayList<>();
+						NotificationChannelGroup group = new NotificationChannelGroup(groupId, groupName);
+						groups.add(group);
+						NotificationChannelGroup group_download = new NotificationChannelGroup(groupDownloadId, groupDownloadName);
+						groups.add(group_download);
+						createNotificationGroups(groups);
+
+						NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+						// 开启指示灯，如果设备有的话。
+						channel.enableLights(true);
+						// 设置指示灯颜色
+						channel.setLightColor(ContextCompat.getColor(context, R.color.colorPrimary));
+						// 是否在久按桌面图标时显示此渠道的通知
+						channel.setShowBadge(true);
+						// 设置是否应在锁定屏幕上显示此频道的通知
+						channel.setLockscreenVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+						// 设置绕过免打扰模式
+						channel.setBypassDnd(true);
+						channel.setGroup(groupId);
+						createNotificationChannel(channel);
+
+						NotificationChannel channel_download = new NotificationChannel(channelDownloadId, channelDownloadName, NotificationManager.IMPORTANCE_DEFAULT);
+						channel_download.setLockscreenVisibility(NotificationCompat.VISIBILITY_SECRET);
+						channel_download.setGroup(groupDownloadId);
+						createNotificationChannel(channel_download);
 					}
 					builders=new HashMap<>();
 					lastPercentMaps=new HashMap<>();
@@ -72,35 +106,67 @@ public class NotificationUtils {
 		return false;
 	}
 
+	/**
+	 * 创建group分组
+	 * @param groups
+	 */
 	@RequiresApi(api = Build.VERSION_CODES.O)
-	private static void createNotificationChannel(){
-		NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
-		// 是否在桌面icon右上角展示小红点
-		channel.enableLights(true);
-		// 小红点颜色
-		channel.setLightColor(Color.RED);
-		// 是否在久按桌面图标时显示此渠道的通知
-		channel.setShowBadge(true);
+	public static void createNotificationGroups(ArrayList<NotificationChannelGroup> groups) {
+		manager.createNotificationChannelGroups(groups);
+	}
+
+	@RequiresApi(api = Build.VERSION_CODES.O)
+	public static void createNotificationChannel(NotificationChannel channel) {
 		manager.createNotificationChannel(channel);
 	}
 
-	@NonNull
-	private NotificationCompat.Builder getSimpleBuilder(String ticker, String title, String content, int color, int smallIcon, int largeIcon, String channelId, Intent intent) {
+	/**
+	 * 基本通知
+	 * @param ticker
+	 * @param title
+	 * @param content
+	 * @param color
+	 * @param smallIcon
+	 * @param largeIcon
+	 * @param channelId
+	 * @param intent
+	 * @return
+	 */
+	public NotificationCompat.Builder getSimpleBuilder(String ticker, String title, String content, int color, int smallIcon, int largeIcon, String channelId, Intent intent) {
 		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, channelId);
 		builder.setTicker(ticker);
 		builder.setContentTitle(title);
 		builder.setContentText(content);
 		builder.setContentIntent(PendingIntent.getBroadcast(context, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
 		builder.setColor(color);
+		// 设置和启用通知的背景颜色（只能在用户必须一眼就能看到的持续任务的通知中使用此功能）
+		builder.setColorized(true);
 		builder.setSmallIcon(smallIcon);
 		builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon));
 		builder.setWhen(System.currentTimeMillis());
 		builder.setAutoCancel(true);
 		builder.setPriority(NotificationCompat.PRIORITY_MAX);
-		builder.setDefaults(Notification.DEFAULT_ALL);
+		builder.setDefaults(NotificationCompat.DEFAULT_ALL);
 		// 保持通知不被移除
 		builder.setOngoing(false);
 		return builder;
+	}
+
+	/**
+	 * 设置带有超时销毁的通知
+	 * @param ticker
+	 * @param title
+	 * @param content
+	 * @param color
+	 * @param smallIcon
+	 * @param largeIcon
+	 * @param channelId
+	 * @param timeout
+	 * @param intent
+	 * @return
+	 */
+	public NotificationCompat.Builder getSimpleBuilderWithTimeout(String ticker, String title, String content, int color, int smallIcon, int largeIcon, String channelId, long timeout, Intent intent) {
+		return getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent).setTimeoutAfter(timeout*1000);
 	}
 
 	/**
@@ -108,6 +174,10 @@ public class NotificationUtils {
 	 * @param ticker
 	 * @param title
 	 * @param content
+	 * @param color
+	 * @param smallIcon
+	 * @param largeIcon
+	 * @param intent
 	 */
 	public void createNormalNotification(String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent) {
 		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
@@ -125,6 +195,7 @@ public class NotificationUtils {
 	 * @param actionIcon1
 	 * @param actionTitle1
 	 * @param actionClass1
+	 * @param intent
 	 */
 	public void createButtonNotification(String ticker, String title, String content,
 										 int color, int smallIcon, int largeIcon,
@@ -156,6 +227,7 @@ public class NotificationUtils {
 	 * @param largeIcon
 	 * @param max
 	 * @param progress
+	 * @param intent
 	 */
 	public void createProgressNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
@@ -173,6 +245,7 @@ public class NotificationUtils {
 	 * @param color
 	 * @param smallIcon
 	 * @param largeIcon
+	 * @param intent
 	 */
 	public void createIndeterminateProgressNotification(String ticker, String title, String content,
 														int color, int smallIcon, int largeIcon,
@@ -193,6 +266,7 @@ public class NotificationUtils {
 	 * @param bigText
 	 * @param bigContentTitle
 	 * @param summaryText
+	 * @param intent
 	 */
 	public void createBigTextNotification(String ticker, String title, String content,
 										  int color, int smallIcon, int largeIcon,
@@ -219,6 +293,7 @@ public class NotificationUtils {
 	 * @param bigPicture
 	 * @param bigContentTitle
 	 * @param summaryText
+	 * @param intent
 	 */
 	public void createBigImageNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
@@ -245,6 +320,7 @@ public class NotificationUtils {
 	 * @param linesString
 	 * @param bigContentTitle
 	 * @param summaryText
+	 * @param intent
 	 */
 	public void createTextListNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
@@ -261,15 +337,35 @@ public class NotificationUtils {
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
+	public void createMessagingStyleNotification(String ticker, String title, String content,
+												 int color, int smallIcon, int largeIcon,
+												 String userDisplayName, String conversationTitle,
+												 ArrayList<NotificationCompat.MessagingStyle.Message> messages,
+												 Intent intent) {
+		NotificationCompat.MessagingStyle style = new NotificationCompat
+				.MessagingStyle(userDisplayName)
+				.setConversationTitle(conversationTitle);
+		for (NotificationCompat.MessagingStyle.Message message : messages) {
+			style.addMessage(message);
+		}
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+		builder.setStyle(style);
+		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
+	}
+
 	/**
 	 * 开启新下载通知
 	 * @param id
+	 * @param title
+	 * @param color
+	 * @param smallIcon
+	 * @param largeIcon
 	 */
 	public void createDownloadNotification(int id, String title, int color, int smallIcon, int largeIcon) {
 		if (checkContainId(id)) {
 			return;
 		}
-		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.channelId);
+		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.channelDownloadId);
 		builder.setSmallIcon(smallIcon);
 		builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon));
 		builder.setWhen(System.currentTimeMillis());
@@ -277,7 +373,7 @@ public class NotificationUtils {
 		builder.setColor(color);
 		builder.setOngoing(true);
 		builder.setTicker(title);
-		builder.setDefaults(Notification.DEFAULT_LIGHTS);
+		builder.setDefaults(NotificationCompat.DEFAULT_LIGHTS);
 		builder.setContentTitle(title);
 		builder.setProgress(100, 0,false);
 		builder.setAutoCancel(false);
@@ -290,8 +386,8 @@ public class NotificationUtils {
 
 	/**
 	 * 更新相应id的通知栏
-	 * @param persent
 	 * @param id
+	 * @param persent
 	 * @param title
 	 */
 	public void updateDownloadNotification(int id, int persent, String title) {
@@ -336,8 +432,13 @@ public class NotificationUtils {
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
-	public void deleteChannel(String id) {
+	public void deleteNotificationChannel(String id) {
 		manager.deleteNotificationChannel(id);
+	}
+
+	@RequiresApi(api = Build.VERSION_CODES.O)
+	public void deleteNotificationGroup(String groupId) {
+		manager.deleteNotificationChannelGroup(groupId);
 	}
 
 	/**
@@ -375,9 +476,11 @@ public class NotificationUtils {
 				color,
 				smallIcon,
 				largeIcon,
-				NotificationUtils.channelId,
+				NotificationUtils.channelDownloadId,
 				new Intent());
+		builder.setOngoing(true);
 		builder.setAutoCancel(false);
+		builder.setColor(Color.WHITE);
 		service.startForeground(id, builder.build());
 	}
 
@@ -389,6 +492,10 @@ public class NotificationUtils {
 	public void hideStartForeground(Service service, int id) {
 		service.stopForeground(true);
 		manager.cancel(id);
+	}
+
+	public NotificationManager getNotificationManager() {
+		return manager;
 	}
 
 	private static boolean isDarkNotificationTheme() {
