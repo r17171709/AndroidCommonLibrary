@@ -11,9 +11,11 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.RemoteInput;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -37,6 +39,8 @@ public class NotificationUtils {
 	private static HashMap<String, NotificationCompat.Builder> builders;
 
 	private static HashMap<String, Integer> lastPercentMaps;
+
+	public static final String KEY_TEXT_REPLY = "key_text_reply";
 
 	public static final String groupId = "channel_group_default";
 	public static final String groupName = "channel_group_name_default";
@@ -180,8 +184,12 @@ public class NotificationUtils {
 	 * @param intent
 	 */
 	public void createNormalNotification(String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent) {
+		createNormalNotification(ticker, title, content, color, smallIcon, largeIcon, intent, (int) (System.currentTimeMillis()/1000));
+	}
+
+	public void createNormalNotification(String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent, int notifyId) {
 		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
-		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
+		manager.notify(notifyId, builder.build());
 	}
 
 	/**
@@ -231,10 +239,11 @@ public class NotificationUtils {
 	 */
 	public void createProgressNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
-										   int max, int progress, Intent intent) {
+										   int max, int progress,
+										   Intent intent, int notifyId) {
 		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.setProgress(max, progress, false);
-		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
+		manager.notify(notifyId, builder.build());
 	}
 
 	/**
@@ -249,10 +258,10 @@ public class NotificationUtils {
 	 */
 	public void createIndeterminateProgressNotification(String ticker, String title, String content,
 														int color, int smallIcon, int largeIcon,
-														Intent intent) {
+														Intent intent, int notifyId) {
 		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.setProgress(0, 0, true);
-		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
+		manager.notify(notifyId, builder.build());
 	}
 
 	/**
@@ -325,7 +334,7 @@ public class NotificationUtils {
 	public void createTextListNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
 										   ArrayList<String> linesString, String bigContentTitle, String summaryText,
-										   Intent intent) {
+										   Intent intent, int notifyId) {
 		NotificationCompat.InboxStyle style=new NotificationCompat.InboxStyle();
 		for (String s : linesString) {
 			style.addLine(s);
@@ -334,14 +343,14 @@ public class NotificationUtils {
 		style.setSummaryText(summaryText);
 		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.setStyle(style);
-		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
+		manager.notify(notifyId, builder.build());
 	}
 
-	public void createMessagingStyleNotification(String ticker, String title, String content,
+	public NotificationCompat.MessagingStyle createMessagingStyleNotification(String ticker, String title, String content,
 												 int color, int smallIcon, int largeIcon,
 												 String userDisplayName, String conversationTitle,
 												 ArrayList<NotificationCompat.MessagingStyle.Message> messages,
-												 Intent intent) {
+												 Intent intent, int notifyId) {
 		NotificationCompat.MessagingStyle style = new NotificationCompat
 				.MessagingStyle(userDisplayName)
 				.setConversationTitle(conversationTitle);
@@ -350,7 +359,32 @@ public class NotificationUtils {
 		}
 		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
 		builder.setStyle(style);
-		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
+		manager.notify(notifyId, builder.build());
+		return style;
+	}
+
+	public void updateMessagingStyleNotification(String ticker, String title, String content,
+												 int color, int smallIcon, int largeIcon,
+												 NotificationCompat.MessagingStyle style,
+												 ArrayList<NotificationCompat.MessagingStyle.Message> messages,
+												 Intent intent, int notifyId) {
+		for (NotificationCompat.MessagingStyle.Message message : messages) {
+			style.addMessage(message);
+		}
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+		builder.setStyle(style);
+		manager.notify(notifyId, builder.build());
+	}
+
+	public void createRemoteInput(String ticker, String title, String content, int color, int smallIcon, int largeIcon, String channelId, Intent intent, int notifyId,
+								  String replyLabel, Class receiverClass, int replyIcon, CharSequence replyTitle) {
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
+		RemoteInput remoteInput = new RemoteInput.Builder(KEY_TEXT_REPLY).setLabel(replyLabel).build();
+		Intent intent1 = new Intent(context, receiverClass);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent1, PendingIntent.FLAG_ONE_SHOT);
+		NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(replyIcon, replyTitle, pendingIntent).addRemoteInput(remoteInput).build();
+		builder.addAction(replyAction);
+		manager.notify(notifyId, builder.build());
 	}
 
 	/**
@@ -361,7 +395,7 @@ public class NotificationUtils {
 	 * @param smallIcon
 	 * @param largeIcon
 	 */
-	public void createDownloadNotification(int id, String title, int color, int smallIcon, int largeIcon) {
+	public void createDownloadNotification(int id, String ticker, String title, int color, int smallIcon, int largeIcon) {
 		if (checkContainId(id)) {
 			return;
 		}
@@ -371,8 +405,9 @@ public class NotificationUtils {
 		builder.setWhen(System.currentTimeMillis());
 		builder.setPriority(NotificationCompat.PRIORITY_MAX);
 		builder.setColor(color);
+		builder.setColorized(true);
 		builder.setOngoing(true);
-		builder.setTicker(title);
+		builder.setTicker(ticker);
 		builder.setDefaults(NotificationCompat.DEFAULT_LIGHTS);
 		builder.setContentTitle(title);
 		builder.setProgress(100, 0,false);
@@ -413,6 +448,21 @@ public class NotificationUtils {
 	}
 
 	/**
+	 * 最后提示
+	 * @param id
+	 */
+	public void showEndNotification(int id) {
+		if (!checkContainId(id)) {
+			return;
+		}
+		NotificationCompat.Builder builder=builders.get(""+id);
+		builder.setContentText("下载完成");
+		builder.setProgress(100, 100, false);
+		manager.notify(id, builder.build());
+		new Handler().postDelayed(() -> cancelNotification(id), 1000);
+	}
+
+	/**
 	 * 关闭通知
 	 * @param id
 	 */
@@ -439,22 +489,6 @@ public class NotificationUtils {
 	@RequiresApi(api = Build.VERSION_CODES.O)
 	public void deleteNotificationGroup(String groupId) {
 		manager.deleteNotificationChannelGroup(groupId);
-	}
-
-	/**
-	 * 最后提示
-	 * @param id
-	 */
-	public void showEndNotification(int id) {
-		if (!checkContainId(id)) {
-			return;
-		}
-		NotificationCompat.Builder builder=builders.get(""+id);
-		builder.setContentIntent(PendingIntent.getBroadcast(context, (int) SystemClock.uptimeMillis(), new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
-		manager.notify(id, builder.build());
-		manager.cancel(id);
-		builders.remove(""+id);
-		lastPercentMaps.remove(""+id);
 	}
 
 	/**

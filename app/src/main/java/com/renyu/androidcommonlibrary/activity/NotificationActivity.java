@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
 
 import com.renyu.androidcommonlibrary.R;
+import com.renyu.androidcommonlibrary.RemoteInputReceiver;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.NotificationUtils;
 
@@ -41,11 +42,12 @@ public class NotificationActivity extends BaseActivity {
     TextView tv_update_messagestyle;
     @BindView(R.id.tv_send_messagestyle8)
     TextView tv_send_messagestyle8;
+    @BindView(R.id.tv_send_remoteinput)
+    TextView tv_send_remoteinput;
 
     NotificationManager manager=null;
 
     NotificationCompat.MessagingStyle style;
-    NotificationCompat.Builder builder;
 
     @Override
     public void initParams() {
@@ -66,10 +68,14 @@ public class NotificationActivity extends BaseActivity {
         }
 
         tv_hello.setOnClickListener(v -> {
+            String channelId="Channel1";
+            String channelName="channelName1";
+
+            String channelId2="Channel2";
+            String channelName2="channelName2";
+
             if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
                 {
-                    String channelId="Channel1";
-                    String channelName="channelName1";
                     NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
                     // 开启指示灯，如果设备有的话。
                     channel.enableLights(true);
@@ -87,10 +93,9 @@ public class NotificationActivity extends BaseActivity {
                     NotificationUtils.getNotificationCenter(getApplicationContext()).getNotificationManager().notify(100, builder.build());
                 }
 
+
                 {
-                    String channelId="Channel2";
-                    String channelName="channelName2";
-                    NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationChannel channel = new NotificationChannel(channelId2, channelName2, NotificationManager.IMPORTANCE_DEFAULT);
                     // 开启指示灯，如果设备有的话。
                     channel.enableLights(true);
                     // 设置指示灯颜色
@@ -103,10 +108,16 @@ public class NotificationActivity extends BaseActivity {
                     channel.setBypassDnd(true);
                     NotificationUtils.getNotificationCenter(getApplicationContext()).createNotificationChannel(channel);
 
-                    NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter(getApplicationContext()).getSimpleBuilderWithTimeout("ticker", "channel2", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, channelId, 10, new Intent());
+                    NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter(getApplicationContext()).getSimpleBuilderWithTimeout("ticker", "channel2", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, channelId2, 10, new Intent());
                     NotificationUtils.getNotificationCenter(getApplicationContext()).getNotificationManager().notify(101, builder.build());
                 }
             }
+
+            NotificationCompat.Builder builder3 = NotificationUtils.getNotificationCenter(getApplicationContext()).getSimpleBuilder("ticker", "channel3", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, channelId, new Intent());
+            NotificationUtils.getNotificationCenter(getApplicationContext()).getNotificationManager().notify(107, builder3.build());
+
+            NotificationCompat.Builder builder4 = NotificationUtils.getNotificationCenter(getApplicationContext()).getSimpleBuilderWithTimeout("ticker", "channel4", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, channelId2, 10, new Intent());
+            NotificationUtils.getNotificationCenter(getApplicationContext()).getNotificationManager().notify(106, builder4.build());
         });
 
         tv_channel1.setOnClickListener(v -> {
@@ -133,14 +144,14 @@ public class NotificationActivity extends BaseActivity {
             messages.add(message3);
             messages.add(message4);
             messages.add(message5);
-            createNotificationMessagingStyle("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "demo", "2 new messages wtih ", messages, new Intent());
+            style = NotificationUtils.getNotificationCenter(getApplicationContext()).createMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "demo", "2 new messages wtih ", messages, new Intent(), 104);
         });
 
         tv_update_messagestyle.setOnClickListener(v -> {
+            ArrayList<NotificationCompat.MessagingStyle.Message> messages = new ArrayList<>();
             NotificationCompat.MessagingStyle.Message message6 = new NotificationCompat.MessagingStyle.Message("6 "+System.currentTimeMillis(), System.currentTimeMillis(), "66");
-            style.addMessage(message6);
-            builder.setStyle(style);
-            manager.notify(104, builder.build());
+            messages.add(message6);
+            NotificationUtils.getNotificationCenter(getApplicationContext()).updateMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, style, messages, new Intent(), 104);
         });
 
         tv_send_messagestyle8.setOnClickListener(v -> {
@@ -148,6 +159,11 @@ public class NotificationActivity extends BaseActivity {
                 Notification.Builder builder = createNewNotificationMessagingStyle("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", new Intent());
                 manager.notify(102, builder.build());
             }
+        });
+
+        tv_send_remoteinput.setOnClickListener(v -> {
+            NotificationUtils.getNotificationCenter(getApplicationContext()).createRemoteInput("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", new Intent(), 105,
+                    "快速回复", RemoteInputReceiver.class, R.mipmap.ic_launcher, "请输入回复的内容");
         });
     }
 
@@ -201,21 +217,5 @@ public class NotificationActivity extends BaseActivity {
         Notification.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
         builder.setStyle(style);
         return builder;
-    }
-
-    public void createNotificationMessagingStyle(String ticker, String title, String content,
-                                                int color, int smallIcon, int largeIcon,
-                                                String userDisplayName, String conversationTitle,
-                                                ArrayList<NotificationCompat.MessagingStyle.Message> messages,
-                                                Intent intent) {
-        style = new NotificationCompat
-                .MessagingStyle(userDisplayName)
-                .setConversationTitle(conversationTitle);
-        for (NotificationCompat.MessagingStyle.Message message : messages) {
-            style.addMessage(message);
-        }
-        builder = NotificationUtils.getNotificationCenter(this).getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
-        builder.setStyle(style);
-        manager.notify(104, builder.build());
     }
 }

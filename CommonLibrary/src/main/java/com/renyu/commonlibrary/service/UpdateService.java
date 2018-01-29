@@ -80,6 +80,7 @@ public class UpdateService extends Service {
                     .createDownloadNotification(
                             intent.getExtras().getInt("ids"),
                             intent.getExtras().getString("name"),
+                            intent.getExtras().getString("name"),
                             ContextCompat.getColor(this, R.color.colorPrimary),
                             intent.getExtras().getInt("smallIcon"), intent.getExtras().getInt("largeIcon"));
 
@@ -182,7 +183,6 @@ public class UpdateService extends Service {
         for (String downloadUrl : downloadUrls) {
             okHttpUtils.cancel(downloadUrl);
         }
-        NotificationUtils.getNotificationCenter(getApplicationContext()).cancelAll();
         // android o 关闭后台服务
         if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
             NotificationUtils.getNotificationCenter(getApplicationContext()).hideStartForeground(this, 1000);
