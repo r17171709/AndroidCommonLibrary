@@ -16,7 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
 
 import com.renyu.androidcommonlibrary.R;
-import com.renyu.androidcommonlibrary.RemoteInputReceiver;
+import com.renyu.androidcommonlibrary.receiver.RemoteInputReceiver;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.NotificationUtils;
 

@@ -1,4 +1,4 @@
-package com.renyu.androidcommonlibrary;
+package com.renyu.androidcommonlibrary.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.RemoteInput;
 
+import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.commonutils.NotificationUtils;
 
 /**
