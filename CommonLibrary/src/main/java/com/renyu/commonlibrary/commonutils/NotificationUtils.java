@@ -85,7 +85,7 @@ public class NotificationUtils {
 						channel.setGroup(groupId);
 						createNotificationChannel(channel);
 
-						NotificationChannel channel_download = new NotificationChannel(channelDownloadId, channelDownloadName, NotificationManager.IMPORTANCE_DEFAULT);
+						NotificationChannel channel_download = new NotificationChannel(channelDownloadId, channelDownloadName, NotificationManager.IMPORTANCE_LOW);
 						channel_download.setLockscreenVisibility(NotificationCompat.VISIBILITY_SECRET);
 						channel_download.setGroup(groupDownloadId);
 						createNotificationChannel(channel_download);
