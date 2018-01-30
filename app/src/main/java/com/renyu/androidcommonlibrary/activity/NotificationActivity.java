@@ -157,6 +157,7 @@ public class NotificationActivity extends BaseActivity {
         tv_send_messagestyle8.setOnClickListener(v -> {
             if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
                 Notification.Builder builder = createNewNotificationMessagingStyle("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", new Intent());
+                builder.setNumber(10);
                 manager.notify(102, builder.build());
             }
         });

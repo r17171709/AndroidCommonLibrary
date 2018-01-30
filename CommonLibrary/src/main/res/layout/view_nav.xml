@@ -12,6 +12,15 @@
         android:background="@android:color/transparent"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
+    <ImageButton
+        android:id="@+id/ib_nav_right"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        android:paddingStart="16dip"
+        android:paddingEnd="16dip"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
     <TextView
         android:id="@+id/tv_nav_right"
         android:layout_centerVertical="true"
@@ -20,16 +29,6 @@
         android:paddingEnd="16dip"
         android:textColor="#333333"
         android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
-    <ImageButton
-        android:id="@+id/ib_nav_right"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toLeftOf="@id/tv_nav_right"
-        android:background="@android:color/transparent"
-        android:paddingStart="16dip"
-        android:paddingEnd="16dip"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
     <LinearLayout

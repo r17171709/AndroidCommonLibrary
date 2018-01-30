@@ -72,7 +72,7 @@ public class NotificationUtils {
 						createNotificationGroups(groups);
 
 						NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
-						// 开启指示灯，如果设备有的话。
+						// 开启指示灯，如果设备有的话
 						channel.enableLights(true);
 						// 设置指示灯颜色
 						channel.setLightColor(ContextCompat.getColor(context, R.color.colorPrimary));
@@ -119,6 +119,10 @@ public class NotificationUtils {
 		manager.createNotificationChannelGroups(groups);
 	}
 
+	/**
+	 * 创建渠道
+	 * @param channel
+	 */
 	@RequiresApi(api = Build.VERSION_CODES.O)
 	public static void createNotificationChannel(NotificationChannel channel) {
 		manager.createNotificationChannel(channel);
