@@ -486,8 +486,8 @@ public class NotificationUtils {
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
-	public void deleteNotificationChannel(String id) {
-		manager.deleteNotificationChannel(id);
+	public void deleteNotificationChannel(String channelId) {
+		manager.deleteNotificationChannel(channelId);
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
