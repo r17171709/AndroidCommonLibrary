@@ -53,24 +53,23 @@ public class UpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // android o 开启前台服务
+        if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+            NotificationUtils.getNotificationCenter(getApplicationContext()).showStartForeground(
+                    this,
+                    "提示",
+                    "升级服务",
+                    "App在升级",
+                    R.color.colorPrimary,
+                    intent.getExtras().getInt("smallIcon"),
+                    intent.getExtras().getInt("largeIcon"),
+                    1000);
+        }
         if (intent==null || intent.getExtras()==null || intent.getExtras().getString("url")==null) {
             return super.onStartCommand(intent, flags, startId);
         }
         String url=intent.getExtras().getString("url");
         if (intent.getExtras().getBoolean("download")) {
-            // android o 开启后台服务
-            if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
-                NotificationUtils.getNotificationCenter(getApplicationContext()).showStartForeground(
-                        this,
-                        "提示",
-                        "升级服务",
-                        "App在升级",
-                        R.color.colorPrimary,
-                        intent.getExtras().getInt("smallIcon"),
-                        intent.getExtras().getInt("largeIcon"),
-                        1000);
-            }
-
             //新增下载添加标志
             downloadUrls.add(url);
             //这个无所谓是不是清空，只要保留键值对即可

@@ -1,6 +1,8 @@
 package com.renyu.androidcommonlibrary;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
@@ -21,6 +23,7 @@ import com.tencent.sonic.sdk.SonicEngine;
 import com.tencent.wcdb.database.SQLiteDatabase;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -37,9 +40,13 @@ public class ExampleApp extends MultiDexApplication {
     public PlainTextDBHelper dbHelper;
     public SQLiteDatabase db;
 
+    public ArrayList<String> openClassNames;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        openClassNames = new ArrayList<>();
 
         String processName= Utils.getProcessName(android.os.Process.myPid());
         if (processName.equals(getPackageName())) {
@@ -122,6 +129,43 @@ public class ExampleApp extends MultiDexApplication {
                 }
             };
             QbSdk.initX5Environment(getApplicationContext(),  cb);
+
+            registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+                @Override
+                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+                }
+
+                @Override
+                public void onActivityStarted(Activity activity) {
+                    openClassNames.add(activity.getLocalClassName());
+                }
+
+                @Override
+                public void onActivityResumed(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityPaused(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityStopped(Activity activity) {
+                    openClassNames.remove(activity.getLocalClassName());
+                }
+
+                @Override
+                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+                }
+
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+
+                }
+            });
         }
     }
 

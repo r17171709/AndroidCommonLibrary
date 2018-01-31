@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/tv_hello"
+        android:id="@+id/tv_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="触发通知" />
+        android:text="触发通知(8.0)" />
 
     <TextView
         android:id="@+id/tv_channel1"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="delete_channel1" />
+        android:text="delete_channel1(8.0)" />
 
     <TextView
         android:id="@+id/tv_channel2"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="delete_channel2" />
+        android:text="delete_channel2(8.0)" />
 
     <TextView
         android:id="@+id/tv_send_messagestyle"

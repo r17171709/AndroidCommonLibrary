@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -137,7 +138,12 @@ public class AppUpdateDialogFragment extends DialogFragment {
             bundle.putString("url", model.getUrl());
             bundle.putBoolean("download", false);
             intent.putExtras(bundle);
-            getActivity().startService(intent);
+            if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+                getActivity().startForegroundService(intent);
+            }
+            else {
+                getActivity().startService(intent);
+            }
 
             if (isCanCancel) {
                 dismissDialog();
@@ -214,7 +220,12 @@ public class AppUpdateDialogFragment extends DialogFragment {
                     bundle.putInt("smallIcon", getArguments().getInt("smallIcon"));
                     bundle.putInt("largeIcon", getArguments().getInt("largeIcon"));
                     intent.putExtras(bundle);
-                    getActivity().startService(intent);
+                    if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+                        getActivity().startForegroundService(intent);
+                    }
+                    else {
+                        getActivity().startService(intent);
+                    }
                     isFirstRefresh=true;
 
                     //直接设置成下载时的样式

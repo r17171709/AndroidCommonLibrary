@@ -496,7 +496,7 @@ public class NotificationUtils {
 	}
 
 	/**
-	 * 8.0开启后台服务
+	 * 8.0开启前台服务
 	 * @param service
 	 * @param ticker
 	 * @param title
@@ -523,7 +523,7 @@ public class NotificationUtils {
 	}
 
 	/**
-	 * 8.0关闭后台服务
+	 * 8.0关闭前台服务
 	 * @param service
 	 * @param id
 	 */
