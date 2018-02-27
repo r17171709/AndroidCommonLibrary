@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.novoda.bintray-release'
 
@@ -8,7 +10,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '1.10.5'
+    publishVersion = '1.11.1'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -45,6 +47,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'com.android.support:support-v13:27.0.2'
     compile 'com.android.support:design:27.0.2'
@@ -99,4 +102,7 @@ dependencies {
     compile 'com.tencent.wcdb:wcdb-android:1.0.5'
     // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
     compile 'com.tencent.sonic:sdk:2.0.0'
+}
+repositories {
+    mavenCentral()
 }

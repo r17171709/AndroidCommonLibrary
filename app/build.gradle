@@ -49,6 +49,6 @@ dependencies {
     implementation project(':CommonLibrary')
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
-//    compile 'com.github.renyu:AndroidCommonLibrary:1.9.12'
+//    compile 'com.github.renyu:AndroidCommonLibrary:1.11.0'
 //    compile 'com.github.r17171709:AndroidCommonLibrary:v1.9.13'
 }

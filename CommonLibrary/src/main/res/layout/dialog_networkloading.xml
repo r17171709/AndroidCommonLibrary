@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:background="@drawable/shape_networkloadingdialog"
+        android:paddingStart="15dip"
+        android:paddingEnd="20dip"
+        android:layout_marginStart="40dip"
+        android:layout_marginEnd="40dip"
+        android:gravity="center">
+        <app.dinus.com.loadingdrawable.LoadingView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/level_view"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:background="@android:color/transparent"
+            app:loading_renderer="LevelLoadingRenderer"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dip"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:text="正在加载中..."/>
+    </LinearLayout>
+</RelativeLayout>

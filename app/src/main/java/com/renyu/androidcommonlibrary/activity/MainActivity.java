@@ -3,7 +3,6 @@ package com.renyu.androidcommonlibrary.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.renyu.androidcommonlibrary.R;
@@ -13,14 +12,14 @@ import com.renyu.androidcommonlibrary.impl.X5WebAppInterface;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
-import com.renyu.commonlibrary.views.dialog.LoadingDialog;
+import com.renyu.commonlibrary.views.dialog.NetworkLoadingDialog;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends BaseActivity {
 
-    LoadingDialog loadingDialog;
+    NetworkLoadingDialog loadingDialog;
 
     @Override
     public void initParams() {
@@ -62,26 +61,26 @@ public class MainActivity extends BaseActivity {
                 //startActivity(intent);
 
                 // 测试网络请求
+                loadingDialog = NetworkLoadingDialog.getInstance();
                 retrofit.create(RetrofitImpl.class)
                         .getExampleValue()
                         .compose(Retrofit2Utils.background())
                         .subscribe(new Observer<ExampleAResponse>() {
                             @Override
                             public void onSubscribe(Disposable d) {
-                                loadingDialog = LoadingDialog.getInstance_TextLoading("Hello");
                                 loadingDialog.show(MainActivity.this);
-
                             }
 
                             @Override
                             public void onNext(ExampleAResponse value) {
-                                Toast.makeText(MainActivity.this, value.getU_id(), Toast.LENGTH_SHORT).show();
-                                loadingDialog.setCloseChoice("title", "确定", "取消");
+                                loadingDialog.setDialogDismissListener(() -> loadingDialog = null);
+                                loadingDialog.closeWithTextAndImage(value.getU_id(), R.mipmap.ic_launcher);
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                 e.printStackTrace();
+                                loadingDialog.close();
                             }
 
                             @Override
