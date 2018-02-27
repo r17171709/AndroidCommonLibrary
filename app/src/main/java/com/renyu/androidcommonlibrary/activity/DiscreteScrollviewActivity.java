@@ -1,8 +1,6 @@
 package com.renyu.androidcommonlibrary.activity;
 
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -13,8 +11,8 @@ import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.adapter.ShopAdapter;
 import com.renyu.androidcommonlibrary.bean.DiscreteBean;
 import com.renyu.commonlibrary.baseact.BaseActivity;
+import com.yarolegovich.discretescrollview.DSVOrientation;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
-import com.yarolegovich.discretescrollview.Orientation;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
 import java.util.ArrayList;
@@ -63,13 +61,8 @@ public class DiscreteScrollviewActivity extends BaseActivity {
         layout_nav_right.addView(imageView);
         ib_nav_right.setImageResource(R.mipmap.ic_arrow_gray_right);
 
-        scroll_discrete.setOrientation(Orientation.HORIZONTAL);
-        scroll_discrete.addOnItemChangedListener(new DiscreteScrollView.OnItemChangedListener<RecyclerView.ViewHolder>() {
-            @Override
-            public void onCurrentItemChanged(@Nullable RecyclerView.ViewHolder viewHolder, int adapterPosition) {
-                onItemChanged(data.get(adapterPosition));
-            }
-        });
+        scroll_discrete.setOrientation(DSVOrientation.HORIZONTAL);
+        scroll_discrete.addOnItemChangedListener((viewHolder, adapterPosition) -> onItemChanged(data.get(adapterPosition)));
         scroll_discrete.setAdapter(new ShopAdapter(data));
         scroll_discrete.setItemTransitionTimeMillis(150);
         scroll_discrete.setSlideOnFling(true);
