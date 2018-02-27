@@ -73,7 +73,6 @@ public class MainActivity extends BaseActivity {
 
                             @Override
                             public void onNext(ExampleAResponse value) {
-                                loadingDialog.setDialogDismissListener(() -> loadingDialog = null);
                                 loadingDialog.closeWithTextAndImage(value.getU_id(), R.mipmap.ic_launcher);
                             }
 
