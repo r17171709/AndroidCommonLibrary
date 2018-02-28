@@ -226,10 +226,12 @@ public class ActionSheetFragment extends Fragment {
             pop_title.setVisibility(View.GONE);
         }
         if (getArguments().getInt("type")==1) {
-            TextView pop_cancel= (TextView) view.findViewById(R.id.pop_cancel);
+            View view_space= view.findViewById(R.id.view_space);
+            view_space.setVisibility(View.VISIBLE);
+            TextView pop_cancel= view.findViewById(R.id.pop_cancel);
             pop_cancel.setVisibility(View.VISIBLE);
             pop_cancel.setOnClickListener(view12 -> dismiss());
-            ListView pop_listview= (ListView) view.findViewById(R.id.pop_listview);
+            ListView pop_listview= view.findViewById(R.id.pop_listview);
             pop_listview.setVisibility(View.VISIBLE);
             ActionSheetAdapter adapter=new ActionSheetAdapter(getActivity(), getArguments().getStringArray("items"));
             pop_listview.setAdapter(adapter);

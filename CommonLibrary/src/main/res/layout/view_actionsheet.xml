@@ -162,6 +162,12 @@
 
             </LinearLayout>
         </LinearLayout>
+        <View
+            android:id="@+id/view_space"
+            android:layout_width="match_parent"
+            android:layout_height="10dip"
+            android:visibility="gone"
+            android:background="#f4f4f4"></View>
         <TextView
             android:id="@+id/pop_cancel"
             android:layout_width="match_parent"
