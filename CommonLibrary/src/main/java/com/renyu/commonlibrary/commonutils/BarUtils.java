@@ -171,7 +171,7 @@ public class BarUtils {
             }
         }
         else if (brand.indexOf("Meizu")!=-1) {
-            StatusbarColorUtils.setStatusBarDarkIcon(activity, true);
+            FlymeStatusbarColorUtils.setStatusBarDarkIcon(activity, true);
         }
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             setMstatusBarDarkMode(activity);
