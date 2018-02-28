@@ -12,7 +12,7 @@ import com.renyu.commonlibrary.baseact.BaseActivity
 import com.renyu.commonlibrary.bean.UpdateModel
 import com.renyu.commonlibrary.commonutils.Utils
 import com.renyu.commonlibrary.views.AppUpdateDialogFragment
-import com.renyu.commonlibrary.views.dialog.LoadingDialog
+import com.renyu.commonlibrary.views.dialog.ChoiceDialog
 
 /**
  * Created by Administrator on 2017/12/7.
@@ -36,7 +36,7 @@ class OKHttpActivity : BaseActivity() {
             //先获取是否有安装未知来源应用的权限
             haveInstallPermission = packageManager.canRequestPackageInstalls()
             if (!haveInstallPermission) {//没有权限
-                val loadingDialog = LoadingDialog.getInstance_TextCommit("安装应用需要打开未知来源权限，请去设置中开启权限", "确定")
+                val loadingDialog = ChoiceDialog.getInstanceByTextCommit("安装应用需要打开未知来源权限，请去设置中开启权限", "确定")
                 loadingDialog.setOnDialogPosListener {
                     startInstallPermissionSettingActivity()
                 }

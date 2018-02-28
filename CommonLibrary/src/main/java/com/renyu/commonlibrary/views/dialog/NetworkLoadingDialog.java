@@ -11,7 +11,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -158,7 +157,6 @@ public class NetworkLoadingDialog extends DialogFragment {
      */
     public void closeWithTextAndImage(String text, int imageRes) {
         Toast toast = Toast.makeText(getActivity().getApplicationContext(), text, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
         LinearLayout toastView = (LinearLayout) (toast.getView());
         ImageView image = new ImageView(getActivity().getApplicationContext());
         image.setImageResource(imageRes);
