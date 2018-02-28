@@ -10,17 +10,12 @@ import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
 import com.renyu.androidcommonlibrary.impl.X5WebAppInterface;
 import com.renyu.commonlibrary.baseact.BaseActivity;
+import com.renyu.commonlibrary.network.BaseObserver;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.renyu.commonlibrary.views.dialog.ChoiceDialog;
-import com.renyu.commonlibrary.views.dialog.NetworkLoadingDialog;
-
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends BaseActivity {
-
-    NetworkLoadingDialog loadingDialog;
 
     @Override
     public void initParams() {
@@ -64,30 +59,13 @@ public class MainActivity extends BaseActivity {
                 ChoiceDialog choiceDialog = ChoiceDialog.getInstanceByChoice("内容", "确定", "取消");
                 choiceDialog.setOnDialogPosListener(() -> {
                     // 测试网络请求
-                    loadingDialog = NetworkLoadingDialog.getInstance("试试看");
                     retrofit.create(RetrofitImpl.class)
                             .getExampleValue()
                             .compose(Retrofit2Utils.background())
-                            .subscribe(new Observer<ExampleAResponse>() {
+                            .subscribe(new BaseObserver<ExampleAResponse>(MainActivity.this, "试试看") {
                                 @Override
-                                public void onSubscribe(Disposable d) {
-                                    loadingDialog.show(MainActivity.this);
-                                }
-
-                                @Override
-                                public void onNext(ExampleAResponse value) {
-                                    loadingDialog.closeWithTextAndImage(value.getU_id(), R.mipmap.ic_launcher);
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    e.printStackTrace();
-                                    loadingDialog.close();
-                                }
-
-                                @Override
-                                public void onComplete() {
-
+                                public void onNext(ExampleAResponse exampleAResponse) {
+                                    networkLoadingDialog.closeWithTextAndImage(exampleAResponse.getU_id(), R.mipmap.ic_launcher);
                                 }
                             });
                 });
