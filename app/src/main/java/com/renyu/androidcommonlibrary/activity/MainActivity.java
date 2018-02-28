@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity {
                 //startActivity(intent);
 
                 // 测试网络请求
-                loadingDialog = NetworkLoadingDialog.getInstance();
+                loadingDialog = NetworkLoadingDialog.getInstance("试试看");
                 retrofit.create(RetrofitImpl.class)
                         .getExampleValue()
                         .compose(Retrofit2Utils.background())

@@ -11,12 +11,13 @@
         android:layout_marginEnd="40dip"
         android:gravity="center">
         <app.dinus.com.loadingdrawable.LoadingView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/level_view"
+            android:id="@+id/level_networkloading"
             android:layout_width="60dip"
             android:layout_height="60dip"
             android:background="@android:color/transparent"
             app:loading_renderer="LevelLoadingRenderer"/>
         <TextView
+            android:id="@+id/tv_networkloading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dip"

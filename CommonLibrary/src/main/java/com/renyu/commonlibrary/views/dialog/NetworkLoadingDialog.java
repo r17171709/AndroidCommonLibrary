@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ScreenUtils;
@@ -36,7 +38,15 @@ public class NetworkLoadingDialog extends DialogFragment {
     private OnDialogDismiss onDialogDismissListener = null;
 
     public static NetworkLoadingDialog getInstance() {
-        return new NetworkLoadingDialog();
+        return getInstance("");
+    }
+
+    public static NetworkLoadingDialog getInstance(String loadingText) {
+        NetworkLoadingDialog dialog = new NetworkLoadingDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("loadingText", loadingText);
+        dialog.setArguments(bundle);
+        return dialog;
     }
 
     public interface OnDialogDismiss {
@@ -69,7 +79,9 @@ public class NetworkLoadingDialog extends DialogFragment {
         });
 
         View view = inflater.inflate(R.layout.dialog_networkloading, container, false);
-
+        if (!TextUtils.isEmpty(getArguments().getString("loadingText"))) {
+            ((TextView) view.findViewById(R.id.tv_networkloading)).setText(getArguments().getString("loadingText"));
+        }
         return view;
     }
 
