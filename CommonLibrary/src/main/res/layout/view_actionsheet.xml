@@ -172,7 +172,6 @@
             android:id="@+id/pop_cancel"
             android:layout_width="match_parent"
             android:layout_height="50dip"
-            android:layout_marginTop="10dip"
             android:visibility="gone"
             android:gravity="center"
             android:text="取消"
