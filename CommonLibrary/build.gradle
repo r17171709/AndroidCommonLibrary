@@ -47,7 +47,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'com.android.support:support-v13:27.0.2'
     compile 'com.android.support:design:27.0.2'
@@ -57,7 +57,7 @@ dependencies {
     // 添加支持multidex的兼容包
     compile 'com.android.support:multidex:1.0.2'
     // 工具类
-    compile 'com.blankj:utilcode:1.11.0'
+    compile 'com.blankj:utilcode:1.12.6'
     // retrofit2
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
