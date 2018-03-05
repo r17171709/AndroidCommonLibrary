@@ -1,9 +1,5 @@
 package com.renyu.commonlibrary.network;
 
-import android.util.Log;
-
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -120,13 +116,11 @@ public class OKHttpUtils {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (requestListener != null) {
-                    Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-                        if (response!=null && response.isSuccessful()) {
-                            requestListener.onSuccess(response.body().string());
-                        } else {
-                            requestListener.onError();
-                        }
-                    });
+                    if (response!=null && response.isSuccessful()) {
+                        Observable.just(response.body().string()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onSuccess(s));
+                    } else {
+                        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onError());
+                    }
                 }
             }
         });
@@ -227,13 +221,11 @@ public class OKHttpUtils {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (requestListener != null) {
-                    Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-                        if (response.isSuccessful()) {
-                            requestListener.onSuccess(response.body().string());
-                        } else {
-                            requestListener.onError();
-                        }
-                    });
+                    if (response!=null && response.isSuccessful()) {
+                        Observable.just(response.body().string()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onSuccess(s));
+                    } else {
+                        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onError());
+                    }
                 }
             }
         });
@@ -514,14 +506,11 @@ public class OKHttpUtils {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (requestListener != null) {
-                    Observable.just(response.body().string()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-                        if (response!=null && response.isSuccessful()) {
-                            requestListener.onSuccess(s);
-                        }
-                        else {
-                            requestListener.onError();
-                        }
-                    });
+                    if (response!=null && response.isSuccessful()) {
+                        Observable.just(response.body().string()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onSuccess(s));
+                    } else {
+                        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onError());
+                    }
                 }
             }
         });
