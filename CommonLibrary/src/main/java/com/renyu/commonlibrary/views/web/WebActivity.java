@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -41,7 +43,9 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -170,6 +174,16 @@ public class WebActivity extends BaseActivity {
         settings.setNeedInitialFocus(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setBuiltInZoomControls(false);
+        // 设置cookies
+        HashMap<String, String> cookies = new HashMap<>();
+        if (getIntent().getStringExtra("cookieUrl") != null) {
+            ArrayList<String> cookieValues = getIntent().getStringArrayListExtra("cookieValues");
+            for (int i = 0; i < cookieValues.size()/2; i++) {
+                cookies.put(cookieValues.get(i*2), cookieValues.get(i*2+1));
+            }
+        }
+        // cookies同步方法要在WebView的setting设置完之后调用，否则无效。
+        syncCookie(this, getIntent().getStringExtra("cookieUrl"), cookies);
         if (sonicSessionClient != null) {
             sonicSessionClient.bindWebView(web_webview);
             sonicSessionClient.clientReady();
@@ -287,5 +301,28 @@ public class WebActivity extends BaseActivity {
         public String getResponseHeaderField(String key) {
             return "";
         }
+    }
+
+    /**
+     * 添加Cookie
+     * @param context
+     * @param url
+     * @param cookies
+     */
+    private void syncCookie(Context context, String url, HashMap<String, String> cookies) {
+        // 如果API是21以下的话，需要在CookieManager前加
+        CookieSyncManager.createInstance(context);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.removeSessionCookie();
+        Iterator it = cookies.entrySet().iterator();
+        // 注意使用for循环进行setCookie(String url, String value)调用。网上有博客表示使用分号手动拼接的value值会导致cookie不能完整设置或者无效
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String value = entry.getKey() + "=" + entry.getValue();
+            cookieManager.setCookie(url, value);
+        }
+        // 如果API是21以下的话,在for循环结束后加
+        CookieSyncManager.getInstance().sync();
     }
 }

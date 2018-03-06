@@ -15,6 +15,8 @@ import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.renyu.commonlibrary.views.dialog.ChoiceDialog;
 
+import java.util.ArrayList;
+
 public class MainActivity extends BaseActivity {
 
     @Override
@@ -54,7 +56,17 @@ public class MainActivity extends BaseActivity {
                 intent.putExtra("WebAppImpl", new X5WebAppInterface());
                 intent.putExtra("url", "https://aznapi.house365.com/Home/Information/lists");
                 intent.putExtra(InitParams.NEED_GOBACK, true);
-                //startActivity(intent);
+                startActivity(intent);
+
+                Intent intent1=new Intent(MainActivity.this, MyX5WebActivity.class);
+                intent1.putExtra("url", "https://mtt.house365.com/index.php?m=home&c=fangdaijisuanqi&a=index&city=nj&q=business_fund_20__cn");
+                intent1.putExtra("cookieUrl", "mtt.house365.com");
+                ArrayList<String> cookieValues = new ArrayList<>();
+                cookieValues.add("is_close_app_down");
+                cookieValues.add("2");
+                intent1.putExtra("cookieValues", cookieValues);
+                intent1.putExtra(InitParams.NEED_GOBACK, true);
+//                startActivity(intent1);
 
                 ChoiceDialog choiceDialog = ChoiceDialog.getInstanceByChoice("内容", "确定", "取消");
                 choiceDialog.setOnDialogPosListener(() -> {

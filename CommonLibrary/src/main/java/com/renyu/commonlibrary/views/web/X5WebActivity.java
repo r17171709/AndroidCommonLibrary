@@ -1,5 +1,6 @@
 package com.renyu.commonlibrary.views.web;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,6 +22,8 @@ import com.renyu.commonlibrary.params.InitParams;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
+import com.tencent.smtt.sdk.CookieManager;
+import com.tencent.smtt.sdk.CookieSyncManager;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
@@ -28,6 +31,10 @@ import com.tencent.smtt.sdk.WebViewClient;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by renyu on 16/2/16.
@@ -126,6 +133,16 @@ public class X5WebActivity extends BaseActivity {
         settings.setNeedInitialFocus(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setBuiltInZoomControls(false);
+        // 设置cookies
+        HashMap<String, String> cookies = new HashMap<>();
+        if (getIntent().getStringExtra("cookieUrl") != null) {
+            ArrayList<String> cookieValues = getIntent().getStringArrayListExtra("cookieValues");
+            for (int i = 0; i < cookieValues.size()/2; i++) {
+                cookies.put(cookieValues.get(i*2), cookieValues.get(i*2+1));
+            }
+        }
+        // cookies同步方法要在WebView的setting设置完之后调用，否则无效。
+        syncCookie(this, getIntent().getStringExtra("cookieUrl"), cookies);
         web_webview.loadUrl(getIntent().getStringExtra("url"));
         findViewById(R.id.ib_nav_left).setOnClickListener(v -> finish());
     }
@@ -191,5 +208,28 @@ public class X5WebActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    /**
+     * 添加Cookie
+     * @param context
+     * @param url
+     * @param cookies
+     */
+    private void syncCookie(Context context, String url, HashMap<String, String> cookies) {
+        // 如果API是21以下的话，需要在CookieManager前加
+        CookieSyncManager.createInstance(context);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.removeSessionCookie();
+        Iterator it = cookies.entrySet().iterator();
+        // 注意使用for循环进行setCookie(String url, String value)调用。网上有博客表示使用分号手动拼接的value值会导致cookie不能完整设置或者无效
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String value = entry.getKey() + "=" + entry.getValue();
+            cookieManager.setCookie(url, value);
+        }
+        // 如果API是21以下的话,在for循环结束后加
+        CookieSyncManager.getInstance().sync();
     }
 }
