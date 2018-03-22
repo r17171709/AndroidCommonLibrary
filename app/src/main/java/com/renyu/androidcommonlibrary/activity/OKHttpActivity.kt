@@ -13,16 +13,13 @@ import com.renyu.commonlibrary.bean.UpdateModel
 import com.renyu.commonlibrary.commonutils.Utils
 import com.renyu.commonlibrary.views.AppUpdateDialogFragment
 import com.renyu.commonlibrary.views.dialog.ChoiceDialog
+import java.io.File
 
 /**
  * Created by Administrator on 2017/12/7.
  */
 class OKHttpActivity : BaseActivity() {
-    val pics = arrayOf("/storage/emulated/0/Pictures/dongqiudi/1512634878367.jpg",
-            "/storage/emulated/0/Pictures/dongqiudi/1512635214549.jpg",
-            "/storage/emulated/0/Pictures/dongqiudi/1512635218258.jpg",
-            "/storage/emulated/0/Pictures/dongqiudi/1512635223683.jpg",
-            "/storage/emulated/0/Pictures/dongqiudi/1512635228373.jpg")
+    val pics = arrayOf("/storage/sdcard0/aizuna365/image/150405650959a614bd132d5.jpg")
 
     override fun initParams() {
 
@@ -31,37 +28,37 @@ class OKHttpActivity : BaseActivity() {
     override fun initViews() = R.layout.activity_main
 
     override fun loadData() {
-        var haveInstallPermission: Boolean
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //先获取是否有安装未知来源应用的权限
-            haveInstallPermission = packageManager.canRequestPackageInstalls()
-            if (!haveInstallPermission) {//没有权限
-                val loadingDialog = ChoiceDialog.getInstanceByTextCommit("安装应用需要打开未知来源权限，请去设置中开启权限", "确定")
-                loadingDialog.setOnDialogPosListener {
-                    startInstallPermissionSettingActivity()
-                }
-                loadingDialog.show(this)
-                return
-            }
-        }
-        update()
+//        var haveInstallPermission: Boolean
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            //先获取是否有安装未知来源应用的权限
+//            haveInstallPermission = packageManager.canRequestPackageInstalls()
+//            if (!haveInstallPermission) {//没有权限
+//                val loadingDialog = ChoiceDialog.getInstanceByTextCommit("安装应用需要打开未知来源权限，请去设置中开启权限", "确定")
+//                loadingDialog.setOnDialogPosListener {
+//                    startInstallPermissionSettingActivity()
+//                }
+//                loadingDialog.show(this)
+//                return
+//            }
+//        }
+//        update()
 
         // 普通请求
-        Thread(Runnable {
-            val timestamp = (System.currentTimeMillis() / 1000).toInt()
-            val random = "abcdefghijklmn"
-            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
-                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
-            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
-                    "&app_id=46877648&rand_str=" + random +
-                    "&signature=" + Utils.getMD5(signature) +
-                    "&device_id=" + Utils.getUniquePsuedoID()
-            val headMaps = HashMap<String, String>()
-            headMaps["version"] = "v1.0"
-            headMaps["debug"] = "0"
-            val tokenResponse = httpHelper.okHttpUtils.syncGet(url, headMaps)
-            println(tokenResponse.body()?.string())
-        }).start()
+//        Thread(Runnable {
+//            val timestamp = (System.currentTimeMillis() / 1000).toInt()
+//            val random = "abcdefghijklmn"
+//            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
+//                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
+//            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
+//                    "&app_id=46877648&rand_str=" + random +
+//                    "&signature=" + Utils.getMD5(signature) +
+//                    "&device_id=" + Utils.getUniquePsuedoID()
+//            val headMaps = HashMap<String, String>()
+//            headMaps["version"] = "v1.0"
+//            headMaps["debug"] = "0"
+//            val tokenResponse = httpHelper.okHttpUtils.syncGet(url, headMaps)
+//            println(tokenResponse.body()?.string())
+//        }).start()
 
 
         // 下载
@@ -97,18 +94,30 @@ class OKHttpActivity : BaseActivity() {
 //                    }
 //                }) { progress, _, _ -> println("2:$progress")}
 
-        // 上传
-//                for (i in 0 until pics.size) {
-//                    Thread(Runnable {
-//                        val fileHashMap = HashMap<String, File>()
-//                        fileHashMap.put("fileData", File(pics[i]))
-//                        httpHelper.okHttpUtils.syncUpload(
-//                                "http://www.zksell.com/index.php?s=Api/Base/uploadpic",
-//                                HashMap<String, String>(), fileHashMap) { currentBytesCount, totalBytesCount ->
-//                            println("OKHttpActivity: $currentBytesCount   $totalBytesCount")
-//                        }
-//                    }).start()
-//                }
+        //上传
+        for (i in 0 until pics.size) {
+            Thread(Runnable {
+                val fileHashMap = HashMap<String, File>()
+                fileHashMap["file"] = File(pics[i])
+
+                val params = HashMap<String, String>()
+                params["type"] = "picture"
+                params["token"] = "qEWY3kh6WZ6NTVdTX5s4rhTh-lF6JwaJzXyaeiF7qYOKa7vCCHMccqEfjjHFF6-gPaXxYPrgUjkmzNwUygwGl3ORAqWmqemBbnP_cGTY1ZQeLjkm6GS0KjGlY3hzbS0o"
+
+                val head = HashMap<String, String>()
+                head["Data-Range"] = "0-${File(pics[i]).length()-1}"
+                head["Data-Length"] = "${File(pics[i]).length()}"
+
+                val result = httpHelper.okHttpUtils.syncUpload(
+                        "http://webim.house365.com/tm/file/upload",
+                        params,
+                        fileHashMap,
+                        head) { currentBytesCount, totalBytesCount ->
+                    println("OKHttpActivity: $currentBytesCount   $totalBytesCount")
+                }
+                println(result)
+            }).start()
+        }
     }
 
     override fun setStatusBarColor() = Color.BLACK

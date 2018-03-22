@@ -433,35 +433,43 @@ public class OKHttpUtils {
      * @param url
      * @param params
      * @param files
+     * @param headers
+     * @param listener
      * @return
      */
-    private Call uploadPrepare(String url, HashMap<String, String> params, HashMap<String, File> files, ProgressRequestBody.UpProgressListener listener) {
+    private Call uploadPrepare(String url, HashMap<String, String> params, HashMap<String, File> files, HashMap<String, String> headers, ProgressRequestBody.UpProgressListener listener) {
         MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
         multipartBuilder.setType(MultipartBody.FORM);
-        Iterator<Map.Entry<String, String>> params_it=params.entrySet().iterator();
-        while (params_it.hasNext()) {
-            Map.Entry<String, String> params_en= params_it.next();
-            multipartBuilder.addFormDataPart(params_en.getKey(), params_en.getValue());
+        if (params != null) {
+            Iterator<Map.Entry<String, String>> params_it=params.entrySet().iterator();
+            while (params_it.hasNext()) {
+                Map.Entry<String, String> params_en= params_it.next();
+                multipartBuilder.addFormDataPart(params_en.getKey(), params_en.getValue());
+            }
         }
         /**
          * 遍历paths中所有图片绝对路径到builder，并约定key如“upload”作为后台接受多张图片的key
          for (String path : paths) {
          builder.addFormDataPart("upload", null, RequestBody.create(MEDIA_TYPE_PNG, new File(path)));
          */
-        Iterator<Map.Entry<String, File>> file_it=files.entrySet().iterator();
-        while (file_it.hasNext()) {
-            Map.Entry<String, File> entry=file_it.next();
-
-            multipartBuilder.addFormDataPart(entry.getKey(), entry.getValue().getName(), RequestBody.create(MediaType.parse("application/octet-stream"), entry.getValue()));
+        if (files != null) {
+            Iterator<Map.Entry<String, File>> file_it=files.entrySet().iterator();
+            while (file_it.hasNext()) {
+                Map.Entry<String, File> entry=file_it.next();
+                multipartBuilder.addFormDataPart(entry.getKey(), entry.getValue().getName(), RequestBody.create(MediaType.parse("application/octet-stream"), entry.getValue()));
+            }
         }
         RequestBody formBody = multipartBuilder.build();
         formBody = new ProgressRequestBody(formBody, listener);
-        Request request = new Request.Builder()
-                .url(url)
-                .tag(url)
-                .post(formBody)
-                .build();
-        return okHttpClient.newCall(request);
+        Request.Builder builder = new Request.Builder();
+        if (headers != null) {
+            Iterator<Map.Entry<String, String>> header_it=headers.entrySet().iterator();
+            while (header_it.hasNext()) {
+                Map.Entry<String, String> entry=header_it.next();
+                builder.addHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        return okHttpClient.newCall(builder.url(url).tag(url).post(formBody).build());
     }
 
     /**
@@ -469,10 +477,12 @@ public class OKHttpUtils {
      * @param url
      * @param params
      * @param files
+     * @param headers
+     * @param listener
      * @return
      */
-    public String syncUpload(String url, HashMap<String, String> params, HashMap<String, File> files, ProgressRequestBody.UpProgressListener listener) {
-        Call call=uploadPrepare(url, params, files, listener);
+    public String syncUpload(String url, HashMap<String, String> params, HashMap<String, File> files, HashMap<String, String> headers, ProgressRequestBody.UpProgressListener listener) {
+        Call call=uploadPrepare(url, params, files, headers, listener);
         try {
             Response response=call.execute();
             if (response!=null && response.isSuccessful()) {
@@ -489,10 +499,12 @@ public class OKHttpUtils {
      * @param url
      * @param params
      * @param files
+     * @param headers
      * @param requestListener
+     * @param listener
      */
-    public void asyncUpload(HashMap<String, File> files, String url, HashMap<String, String> params, final RequestListener requestListener, ProgressRequestBody.UpProgressListener listener) {
-        Call call=uploadPrepare(url, params, files, listener);
+    public void asyncUpload(String url, HashMap<String, String> params, HashMap<String, File> files, HashMap<String, String> headers, final RequestListener requestListener, ProgressRequestBody.UpProgressListener listener) {
+        Call call=uploadPrepare(url, params, files, headers, listener);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
