@@ -46,9 +46,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     // butterknife
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
-//    implementation project(':CommonLibrary')
+    implementation project(':CommonLibrary')
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
-    implementation 'com.github.renyu:AndroidCommonLibrary:1.11.8'
+//    implementation 'com.github.renyu:AndroidCommonLibrary:1.11.8'
 //    implementation 'com.github.r17171709:AndroidCommonLibrary:v1.9.13'
 }
