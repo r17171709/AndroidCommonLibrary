@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity {
                 intent.putExtra("WebAppImpl", new X5WebAppInterface());
                 intent.putExtra("url", "https://aznapi.house365.com/Home/Information/lists");
                 intent.putExtra(InitParams.NEED_GOBACK, true);
-                startActivity(intent);
+//                startActivity(intent);
 
                 Intent intent1=new Intent(MainActivity.this, MyX5WebActivity.class);
                 intent1.putExtra("url", "https://mtt.house365.com/index.php?m=home&c=fangdaijisuanqi&a=index&city=nj&q=business_fund_20__cn");
@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity {
                 cookieValues.add("2");
                 intent1.putExtra("cookieValues", cookieValues);
                 intent1.putExtra(InitParams.NEED_GOBACK, true);
-//                startActivity(intent1);
+                startActivity(intent1);
 
                 ChoiceDialog choiceDialog = ChoiceDialog.getInstanceByChoice("内容", "确定", "取消");
                 choiceDialog.setOnDialogPosListener(() -> {
@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity {
                                 }
                             });
                 });
-                choiceDialog.show(MainActivity.this);
+//                choiceDialog.show(MainActivity.this);
             }
 
             @Override

@@ -44,21 +44,21 @@ class OKHttpActivity : BaseActivity() {
 //        update()
 
         // 普通请求
-//        Thread(Runnable {
-//            val timestamp = (System.currentTimeMillis() / 1000).toInt()
-//            val random = "abcdefghijklmn"
-//            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
-//                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
-//            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
-//                    "&app_id=46877648&rand_str=" + random +
-//                    "&signature=" + Utils.getMD5(signature) +
-//                    "&device_id=" + Utils.getUniquePsuedoID()
-//            val headMaps = HashMap<String, String>()
-//            headMaps["version"] = "v1.0"
-//            headMaps["debug"] = "0"
-//            val tokenResponse = httpHelper.okHttpUtils.syncGet(url, headMaps)
-//            println(tokenResponse.body()?.string())
-//        }).start()
+        Thread(Runnable {
+            val timestamp = (System.currentTimeMillis() / 1000).toInt()
+            val random = "abcdefghijklmn"
+            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
+                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
+            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
+                    "&app_id=46877648&rand_str=" + random +
+                    "&signature=" + Utils.getMD5(signature) +
+                    "&device_id=" + Utils.getUniquePsuedoID()
+            val headMaps = HashMap<String, String>()
+            headMaps["version"] = "v1.0"
+            headMaps["debug"] = "0"
+            val tokenResponse = httpHelper.okHttpUtils.syncGet(url, headMaps)
+            println(tokenResponse.body()?.string())
+        }).start()
 
 
         // 下载
@@ -95,29 +95,29 @@ class OKHttpActivity : BaseActivity() {
 //                }) { progress, _, _ -> println("2:$progress")}
 
         //上传
-        for (i in 0 until pics.size) {
-            Thread(Runnable {
-                val fileHashMap = HashMap<String, File>()
-                fileHashMap["file"] = File(pics[i])
-
-                val params = HashMap<String, String>()
-                params["type"] = "picture"
-                params["token"] = "qEWY3kh6WZ6NTVdTX5s4rhTh-lF6JwaJzXyaeiF7qYOKa7vCCHMccqEfjjHFF6-gPaXxYPrgUjkmzNwUygwGl3ORAqWmqemBbnP_cGTY1ZQeLjkm6GS0KjGlY3hzbS0o"
-
-                val head = HashMap<String, String>()
-                head["Data-Range"] = "0-${File(pics[i]).length()-1}"
-                head["Data-Length"] = "${File(pics[i]).length()}"
-
-                val result = httpHelper.okHttpUtils.syncUpload(
-                        "http://webim.house365.com/tm/file/upload",
-                        params,
-                        fileHashMap,
-                        head) { currentBytesCount, totalBytesCount ->
-                    println("OKHttpActivity: $currentBytesCount   $totalBytesCount")
-                }
-                println(result)
-            }).start()
-        }
+//        for (i in 0 until pics.size) {
+//            Thread(Runnable {
+//                val fileHashMap = HashMap<String, File>()
+//                fileHashMap["file"] = File(pics[i])
+//
+//                val params = HashMap<String, String>()
+//                params["type"] = "picture"
+//                params["token"] = "qEWY3kh6WZ6NTVdTX5s4rhTh-lF6JwaJzXyaeiF7qYOKa7vCCHMccqEfjjHFF6-gPaXxYPrgUjkmzNwUygwGl3ORAqWmqemBbnP_cGTY1ZQeLjkm6GS0KjGlY3hzbS0o"
+//
+//                val head = HashMap<String, String>()
+//                head["Data-Range"] = "0-${File(pics[i]).length()-1}"
+//                head["Data-Length"] = "${File(pics[i]).length()}"
+//
+//                val result = httpHelper.okHttpUtils.syncUpload(
+//                        "http://webim.house365.com/tm/file/upload",
+//                        params,
+//                        fileHashMap,
+//                        head) { currentBytesCount, totalBytesCount ->
+//                    println("OKHttpActivity: $currentBytesCount   $totalBytesCount")
+//                }
+//                println(result)
+//            }).start()
+//        }
     }
 
     override fun setStatusBarColor() = Color.BLACK
