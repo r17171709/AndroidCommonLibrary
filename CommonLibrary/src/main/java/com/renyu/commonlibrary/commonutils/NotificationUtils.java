@@ -47,8 +47,8 @@ public class NotificationUtils {
 	public static final String groupDownloadId = "channel_group_download";
 	public static final String groupDownloadName = "channel_group_name_download";
 
-	public static final String channelId = "channel_default";
-	public static final String channelName = "channel_name_default";
+	public static final String channelDefaultId = "channel_default";
+	public static final String channelDefaultName = "channel_name_default";
 	public static final String channelDownloadId = "channel_download";
 	public static final String channelDownloadName = "channel_name_download";
 
@@ -71,7 +71,7 @@ public class NotificationUtils {
 						groups.add(group_download);
 						createNotificationGroups(groups);
 
-						NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+						NotificationChannel channel = new NotificationChannel(channelDefaultId, channelDefaultName, NotificationManager.IMPORTANCE_HIGH);
 						// 开启指示灯，如果设备有的话
 						channel.enableLights(true);
 						// 设置指示灯颜色
@@ -187,12 +187,12 @@ public class NotificationUtils {
 	 * @param largeIcon
 	 * @param intent
 	 */
-	public void createNormalNotification(String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent) {
-		createNormalNotification(ticker, title, content, color, smallIcon, largeIcon, intent, (int) (System.currentTimeMillis()/1000));
+	public void createNormalNotification(String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent, String channelId) {
+		createNormalNotification(ticker, title, content, color, smallIcon, largeIcon, intent, channelId, (int) (System.currentTimeMillis()/1000));
 	}
 
-	public void createNormalNotification(String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent, int notifyId) {
-		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+	public void createNormalNotification(String ticker, String title, String content, int color, int smallIcon, int largeIcon, Intent intent, String channelId, int notifyId) {
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
 		manager.notify(notifyId, builder.build());
 	}
 
@@ -212,8 +212,8 @@ public class NotificationUtils {
 	public void createButtonNotification(String ticker, String title, String content,
 										 int color, int smallIcon, int largeIcon,
 										 int actionIcon1, String actionTitle1, Class actionClass1,
-										 Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+										 Intent intent, String channelId) {
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
 		builder.addAction(actionIcon1, actionTitle1, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass1), PendingIntent.FLAG_UPDATE_CURRENT));
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
@@ -222,8 +222,8 @@ public class NotificationUtils {
 										  int color, int smallIcon, int largeIcon,
 										  int actionIcon1, String actionTitle1, Class actionClass1,
 										  int actionIcon2, String actionTitle2, Class actionClass2,
-										  Intent intent) {
-		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+										  Intent intent, String channelId) {
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
 		builder.addAction(actionIcon1, actionTitle1, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass1), PendingIntent.FLAG_UPDATE_CURRENT));
 		builder.addAction(actionIcon2, actionTitle2, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass2), PendingIntent.FLAG_UPDATE_CURRENT));
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
@@ -244,8 +244,8 @@ public class NotificationUtils {
 	public void createProgressNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
 										   int max, int progress,
-										   Intent intent, int notifyId) {
-		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+										   Intent intent, String channelId, int notifyId) {
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon,channelId, intent);
 		builder.setProgress(max, progress, false);
 		manager.notify(notifyId, builder.build());
 	}
@@ -262,8 +262,8 @@ public class NotificationUtils {
 	 */
 	public void createIndeterminateProgressNotification(String ticker, String title, String content,
 														int color, int smallIcon, int largeIcon,
-														Intent intent, int notifyId) {
-		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+														Intent intent, String channelId, int notifyId) {
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
 		builder.setProgress(0, 0, true);
 		manager.notify(notifyId, builder.build());
 	}
@@ -284,12 +284,12 @@ public class NotificationUtils {
 	public void createBigTextNotification(String ticker, String title, String content,
 										  int color, int smallIcon, int largeIcon,
 										  String bigText, String bigContentTitle, String summaryText,
-										  Intent intent) {
+										  Intent intent, String channelId) {
 		NotificationCompat.BigTextStyle style=new NotificationCompat.BigTextStyle();
 		style.bigText(bigText);
 		style.setBigContentTitle(bigContentTitle);
 		style.setSummaryText(summaryText);
-		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
 		builder.setStyle(style);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
@@ -311,13 +311,13 @@ public class NotificationUtils {
 	public void createBigImageNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
 										   int bigLargeIcon, int bigPicture, String bigContentTitle, String summaryText,
-										   Intent intent) {
+										   Intent intent, String channelId) {
 		NotificationCompat.BigPictureStyle style=new NotificationCompat.BigPictureStyle();
 		style.bigLargeIcon(BitmapFactory.decodeResource(context.getResources(), bigLargeIcon));
 		style.bigPicture(BitmapFactory.decodeResource(context.getResources(), bigPicture));
 		style.setBigContentTitle(bigContentTitle);
 		style.setSummaryText(summaryText);
-		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
 		builder.setStyle(style);
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
@@ -338,14 +338,14 @@ public class NotificationUtils {
 	public void createTextListNotification(String ticker, String title, String content,
 										   int color, int smallIcon, int largeIcon,
 										   ArrayList<String> linesString, String bigContentTitle, String summaryText,
-										   Intent intent, int notifyId) {
+										   Intent intent, String channelId, int notifyId) {
 		NotificationCompat.InboxStyle style=new NotificationCompat.InboxStyle();
 		for (String s : linesString) {
 			style.addLine(s);
 		}
 		style.setBigContentTitle(bigContentTitle);
 		style.setSummaryText(summaryText);
-		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
 		builder.setStyle(style);
 		manager.notify(notifyId, builder.build());
 	}
@@ -354,14 +354,14 @@ public class NotificationUtils {
 												 int color, int smallIcon, int largeIcon,
 												 String userDisplayName, String conversationTitle,
 												 ArrayList<NotificationCompat.MessagingStyle.Message> messages,
-												 Intent intent, int notifyId) {
+												 Intent intent, String channelId, int notifyId) {
 		NotificationCompat.MessagingStyle style = new NotificationCompat
 				.MessagingStyle(userDisplayName)
 				.setConversationTitle(conversationTitle);
 		for (NotificationCompat.MessagingStyle.Message message : messages) {
 			style.addMessage(message);
 		}
-		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
 		builder.setStyle(style);
 		manager.notify(notifyId, builder.build());
 		return style;
@@ -371,11 +371,11 @@ public class NotificationUtils {
 												 int color, int smallIcon, int largeIcon,
 												 NotificationCompat.MessagingStyle style,
 												 ArrayList<NotificationCompat.MessagingStyle.Message> messages,
-												 Intent intent, int notifyId) {
+												 Intent intent, String channelId, int notifyId) {
 		for (NotificationCompat.MessagingStyle.Message message : messages) {
 			style.addMessage(message);
 		}
-		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId, intent);
+		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
 		builder.setStyle(style);
 		manager.notify(notifyId, builder.build());
 	}
@@ -545,7 +545,7 @@ public class NotificationUtils {
 	 * @return
 	 */
 	private static int getNotificationColor() {
-		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.channelId);
+		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.channelDefaultId);
 		Notification notification=builder.build();
 		// 7.0没有解决
 		if (notification.contentView==null) {

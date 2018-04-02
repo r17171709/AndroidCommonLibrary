@@ -103,14 +103,14 @@ public class NotificationActivity extends BaseActivity {
             messages.add(message3);
             messages.add(message4);
             messages.add(message5);
-            style = NotificationUtils.getNotificationCenter(getApplicationContext()).createMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "demo", "2 new messages wtih ", messages, new Intent(), 104);
+            style = NotificationUtils.getNotificationCenter(getApplicationContext()).createMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "demo", "2 new messages wtih ", messages, new Intent(), NotificationUtils.channelDefaultId, 104);
         });
 
         tv_update_messagestyle.setOnClickListener(v -> {
             ArrayList<NotificationCompat.MessagingStyle.Message> messages = new ArrayList<>();
             NotificationCompat.MessagingStyle.Message message6 = new NotificationCompat.MessagingStyle.Message("6 "+System.currentTimeMillis(), System.currentTimeMillis(), "66");
             messages.add(message6);
-            NotificationUtils.getNotificationCenter(getApplicationContext()).updateMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, style, messages, new Intent(), 104);
+            NotificationUtils.getNotificationCenter(getApplicationContext()).updateMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, style, messages, new Intent(), NotificationUtils.channelDefaultId, 104);
         });
 
         tv_send_messagestyle8.setOnClickListener(v -> {
@@ -184,7 +184,7 @@ public class NotificationActivity extends BaseActivity {
         Notification.Style style = new Notification.MessagingStyle("Me").setConversationTitle("Team lunch")
                 .addHistoricMessage(new Notification.MessagingStyle.Message("Historic Message - not visible", 1, "Liang"));
 
-        Notification.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelId);
+        Notification.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, NotificationUtils.channelDefaultId);
         builder.setStyle(style);
         return builder;
     }
