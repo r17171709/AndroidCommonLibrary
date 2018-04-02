@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"
+        <activity android:name=".activity.NotificationActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,10 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MyWebActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.MyX5WebActivity" android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.MyWebActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyX5WebActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.NotificationShowActivity" android:screenOrientation="portrait"/>
-        <receiver android:name=".receiver.RemoteInputReceiver"></receiver>
+        <receiver android:name=".receiver.RemoteInputReceiver" />
         <service android:name=".service.RemoveNotificationService"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>

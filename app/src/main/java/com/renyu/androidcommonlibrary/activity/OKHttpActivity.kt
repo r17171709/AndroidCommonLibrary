@@ -10,10 +10,8 @@ import android.support.annotation.RequiresApi
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
 import com.renyu.commonlibrary.bean.UpdateModel
-import com.renyu.commonlibrary.commonutils.Utils
 import com.renyu.commonlibrary.views.AppUpdateDialogFragment
 import com.renyu.commonlibrary.views.dialog.ChoiceDialog
-import java.io.File
 
 /**
  * Created by Administrator on 2017/12/7.
@@ -28,37 +26,37 @@ class OKHttpActivity : BaseActivity() {
     override fun initViews() = R.layout.activity_main
 
     override fun loadData() {
-//        var haveInstallPermission: Boolean
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            //先获取是否有安装未知来源应用的权限
-//            haveInstallPermission = packageManager.canRequestPackageInstalls()
-//            if (!haveInstallPermission) {//没有权限
-//                val loadingDialog = ChoiceDialog.getInstanceByTextCommit("安装应用需要打开未知来源权限，请去设置中开启权限", "确定")
-//                loadingDialog.setOnDialogPosListener {
-//                    startInstallPermissionSettingActivity()
-//                }
-//                loadingDialog.show(this)
-//                return
-//            }
-//        }
-//        update()
+        var haveInstallPermission: Boolean
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //先获取是否有安装未知来源应用的权限
+            haveInstallPermission = packageManager.canRequestPackageInstalls()
+            if (!haveInstallPermission) {//没有权限
+                val loadingDialog = ChoiceDialog.getInstanceByTextCommit("安装应用需要打开未知来源权限，请去设置中开启权限", "确定")
+                loadingDialog.setOnDialogPosListener {
+                    startInstallPermissionSettingActivity()
+                }
+                loadingDialog.show(this)
+                return
+            }
+        }
+        update()
 
         // 普通请求
-        Thread(Runnable {
-            val timestamp = (System.currentTimeMillis() / 1000).toInt()
-            val random = "abcdefghijklmn"
-            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
-                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
-            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
-                    "&app_id=46877648&rand_str=" + random +
-                    "&signature=" + Utils.getMD5(signature) +
-                    "&device_id=" + Utils.getUniquePsuedoID()
-            val headMaps = HashMap<String, String>()
-            headMaps["version"] = "v1.0"
-            headMaps["debug"] = "0"
-            val tokenResponse = httpHelper.okHttpUtils.syncGet(url, headMaps)
-            println(tokenResponse.body()?.string())
-        }).start()
+//        Thread(Runnable {
+//            val timestamp = (System.currentTimeMillis() / 1000).toInt()
+//            val random = "abcdefghijklmn"
+//            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
+//                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
+//            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
+//                    "&app_id=46877648&rand_str=" + random +
+//                    "&signature=" + Utils.getMD5(signature) +
+//                    "&device_id=" + Utils.getUniquePsuedoID()
+//            val headMaps = HashMap<String, String>()
+//            headMaps["version"] = "v1.0"
+//            headMaps["debug"] = "0"
+//            val tokenResponse = httpHelper.okHttpUtils.syncGet(url, headMaps)
+//            println(tokenResponse.body()?.string())
+//        }).start()
 
 
         // 下载

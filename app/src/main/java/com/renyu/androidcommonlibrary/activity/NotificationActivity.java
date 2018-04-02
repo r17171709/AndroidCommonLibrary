@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -76,6 +77,13 @@ public class NotificationActivity extends BaseActivity {
                     NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter(getApplicationContext()).getSimpleBuilderWithTimeout("ticker", "channel2", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", 10, new Intent());
                     NotificationUtils.getNotificationCenter(getApplicationContext()).getNotificationManager().notify(101, builder.build());
                 }
+            }
+            else {
+                NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter(getApplicationContext()).getSimpleBuilder("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, NotificationUtils.channelDefaultId, new Intent());
+                builder.setDefaults(NotificationCompat.DEFAULT_LIGHTS);
+                Uri sound=Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ring_user_message_high);
+                builder.setSound(sound);
+                NotificationUtils.getNotificationCenter(getApplicationContext()).getNotificationManager().notify(100, builder.build());
             }
         });
 
