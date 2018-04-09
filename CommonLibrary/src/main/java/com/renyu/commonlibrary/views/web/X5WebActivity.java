@@ -60,8 +60,8 @@ public class X5WebActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         BarUtils.setDark(this);
-        super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -93,15 +93,11 @@ public class X5WebActivity extends BaseActivity {
                 }
             }
         });
-        web_webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         WebSettings settings=web_webview.getSettings();
         settings.setDomStorageEnabled(true);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             settings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        settings.setBlockNetworkImage(false);
-        settings.setBlockNetworkLoads(false);
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setDatabaseEnabled(true);
         settings.setAppCacheEnabled(true);
         settings.setSavePassword(false);
@@ -109,6 +105,10 @@ public class X5WebActivity extends BaseActivity {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptEnabled(true);
+        settings.setAllowContentAccess(true);
+        settings.setAllowFileAccess(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
+        settings.setBuiltInZoomControls(false);
         impl=getIntent().getParcelableExtra("WebAppImpl");
         if (impl!=null) {
             impl.setContext(this);
@@ -128,11 +128,6 @@ public class X5WebActivity extends BaseActivity {
                 super.onReceivedSslError(webView, sslErrorHandler, sslError);
             }
         });
-        settings.setAllowContentAccess(true);
-        settings.setAllowFileAccess(true);
-        settings.setNeedInitialFocus(true);
-        settings.setAllowUniversalAccessFromFileURLs(true);
-        settings.setBuiltInZoomControls(false);
         // 设置cookies
         HashMap<String, String> cookies = new HashMap<>();
         if (getIntent().getStringExtra("cookieUrl") != null) {

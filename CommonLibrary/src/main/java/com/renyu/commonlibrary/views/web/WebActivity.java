@@ -30,14 +30,12 @@ import com.renyu.commonlibrary.commonutils.sonic.SonicRuntimeImpl;
 import com.renyu.commonlibrary.commonutils.sonic.SonicSessionClientImpl;
 import com.renyu.commonlibrary.impl.WebAppImpl;
 import com.renyu.commonlibrary.params.InitParams;
-import com.tencent.sonic.sdk.SonicCacheInterceptor;
 import com.tencent.sonic.sdk.SonicConfig;
 import com.tencent.sonic.sdk.SonicConstants;
 import com.tencent.sonic.sdk.SonicEngine;
 import com.tencent.sonic.sdk.SonicSession;
 import com.tencent.sonic.sdk.SonicSessionConfig;
 import com.tencent.sonic.sdk.SonicSessionConnection;
-import com.tencent.sonic.sdk.SonicSessionConnectionInterceptor;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -76,29 +74,14 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         BarUtils.setDark(this);
-        super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-    }
 
-    @Override
-    public void initParams() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         if (!SonicEngine.isGetInstanceAllowed()) {
             SonicEngine.createInstance(new SonicRuntimeImpl(getApplication()), new SonicConfig.Builder().build());
         }
         sonicSessionClient=new SonicSessionClientImpl();
         SonicSessionConfig.Builder sessionConfigBuilder = new SonicSessionConfig.Builder();
-        sessionConfigBuilder.setCacheInterceptor(new SonicCacheInterceptor(null) {
-            @Override
-            public String getCacheData(SonicSession session) {
-                return null;
-            }
-        });
-        sessionConfigBuilder.setConnectionInterceptor(new SonicSessionConnectionInterceptor() {
-            @Override
-            public SonicSessionConnection getConnection(SonicSession session, Intent intent) {
-                return new OfflinePkgSessionConnection(WebActivity.this, session, intent);
-            }
-        });
+        sessionConfigBuilder.setSupportLocalServer(true);
         sonicSession = SonicEngine.getInstance().createSession(getIntent().getStringExtra("url"), sessionConfigBuilder.build());
         if (null != sonicSession) {
             sonicSession.bindClient(sonicSessionClient);
@@ -106,6 +89,11 @@ public class WebActivity extends BaseActivity {
             finish();
         }
 
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void initParams() {
         ib_nav_left = (ImageButton) findViewById(R.id.ib_nav_left);
         ib_nav_left.setImageResource(R.mipmap.ic_arrow_black_left);
         ib_nav_left.setOnClickListener(v -> finish());
@@ -133,15 +121,11 @@ public class WebActivity extends BaseActivity {
                 }
             }
         });
-        web_webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         WebSettings settings=web_webview.getSettings();
         settings.setDomStorageEnabled(true);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        settings.setBlockNetworkImage(false);
-        settings.setBlockNetworkLoads(false);
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setDatabaseEnabled(true);
         settings.setAppCacheEnabled(true);
         settings.setSavePassword(false);
@@ -149,6 +133,10 @@ public class WebActivity extends BaseActivity {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptEnabled(true);
+        settings.setAllowContentAccess(true);
+        settings.setAllowFileAccess(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
+        settings.setBuiltInZoomControls(false);
         impl=getIntent().getParcelableExtra("WebAppImpl");
         if (impl!=null) {
             impl.setContext(this);
@@ -169,11 +157,6 @@ public class WebActivity extends BaseActivity {
                 super.onReceivedSslError(view, handler, error);
             }
         });
-        settings.setAllowContentAccess(true);
-        settings.setAllowFileAccess(true);
-        settings.setNeedInitialFocus(true);
-        settings.setAllowUniversalAccessFromFileURLs(true);
-        settings.setBuiltInZoomControls(false);
         // 设置cookies
         HashMap<String, String> cookies = new HashMap<>();
         if (getIntent().getStringExtra("cookieUrl") != null) {

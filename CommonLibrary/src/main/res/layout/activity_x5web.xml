@@ -16,7 +16,6 @@
         android:layout_height="match_parent">
         <com.tencent.smtt.sdk.WebView
             android:id="@+id/web_x5webview"
-            android:layerType="software"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

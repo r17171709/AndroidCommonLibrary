@@ -10,7 +10,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '1.11.9'
+    publishVersion = '1.11.10'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -101,7 +101,7 @@ dependencies {
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     api 'com.tencent.wcdb:wcdb-android:1.0.6'
     // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
-    api 'com.tencent.sonic:sdk:2.0.0'
+    api 'com.tencent.sonic:sdk:3.0.0'
 }
 repositories {
     mavenCentral()

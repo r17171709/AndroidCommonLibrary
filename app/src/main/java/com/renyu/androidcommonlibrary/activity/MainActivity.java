@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
+import com.renyu.androidcommonlibrary.impl.WebAppInterface;
 import com.renyu.androidcommonlibrary.impl.X5WebAppInterface;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.network.BaseObserver;
@@ -48,15 +49,15 @@ public class MainActivity extends BaseActivity {
                 FileUtils.createOrExistsDir(InitParams.CACHE_PATH);
 
                 // js调用示例
-                Intent intent=new Intent(MainActivity.this, MyX5WebActivity.class);
+                Intent intent=new Intent(MainActivity.this, MyWebActivity.class);
                 // 定义跨平台交互关键字
                 intent.putExtra("WebAppImplName", "android");
                 intent.putExtra("title", "测试");
                 // 定义方法实现接口
-                intent.putExtra("WebAppImpl", new X5WebAppInterface());
-                intent.putExtra("url", "https://aznapi.house365.com/Home/Information/lists");
+                intent.putExtra("WebAppImpl", new WebAppInterface());
+                intent.putExtra("url", "http://m.aizuna.com/index.php?m=Home&c=AznSpring&referer_id=12");
                 intent.putExtra(InitParams.NEED_GOBACK, true);
-//                startActivity(intent);
+                startActivity(intent);
 
                 Intent intent1=new Intent(MainActivity.this, MyX5WebActivity.class);
                 intent1.putExtra("url", "https://mtt.house365.com/index.php?m=home&c=fangdaijisuanqi&a=index&city=nj&q=business_fund_20__cn");
@@ -66,7 +67,7 @@ public class MainActivity extends BaseActivity {
                 cookieValues.add("2");
                 intent1.putExtra("cookieValues", cookieValues);
                 intent1.putExtra(InitParams.NEED_GOBACK, true);
-                startActivity(intent1);
+//                startActivity(intent1);
 
                 ChoiceDialog choiceDialog = ChoiceDialog.getInstanceByChoice("内容", "确定", "取消");
                 choiceDialog.setOnDialogPosListener(() -> {

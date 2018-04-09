@@ -4,12 +4,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
 
     <application>
         <provider
@@ -21,9 +19,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
-        <activity android:name=".views.web.WebActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".views.web.X5WebActivity" android:screenOrientation="portrait"></activity>
-        <service android:name=".service.UpdateService"></service>
+        <activity
+            android:name=".views.web.WebActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true" />
+        <activity
+            android:name=".views.web.X5WebActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"/>
+        <service android:name=".service.UpdateService" />
     </application>
 
 </manifest>
