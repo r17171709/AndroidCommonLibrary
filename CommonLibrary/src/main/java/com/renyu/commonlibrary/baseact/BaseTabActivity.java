@@ -1,5 +1,7 @@
 package com.renyu.commonlibrary.baseact;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,6 +27,32 @@ public abstract class BaseTabActivity extends BaseActivity {
 
     String currentTag = "one";
     Fragment currentFragment = null;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            for (int i = 0; i < manager.getFragments().size(); i++) {
+                transaction.hide(manager.getFragments().get(i));
+            }
+            transaction.commit();
+
+            currentTag = savedInstanceState.getString("currentTag");
+            currentFragment = manager.findFragmentByTag(currentTag);
+
+            switchFragment(currentTag);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("currentTag", currentTag);
+    }
 
     public void switchFragment(String tag) {
         FragmentManager manager = getSupportFragmentManager();
