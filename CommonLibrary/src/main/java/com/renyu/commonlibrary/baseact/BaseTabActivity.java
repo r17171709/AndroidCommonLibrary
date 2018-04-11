@@ -25,8 +25,8 @@ public abstract class BaseTabActivity extends BaseActivity {
     public abstract ArrayList<Integer> getTextViews();
     public abstract ArrayList<Integer> getImageViews();
 
-    String currentTag = "one";
-    Fragment currentFragment = null;
+    public String currentTag = "one";
+    public Fragment currentFragment = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
