@@ -55,6 +55,11 @@ public class NotificationActivity extends BaseActivity {
 
     @Override
     public void initParams() {
+        // 询问用户开启通知权限
+        if (!NotificationUtils.isNotificationEnabled(this)) {
+            NotificationUtils.openNotification(this);
+        }
+
         manager=(NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
             NotificationChannel channel = new NotificationChannel("channel3", "channelName3", NotificationManager.IMPORTANCE_HIGH);
