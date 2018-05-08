@@ -3,7 +3,6 @@ package com.renyu.androidcommonlibrary.activity;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,8 @@ import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
-import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.bigkoo.convenientbanner.holder.Holder;
+import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
 import com.gongwen.marqueen.MarqueeFactory;
 import com.gongwen.marqueen.MarqueeView;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
@@ -82,23 +82,15 @@ public class ScrollRVActivity extends BaseActivity {
 
         refreshVP();
 
-        grid_scrollrv.post(new Runnable() {
-            @Override
-            public void run() {
-                grid_scrollrv.removeAllViews();
-                for (int i = 0; i < 8; i++) {
-                    View view = LayoutInflater.from(ScrollRVActivity.this).inflate(R.layout.adapter_grid, null, false);
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.d("ScrollRVActivity", "点击4");
-                        }
-                    });
-                    GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-                    params.width = grid_scrollrv.getMeasuredWidth() / 4;
-                    params.height = grid_scrollrv.getMeasuredWidth() / 4;
-                    grid_scrollrv.addView(view, params);
-                }
+        grid_scrollrv.post(() -> {
+            grid_scrollrv.removeAllViews();
+            for (int i = 0; i < 8; i++) {
+                View view = LayoutInflater.from(ScrollRVActivity.this).inflate(R.layout.adapter_grid, null, false);
+                view.setOnClickListener(v -> Log.d("ScrollRVActivity", "点击4"));
+                GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+                params.width = grid_scrollrv.getMeasuredWidth() / 4;
+                params.height = grid_scrollrv.getMeasuredWidth() / 4;
+                grid_scrollrv.addView(view, params);
             }
         });
 
@@ -109,59 +101,36 @@ public class ScrollRVActivity extends BaseActivity {
         MarqueeFactory<TextView, String> marqueeFactory1 = new NoticeMF(this);
         marquee_scrollrv.setMarqueeFactory(marqueeFactory1);
         marquee_scrollrv.startFlipping();
-        marquee_scrollrv.setOnItemClickListener(new com.gongwen.marqueen.util.OnItemClickListener() {
-            @Override
-            public void onItemClickListener(View mView, Object mData, int mPosition) {
-                Toast.makeText(ScrollRVActivity.this, mData.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        marquee_scrollrv.setOnItemClickListener((mView, mData, mPosition) -> Toast.makeText(ScrollRVActivity.this, mData.toString(), Toast.LENGTH_SHORT).show());
         marqueeFactory1.setData(info);
 
         refreshScrollView();
 
-        swipy_scrollrv.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh(final SwipyRefreshLayoutDirection direction) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (direction==SwipyRefreshLayoutDirection.BOTTOM) {
-                            linearLayoutBeans2.addAll(getBeans(15));
-                            adapter.notifyDataSetChanged();
-                        }
-                        else if (direction==SwipyRefreshLayoutDirection.TOP) {
-                            cb_scrollrv.stopTurning();
-                            linearLayoutBeans1.clear();
-                            linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161182051&di=73ea74c482c56e65bd895dec951884e3&imgtype=jpg&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8644ebf81a4c510fd95d93db6959252dd52aa551.jpg"));
-                            linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160133&di=bd17c2859efa779ddca3b8ab1e1acb68&imgtype=0&src=http%3A%2F%2Fguangdong.sinaimg.cn%2F2014%2F0508%2FU10729P693DT20140508144234.jpg"));
-                            linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160134&di=3a25c42f93367a04db3a3de3095e214b&imgtype=0&src=http%3A%2F%2Fpic.hsw.cn%2F0%2F12%2F25%2F40%2F12254064_630448.jpg"));
-                            refreshVP();
-
-                            linearLayoutBeans3.clear();
-                            linearLayoutBeans3.addAll(getBeans(4));
-                            refreshScrollView();
-                            layout_scrollrv_1.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    scroll_scrollrv_1.scrollTo(0, 0);
-                                }
-                            });
-                            layout_scrollrv_2.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    scroll_scrollrv_2.scrollTo(0, 0);
-                                }
-                            });
-
-                            linearLayoutBeans2.clear();
-                            linearLayoutBeans2.addAll(getBeans(15));
-                            adapter.notifyDataSetChanged();
-                        }
-                        swipy_scrollrv.setRefreshing(false);
-                    }
-                }, 2000);
+        swipy_scrollrv.setOnRefreshListener(direction -> new Handler().postDelayed(() -> {
+            if (direction==SwipyRefreshLayoutDirection.BOTTOM) {
+                linearLayoutBeans2.addAll(getBeans(15));
+                adapter.notifyDataSetChanged();
             }
-        });
+            else if (direction==SwipyRefreshLayoutDirection.TOP) {
+                cb_scrollrv.stopTurning();
+                linearLayoutBeans1.clear();
+                linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161182051&di=73ea74c482c56e65bd895dec951884e3&imgtype=jpg&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8644ebf81a4c510fd95d93db6959252dd52aa551.jpg"));
+                linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160133&di=bd17c2859efa779ddca3b8ab1e1acb68&imgtype=0&src=http%3A%2F%2Fguangdong.sinaimg.cn%2F2014%2F0508%2FU10729P693DT20140508144234.jpg"));
+                linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160134&di=3a25c42f93367a04db3a3de3095e214b&imgtype=0&src=http%3A%2F%2Fpic.hsw.cn%2F0%2F12%2F25%2F40%2F12254064_630448.jpg"));
+                refreshVP();
+
+                linearLayoutBeans3.clear();
+                linearLayoutBeans3.addAll(getBeans(4));
+                refreshScrollView();
+                layout_scrollrv_1.post(() -> scroll_scrollrv_1.scrollTo(0, 0));
+                layout_scrollrv_2.post(() -> scroll_scrollrv_2.scrollTo(0, 0));
+
+                linearLayoutBeans2.clear();
+                linearLayoutBeans2.addAll(getBeans(15));
+                adapter.notifyDataSetChanged();
+            }
+            swipy_scrollrv.setRefreshing(false);
+        }, 2000));
 
         rv_scrollrv.setHasFixedSize(true);
         FullyLinearLayoutManager linearLayoutManager = new FullyLinearLayoutManager(this);
@@ -175,26 +144,16 @@ public class ScrollRVActivity extends BaseActivity {
         layout_scrollrv_1.removeAllViews();
         for (int i = 0; i < linearLayoutBeans3.size(); i++) {
             View v= LayoutInflater.from(this).inflate(R.layout.adapter_item, null, false);
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("ScrollRVActivity", "点击2");
-                }
-            });
-            TextView tv_releaserentalsuccess_address= (TextView) v.findViewById(R.id.tv_releaserentalsuccess_address);
+            v.setOnClickListener(v12 -> Log.d("ScrollRVActivity", "点击2"));
+            TextView tv_releaserentalsuccess_address= v.findViewById(R.id.tv_releaserentalsuccess_address);
             tv_releaserentalsuccess_address.setText(linearLayoutBeans3.get(i).toString());
             layout_scrollrv_1.addView(v);
         }
         layout_scrollrv_2.removeAllViews();
         for (int i = 0; i < linearLayoutBeans3.size(); i++) {
             View v= LayoutInflater.from(this).inflate(R.layout.adapter_item, null, false);
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("ScrollRVActivity", "点击3");
-                }
-            });
-            TextView tv_releaserentalsuccess_address= (TextView) v.findViewById(R.id.tv_releaserentalsuccess_address);
+            v.setOnClickListener(v1 -> Log.d("ScrollRVActivity", "点击3"));
+            TextView tv_releaserentalsuccess_address= v.findViewById(R.id.tv_releaserentalsuccess_address);
             tv_releaserentalsuccess_address.setText(linearLayoutBeans3.get(i).toString());
             layout_scrollrv_2.addView(v);
         }
@@ -203,36 +162,34 @@ public class ScrollRVActivity extends BaseActivity {
     private void refreshVP() {
         cb_scrollrv.setPages(new CBViewHolderCreator() {
             @Override
-            public Object createHolder() {
-                return new LocalImageHolderView();
-            }
-        }, linearLayoutBeans1).setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-
-            }
-        }).setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+            public Holder createHolder(View itemView) {
+                return new LocalImageHolderView(itemView);
             }
 
             @Override
-            public void onPageSelected(int position) {
-                Log.d("ScrollRVActivity", "position:" + position);
+            public int getLayoutId() {
+
+                return R.layout.adapter_convenientbanner;
+            }
+        }, linearLayoutBeans1).setOnItemClickListener(position -> {
+
+        }).setOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
+            }
+
+            @Override
+            public void onPageSelected(int index) {
+                Log.d("ScrollRVActivity", "position:" + index);
             }
         });
-        cb_scrollrv.post(new Runnable() {
-            @Override
-            public void run() {
-                cb_scrollrv.startTurning(4000);
-            }
-        });
+        cb_scrollrv.post(() -> cb_scrollrv.startTurning(4000));
     }
 
     @Override
