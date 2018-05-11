@@ -1,22 +1,17 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.graphics.Color;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
-import com.renyu.androidcommonlibrary.impl.WebAppInterface;
-import com.renyu.androidcommonlibrary.impl.X5WebAppInterface;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.network.BaseObserver;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.renyu.commonlibrary.views.dialog.ChoiceDialog;
-
-import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
 
@@ -49,24 +44,24 @@ public class MainActivity extends BaseActivity {
                 FileUtils.createOrExistsDir(InitParams.CACHE_PATH);
 
                 // js调用示例
-                Intent intent=new Intent(MainActivity.this, MyWebActivity.class);
-                // 定义跨平台交互关键字
-                intent.putExtra("WebAppImplName", "android");
-                intent.putExtra("title", "测试");
-                // 定义方法实现接口
-                intent.putExtra("WebAppImpl", new WebAppInterface());
-                intent.putExtra("url", "http://m.aizuna.com/index.php?m=Home&c=AznSpring&referer_id=12");
-                intent.putExtra(InitParams.NEED_GOBACK, true);
-                startActivity(intent);
+//                Intent intent=new Intent(MainActivity.this, MyWebActivity.class);
+//                // 定义跨平台交互关键字
+//                intent.putExtra("WebAppImplName", "android");
+//                intent.putExtra("title", "测试");
+//                // 定义方法实现接口
+//                intent.putExtra("WebAppImpl", new WebAppInterface());
+//                intent.putExtra("url", "http://m.aizuna.com/index.php?m=Home&c=AznSpring&referer_id=12");
+//                intent.putExtra(InitParams.NEED_GOBACK, true);
+//                startActivity(intent);
 
-                Intent intent1=new Intent(MainActivity.this, MyX5WebActivity.class);
-                intent1.putExtra("url", "https://mtt.house365.com/index.php?m=home&c=fangdaijisuanqi&a=index&city=nj&q=business_fund_20__cn");
-                intent1.putExtra("cookieUrl", "mtt.house365.com");
-                ArrayList<String> cookieValues = new ArrayList<>();
-                cookieValues.add("is_close_app_down");
-                cookieValues.add("2");
-                intent1.putExtra("cookieValues", cookieValues);
-                intent1.putExtra(InitParams.NEED_GOBACK, true);
+//                Intent intent1=new Intent(MainActivity.this, MyX5WebActivity.class);
+//                intent1.putExtra("url", "https://mtt.house365.com/index.php?m=home&c=fangdaijisuanqi&a=index&city=nj&q=business_fund_20__cn");
+//                intent1.putExtra("cookieUrl", "mtt.house365.com");
+//                ArrayList<String> cookieValues = new ArrayList<>();
+//                cookieValues.add("is_close_app_down");
+//                cookieValues.add("2");
+//                intent1.putExtra("cookieValues", cookieValues);
+//                intent1.putExtra(InitParams.NEED_GOBACK, true);
 //                startActivity(intent1);
 
                 ChoiceDialog choiceDialog = ChoiceDialog.getInstanceByChoice("内容", "确定", "取消");
@@ -82,7 +77,7 @@ public class MainActivity extends BaseActivity {
                                 }
                             });
                 });
-//                choiceDialog.show(MainActivity.this);
+                choiceDialog.show(MainActivity.this);
             }
 
             @Override

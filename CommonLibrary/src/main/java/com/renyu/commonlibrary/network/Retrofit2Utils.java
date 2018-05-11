@@ -30,17 +30,11 @@ public class Retrofit2Utils {
 
     private static Retrofit baseRetrofit;
     private static Retrofit.Builder baseRetrofitBuilder;
-    private static Retrofit imageRetrofit;
-    private static Retrofit.Builder imageRetrofitBuilder;
 
     private Retrofit2Utils(String baseUrl) {
         // 基础请求
         baseRetrofitBuilder=new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create()).baseUrl(baseUrl);
-
-        // 图片上传请求
-        imageRetrofitBuilder=new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create()).baseUrl(baseUrl);
     }
 
@@ -48,16 +42,8 @@ public class Retrofit2Utils {
         baseRetrofitBuilder.client(okHttpClient);
     }
 
-    public void addImageOKHttpClient(OkHttpClient okHttpClient) {
-        imageRetrofitBuilder.client(okHttpClient);
-    }
-
     public void baseBuild() {
         baseRetrofit=baseRetrofitBuilder.build();
-    }
-
-    public void imageBuild() {
-        imageRetrofit=imageRetrofitBuilder.build();
     }
 
     public static Retrofit2Utils getInstance(String baseUrl) {
@@ -73,10 +59,6 @@ public class Retrofit2Utils {
 
     public static Retrofit getBaseRetrofit() {
         return baseRetrofit;
-    }
-
-    public static Retrofit getImageUploadRetrofit() {
-        return imageRetrofit;
     }
 
     /**
