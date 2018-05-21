@@ -12,7 +12,7 @@ import com.renyu.commonlibrary.commonutils.BarUtils;
  * Created by renyu on 2017/7/2.
  */
 
-public class LoginActivity extends BaseActivity {
+public class MoreEditActivity extends BaseActivity {
     @Override
     public void initParams() {
 
@@ -20,7 +20,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public int initViews() {
-        return R.layout.activity_login;
+        return R.layout.activity_moreedit;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         BarUtils.setDark(this);
         super.onCreate(savedInstanceState);
-        // 全屏模式下添加，或者在rootview加fitsSystemWindows
+        // 全屏模式下添加，或者在rootview加fitsSystemWindows，需要包裹ScrollView
         AndroidBug5497Workaround.assistActivity(this);
     }
 }
