@@ -938,7 +938,7 @@ public class ActionSheetFragment extends Fragment {
         manager = fragmentActivity.getSupportFragmentManager();
         new Handler().post(() -> {
             FragmentTransaction transaction=manager.beginTransaction();
-            transaction.add(ActionSheetFragment.this, tag);
+            transaction.add(this, tag);
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         });
@@ -957,7 +957,7 @@ public class ActionSheetFragment extends Fragment {
                 if (manager != null) {
                     manager.popBackStack();
                     FragmentTransaction transaction=manager.beginTransaction();
-                    transaction.remove(ActionSheetFragment.this);
+                    transaction.remove(this);
                     transaction.commitAllowingStateLoss();
                 }
             });

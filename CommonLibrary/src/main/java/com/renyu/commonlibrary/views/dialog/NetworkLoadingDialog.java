@@ -4,12 +4,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.blankj.utilcode.util.ScreenUtils;
 import com.renyu.commonlibrary.R;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by Administrator on 2018/2/27 0027.
@@ -130,11 +132,23 @@ public class NetworkLoadingDialog extends DialogFragment {
             return;
         }
         manager = fragmentActivity.getSupportFragmentManager();
-        new Handler().post(() -> {
-            super.show(manager, tag);
+        try {
+            Field fieldDismissed = DialogFragment.class.getDeclaredField("mDismissed");
+            fieldDismissed.setAccessible(true);
+            fieldDismissed.setBoolean(this, false);
 
-            isDismiss=false;
-        });
+            Field fieldShownByMe = DialogFragment.class.getDeclaredField("mShownByMe");
+            fieldShownByMe.setAccessible(true);
+            fieldShownByMe.setBoolean(this, true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        FragmentTransaction transaction=manager.beginTransaction();
+        transaction.add(this, tag);
+        transaction.commitAllowingStateLoss();
+
+        isDismiss=false;
     }
 
     public void close() {
@@ -166,16 +180,14 @@ public class NetworkLoadingDialog extends DialogFragment {
     }
 
     private void dismissDialog() {
-        new Handler().post(() -> {
-            if (isDismiss) {
-                return;
-            }
-            isDismiss=true;
-            try {
-                dismissAllowingStateLoss();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        if (isDismiss) {
+            return;
+        }
+        isDismiss=true;
+        try {
+            dismissAllowingStateLoss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
