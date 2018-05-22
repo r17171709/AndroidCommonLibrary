@@ -49,6 +49,7 @@ import java.util.Map;
 
 /**
  * Created by renyu on 16/2/16.
+ * 缺少样式不可以直接使用
  */
 public class WebActivity extends BaseActivity {
 

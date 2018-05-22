@@ -19,14 +19,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
-        <activity
-            android:name=".views.web.WebActivity"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true" />
-        <activity
-            android:name=".views.web.X5WebActivity"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true"/>
         <service android:name=".service.UpdateService" />
     </application>
 

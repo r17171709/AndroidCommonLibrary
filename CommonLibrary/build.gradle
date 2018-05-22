@@ -57,7 +57,7 @@ dependencies {
     // 添加支持multidex的兼容包
     api 'com.android.support:multidex:1.0.3'
     // 工具类
-    api 'com.blankj:utilcode:1.14.2'
+    api 'com.blankj:utilcode:1.15.1'
     // retrofit2
     api 'com.squareup.retrofit2:retrofit:2.4.0'
     api 'com.squareup.retrofit2:converter-gson:2.4.0'
@@ -81,7 +81,7 @@ dependencies {
     // CircleImageView  A circular ImageView for Android
     api 'de.hdodenhof:circleimageview:2.2.0'
     // vlayout
-    api('com.alibaba.android:vlayout:1.2.8@aar') {
+    api('com.alibaba.android:vlayout:1.2.15@aar') {
         transitive = true
     }
     // BadgeView  支持自由定制外观、拖拽消除的MaterialDesign风格Android BadgeView
@@ -103,6 +103,7 @@ dependencies {
     // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
     api 'com.tencent.sonic:sdk:3.0.0'
 }
+
 repositories {
     mavenCentral()
 }
