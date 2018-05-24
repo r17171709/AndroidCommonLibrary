@@ -33,6 +33,9 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <service
+            android:name=".service.X5IntentService"
+            android:enabled="true" />
     </application>
 
 </manifest>
