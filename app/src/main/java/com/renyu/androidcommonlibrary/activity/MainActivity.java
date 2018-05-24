@@ -1,6 +1,7 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.graphics.Color;
 
 import com.blankj.utilcode.util.FileUtils;
@@ -12,6 +13,8 @@ import com.renyu.commonlibrary.network.BaseObserver;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.renyu.commonlibrary.views.dialog.ChoiceDialog;
+
+import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
 
@@ -54,30 +57,30 @@ public class MainActivity extends BaseActivity {
 //                intent.putExtra(InitParams.NEED_GOBACK, true);
 //                startActivity(intent);
 
-//                Intent intent1=new Intent(MainActivity.this, MyX5WebActivity.class);
-//                intent1.putExtra("url", "https://mtt.house365.com/index.php?m=home&c=fangdaijisuanqi&a=index&city=nj&q=business_fund_20__cn");
-//                intent1.putExtra("cookieUrl", "mtt.house365.com");
-//                ArrayList<String> cookieValues = new ArrayList<>();
-//                cookieValues.add("is_close_app_down");
-//                cookieValues.add("2");
-//                intent1.putExtra("cookieValues", cookieValues);
-//                intent1.putExtra(InitParams.NEED_GOBACK, true);
-//                startActivity(intent1);
+                Intent intent1=new Intent(MainActivity.this, MyX5WebActivity.class);
+                intent1.putExtra("url", "https://mtt.house365.com/index.php?m=home&c=fangdaijisuanqi&a=index&city=nj&q=business_fund_20__cn");
+                intent1.putExtra("cookieUrl", "mtt.house365.com");
+                ArrayList<String> cookieValues = new ArrayList<>();
+                cookieValues.add("is_close_app_down");
+                cookieValues.add("2");
+                intent1.putExtra("cookieValues", cookieValues);
+                intent1.putExtra(InitParams.NEED_GOBACK, true);
+                startActivity(intent1);
 
-                ChoiceDialog choiceDialog = ChoiceDialog.getInstanceByChoice("内容", "确定", "取消");
-                choiceDialog.setOnDialogPosListener(() -> {
-                    // 测试网络请求
-                    retrofit.create(RetrofitImpl.class)
-                            .getExampleValue()
-                            .compose(Retrofit2Utils.background())
-                            .subscribe(new BaseObserver<ExampleAResponse>(MainActivity.this, "试试看") {
-                                @Override
-                                public void onNext(ExampleAResponse exampleAResponse) {
-                                    networkLoadingDialog.closeWithTextAndImage(exampleAResponse.getU_id(), R.mipmap.ic_launcher);
-                                }
-                            });
-                });
-                choiceDialog.show(MainActivity.this);
+//                ChoiceDialog choiceDialog = ChoiceDialog.getInstanceByChoice("内容", "确定", "取消");
+//                choiceDialog.setOnDialogPosListener(() -> {
+//                    // 测试网络请求
+//                    retrofit.create(RetrofitImpl.class)
+//                            .getExampleValue()
+//                            .compose(Retrofit2Utils.background())
+//                            .subscribe(new BaseObserver<ExampleAResponse>(MainActivity.this, "试试看") {
+//                                @Override
+//                                public void onNext(ExampleAResponse exampleAResponse) {
+//                                    networkLoadingDialog.closeWithTextAndImage(exampleAResponse.getU_id(), R.mipmap.ic_launcher);
+//                                }
+//                            });
+//                });
+//                choiceDialog.show(MainActivity.this);
             }
 
             @Override
