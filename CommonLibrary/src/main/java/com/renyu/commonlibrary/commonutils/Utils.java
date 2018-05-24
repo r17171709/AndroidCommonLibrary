@@ -18,6 +18,9 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.DeviceUtils;
+import com.blankj.utilcode.util.SPUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -68,29 +71,33 @@ public class Utils {
      * @return
      */
     public static String getUniquePsuedoID() {
-        String serial = null;
-        String m_szDevIDShort = "35" +
-                Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
-                Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
-                Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
-                Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
-                Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
-                Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
-                Build.USER.length() % 10; //13 位
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                serial = Build.getSerial();
+        final String PREFS_FILE = "device_id.xml";
+        final String PREFS_DEVICE_ID = "device_id";
+
+        String id = SPUtils.getInstance(PREFS_FILE).getString(PREFS_DEVICE_ID);
+        if (!TextUtils.isEmpty(id)) {
+            return id;
+        } else {
+            String androidId = DeviceUtils.getAndroidID();
+            UUID uuid;
+            try {
+                uuid = UUID.nameUUIDFromBytes(androidId.getBytes("utf8"));
+            } catch (Exception e) {
+                String m_szDevIDShort = "35" +
+                        Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
+                        Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
+                        Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
+                        Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
+                        Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
+                        Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
+                        Build.USER.length() % 10; //13 位
+                String serial = "serial";
+                uuid = new UUID(m_szDevIDShort.hashCode(), serial.hashCode());
             }
-            else {
-                serial = Build.SERIAL;
-            }
-            return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
-        } catch (Exception exception) {
-            //serial需要一个初始化
-            serial = "serial"; // 随便一个初始化
+            String value = uuid.toString().replace("-", "_");
+            SPUtils.getInstance(PREFS_FILE).put(PREFS_DEVICE_ID, value);
+            return value;
         }
-        //使用硬件信息拼凑出来的15位号码
-        return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
     }
 
     /**
