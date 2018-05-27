@@ -10,6 +10,9 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <application>
+        <activity
+            android:name=".views.permission.PermissionActivity"
+            android:theme="@style/translucent_style" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

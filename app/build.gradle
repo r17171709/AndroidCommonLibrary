@@ -37,6 +37,12 @@ android {
     }
 }
 
+kapt {
+    arguments {
+        arg("moduleName", project.getName())
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
@@ -48,6 +54,10 @@ dependencies {
     implementation project(':CommonLibrary')
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
-//    implementation 'com.github.renyu:AndroidCommonLibrary:1.11.8'
+//    implementation 'com.github.renyu:AndroidCommonLibrary:1.11.16'
 //    implementation 'com.github.r17171709:AndroidCommonLibrary:v1.9.13'
+    // AspectJ 每一个application和library都需要
+    implementation 'org.aspectj:aspectjrt:1.9.1'
 }
+
+rootProject.aop(project.android.applicationVariants)

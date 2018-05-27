@@ -96,7 +96,7 @@ public class X5WebActivity extends BaseActivity {
         });
         WebSettings settings=web_webview.getSettings();
         settings.setDomStorageEnabled(true);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
         settings.setDatabaseEnabled(true);

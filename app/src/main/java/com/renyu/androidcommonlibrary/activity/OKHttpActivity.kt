@@ -10,8 +10,10 @@ import android.support.annotation.RequiresApi
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
 import com.renyu.commonlibrary.bean.UpdateModel
+import com.renyu.commonlibrary.impl.OnPermissionCheckedImpl
 import com.renyu.commonlibrary.views.AppUpdateDialogFragment
 import com.renyu.commonlibrary.views.dialog.ChoiceDialog
+import com.renyu.commonlibrary.views.permission.PermissionActivity
 
 /**
  * Created by Administrator on 2017/12/7.
@@ -136,14 +138,10 @@ class OKHttpActivity : BaseActivity() {
     }
 
     private fun update() {
-        var permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE)
-        checkPermission(permissions, "请授予SD卡读写权限", object : OnPermissionCheckedListener {
-            override fun checked(flag: Boolean) {
-
-            }
-
+        PermissionActivity.gotoActivity(this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), "" +
+                "请授予存储卡读取权限", object : OnPermissionCheckedImpl {
             override fun grant() {
-                // 升级测试
                 Handler().post {
                     val temp = UpdateModel()
                     temp.notificationTitle = "Demo"
@@ -157,7 +155,7 @@ class OKHttpActivity : BaseActivity() {
             }
 
             override fun denied() {
-
+                finish()
             }
         })
     }

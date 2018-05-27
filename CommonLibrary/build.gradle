@@ -10,7 +10,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '1.11.15'
+    publishVersion = '1.12.0'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -102,8 +102,8 @@ dependencies {
     api 'com.tencent.wcdb:wcdb-android:1.0.6'
     // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
     api 'com.tencent.sonic:sdk:3.0.0'
+    // AspectJ 每一个application和library都需要
+    implementation 'org.aspectj:aspectjrt:1.9.1'
 }
 
-repositories {
-    mavenCentral()
-}
+rootProject.aop(project.android.libraryVariants)

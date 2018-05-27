@@ -37,7 +37,7 @@ class SpannableStringActivtiy: BaseActivity() {
         // 进行排序
         while (temp.size != 0) {
             var small = 0
-            temp.forEachIndexed { index, spnnableStringRange ->
+            temp.forEachIndexed { index, _ ->
                 if (temp[small].start > temp[index].start) {
                     small = index
                 }
@@ -109,7 +109,7 @@ class PhoneClick(val phone: String, val activity: AppCompatActivity) : Clickable
     }
 }
 
-enum class ClickType(type: Int) {
-    PHONE(1),
-    WEB(2)
+enum class ClickType {
+    PHONE,
+    WEB
 }
