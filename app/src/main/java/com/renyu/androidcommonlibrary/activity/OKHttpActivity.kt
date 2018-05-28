@@ -8,12 +8,12 @@ import android.os.Handler
 import android.provider.Settings
 import android.support.annotation.RequiresApi
 import com.renyu.androidcommonlibrary.R
+import com.renyu.commonlibrary.annotation.NeedPermission
+import com.renyu.commonlibrary.annotation.PermissionDenied
 import com.renyu.commonlibrary.baseact.BaseActivity
 import com.renyu.commonlibrary.bean.UpdateModel
-import com.renyu.commonlibrary.impl.OnPermissionCheckedImpl
 import com.renyu.commonlibrary.views.AppUpdateDialogFragment
 import com.renyu.commonlibrary.views.dialog.ChoiceDialog
-import com.renyu.commonlibrary.views.permission.PermissionActivity
 
 /**
  * Created by Administrator on 2017/12/7.
@@ -137,26 +137,22 @@ class OKHttpActivity : BaseActivity() {
         }
     }
 
-    private fun update() {
-        PermissionActivity.gotoActivity(this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), "" +
-                "请授予存储卡读取权限", object : OnPermissionCheckedImpl {
-            override fun grant() {
-                Handler().post {
-                    val temp = UpdateModel()
-                    temp.notificationTitle = "Demo"
-                    temp.content = "测试"
-                    temp.title = "标题"
-                    temp.version = "3"
-                    temp.forced = 0
-                    temp.url = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk"
-                    AppUpdateDialogFragment.getInstance(temp, 1, R.mipmap.ic_launcher, R.mipmap.ic_launcher).show(this@OKHttpActivity)
-                }
-            }
+    @NeedPermission(permissions = [(Manifest.permission.READ_EXTERNAL_STORAGE), (Manifest.permission.WRITE_EXTERNAL_STORAGE)], deniedDesp = "请授予存储卡读取权限")
+    fun update() {
+        Handler().post {
+            val temp = UpdateModel()
+            temp.notificationTitle = "Demo"
+            temp.content = "测试"
+            temp.title = "标题"
+            temp.version = "3"
+            temp.forced = 0
+            temp.url = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk"
+            AppUpdateDialogFragment.getInstance(temp, 1, R.mipmap.ic_launcher, R.mipmap.ic_launcher).show(this@OKHttpActivity)
+        }
+    }
 
-            override fun denied() {
-                finish()
-            }
-        })
+    @PermissionDenied(permissions = [(Manifest.permission.READ_EXTERNAL_STORAGE), (Manifest.permission.WRITE_EXTERNAL_STORAGE)])
+    fun denied() {
+        finish()
     }
 }

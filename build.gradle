@@ -14,11 +14,10 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
 
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.0'
+
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         classpath 'com.novoda:bintray-release:0.8.0'
-
-        classpath 'org.aspectj:aspectjtools:1.9.1'
-        classpath 'org.aspectj:aspectjweaver:1.9.1'
     }
 }
 
@@ -38,52 +37,4 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-// AOP需要执行的脚本，每一个application和library都需要
-import org.aspectj.bridge.IMessage
-import org.aspectj.bridge.MessageHandler
-import org.aspectj.tools.ajc.Main
-
-def aop(variants) {
-    def log = project.logger
-    variants.all { variant ->
-        if (!variant.buildType.isDebuggable()) {
-            log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
-            return
-        }
-
-        JavaCompile javaCompile = variant.javaCompile
-        javaCompile.doLast {
-            String[] args = ["-showWeaveInfo",
-                             "-1.8",
-                             "-inpath", javaCompile.destinationDir.toString(),
-                             "-aspectpath", javaCompile.classpath.asPath,
-                             "-d", javaCompile.destinationDir.toString(),
-                             "-classpath", javaCompile.classpath.asPath,
-                             "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
-            log.debug "ajc args: " + Arrays.toString(args)
-
-            MessageHandler handler = new MessageHandler(true)
-            new Main().run(args, handler)
-            for (IMessage message : handler.getMessages(null, true)) {
-                switch (message.getKind()) {
-                    case IMessage.ABORT:
-                    case IMessage.ERROR:
-                    case IMessage.FAIL:
-                        log.error message.message, message.thrown
-                        break
-                    case IMessage.WARNING:
-                        log.warn message.message, message.thrown
-                        break
-                    case IMessage.INFO:
-                        log.info message.message, message.thrown
-                        break
-                    case IMessage.DEBUG:
-                        log.debug message.message, message.thrown
-                        break
-                }
-            }
-        }
-    }
 }

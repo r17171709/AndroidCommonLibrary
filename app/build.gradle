@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.hujiang.android-aspectjx'
 
 android {
     compileSdkVersion 27
@@ -22,9 +23,37 @@ android {
             abiFilters 'armeabi', 'armeabi-v7a', 'x86' // 还可以添加 'x86_64', 'mips', 'mips64', 'arm64-v8a'
         }
     }
+    signingConfigs {
+        debug {
+            try {
+                storeFile file("house365")
+                storePassword KEYSTORE_PASSWORD
+                keyAlias "house365"
+                keyPassword KEY_PASSWORD
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
+        release {
+            try {
+                storeFile file("house365")
+                storePassword KEYSTORE_PASSWORD
+                keyAlias "house365"
+                keyPassword KEY_PASSWORD
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
+    }
     buildTypes {
+        debug {
+            minifyEnabled false
+            debuggable true
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -49,13 +78,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // butterknife
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+    // AspectJ 每一个application和library都需要
+    implementation 'org.aspectj:aspectjrt:1.9.1'
     implementation project(':CommonLibrary')
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
 //    implementation 'com.github.renyu:AndroidCommonLibrary:1.11.16'
 //    implementation 'com.github.r17171709:AndroidCommonLibrary:v1.9.13'
-    // AspectJ 每一个application和library都需要
-    implementation 'org.aspectj:aspectjrt:1.9.1'
 }
-
-rootProject.aop(project.android.applicationVariants)

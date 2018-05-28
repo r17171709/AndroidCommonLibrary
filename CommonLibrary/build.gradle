@@ -10,7 +10,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '1.12.0'
+    publishVersion = '1.12.1'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -105,5 +105,3 @@ dependencies {
     // AspectJ 每一个application和library都需要
     implementation 'org.aspectj:aspectjrt:1.9.1'
 }
-
-rootProject.aop(project.android.libraryVariants)
