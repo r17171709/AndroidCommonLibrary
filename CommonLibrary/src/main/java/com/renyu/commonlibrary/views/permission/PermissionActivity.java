@@ -91,38 +91,17 @@ public class PermissionActivity extends BaseActivity {
         for (int i = 0; i < permission.size(); i++) {
             permissions[i]=permission.get(i);
         }
-        if (PermissionsUtils.lacksPermissions(this, permissions)) {
-            if (PermissionsUtils.hasDelayAllPermissions(this, permissions)) {
-                if (impl!=null) {
-                    AlertDialog.Builder builder=new AlertDialog.Builder(PermissionActivity.this);
-                    builder.setTitle("提示")
-                            .setMessage(deniedDesp)
-                            .setPositiveButton("确定", (dialog, which) -> {
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                intent.setData(Uri.parse("package:" + getPackageName()));
-                                startActivity(intent);
-
-                                isCheckAgain=true;
-                            })
-                            .setNegativeButton("取消", (dialog, which) -> {
-                                needDismiss = true;
-                            })
-                            .setOnDismissListener(dialog -> {
-                                if (needDismiss) {
-                                    finish();
-                                    impl.denied();
-                                }
-                            })
-                            .setCancelable(false).show();
+        if (impl!=null) {
+            if (PermissionsUtils.lacksPermissions(this, permissions)) {
+                if (PermissionsUtils.hasDelayAllPermissions(this, permissions)) {
+                    openPermissionDialog();
+                }
+                else {
+                    PermissionsUtils.requestPermissions(this, permissions);
                 }
             }
             else {
-                PermissionsUtils.requestPermissions(this, permissions);
-            }
-        }
-        else {
-            finish();
-            if (impl!=null) {
+                finish();
                 impl.grant();
             }
         }
@@ -144,26 +123,29 @@ public class PermissionActivity extends BaseActivity {
                 impl.grant();
             }
             else {
-                AlertDialog.Builder builder=new AlertDialog.Builder(PermissionActivity.this);
-                builder.setTitle("提示")
-                        .setMessage(deniedDesp)
-                        .setPositiveButton("确定", (dialog, which) -> {
-                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            intent.setData(Uri.parse("package:" + getPackageName()));
-                            startActivity(intent);
-
-                            isCheckAgain=true;
-                        })
-                        .setNegativeButton("取消", (dialog, which) -> {
-                            needDismiss = true;
-                        })
-                        .setOnDismissListener(dialog -> {
-                            if (needDismiss) {
-                                finish();
-                                impl.denied();
-                            }
-                        }).show();
+                openPermissionDialog();
             }
         }
+    }
+
+    public void openPermissionDialog() {
+        AlertDialog.Builder builder=new AlertDialog.Builder(PermissionActivity.this);
+        builder.setTitle("提示")
+                .setMessage(deniedDesp)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    startActivity(intent);
+
+                    isCheckAgain=true;
+                })
+                .setNegativeButton("取消", (dialog, which) -> needDismiss = true)
+                .setOnDismissListener(dialog -> {
+                    if (needDismiss) {
+                        finish();
+                        impl.denied();
+                    }
+                }).show();
     }
 }
