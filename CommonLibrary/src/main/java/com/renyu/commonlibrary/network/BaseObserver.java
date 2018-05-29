@@ -1,6 +1,6 @@
 package com.renyu.commonlibrary.network;
 
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -17,7 +17,7 @@ import io.reactivex.disposables.Disposable;
 
 public abstract class BaseObserver<T> implements Observer<T> {
 
-    FragmentActivity activity;
+    AppCompatActivity activity;
     String loadingText;
     boolean needToast = true;
 
@@ -29,11 +29,11 @@ public abstract class BaseObserver<T> implements Observer<T> {
         this.needToast = needToast;
     }
 
-    public BaseObserver(FragmentActivity activity) {
+    public BaseObserver(AppCompatActivity activity) {
         this.activity = activity;
     }
 
-    public BaseObserver(FragmentActivity activity, String loadingText) {
+    public BaseObserver(AppCompatActivity activity, String loadingText) {
         this.activity = activity;
         this.loadingText = loadingText;
     }

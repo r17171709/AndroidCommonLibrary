@@ -73,79 +73,94 @@ public class Retrofit2Utils {
 
     public static <T> ObservableTransformer<Response<T>, T> background() {
         return upstream -> upstream
-                .flatMap(new Function<Response<T>, ObservableSource<T>>() {
-                    @Override
-                    public ObservableSource<T> apply(Response<T> response) throws Exception {
-                        return Observable.create(e -> {
-                            if (response.getResult()==1) {
-                                if (response.getData() instanceof EmptyResponse) {
-                                    ((EmptyResponse) response.getData()).setMessage(response.getMessage());
-                                }
-                                e.onNext(response.getData());
-                                e.onComplete();
-                            }
-                            else {
-                                NetworkException exception=new NetworkException();
-                                exception.setMessage(response.getMessage());
-                                exception.setResult(response.getResult());
-                                e.onError(exception);
-                            }
-                        });
+                .flatMap((Function<Response<T>, ObservableSource<T>>) response -> Observable.create(e -> {
+                    if (response.getResult()==1) {
+                        if (response.getData() instanceof EmptyResponse) {
+                            ((EmptyResponse) response.getData()).setMessage(response.getMessage());
+                        }
+                        e.onNext(response.getData());
+                        e.onComplete();
                     }
+                    else {
+                        NetworkException exception=new NetworkException();
+                        exception.setMessage(response.getMessage());
+                        exception.setResult(response.getResult());
+                        e.onError(exception);
+                    }
+                }))
+                .onErrorResumeNext(throwable -> {
+                    if (throwable instanceof NetworkException) {
+                        return Observable.error(throwable);
+                    }
+                    // 处理未知异常情况
+                    NetworkException exception=new NetworkException();
+                    exception.setMessage(throwable.getMessage());
+                    exception.setResult(-1);
+                    return Observable.error(exception);
                 })
                 .subscribeOn(Schedulers.io())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static <T> ObservableTransformer<ResponseList<T>, List<T>> backgroundList() {
         return upstream -> upstream
-                .flatMap(new Function<ResponseList<T>, ObservableSource<List<T>>>() {
-                    @Override
-                    public ObservableSource<List<T>> apply(ResponseList<T> response) throws Exception {
-                        return Observable.create(e -> {
-                            if (response.getResult()==1) {
-                                e.onNext(response.getData());
-                                e.onComplete();
-                            }
-                            else {
-                                NetworkException exception=new NetworkException();
-                                exception.setMessage(response.getMessage());
-                                exception.setResult(response.getResult());
-                                e.onError(exception);
-                            }
-
-                        });
+                .flatMap((Function<ResponseList<T>, ObservableSource<List<T>>>) response -> Observable.create(e -> {
+                    if (response.getResult()==1) {
+                        e.onNext(response.getData());
+                        e.onComplete();
                     }
+                    else {
+                        NetworkException exception=new NetworkException();
+                        exception.setMessage(response.getMessage());
+                        exception.setResult(response.getResult());
+                        e.onError(exception);
+                    }
+
+                }))
+                .onErrorResumeNext(throwable -> {
+                    if (throwable instanceof NetworkException) {
+                        return Observable.error(throwable);
+                    }
+                    // 处理未知异常情况
+                    NetworkException exception=new NetworkException();
+                    exception.setMessage(throwable.getMessage());
+                    exception.setResult(-1);
+                    return Observable.error(exception);
                 })
                 .subscribeOn(Schedulers.io())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static <T> ObservableTransformer<ResponseList<T>, T> asyncEmptyBackground() {
         return upstream -> upstream
-                .flatMap(new Function<ResponseList<T>, ObservableSource<T>>() {
-                    @Override
-                    public ObservableSource<T> apply(ResponseList<T> response) throws Exception {
-                        return Observable.create(e -> {
-                            if (response.getResult()==1) {
-                                EmptyResponse response1=new EmptyResponse();
-                                response1.setMessage(response.getMessage());
-                                e.onNext((T) response1);
-                                e.onComplete();
-                            }
-                            else {
-                                NetworkException exception=new NetworkException();
-                                exception.setMessage(response.getMessage());
-                                exception.setResult(response.getResult());
-                                e.onError(exception);
-                            }
-                        });
+                .flatMap((Function<ResponseList<T>, ObservableSource<T>>) response -> Observable.create(e -> {
+                    if (response.getResult()==1) {
+                        EmptyResponse response1=new EmptyResponse();
+                        response1.setMessage(response.getMessage());
+                        e.onNext((T) response1);
+                        e.onComplete();
                     }
+                    else {
+                        NetworkException exception=new NetworkException();
+                        exception.setMessage(response.getMessage());
+                        exception.setResult(response.getResult());
+                        e.onError(exception);
+                    }
+                }))
+                .onErrorResumeNext(throwable -> {
+                    if (throwable instanceof NetworkException) {
+                        return Observable.error(throwable);
+                    }
+                    // 处理未知异常情况
+                    NetworkException exception=new NetworkException();
+                    exception.setMessage(throwable.getMessage());
+                    exception.setResult(-1);
+                    return Observable.error(exception);
                 })
                 .subscribeOn(Schedulers.io())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

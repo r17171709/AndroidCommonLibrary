@@ -1,11 +1,9 @@
 package com.renyu.androidcommonlibrary;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -143,12 +141,5 @@ public class ExampleApp extends MultiDexApplication {
                 }
             });
         }
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-
-        MultiDex.install(base);
     }
 }

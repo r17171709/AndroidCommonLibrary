@@ -1,4 +1,4 @@
-package com.renyu.commonlibrary.network;
+package com.renyu.commonlibrary.network.interceptor;
 
 import android.util.Log;
 
@@ -17,10 +17,8 @@ public class LogInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request=chain.request();
-        //拿到之前的Request之后，就可以做其他事情了
-        Request.Builder requestBuilder=request.newBuilder();
-
-        Response response=chain.proceed(request);response.code();
+        Response response=chain.proceed(request);
+        response.code();
         if (response.body()!=null) {
             MediaType contentType=response.body().contentType();
             String bodyString=response.body().string();
