@@ -3,6 +3,9 @@ package com.renyu.commonlibrary.baseact;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.support.annotation.CheckResult;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,15 +16,22 @@ import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.tencent.mars.xlog.Log;
 import com.tencent.mars.xlog.Xlog;
+import com.trello.rxlifecycle2.LifecycleProvider;
+import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.trello.rxlifecycle2.RxLifecycle;
+import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
 
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
 import retrofit2.Retrofit;
 
 /**
  * Created by renyu on 2016/12/27.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements LifecycleProvider<ActivityEvent> {
 
     public abstract void initParams();
     public abstract int initViews();
@@ -38,7 +48,31 @@ public abstract class BaseActivity extends AppCompatActivity {
     // 判断是否执行onCreate以下部分
     public boolean isNeedOnCreate=true;
 
+    private final BehaviorSubject<ActivityEvent> lifecycleSubject = BehaviorSubject.create();
+
     @Override
+    @NonNull
+    @CheckResult
+    public final Observable<ActivityEvent> lifecycle() {
+        return lifecycleSubject.hide();
+    }
+
+    @Override
+    @NonNull
+    @CheckResult
+    public final <T> LifecycleTransformer<T> bindUntilEvent(@NonNull ActivityEvent event) {
+        return RxLifecycle.bindUntilEvent(lifecycleSubject, event);
+    }
+
+    @Override
+    @NonNull
+    @CheckResult
+    public final <T> LifecycleTransformer<T> bindToLifecycle() {
+        return RxLifecycleAndroid.bindActivity(lifecycleSubject);
+    }
+
+    @Override
+    @CallSuper
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -67,6 +101,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         initParams();
         loadData();
+
+        lifecycleSubject.onNext(ActivityEvent.CREATE);
     }
 
     public void openLog(String path) {
@@ -80,17 +116,43 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    @CallSuper
+    protected void onStart() {
+        super.onStart();
+        lifecycleSubject.onNext(ActivityEvent.START);
+    }
+
+    @Override
+    @CallSuper
     protected void onResume() {
         super.onResume();
+        lifecycleSubject.onNext(ActivityEvent.RESUME);
 
         openLog(InitParams.LOG_PATH);
     }
 
     @Override
+    @CallSuper
     protected void onPause() {
         super.onPause();
+        lifecycleSubject.onNext(ActivityEvent.PAUSE);
+
         // 关闭xlog，生成日志
         Log.appenderClose();
+    }
+
+    @Override
+    @CallSuper
+    protected void onStop() {
+        lifecycleSubject.onNext(ActivityEvent.STOP);
+        super.onStop();
+    }
+
+    @Override
+    @CallSuper
+    protected void onDestroy() {
+        lifecycleSubject.onNext(ActivityEvent.DESTROY);
+        super.onDestroy();
     }
 
     public void showNetworkDialog(String content) {

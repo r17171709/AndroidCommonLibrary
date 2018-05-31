@@ -9,6 +9,8 @@ import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.BaseObserver;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
+import com.renyu.commonlibrary.network.RetryFunction;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 public class RetrofitActivity extends BaseActivity {
     @Override
@@ -52,7 +54,9 @@ public class RetrofitActivity extends BaseActivity {
                         0,
                         1,
                         6000)
+                .retryWhen(new RetryFunction(3, 3))
                 .compose(Retrofit2Utils.background())
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(new BaseObserver<AccessTokenResponse>(this) {
                     @Override
                     public void onNext(AccessTokenResponse accessTokenResponse) {

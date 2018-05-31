@@ -10,7 +10,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '1.12.1'
+    publishVersion = '1.12.2'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -104,4 +104,7 @@ dependencies {
     api 'com.tencent.sonic:sdk:3.0.0'
     // AspectJ 每一个application和library都需要
     implementation 'org.aspectj:aspectjrt:1.9.1'
+    // RxLifecycle  Lifecycle handling APIs for Android apps using RxJava
+    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
+    api 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.1'
 }

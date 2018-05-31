@@ -99,7 +99,7 @@ public class Retrofit2Utils {
                     return Observable.error(exception);
                 })
                 .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
+                .unsubscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -129,7 +129,7 @@ public class Retrofit2Utils {
                     return Observable.error(exception);
                 })
                 .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
+                .unsubscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -160,7 +160,7 @@ public class Retrofit2Utils {
                     return Observable.error(exception);
                 })
                 .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
+                .unsubscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }
