@@ -48,7 +48,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'com.android.support:appcompat-v7:27.1.1'
     api 'com.android.support:support-v13:27.1.1'
     api 'com.android.support:design:27.1.1'
     api 'com.android.support:gridlayout-v7:27.1.1'
@@ -64,7 +63,7 @@ dependencies {
     api 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     api 'io.reactivex.rxjava2:rxjava:2.1.13'
     // rxbinding
-    api 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+    api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1'
     // butterknife
     api 'com.jakewharton:butterknife:8.8.1'
     // eventbus
