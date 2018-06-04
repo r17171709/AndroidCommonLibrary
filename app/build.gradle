@@ -66,6 +66,12 @@ android {
     }
 }
 
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+
 kapt {
     generateStubs = true
 }
