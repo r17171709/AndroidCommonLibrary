@@ -83,7 +83,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // 协程
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5"
     // butterknife
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
