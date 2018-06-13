@@ -10,7 +10,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '1.12.3'
+    publishVersion = '1.12.4'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -71,6 +71,7 @@ dependencies {
     // fresco
     api 'com.facebook.fresco:fresco:1.9.0'
     api 'com.facebook.fresco:animated-gif:1.9.0'
+    api 'com.facebook.fresco:drawee-span:1.9.0'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
     api 'com.kyleduo.switchbutton:library:2.0.0@aar'
     // SwipeDelMenuLayout  史上最简单侧滑菜单，0耦合，支持任意ViewGroup。一步集成侧滑(删除)菜单，高仿QQ、IOS。
