@@ -64,6 +64,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'META-INF/main.kotlin_module'
+    }
 }
 
 kotlin {
@@ -83,7 +86,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // 协程
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.23.1"
     // butterknife
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
     // AspectJ 每一个application和library都需要
