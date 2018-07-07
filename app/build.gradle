@@ -67,6 +67,9 @@ android {
     packagingOptions {
         exclude 'META-INF/main.kotlin_module'
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 kotlin {

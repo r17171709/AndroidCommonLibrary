@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="tokenRequest"
+            type="com.renyu.androidcommonlibrary.bean.TokenRequest"></variable>
+        <variable
+            name="eventImpl"
+            type="com.renyu.androidcommonlibrary.impl.EventImpl"></variable>
+        <variable
+            name="tokenResponse"
+            type="com.renyu.androidcommonlibrary.bean.TokenResponse"></variable>
+    </data>
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> eventImpl.click(view, tokenRequest)}"
+            android:text="获取数据"
+            android:padding="10dip"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{tokenResponse.access_token}"/>
+    </LinearLayout>
+</layout>
