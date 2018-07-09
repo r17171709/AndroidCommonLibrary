@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="teacher"
+            type="com.renyu.androidcommonlibrary.bean.Teacher2"></variable>
+    </data>
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="50dip">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@{teacher.name}"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@{String.valueOf(teacher.age)}"
+            android:gravity="center"/>
+    </LinearLayout>
+</layout>

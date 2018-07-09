@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.ArchitectureActivity"
+            android:name=".activity.RecyclerViewActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>

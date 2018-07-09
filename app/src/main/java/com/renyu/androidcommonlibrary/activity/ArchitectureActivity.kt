@@ -2,12 +2,10 @@ package com.renyu.androidcommonlibrary.activity
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.bean.TokenRequest
@@ -37,23 +35,26 @@ class  ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBindin
 
     override fun setStatusBarTranslucent() = 0
 
-    var vm: ArchitectureViewModel? = null
+    private var vm: ArchitectureViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val timestamp = (System.currentTimeMillis() / 1000).toInt()
-        val random = "abcdefghijklmn"
-        val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
-                Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
-        viewDataBinding!!.tokenRequest = TokenRequest("nj", timestamp, "46877648", random, Utils.getMD5(signature), Utils.getUniquePsuedoID())
-        viewDataBinding!!.eventImpl = this
-        viewDataBinding!!.tokenResponse = TokenResponse(ObservableField(""), ObservableInt(0))
+        viewDataBinding.also {
+            val timestamp = (System.currentTimeMillis() / 1000).toInt()
+            val random = "abcdefghijklmn"
+            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
+                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
+            it.tokenRequest = TokenRequest("nj", timestamp, "46877648", random, Utils.getMD5(signature), Utils.getUniquePsuedoID())
+            it.eventImpl = this
+            it.tokenResponse = TokenResponse(ObservableField(""), ObservableInt(0))
 
-        vm = ViewModelProviders.of(this, ArchitectureViewModelFactory(viewDataBinding!!.tokenResponse!!)).get(ArchitectureViewModel::class.java)
-        vm?.tokenResponse?.observe(this, Observer {
-            vm?.refreshUI(it!!)
-        })
+            vm = ViewModelProviders.of(this, ArchitectureViewModelFactory(it.tokenResponse!!)).get(ArchitectureViewModel::class.java)
+            vm?.tokenResponse?.observe(this, Observer {
+                vm?.refreshUI(it!!)
+            })
+        }
+        
     }
 
     override fun click(view: View, request: TokenRequest) {
