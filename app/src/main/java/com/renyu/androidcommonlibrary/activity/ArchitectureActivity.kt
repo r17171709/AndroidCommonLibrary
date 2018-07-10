@@ -21,6 +21,7 @@ import com.renyu.commonlibrary.commonutils.Utils
 
 /**
  * Created by Administrator on 2018/7/7.
+ * 用了两种方式来实现请求数据刷新
  */
 class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding>(), EventImpl, DataCallBackImpl<TokenResponse> {
 
@@ -55,7 +56,7 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
             vm = ViewModelProviders.of(this, ArchitectureViewModelFactory(it.tokenResponse!!)).get(ArchitectureViewModel::class.java)
             vm?.tokenResponse?.observe(this, Observer {
                 if (it != null) {
-//                    vm?.refreshUI(it)
+                    vm?.refreshUI(it)
                 }
             })
             vm?.uiHandlers?.observe(this, Observer {

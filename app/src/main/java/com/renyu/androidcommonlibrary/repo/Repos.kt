@@ -7,7 +7,6 @@ import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
 import com.renyu.androidcommonlibrary.impl.DataActionImpl
-import com.renyu.androidcommonlibrary.impl.DataCallBackImpl
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl
 import com.renyu.commonlibrary.network.BaseObserver
 import com.renyu.commonlibrary.network.Retrofit2Utils
@@ -50,31 +49,31 @@ class Repos {
                 .subscribe(object : BaseObserver<AccessTokenResponse>(false) {
                     override fun onSubscribe(d: Disposable) {
                         super.onSubscribe(d)
-                        uiHandlers.value = object : DataActionImpl<TokenResponse> {
-                            override fun execute(dataCallBackImpl: DataCallBackImpl<TokenResponse>) {
-                                dataCallBackImpl.onLoading()
-                            }
-                        }
+//                        uiHandlers.value = object : DataActionImpl<TokenResponse> {
+//                            override fun execute(dataCallBackImpl: DataCallBackImpl<TokenResponse>) {
+//                                dataCallBackImpl.onLoading()
+//                            }
+//                        }
                     }
 
                     override fun onNext(accessTokenResponse: AccessTokenResponse) {
                         val tempResponse = TokenResponse(ObservableField(accessTokenResponse.access_token), ObservableInt(accessTokenResponse.expires_in))
                         tokenResponse.value = tempResponse
-                        uiHandlers.value = object : DataActionImpl<TokenResponse> {
-                            override fun execute(dataCallBackImpl: DataCallBackImpl<TokenResponse>) {
-                                dataCallBackImpl.onNext(tempResponse)
-                            }
-                        }
+//                        uiHandlers.value = object : DataActionImpl<TokenResponse> {
+//                            override fun execute(dataCallBackImpl: DataCallBackImpl<TokenResponse>) {
+//                                dataCallBackImpl.onNext(tempResponse)
+//                            }
+//                        }
                     }
 
                     override fun onError(e: Throwable) {
                         super.onError(e)
                         tokenResponse.value = null
-                        uiHandlers.value = object : DataActionImpl<TokenResponse> {
-                            override fun execute(dataCallBackImpl: DataCallBackImpl<TokenResponse>) {
-                                dataCallBackImpl.onError(e)
-                            }
-                        }
+//                        uiHandlers.value = object : DataActionImpl<TokenResponse> {
+//                            override fun execute(dataCallBackImpl: DataCallBackImpl<TokenResponse>) {
+//                                dataCallBackImpl.onError(e)
+//                            }
+//                        }
                     }
                 })
         return tokenResponse
