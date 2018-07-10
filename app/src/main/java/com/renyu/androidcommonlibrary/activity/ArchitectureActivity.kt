@@ -7,10 +7,12 @@ import android.databinding.ObservableInt
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
 import com.renyu.androidcommonlibrary.databinding.ActivityArchitectureBinding
+import com.renyu.androidcommonlibrary.impl.DataCallBackImpl
 import com.renyu.androidcommonlibrary.impl.EventImpl
 import com.renyu.androidcommonlibrary.vm.ArchitectureViewModel
 import com.renyu.androidcommonlibrary.vm.ArchitectureViewModelFactory
@@ -20,7 +22,8 @@ import com.renyu.commonlibrary.commonutils.Utils
 /**
  * Created by Administrator on 2018/7/7.
  */
-class  ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding>(), EventImpl {
+class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding>(), EventImpl, DataCallBackImpl<TokenResponse> {
+
     override fun initParams() {
 
     }
@@ -51,13 +54,29 @@ class  ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBindin
 
             vm = ViewModelProviders.of(this, ArchitectureViewModelFactory(it.tokenResponse!!)).get(ArchitectureViewModel::class.java)
             vm?.tokenResponse?.observe(this, Observer {
-                vm?.refreshUI(it!!)
+                if (it != null) {
+//                    vm?.refreshUI(it)
+                }
+            })
+            vm?.uiHandlers?.observe(this, Observer {
+                it?.execute(this@ArchitectureActivity)
             })
         }
-        
     }
 
     override fun click(view: View, request: TokenRequest) {
         vm?.sendRequest(request)
+    }
+
+    override fun onLoading() {
+
+    }
+
+    override fun onNext(response: TokenResponse) {
+        vm?.refreshUI(response)
+    }
+
+    override fun onError(e: Throwable) {
+        Toast.makeText(this, "出现错误", Toast.LENGTH_LONG).show()
     }
 }

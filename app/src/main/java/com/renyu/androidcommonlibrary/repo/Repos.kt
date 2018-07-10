@@ -6,9 +6,12 @@ import android.databinding.ObservableInt
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
+import com.renyu.androidcommonlibrary.impl.DataActionImpl
+import com.renyu.androidcommonlibrary.impl.DataCallBackImpl
 import com.renyu.androidcommonlibrary.impl.RetrofitImpl
 import com.renyu.commonlibrary.network.BaseObserver
 import com.renyu.commonlibrary.network.Retrofit2Utils
+import io.reactivex.disposables.Disposable
 
 /**
  * Created by Administrator on 2018/7/8.
@@ -30,7 +33,7 @@ class Repos {
         }
     }
 
-    fun getTokenResponse(input: TokenRequest) : MutableLiveData<TokenResponse> {
+    fun getTokenResponse(input: TokenRequest, uiHandlers: MutableLiveData<DataActionImpl<TokenResponse>>) : MutableLiveData<TokenResponse> {
         val tokenResponse = MutableLiveData<TokenResponse>()
         Retrofit2Utils.getBaseRetrofit().create(RetrofitImpl::class.java).getAccessToken(
                 input.city,
@@ -44,10 +47,34 @@ class Repos {
                 1,
                 6000)
                 .compose(Retrofit2Utils.background<AccessTokenResponse>())
-                .subscribe(object : BaseObserver<AccessTokenResponse>(true) {
+                .subscribe(object : BaseObserver<AccessTokenResponse>(false) {
+                    override fun onSubscribe(d: Disposable) {
+                        super.onSubscribe(d)
+                        uiHandlers.value = object : DataActionImpl<TokenResponse> {
+                            override fun execute(dataCallBackImpl: DataCallBackImpl<TokenResponse>) {
+                                dataCallBackImpl.onLoading()
+                            }
+                        }
+                    }
+
                     override fun onNext(accessTokenResponse: AccessTokenResponse) {
                         val tempResponse = TokenResponse(ObservableField(accessTokenResponse.access_token), ObservableInt(accessTokenResponse.expires_in))
-                        tokenResponse.postValue(tempResponse)
+                        tokenResponse.value = tempResponse
+                        uiHandlers.value = object : DataActionImpl<TokenResponse> {
+                            override fun execute(dataCallBackImpl: DataCallBackImpl<TokenResponse>) {
+                                dataCallBackImpl.onNext(tempResponse)
+                            }
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        super.onError(e)
+                        tokenResponse.value = null
+                        uiHandlers.value = object : DataActionImpl<TokenResponse> {
+                            override fun execute(dataCallBackImpl: DataCallBackImpl<TokenResponse>) {
+                                dataCallBackImpl.onError(e)
+                            }
+                        }
                     }
                 })
         return tokenResponse
