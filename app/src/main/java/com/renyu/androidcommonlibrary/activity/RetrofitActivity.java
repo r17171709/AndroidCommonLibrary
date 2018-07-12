@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.widget.Toast;
 
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse;
-import com.renyu.androidcommonlibrary.impl.RetrofitImpl;
+import com.renyu.androidcommonlibrary.api.RetrofitImpl;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.BaseObserver;

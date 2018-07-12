@@ -1,4 +1,4 @@
-package com.renyu.androidcommonlibrary.repo
+package com.renyu.androidcommonlibrary.repository
 
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
@@ -7,7 +7,7 @@ import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
 import com.renyu.androidcommonlibrary.impl.DataActionImpl
-import com.renyu.androidcommonlibrary.impl.RetrofitImpl
+import com.renyu.androidcommonlibrary.api.RetrofitImpl
 import com.renyu.commonlibrary.network.BaseObserver
 import com.renyu.commonlibrary.network.Retrofit2Utils
 import io.reactivex.disposables.Disposable

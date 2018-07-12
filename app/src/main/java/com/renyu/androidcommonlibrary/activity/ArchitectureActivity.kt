@@ -14,8 +14,8 @@ import com.renyu.androidcommonlibrary.bean.TokenResponse
 import com.renyu.androidcommonlibrary.databinding.ActivityArchitectureBinding
 import com.renyu.androidcommonlibrary.impl.DataCallBackImpl
 import com.renyu.androidcommonlibrary.impl.EventImpl
-import com.renyu.androidcommonlibrary.vm.ArchitectureViewModel
-import com.renyu.androidcommonlibrary.vm.ArchitectureViewModelFactory
+import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModel
+import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModelFactory
 import com.renyu.commonlibrary.baseact.BaseDataBindingActivity
 import com.renyu.commonlibrary.commonutils.Utils
 

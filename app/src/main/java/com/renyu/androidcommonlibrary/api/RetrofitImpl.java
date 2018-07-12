@@ -1,4 +1,4 @@
-package com.renyu.androidcommonlibrary.impl;
+package com.renyu.androidcommonlibrary.api;
 
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse;
 import com.renyu.androidcommonlibrary.bean.ExampleAResponse;

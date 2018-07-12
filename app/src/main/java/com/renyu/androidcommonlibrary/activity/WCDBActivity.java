@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.R;
-import com.renyu.androidcommonlibrary.dbhelper.PlainTextDBHelper;
+import com.renyu.androidcommonlibrary.db.PlainTextDBHelper;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 
 import butterknife.OnClick;

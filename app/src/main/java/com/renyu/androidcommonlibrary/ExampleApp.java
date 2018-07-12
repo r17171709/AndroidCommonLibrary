@@ -8,7 +8,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.readystatesoftware.chuck.ChuckInterceptor;
-import com.renyu.androidcommonlibrary.dbhelper.PlainTextDBHelper;
+import com.renyu.androidcommonlibrary.db.PlainTextDBHelper;
 import com.renyu.androidcommonlibrary.service.X5IntentService;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.commonutils.Utils;

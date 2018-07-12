@@ -1,4 +1,4 @@
-package com.renyu.androidcommonlibrary.dbhelper;
+package com.renyu.androidcommonlibrary.db;
 
 import android.content.Context;
 

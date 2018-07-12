@@ -1,4 +1,4 @@
-package com.renyu.androidcommonlibrary.vm
+package com.renyu.androidcommonlibrary.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

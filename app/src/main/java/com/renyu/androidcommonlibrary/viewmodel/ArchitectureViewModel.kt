@@ -1,4 +1,4 @@
-package com.renyu.androidcommonlibrary.vm
+package com.renyu.androidcommonlibrary.viewmodel
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModel
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
 import com.renyu.androidcommonlibrary.impl.DataActionImpl
-import com.renyu.androidcommonlibrary.repo.Repos
+import com.renyu.androidcommonlibrary.repository.Repos
 
 /**
  * Created by Administrator on 2018/7/7.
