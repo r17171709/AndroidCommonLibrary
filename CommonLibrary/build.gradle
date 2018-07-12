@@ -61,6 +61,7 @@ dependencies {
     api 'com.android.support:gridlayout-v7:27.1.1'
     api 'com.android.support:recyclerview-v7:27.1.1'
     api 'com.android.support:cardview-v7:27.1.1'
+    api 'android.arch.lifecycle:extensions:1.1.1'
     // 添加支持multidex的兼容包
     api 'com.android.support:multidex:1.0.3'
     // 工具类
@@ -115,6 +116,4 @@ dependencies {
     // RxLifecycle  Lifecycle handling APIs for Android apps using RxJava
     api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
     api 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.1'
-    //
-    api 'android.arch.lifecycle:extensions:1.1.0'
 }
