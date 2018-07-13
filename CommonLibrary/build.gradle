@@ -115,5 +115,4 @@ dependencies {
     implementation 'org.aspectj:aspectjrt:1.9.1'
     // RxLifecycle  Lifecycle handling APIs for Android apps using RxJava
     api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
-    api 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.1'
 }
