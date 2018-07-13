@@ -19,5 +19,3 @@ data class TokenResponse(
         var access_token: ObservableField<String>,
         var expires_in: ObservableInt
 )
-
-data class Teacher2(var name: ObservableField<String>?, var age: ObservableField<Int>?)

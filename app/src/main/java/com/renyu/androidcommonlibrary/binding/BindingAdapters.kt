@@ -15,4 +15,12 @@ object BindingAdapters {
         recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
     }
+
+    @JvmStatic
+    @BindingAdapter(value = ["refresh"])
+    fun autoRefreshAdapter(recyclerView: RecyclerView, boolean: Boolean) {
+        if (boolean) {
+            recyclerView.adapter.notifyDataSetChanged()
+        }
+    }
 }
