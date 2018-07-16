@@ -38,3 +38,6 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// 非常重要要不它不认识你的项目.kt文件名 其中CommonLibrary是你的library名
+tasks.getByPath(":CommonLibrary:releaseAndroidJavadocs").enabled = false
