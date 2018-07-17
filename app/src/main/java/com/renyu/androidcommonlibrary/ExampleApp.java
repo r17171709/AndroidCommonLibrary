@@ -45,7 +45,7 @@ public class ExampleApp extends MultiDexApplication {
         openClassNames = new ArrayList<>();
 
         String processName= Utils.getProcessName(android.os.Process.myPid());
-        if (processName.equals(getPackageName())) {
+        if (processName != null && processName.equals(getPackageName())) {
             // 初始化网络请求
             Retrofit2Utils retrofit2Utils=Retrofit2Utils.getInstance("http://www.mocky.io/v2/");
             OkHttpClient.Builder baseBuilder=new OkHttpClient.Builder()

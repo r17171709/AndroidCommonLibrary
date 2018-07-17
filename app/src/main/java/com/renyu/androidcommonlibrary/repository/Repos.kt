@@ -18,7 +18,7 @@ import io.reactivex.disposables.Disposable
 class Repos {
     companion object {
         @Volatile
-        var instance: Repos? = null
+        private var instance: Repos? = null
 
         fun getReposInstance(): Repos {
             if (instance == null) {
