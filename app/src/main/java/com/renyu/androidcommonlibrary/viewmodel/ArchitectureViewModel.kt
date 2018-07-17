@@ -6,8 +6,8 @@ import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
-import com.renyu.androidcommonlibrary.impl.DataActionImpl
 import com.renyu.androidcommonlibrary.repository.Repos
+import com.renyu.commonlibrary.network.params.Resource
 
 /**
  * Created by Administrator on 2018/7/7.
@@ -15,15 +15,14 @@ import com.renyu.androidcommonlibrary.repository.Repos
 class ArchitectureViewModel(private val token: TokenResponse) : ViewModel() {
 
     private val tokenRequest: MutableLiveData<TokenRequest> = MutableLiveData()
-    var tokenResponse: LiveData<TokenResponse>? = null
-    val uiHandlers: MutableLiveData<DataActionImpl<TokenResponse>> = MutableLiveData()
+    var tokenResponse: LiveData<Resource<TokenResponse>>? = null
 
     init {
         tokenResponse = Transformations.switchMap(tokenRequest) { input ->
             if (input == null) {
                 MutableLiveData()
             } else {
-                Repos.getReposInstance().getTokenResponse(input, uiHandlers)
+                Repos.getReposInstance().getTokenResponse(input)
             }
         }
     }

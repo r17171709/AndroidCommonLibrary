@@ -7,23 +7,21 @@ import android.databinding.ObservableInt
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
 import com.renyu.androidcommonlibrary.databinding.ActivityArchitectureBinding
-import com.renyu.androidcommonlibrary.impl.DataCallBackImpl
 import com.renyu.androidcommonlibrary.impl.EventImpl
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModel
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModelFactory
 import com.renyu.commonlibrary.baseact.BaseDataBindingActivity
 import com.renyu.commonlibrary.commonutils.Utils
+import com.renyu.commonlibrary.network.params.Status
 
 /**
  * Created by Administrator on 2018/7/7.
- * 用了两种方式来实现请求数据刷新
  */
-class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding>(), EventImpl, DataCallBackImpl<TokenResponse> {
+class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding>(), EventImpl {
 
     override fun initParams() {
 
@@ -56,28 +54,23 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
             vm = ViewModelProviders.of(this, ArchitectureViewModelFactory(it.tokenResponse!!)).get(ArchitectureViewModel::class.java)
             vm?.tokenResponse?.observe(this, Observer {
                 if (it != null) {
-                    vm?.refreshUI(it)
+                    if (it.status == Status.SUCESS) {
+                        if (it.data != null) {
+                            vm?.refreshUI(it.data!!)
+                        }
+                    }
+                    else if (it.status == Status.ERROR) {
+
+                    }
+                    else if (it.status == Status.LOADING) {
+
+                    }
                 }
-            })
-            vm?.uiHandlers?.observe(this, Observer {
-                it?.execute(this@ArchitectureActivity)
             })
         }
     }
 
     override fun click(view: View, request: TokenRequest) {
         vm?.sendRequest(request)
-    }
-
-    override fun onLoading() {
-
-    }
-
-    override fun onNext(response: TokenResponse) {
-        vm?.refreshUI(response)
-    }
-
-    override fun onError(e: Throwable) {
-        Toast.makeText(this, "出现错误", Toast.LENGTH_LONG).show()
     }
 }
