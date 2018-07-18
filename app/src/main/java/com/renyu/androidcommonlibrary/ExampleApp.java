@@ -7,25 +7,20 @@ import android.os.Environment;
 import android.support.multidex.MultiDexApplication;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.readystatesoftware.chuck.ChuckInterceptor;
-import com.renyu.androidcommonlibrary.db.PlainTextDBHelper;
+import com.renyu.androidcommonlibrary.di.component.DaggerAppComponent;
+import com.renyu.androidcommonlibrary.di.module.ApiModule;
+import com.renyu.androidcommonlibrary.di.component.AppComponent;
+import com.renyu.androidcommonlibrary.di.module.AppModule;
 import com.renyu.androidcommonlibrary.service.X5IntentService;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.commonutils.sonic.SonicRuntimeImpl;
-import com.renyu.commonlibrary.network.HttpsUtils;
-import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.tencent.sonic.sdk.SonicConfig;
 import com.tencent.sonic.sdk.SonicEngine;
-import com.tencent.wcdb.database.SQLiteDatabase;
 
 import java.io.File;
-import java.net.Proxy;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
 
 /**
  * Created by renyu on 2016/12/26.
@@ -33,8 +28,7 @@ import okhttp3.OkHttpClient;
 
 public class ExampleApp extends MultiDexApplication {
 
-    public PlainTextDBHelper dbHelper;
-    public SQLiteDatabase db;
+    public AppComponent appComponent;
 
     public ArrayList<String> openClassNames;
 
@@ -46,37 +40,17 @@ public class ExampleApp extends MultiDexApplication {
 
         String processName= Utils.getProcessName(android.os.Process.myPid());
         if (processName != null && processName.equals(getPackageName())) {
-            // 初始化网络请求
-            Retrofit2Utils retrofit2Utils=Retrofit2Utils.getInstance("http://www.mocky.io/v2/");
-            OkHttpClient.Builder baseBuilder=new OkHttpClient.Builder()
-                    // 限制抓包
-                    .proxy(Proxy.NO_PROXY)
-//                    .addInterceptor(new TokenInterceptor(this))
-                    .addInterceptor(new ChuckInterceptor(this))
-                    .readTimeout(10, TimeUnit.SECONDS)
-                    .writeTimeout(10, TimeUnit.SECONDS)
-                    .connectTimeout(10, TimeUnit.SECONDS);
-            //https默认信任全部证书
-            HttpsUtils.SSLParams sslParams= HttpsUtils.getSslSocketFactory(null, null, null);
-            baseBuilder.hostnameVerifier((s, sslSession) -> true).sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-            retrofit2Utils.addBaseOKHttpClient(baseBuilder.build());
-            retrofit2Utils.baseBuild();
+            // dagger2注入
+            appComponent = DaggerAppComponent.builder()
+                    .appModule(new AppModule(this))
+                    .apiModule(new ApiModule())
+                    .build();
 
             // 初始化工具库
             com.blankj.utilcode.util.Utils.init(this);
 
             // 初始化fresco
             Fresco.initialize(this, ImagePipelineConfigUtils.getDefaultImagePipelineConfig(this));
-
-            // 初始化数据库
-            if (dbHelper!=null && db!=null && db.isOpen()) {
-                db.close();
-                db=null;
-                dbHelper=null;
-            }
-            dbHelper=new PlainTextDBHelper(getApplicationContext());
-            dbHelper.setWriteAheadLoggingEnabled(true);
-            db=dbHelper.getWritableDatabase();
 
             // 初始化相关配置参数
             // 项目根目录
@@ -104,6 +78,7 @@ public class ExampleApp extends MultiDexApplication {
             // x5内核初始化接口
             startService(new Intent(this, X5IntentService.class));
 
+            // 注册统计Activity生命周期所用的LifeCycle
             registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
                 @Override
                 public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

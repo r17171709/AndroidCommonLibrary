@@ -3,19 +3,28 @@ package com.renyu.androidcommonlibrary.repository
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
+import com.blankj.utilcode.util.Utils
+import com.renyu.androidcommonlibrary.ExampleApp
 import com.renyu.androidcommonlibrary.api.RetrofitImpl
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
+import com.renyu.androidcommonlibrary.di.module.ReposModule
 import com.renyu.commonlibrary.network.BaseObserver
 import com.renyu.commonlibrary.network.Retrofit2Utils
 import com.renyu.commonlibrary.network.params.Resource
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 /**
  * Created by Administrator on 2018/7/8.
  */
 class Repos {
+
+    @JvmField
+    @Inject
+    var retrofitImpl: RetrofitImpl? = null
+
     companion object {
         @Volatile
         private var instance: Repos? = null
@@ -32,9 +41,13 @@ class Repos {
         }
     }
 
+    init {
+        (Utils.getApp() as ExampleApp).appComponent.plus(ReposModule()).inject(this)
+    }
+
     fun getTokenResponse(input: TokenRequest) : MutableLiveData<Resource<TokenResponse>> {
         val tokenResponse = MutableLiveData<Resource<TokenResponse>>()
-        Retrofit2Utils.getBaseRetrofit().create(RetrofitImpl::class.java).getAccessToken(
+        retrofitImpl!!.getAccessToken(
                 input.city,
                 input.timestamp,
                 input.app_id,

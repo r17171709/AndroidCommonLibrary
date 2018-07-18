@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @NeedPermission(permissions = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE},
             deniedDesp = "请授予存储卡读取权限")
     public void showDemo() {
         // 初始化文件夹
@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @PermissionDenied(permissions = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
     public void permissionDenied() {
         finish();
     }

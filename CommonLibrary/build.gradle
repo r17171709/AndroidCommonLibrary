@@ -11,7 +11,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '1.13.1'
+    publishVersion = '2.0.0'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -65,7 +65,7 @@ dependencies {
     // 添加支持multidex的兼容包
     api 'com.android.support:multidex:1.0.3'
     // 工具类
-    api 'com.blankj:utilcode:1.17.2'
+    api 'com.blankj:utilcode:1.17.3'
     // retrofit2
     api 'com.squareup.retrofit2:retrofit:2.4.0'
     api 'com.squareup.retrofit2:converter-gson:2.4.0'

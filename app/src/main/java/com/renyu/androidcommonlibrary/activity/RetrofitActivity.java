@@ -3,8 +3,10 @@ package com.renyu.androidcommonlibrary.activity;
 import android.graphics.Color;
 import android.widget.Toast;
 
+import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse;
 import com.renyu.androidcommonlibrary.api.RetrofitImpl;
+import com.renyu.androidcommonlibrary.di.module.ReposModule;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.BaseObserver;
@@ -12,10 +14,15 @@ import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.network.RetryFunction;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import javax.inject.Inject;
+
 public class RetrofitActivity extends BaseActivity {
+    @Inject
+    RetrofitImpl retrofitImpl = null;
+
     @Override
     public void initParams() {
-
+        ((ExampleApp) (com.blankj.utilcode.util.Utils.getApp())).appComponent.plusAct(new ReposModule()).inject(this);
     }
 
     @Override
@@ -43,8 +50,7 @@ public class RetrofitActivity extends BaseActivity {
         String random = "abcdefghijklmn";
         String signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
                 Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp;
-        retrofit.create(RetrofitImpl.class).
-                getAccessToken("nj",
+        retrofitImpl.getAccessToken("nj",
                         timestamp,
                         "46877648",
                         random,

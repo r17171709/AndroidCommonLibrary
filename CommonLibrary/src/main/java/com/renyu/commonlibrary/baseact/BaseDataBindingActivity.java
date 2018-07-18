@@ -17,6 +17,7 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
  * Created by Administrator on 2018/7/8.
  */
 public abstract class BaseDataBindingActivity<T> extends RxAppCompatActivity {
+
     public abstract void initParams();
     public abstract int initViews();
     public abstract void loadData();

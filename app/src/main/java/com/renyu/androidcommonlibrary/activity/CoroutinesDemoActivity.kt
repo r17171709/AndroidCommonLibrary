@@ -2,16 +2,26 @@ package com.renyu.androidcommonlibrary.activity
 
 import android.graphics.Color
 import android.widget.TextView
+import com.blankj.utilcode.util.Utils
+import com.renyu.androidcommonlibrary.ExampleApp
 import com.renyu.androidcommonlibrary.R
+import com.renyu.androidcommonlibrary.di.module.ReposModule
 import com.renyu.commonlibrary.baseact.BaseActivity
+import com.renyu.commonlibrary.network.OKHttpUtils
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
+import javax.inject.Inject
 
 class CoroutinesDemoActivity : BaseActivity() {
+
+    @JvmField
+    @Inject
+    var okHttpUtils: OKHttpUtils? = null
 
     private var job: Job = Job()
 
     override fun initParams() {
+        (Utils.getApp() as ExampleApp).appComponent.plusAct(ReposModule()).inject(this)
     }
 
     override fun initViews() = R.layout.activity_main
@@ -40,7 +50,7 @@ class CoroutinesDemoActivity : BaseActivity() {
     override fun setStatusBarTranslucent() = 0
 
     private suspend fun getRemoteData() = withContext(CommonPool) {
-        val responseBody = httpHelper.okHttpUtils.syncGet("http://www.mocky.io/v2/5943e4dc1200000f08fcb4d4").body()
+        val responseBody = okHttpUtils!!.syncGet("http://www.mocky.io/v2/5943e4dc1200000f08fcb4d4").body()
         if (responseBody == null) {
             throw Exception("出现异常")
         }

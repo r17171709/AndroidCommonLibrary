@@ -6,10 +6,15 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
+import com.blankj.utilcode.util.Utils;
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.db.PlainTextDBHelper;
+import com.renyu.androidcommonlibrary.di.module.ReposModule;
 import com.renyu.commonlibrary.baseact.BaseActivity;
+import com.tencent.wcdb.database.SQLiteDatabase;
+
+import javax.inject.Inject;
 
 import butterknife.OnClick;
 
@@ -19,9 +24,12 @@ import butterknife.OnClick;
 
 public class WCDBActivity extends BaseActivity {
 
+    @Inject
+    SQLiteDatabase db;
+
     @Override
     public void initParams() {
-
+        ((ExampleApp) (Utils.getApp())).appComponent.plusAct(new ReposModule()).inject(this);
     }
 
     @Override
@@ -50,10 +58,10 @@ public class WCDBActivity extends BaseActivity {
             case R.id.btn_wcdb_insert:
                 ContentValues cv=new ContentValues();
                 cv.put(PlainTextDBHelper.COLUMNNAME,"hello" );
-                Log.d("WCDBActivity", ""+((ExampleApp) getApplication()).db.insert(PlainTextDBHelper.TABLENAME, null, cv));
+                Log.d("WCDBActivity", ""+db.insert(PlainTextDBHelper.TABLENAME, null, cv));
                 break;
             case R.id.btn_wcdb_read:
-                Cursor cursor=((ExampleApp) getApplication()).db.rawQuery("Select * from "+ PlainTextDBHelper.TABLENAME, new String[]{});
+                Cursor cursor= db.rawQuery("Select * from "+ PlainTextDBHelper.TABLENAME, new String[]{});
                 cursor.moveToFirst();
                 for (int i=0;i<cursor.getCount();i++) {
                     cursor.moveToPosition(i);

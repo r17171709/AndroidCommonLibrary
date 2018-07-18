@@ -10,12 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.renyu.commonlibrary.network.OKHttpHelper;
-import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import butterknife.ButterKnife;
-import retrofit2.Retrofit;
 
 /**
  * Created by renyu on 15/12/3.
@@ -27,9 +24,6 @@ public abstract class BaseFragment extends RxFragment {
     public abstract void loadData();
 
     public View view=null;
-
-    public OKHttpHelper httpHelper;
-    public Retrofit retrofit=null;
 
     // 不需要再getActivity()了
     public Context context;
@@ -62,9 +56,6 @@ public abstract class BaseFragment extends RxFragment {
         if (view==null) {
             view=LayoutInflater.from(getActivity()).inflate(initViews(), container, false);
             ButterKnife.bind(this, view);
-
-            httpHelper=OKHttpHelper.getInstance();
-            retrofit = Retrofit2Utils.getBaseRetrofit();
         }
         ViewGroup parent= (ViewGroup) view.getParent();
         if (parent!=null) {

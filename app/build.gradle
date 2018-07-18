@@ -89,7 +89,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // 协程
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.23.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.23.4"
     // butterknife
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
     // AspectJ 每一个application和library都需要
@@ -97,6 +97,9 @@ dependencies {
     implementation project(':CommonLibrary')
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    // dagger2
+    api 'com.google.dagger:dagger:2.16'
+    kapt 'com.google.dagger:dagger-compiler:2.16'
 //    implementation 'com.github.renyu:AndroidCommonLibrary:1.11.16'
 //    implementation 'com.github.r17171709:AndroidCommonLibrary:v1.9.13'
 }

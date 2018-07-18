@@ -8,15 +8,12 @@ import android.support.annotation.Nullable;
 
 import com.renyu.commonlibrary.commonutils.BarUtils;
 import com.renyu.commonlibrary.commonutils.PermissionsUtils;
-import com.renyu.commonlibrary.network.OKHttpHelper;
-import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.tencent.mars.xlog.Log;
 import com.tencent.mars.xlog.Xlog;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
-import retrofit2.Retrofit;
 
 /**
  * Created by renyu on 2016/12/27.
@@ -29,10 +26,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     public abstract void loadData();
     public abstract int setStatusBarColor();
     public abstract int setStatusBarTranslucent();
-
-    // 网络请求
-    public OKHttpHelper httpHelper = null;
-    public Retrofit retrofit=null;
 
     public ProgressDialog networkDialg;
 
@@ -63,9 +56,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         if (setStatusBarTranslucent()!=0) {
             BarUtils.setTranslucent(this);
         }
-
-        httpHelper = OKHttpHelper.getInstance();
-        retrofit = Retrofit2Utils.getBaseRetrofit();
 
         initParams();
         loadData();
