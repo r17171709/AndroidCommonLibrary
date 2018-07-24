@@ -11,7 +11,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '2.0.0'
+    publishVersion = '2.0.1'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -75,8 +75,6 @@ dependencies {
     api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1'
     // butterknife
     api 'com.jakewharton:butterknife:8.8.1'
-    // eventbus
-    api 'org.greenrobot:eventbus:3.1.1'
     // fresco
     api 'com.facebook.fresco:fresco:1.9.0'
     api 'com.facebook.fresco:animated-gif:1.9.0'

@@ -12,11 +12,10 @@ import android.widget.Toast;
 import com.renyu.commonlibrary.R;
 import com.renyu.commonlibrary.bean.UpdateModel;
 import com.renyu.commonlibrary.commonutils.NotificationUtils;
+import com.renyu.commonlibrary.commonutils.RxBus;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.OKHttpUtils;
 import com.renyu.commonlibrary.params.InitParams;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -173,7 +172,7 @@ public class UpdateService extends Service {
                 downloadUrls.remove(model.getUrl());
             }
         }
-        EventBus.getDefault().post(model);
+        RxBus.getDefault().post(model);
     }
 
     @Override

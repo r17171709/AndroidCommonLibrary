@@ -26,15 +26,15 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.renyu.commonlibrary.R;
 import com.renyu.commonlibrary.bean.UpdateModel;
+import com.renyu.commonlibrary.commonutils.RxBus;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.renyu.commonlibrary.service.UpdateService;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.io.File;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by renyu on 16/1/23.
@@ -84,6 +84,9 @@ public class AppUpdateDialogFragment extends DialogFragment {
         this.dismissListener = dismissListener;
     }
 
+    // RxBus监听
+    CompositeDisposable compositeDisposable;
+
     public static AppUpdateDialogFragment getInstance(UpdateModel model, int ids, int smallIcon, int largeIcon) {
         AppUpdateDialogFragment fragment = new AppUpdateDialogFragment();
         Bundle bundle = new Bundle();
@@ -97,7 +100,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //无标题
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         //透明状态栏
@@ -109,23 +112,20 @@ public class AppUpdateDialogFragment extends DialogFragment {
         mWindowAttributes.height = WindowManager.LayoutParams.MATCH_PARENT;
         getDialog().setCancelable(false);
         getDialog().setCanceledOnTouchOutside(false);
-        getDialog().setOnKeyListener((dialog, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                return true;
-            }
-            return false;
-        });
+        getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
+
+        compositeDisposable = new CompositeDisposable();
 
         ids = getArguments().getInt("ids");
         model = (UpdateModel) getArguments().getSerializable("model");
         isCanCancel = model.getForced() == 1 ? false : true;
 
         View view = inflater.inflate(R.layout.view_material_dialogs, container, false);
-        custom_title = (TextView) view.findViewById(R.id.custom_title);
+        custom_title = view.findViewById(R.id.custom_title);
         custom_title.setText("发现新版本");
-        custom_content = (TextView) view.findViewById(R.id.custom_content);
+        custom_content = view.findViewById(R.id.custom_content);
         custom_content.setText(model.getContent().replace("\\n", "\n"));
-        custom_negativeButton = (Button) view.findViewById(R.id.custom_negativeButton);
+        custom_negativeButton = view.findViewById(R.id.custom_negativeButton);
         if (isCanCancel) {
             custom_negativeButton.setVisibility(View.VISIBLE);
         } else {
@@ -156,13 +156,13 @@ public class AppUpdateDialogFragment extends DialogFragment {
                 }
             }
         });
-        custom_positiveButton = (Button) view.findViewById(R.id.custom_positiveButton);
+        custom_positiveButton = view.findViewById(R.id.custom_positiveButton);
         custom_positiveButton.setVisibility(View.VISIBLE);
-        custom_pb = (ProgressBar) view.findViewById(R.id.custom_pb);
-        custom_pblayout = (RelativeLayout) view.findViewById(R.id.custom_pblayout);
-        custom_pblayout_readsize = (TextView) view.findViewById(R.id.custom_pblayout_readsize);
-        custom_pblayout_totalsize = (TextView) view.findViewById(R.id.custom_pblayout_totalsize);
-        custom_pblayout_progress = (TextView) view.findViewById(R.id.custom_pblayout_progress);
+        custom_pb = view.findViewById(R.id.custom_pb);
+        custom_pblayout = view.findViewById(R.id.custom_pblayout);
+        custom_pblayout_readsize = view.findViewById(R.id.custom_pblayout_readsize);
+        custom_pblayout_totalsize = view.findViewById(R.id.custom_pblayout_totalsize);
+        custom_pblayout_progress = view.findViewById(R.id.custom_pblayout_progress);
         normalClick();
 
         //正在执行更新操作
@@ -196,8 +196,6 @@ public class AppUpdateDialogFragment extends DialogFragment {
                 custom_positiveButton.setText("确定");
             }
         }
-
-        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -254,7 +252,6 @@ public class AppUpdateDialogFragment extends DialogFragment {
         });
     }
 
-    @NonNull
     private File fileExists(UpdateModel model) {
         File file;
         String url = model.getUrl();
@@ -271,14 +268,81 @@ public class AppUpdateDialogFragment extends DialogFragment {
     }
 
     @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (dismissListener!=null) {
+            dismissListener.dismissFragment();
+        }
+    }
+
+    public void show(FragmentActivity fragmentActivity) {
+        show(fragmentActivity, "update");
+    }
+
+    public void show(FragmentActivity fragmentActivity, final String tag) {
+        if (fragmentActivity.isDestroyed() || !isDismiss) {
+            return;
+        }
+        isDismiss=false;
+        manager = fragmentActivity.getSupportFragmentManager();
+        new Handler().post(() -> {
+            super.show(manager, tag);
+
+            isDismiss=false;
+        });
+    }
+
+    private void dismissDialog() {
+        new Handler().post(() -> {
+            if (isDismiss) {
+                return;
+            }
+            isDismiss=true;
+            try {
+                dismissAllowingStateLoss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("isDismiss", isDismiss);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState!=null) {
+            isDismiss=savedInstanceState.getBoolean("isDismiss");
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                manager = activity.getSupportFragmentManager();
+            }
+            try {
+                dismissDialog();
+            } catch (Exception e) {
+
+            }
+        }
+        compositeDisposable.add(RxBus.getDefault()
+                .toObservable(UpdateModel.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(this::onEventMainThread)
+                .subscribe());
+
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        EventBus.getDefault().unregister(this);
+        compositeDisposable.clear();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(UpdateModel model) {
+    private void onEventMainThread(UpdateModel model) {
         if (!model.getUrl().equals(AppUpdateDialogFragment.this.model.getUrl())) {
             return;
         }
@@ -345,68 +409,6 @@ public class AppUpdateDialogFragment extends DialogFragment {
                 custom_negativeButton.setVisibility(View.GONE);
             }
             normalClick();
-        }
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (dismissListener!=null) {
-            dismissListener.dismissFragment();
-        }
-    }
-
-    public void show(FragmentActivity fragmentActivity) {
-        show(fragmentActivity, "update");
-    }
-
-    public void show(FragmentActivity fragmentActivity, final String tag) {
-        if (fragmentActivity.isDestroyed() || !isDismiss) {
-            return;
-        }
-        isDismiss=false;
-        manager = fragmentActivity.getSupportFragmentManager();
-        new Handler().post(() -> {
-            super.show(manager, tag);
-
-            isDismiss=false;
-        });
-    }
-
-    private void dismissDialog() {
-        new Handler().post(() -> {
-            if (isDismiss) {
-                return;
-            }
-            isDismiss=true;
-            try {
-                dismissAllowingStateLoss();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("isDismiss", isDismiss);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState!=null) {
-            isDismiss=savedInstanceState.getBoolean("isDismiss");
-            FragmentActivity activity = getActivity();
-            if (activity != null) {
-                manager = activity.getSupportFragmentManager();
-            }
-            try {
-                dismissDialog();
-            } catch (Exception e) {
-
-            }
         }
     }
 }
