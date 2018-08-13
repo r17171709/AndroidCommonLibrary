@@ -1,6 +1,7 @@
 package com.renyu.commonlibrary.views.dialog;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -216,6 +217,14 @@ public class ChoiceDialog extends DialogFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("isDismiss", isDismiss);
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (onDialogDismissListener != null) {
+            onDialogDismissListener.onDismiss();
+        }
     }
 
     public void show(FragmentActivity fragmentActivity) {
