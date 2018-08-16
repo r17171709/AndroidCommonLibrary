@@ -31,20 +31,15 @@ import com.renyu.commonlibrary.commonutils.sonic.SonicSessionClientImpl;
 import com.renyu.commonlibrary.impl.WebAppImpl;
 import com.renyu.commonlibrary.params.InitParams;
 import com.tencent.sonic.sdk.SonicConfig;
-import com.tencent.sonic.sdk.SonicConstants;
 import com.tencent.sonic.sdk.SonicEngine;
 import com.tencent.sonic.sdk.SonicSession;
 import com.tencent.sonic.sdk.SonicSessionConfig;
-import com.tencent.sonic.sdk.SonicSessionConnection;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,14 +90,14 @@ public class WebActivity extends BaseActivity {
 
     @Override
     public void initParams() {
-        ib_nav_left = (ImageButton) findViewById(R.id.ib_nav_left);
+        ib_nav_left = findViewById(R.id.ib_nav_left);
         ib_nav_left.setImageResource(R.mipmap.ic_arrow_black_left);
         ib_nav_left.setOnClickListener(v -> finish());
-        tv_nav_title = (TextView) findViewById(R.id.tv_nav_title);
+        tv_nav_title = findViewById(R.id.tv_nav_title);
         if (!TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
             tv_nav_title.setText(getIntent().getStringExtra("title"));
         }
-        web_webview = (WebView) findViewById(R.id.web_webview);
+        web_webview = findViewById(R.id.web_webview);
         web_webview.setSaveEnabled(true);
         web_webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         web_webview.setWebChromeClient(new WebChromeClient() {
@@ -159,15 +154,15 @@ public class WebActivity extends BaseActivity {
             }
         });
         // 设置cookies
-        HashMap<String, String> cookies = new HashMap<>();
         if (getIntent().getStringExtra("cookieUrl") != null) {
+            HashMap<String, String> cookies = new HashMap<>();
             ArrayList<String> cookieValues = getIntent().getStringArrayListExtra("cookieValues");
             for (int i = 0; i < cookieValues.size()/2; i++) {
                 cookies.put(cookieValues.get(i*2), cookieValues.get(i*2+1));
             }
+            // cookies同步方法要在WebView的setting设置完之后调用，否则无效。
+            syncCookie(this, getIntent().getStringExtra("cookieUrl"), cookies);
         }
-        // cookies同步方法要在WebView的setting设置完之后调用，否则无效。
-        syncCookie(this, getIntent().getStringExtra("cookieUrl"), cookies);
         if (sonicSessionClient != null) {
             sonicSessionClient.bindWebView(web_webview);
             sonicSessionClient.clientReady();
@@ -207,7 +202,7 @@ public class WebActivity extends BaseActivity {
             try {
                 web_webview.destroy();
             } catch (Throwable ex) {
-
+                ex.printStackTrace();
             }
         }
         super.onDestroy();
@@ -233,57 +228,12 @@ public class WebActivity extends BaseActivity {
                     if (name.startsWith("onActivityResult_") && name.split("_")[1].equals(""+requestCode)) {
                         try {
                             method.invoke(impl);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
+                        } catch (IllegalAccessException | InvocationTargetException e) {
                             e.printStackTrace();
                         }
                     }
                 }
             }
-        }
-    }
-
-    private static class OfflinePkgSessionConnection extends SonicSessionConnection {
-
-        public OfflinePkgSessionConnection(Context context, SonicSession session, Intent intent) {
-            super(session, intent);
-        }
-
-        @Override
-        protected int internalConnect() {
-            return SonicConstants.ERROR_CODE_UNKNOWN;
-        }
-
-        @Override
-        protected BufferedInputStream internalGetResponseStream() {
-            return responseStream;
-        }
-
-        @Override
-        public void disconnect() {
-            if (null != responseStream) {
-                try {
-                    responseStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        @Override
-        public int getResponseCode() {
-            return 200;
-        }
-
-        @Override
-        public Map<String, List<String>> getResponseHeaderFields() {
-            return new HashMap<>(0);
-        }
-
-        @Override
-        public String getResponseHeaderField(String key) {
-            return "";
         }
     }
 

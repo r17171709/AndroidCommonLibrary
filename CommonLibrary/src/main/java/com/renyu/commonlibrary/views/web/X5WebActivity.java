@@ -67,14 +67,14 @@ public class X5WebActivity extends BaseActivity {
 
     @Override
     public void initParams() {
-        ib_nav_left = (ImageButton) findViewById(R.id.ib_nav_left);
+        ib_nav_left = findViewById(R.id.ib_nav_left);
         ib_nav_left.setImageResource(R.mipmap.ic_arrow_black_left);
         ib_nav_left.setOnClickListener(v -> finish());
-        tv_nav_title = (TextView) findViewById(R.id.tv_nav_title);
+        tv_nav_title = findViewById(R.id.tv_nav_title);
         if (!TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
             tv_nav_title.setText(getIntent().getStringExtra("title"));
         }
-        web_webview = (WebView) findViewById(R.id.web_x5webview);
+        web_webview = findViewById(R.id.web_x5webview);
         web_webview.setSaveEnabled(true);
         web_webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         web_webview.setWebChromeClient(new WebChromeClient() {
@@ -130,15 +130,15 @@ public class X5WebActivity extends BaseActivity {
             }
         });
         // 设置cookies
-        HashMap<String, String> cookies = new HashMap<>();
         if (getIntent().getStringExtra("cookieUrl") != null) {
+            HashMap<String, String> cookies = new HashMap<>();
             ArrayList<String> cookieValues = getIntent().getStringArrayListExtra("cookieValues");
             for (int i = 0; i < cookieValues.size()/2; i++) {
                 cookies.put(cookieValues.get(i*2), cookieValues.get(i*2+1));
             }
+            // cookies同步方法要在WebView的setting设置完之后调用，否则无效。
+            syncCookie(this, getIntent().getStringExtra("cookieUrl"), cookies);
         }
-        // cookies同步方法要在WebView的setting设置完之后调用，否则无效。
-        syncCookie(this, getIntent().getStringExtra("cookieUrl"), cookies);
         web_webview.loadUrl(getIntent().getStringExtra("url"));
         findViewById(R.id.ib_nav_left).setOnClickListener(v -> finish());
     }
@@ -169,7 +169,7 @@ public class X5WebActivity extends BaseActivity {
             try {
                 web_webview.destroy();
             } catch (Throwable ex) {
-
+                ex.printStackTrace();
             }
         }
         super.onDestroy();
@@ -195,9 +195,7 @@ public class X5WebActivity extends BaseActivity {
                     if (name.startsWith("onActivityResult_") && name.split("_")[1].equals(""+requestCode)) {
                         try {
                             method.invoke(impl);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
+                        } catch (IllegalAccessException | InvocationTargetException e) {
                             e.printStackTrace();
                         }
                     }
