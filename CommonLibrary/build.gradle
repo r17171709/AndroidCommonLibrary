@@ -11,7 +11,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '2.0.2'
+    publishVersion = '2.0.3'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -65,14 +65,22 @@ dependencies {
     // 添加支持multidex的兼容包
     api 'com.android.support:multidex:1.0.3'
     // 工具类
-    api 'com.blankj:utilcode:1.17.3'
+    api 'com.blankj:utilcode:1.19.0'
     // retrofit2
     api 'com.squareup.retrofit2:retrofit:2.4.0'
     api 'com.squareup.retrofit2:converter-gson:2.4.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    api 'io.reactivex.rxjava2:rxjava:2.1.16'
+    api 'io.reactivex.rxjava2:rxjava:2.1.17'
     // rxbinding
     api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1'
+    // RxLifecycle  Lifecycle handling APIs for Android apps using RxJava
+    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
+    // AspectJ 每一个application和library都需要
+    implementation 'org.aspectj:aspectjrt:1.9.1'
+    // wcdb  WCDB is a cross-platform database framework developed by WeChat.
+    api 'com.tencent.wcdb:wcdb-android:1.0.6.2'
+    // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
+    api 'com.tencent.sonic:sdk:3.0.0'
     // butterknife
     api 'com.jakewharton:butterknife:8.8.1'
     // fresco
@@ -88,7 +96,7 @@ dependencies {
     // CircleImageView  A circular ImageView for Android
     api 'de.hdodenhof:circleimageview:2.2.0'
     // vlayout
-    api('com.alibaba.android:vlayout:1.2.16@aar') {
+    api('com.alibaba.android:vlayout:1.2.17@aar') {
         transitive = true
     }
     // BadgeView  支持自由定制外观、拖拽消除的MaterialDesign风格Android BadgeView
@@ -102,15 +110,7 @@ dependencies {
     // CircleIndicator  A lightweight viewpager indicator like in nexus 5 launcher
     api 'me.relex:circleindicator:1.2.2@aar'
     // DiscreteScrollView  Scrollable list of items, where current item is centered and can be changed using swipes
-    api 'com.yarolegovich:discrete-scrollview:1.4.7@aar'
+    api 'com.yarolegovich:discrete-scrollview:1.4.9@aar'
     // MarqueeViewLibrary  一个帮您快速实现跑马灯效果的library
     api 'com.gongwen:marqueelibrary:1.1.3'
-    // wcdb  WCDB is a cross-platform database framework developed by WeChat.
-    api 'com.tencent.wcdb:wcdb-android:1.0.6.2'
-    // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
-    api 'com.tencent.sonic:sdk:3.0.0'
-    // AspectJ 每一个application和library都需要
-    implementation 'org.aspectj:aspectjrt:1.9.1'
-    // RxLifecycle  Lifecycle handling APIs for Android apps using RxJava
-    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
 }

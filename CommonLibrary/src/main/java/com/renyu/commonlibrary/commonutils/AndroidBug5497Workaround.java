@@ -6,6 +6,8 @@ import android.os.Build;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.util.BarUtils;
+
 /**
  * Created by renyu on 2017/7/2.
  */
@@ -28,10 +30,9 @@ public class AndroidBug5497Workaround {
 
     private AndroidBug5497Workaround(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
-            statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
+            statusBarHeight = BarUtils.getStatusBarHeight();
         }
-        FrameLayout content = (FrameLayout) activity.findViewById(android.R.id.content);
+        FrameLayout content = activity.findViewById(android.R.id.content);
         mChildOfContent = content.getChildAt(0);
         mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             if (isfirst) {

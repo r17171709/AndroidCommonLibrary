@@ -18,7 +18,7 @@ class SignInActivity : BaseActivity() {
             val rect = Rect()
             window.decorView.getWindowVisibleDisplayFrame(rect)
             val displayHeight = rect.bottom - rect.top
-            val decorViewHeight = window.decorView.height - BarUtils1.getStatusBarHeight() - BarUtils2.getNavBarHeight(this)
+            val decorViewHeight = window.decorView.height - BarUtils1.getStatusBarHeight() - BarUtils2.getNavBarHeight()
             // 输入法的高度
             val keyboardHeight = decorViewHeight - displayHeight
             if (previousKeyboardHeight != keyboardHeight) {

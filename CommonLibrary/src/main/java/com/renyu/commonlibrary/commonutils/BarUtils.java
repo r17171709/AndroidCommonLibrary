@@ -99,13 +99,7 @@ public class BarUtils {
             Method calculateStatusColorMethod=BarUtilsClass.getDeclaredMethod("getStatusBarColor", int.class, int.class);
             calculateStatusColorMethod.setAccessible(true);
             return (int) calculateStatusColorMethod.invoke(null, color, alpha);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
         return Color.TRANSPARENT;
@@ -122,23 +116,22 @@ public class BarUtils {
 
     /**
      * 获取底部导航栏高度
-     * @param context
      * @return
      */
-    public static int getNavBarHeight(Context context) {
+    public static int getNavBarHeight() {
         int navigationBarHeight = 0;
-        Resources rs = context.getResources();
+        Resources rs = Resources.getSystem();
         int id = rs.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (id > 0 && checkDeviceHasNavigationBar(context)) {
+        if (id > 0 && checkDeviceHasNavigationBar()) {
             navigationBarHeight = rs.getDimensionPixelSize(id);
         }
 
         return navigationBarHeight;
     }
 
-    private static boolean checkDeviceHasNavigationBar(Context context) {
+    private static boolean checkDeviceHasNavigationBar() {
         boolean hasNavigationBar = false;
-        Resources rs = context.getResources();
+        Resources rs = Resources.getSystem();
         int id = rs.getIdentifier("config_showNavigationBar", "bool", "android");
         if (id > 0) {
             hasNavigationBar = rs.getBoolean(id);

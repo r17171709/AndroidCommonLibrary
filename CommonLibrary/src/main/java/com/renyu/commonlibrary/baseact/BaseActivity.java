@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 
+import com.blankj.utilcode.util.ScreenUtils;
 import com.renyu.commonlibrary.commonutils.BarUtils;
 import com.renyu.commonlibrary.commonutils.PermissionsUtils;
 import com.renyu.commonlibrary.params.InitParams;
@@ -36,6 +37,11 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @CallSuper
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (ScreenUtils.isPortrait()) {
+            ScreenUtils.adaptScreen4VerticalSlide(this, 360);
+        } else {
+            ScreenUtils.adaptScreen4HorizontalSlide(this, 360);
+        }
 
         if (!isNeedOnCreate) {
             return;
