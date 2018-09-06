@@ -40,13 +40,21 @@ public class WebAppInterface implements Parcelable, WebAppImpl {
 
     @JavascriptInterface
     public void showToast(String string) {
-//        ((WebActivity) context).startActivityForResult(new Intent(context, LoginActivity.class), 111);
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
     }
 
-    // 可以通过反射的方式去获取所有需onActivityResult处理的方法
+    // SDK可以通过反射的方式去获取所有需onActivityResult处理的方法
     public void onActivityResult_111() {
         webView.loadUrl("javascript:showAndroidToast('waawo')");
+    }
+
+    @JavascriptInterface
+    public void call() {
+        Toast.makeText(context, "call", Toast.LENGTH_SHORT).show();
+    }
+
+    public void call1() {
+        webView.loadUrl("javascript:call()");
     }
 
     @Override

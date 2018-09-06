@@ -3,13 +3,14 @@ package com.renyu.androidcommonlibrary.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.View;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 
 import com.renyu.androidcommonlibrary.R;
+import com.renyu.androidcommonlibrary.impl.WebAppInterface;
+import com.renyu.commonlibrary.impl.WebAppImpl;
 import com.renyu.commonlibrary.views.web.WebActivity;
 
 /**
@@ -24,7 +25,7 @@ public class MyWebActivity extends WebActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ib_nav_right = (ImageButton) findViewById(R.id.ib_nav_right);
+        ib_nav_right = findViewById(R.id.ib_nav_right);
         ib_nav_right.setImageResource(R.mipmap.ic_launcher);
         web_webview.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -43,11 +44,9 @@ public class MyWebActivity extends WebActivity {
                 }
             }
         });
-        ib_nav_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        ib_nav_right.setOnClickListener(v -> {
+            WebAppImpl impl=getIntent().getParcelableExtra("WebAppImpl");
+            ((WebAppInterface) impl).call1();
         });
     }
 }
