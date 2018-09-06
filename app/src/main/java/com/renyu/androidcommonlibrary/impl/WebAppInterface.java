@@ -54,7 +54,7 @@ public class WebAppInterface implements Parcelable, WebAppImpl {
     }
 
     public void call1() {
-        webView.loadUrl("javascript:call()");
+        webView.loadUrl("javascript:onData('测试')");
     }
 
     @Override
