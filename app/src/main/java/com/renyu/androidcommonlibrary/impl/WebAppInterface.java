@@ -39,8 +39,9 @@ public class WebAppInterface implements Parcelable, WebAppImpl {
     };
 
     @JavascriptInterface
-    public void showToast(String string) {
+    public String showToast(String string) {
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
+        return "From App";
     }
 
     // SDK可以通过反射的方式去获取所有需onActivityResult处理的方法
