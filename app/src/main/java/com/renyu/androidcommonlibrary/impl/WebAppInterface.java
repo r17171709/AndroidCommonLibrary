@@ -54,8 +54,8 @@ public class WebAppInterface implements Parcelable, WebAppImpl {
         Toast.makeText(context, "call", Toast.LENGTH_SHORT).show();
     }
 
-    public void call1(String string) {
-        webView.loadUrl("javascript:onData('"+string+"')");
+    public void call1(int string) {
+        webView.loadUrl("javascript:onData("+string+")");
     }
 
     @Override

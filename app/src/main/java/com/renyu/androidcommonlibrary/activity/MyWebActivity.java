@@ -46,7 +46,7 @@ public class MyWebActivity extends WebActivity {
         });
         ib_nav_right.setOnClickListener(v -> {
             WebAppImpl impl=getIntent().getParcelableExtra("WebAppImpl");
-            ((WebAppInterface) impl).call1("测试");
+            ((WebAppInterface) impl).call1(123);
         });
     }
 }
