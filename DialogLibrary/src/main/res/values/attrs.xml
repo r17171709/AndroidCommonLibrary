@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- LoadingView相关属性 -->
+    <declare-styleable name="LoadingView">
+        <attr name="loading_renderer">
+            <!--circle rotate-->
+            <enum name="MaterialLoadingRenderer" value="0"/>
+            <enum name="LevelLoadingRenderer" value="1"/>
+            <enum name="WhorlLoadingRenderer" value="2"/>
+            <enum name="GearLoadingRenderer" value="3"/>
+            <!--circle jump-->
+            <enum name="SwapLoadingRenderer" value="4"/>
+            <enum name="GuardLoadingRenderer" value="5"/>
+            <enum name="DanceLoadingRenderer" value="6"/>
+            <enum name="CollisionLoadingRenderer" value="7"/>
+        </attr>
+    </declare-styleable>
+</resources>

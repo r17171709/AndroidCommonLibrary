@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.renyu.commonlibrary.R;
+import com.renyu.commonlibrary.dialog.R;
 
 import app.dinus.com.loadingdrawable.render.LoadingDrawable;
 import app.dinus.com.loadingdrawable.render.LoadingRenderer;

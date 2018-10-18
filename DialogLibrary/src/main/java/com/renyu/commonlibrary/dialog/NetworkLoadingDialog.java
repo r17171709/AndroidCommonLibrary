@@ -1,8 +1,11 @@
-package com.renyu.commonlibrary.views.dialog;
+package com.renyu.commonlibrary.dialog;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,8 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.ScreenUtils;
-import com.renyu.commonlibrary.R;
+import com.renyu.commonlibrary.dialog.utils.Utils;
 
 import java.lang.reflect.Field;
 
@@ -58,6 +60,30 @@ public class NetworkLoadingDialog extends DialogFragment {
         this.onDialogDismissListener = onDialogDismissListener;
     }
 
+    // 不需要再getActivity()了
+    public Context context;
+
+    @TargetApi(23)
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        onAttachToContext(context);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            onAttachToContext(activity);
+        }
+    }
+
+    protected void onAttachToContext(Context context) {
+        this.context = context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,7 +94,7 @@ public class NetworkLoadingDialog extends DialogFragment {
         //设置背景颜色,只有设置了这个属性,宽度才能全屏MATCH_PARENT
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams mWindowAttributes = getDialog().getWindow().getAttributes();
-        mWindowAttributes.width = ScreenUtils.getScreenWidth();
+        mWindowAttributes.width = Utils.getScreenWidth(context);
         mWindowAttributes.height = WindowManager.LayoutParams.MATCH_PARENT;
         getDialog().setCancelable(false);
         getDialog().setCanceledOnTouchOutside(false);
@@ -91,16 +117,16 @@ public class NetworkLoadingDialog extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState!=null) {
             isDismiss=savedInstanceState.getBoolean("isDismiss");
-            FragmentActivity activity = getActivity();
+            FragmentActivity activity = (FragmentActivity) context;
             if (activity != null) {
                 manager = activity.getSupportFragmentManager();
             }
             dismissDialog();
         }
 
-        InputMethodManager manager= (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager manager= (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager.isActive()) {
-            View focusView=getActivity().getCurrentFocus();
+            View focusView=((FragmentActivity) context).getCurrentFocus();
             if (focusView!=null) {
                 manager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
             }
@@ -162,7 +188,7 @@ public class NetworkLoadingDialog extends DialogFragment {
      * 带有文字提示
      */
     public void closeWithText(String text) {
-        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
         close();
     }
 
@@ -170,9 +196,9 @@ public class NetworkLoadingDialog extends DialogFragment {
      * 带有图文提示
      */
     public void closeWithTextAndImage(String text, int imageRes) {
-        Toast toast = Toast.makeText(getActivity().getApplicationContext(), text, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context.getApplicationContext(), text, Toast.LENGTH_SHORT);
         LinearLayout toastView = (LinearLayout) (toast.getView());
-        ImageView image = new ImageView(getActivity().getApplicationContext());
+        ImageView image = new ImageView(context.getApplicationContext());
         image.setImageResource(imageRes);
         toastView.addView(image, 0);
         toast.show();

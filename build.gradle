@@ -40,4 +40,5 @@ task clean(type: Delete) {
 
 tasks.getByPath(":CommonLibrary:bintrayUpload").enabled = false
 tasks.getByPath(":NetworkLibrary:bintrayUpload").enabled = false
-tasks.getByPath(":UpdateLibrary:bintrayUpload").enabled = true
+tasks.getByPath(":UpdateLibrary:bintrayUpload").enabled = false
+tasks.getByPath(":DialogLibrary:bintrayUpload").enabled = true

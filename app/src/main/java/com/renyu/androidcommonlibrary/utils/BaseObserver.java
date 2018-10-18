@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.Utils;
+import com.renyu.commonlibrary.dialog.NetworkLoadingDialog;
 import com.renyu.commonlibrary.network.other.NetworkException;
-import com.renyu.commonlibrary.views.dialog.NetworkLoadingDialog;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
