@@ -9,13 +9,9 @@
 * 提供多种工具类
 * 支持沉浸式
 * 支持包含强制与非强制的app升级功能
-* 集成Acache数据存储功能
 * 支持多种通知栏效果
 * 支持权限判断
 * 集成腾讯xlog日志记录框架
-* 使用ButterKnife完成控件绑定
-* 使用EventBus完成发布/订阅事件
-* 集成RxLifecycle
 * 使用SwipyRefreshLayout完成下拉上拉加载
 * 集成侧滑删除RecyclerView子项控件
 

@@ -74,8 +74,6 @@ dependencies {
     api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1'
     // AspectJ 每一个application和library都需要
     implementation 'org.aspectj:aspectjrt:1.9.1'
-    // wcdb  WCDB is a cross-platform database framework developed by WeChat.
-    api 'com.tencent.wcdb:wcdb-android:1.0.6.2'
     // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
     api 'com.tencent.sonic:sdk:3.0.0'
     // fresco
