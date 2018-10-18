@@ -94,6 +94,10 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'
     // AspectJ 每一个application和library都需要
     implementation 'org.aspectj:aspectjrt:1.9.1'
+    // 升级
+    implementation 'com.github.renyu:AndroidUpdateLibrary:1.0.0'
+    // 网络请求
+    implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.0'
     implementation project(':CommonLibrary')
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'

@@ -26,7 +26,6 @@ public abstract class BaseFragment extends Fragment {
     // 不需要再getActivity()了
     public Context context;
 
-    // 这里RxFragment忘记添加此处的状态了，建议使用人员注意不要在此状态下订阅取消事件
     @TargetApi(23)
     @Override
     public void onAttach(Context context) {

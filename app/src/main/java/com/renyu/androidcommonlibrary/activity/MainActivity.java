@@ -49,9 +49,10 @@ public class MainActivity extends BaseActivity {
         // 初始化文件夹
         FileUtils.createOrExistsDir(InitParams.IMAGE_PATH);
         FileUtils.createOrExistsDir(InitParams.HOTFIX_PATH);
-        FileUtils.createOrExistsDir(InitParams.FILE_PATH);
         FileUtils.createOrExistsDir(InitParams.LOG_PATH);
         FileUtils.createOrExistsDir(InitParams.CACHE_PATH);
+        // app更新功能文件夹初始化
+        FileUtils.createOrExistsDir(com.renyu.commonlibrary.update.params.InitParams.FILE_PATH);
 
         // js调用示例，使用淘房范例
 //        Intent intent=new Intent(MainActivity.this, MyWebActivity.class);

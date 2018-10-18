@@ -1,5 +1,8 @@
-package com.renyu.commonlibrary.views;
+package com.renyu.commonlibrary.update.views;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,13 +26,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ScreenUtils;
-import com.renyu.commonlibrary.R;
-import com.renyu.commonlibrary.bean.UpdateModel;
-import com.renyu.commonlibrary.commonutils.RxBus;
-import com.renyu.commonlibrary.commonutils.Utils;
-import com.renyu.commonlibrary.params.InitParams;
-import com.renyu.commonlibrary.service.UpdateService;
+import com.renyu.commonlibrary.update.R;
+import com.renyu.commonlibrary.update.bean.UpdateModel;
+import com.renyu.commonlibrary.update.params.InitParams;
+import com.renyu.commonlibrary.update.service.UpdateService;
+import com.renyu.commonlibrary.update.utils.RxBus;
+import com.renyu.commonlibrary.update.utils.Utils;
 
 import java.io.File;
 
@@ -50,6 +52,9 @@ public class AppUpdateDialogFragment extends DialogFragment {
     TextView custom_pblayout_readsize;
     TextView custom_pblayout_totalsize;
     TextView custom_pblayout_progress;
+
+    // 不需要再getActivity()了
+    public Context context;
 
     private boolean isCanCancel;
 
@@ -98,6 +103,27 @@ public class AppUpdateDialogFragment extends DialogFragment {
         return fragment;
     }
 
+    protected void onAttachToContext(Context context) {
+        this.context = context;
+    }
+
+    @TargetApi(23)
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        onAttachToContext(context);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            onAttachToContext(activity);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -108,7 +134,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
         //设置背景颜色,只有设置了这个属性,宽度才能全屏MATCH_PARENT
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams mWindowAttributes = getDialog().getWindow().getAttributes();
-        mWindowAttributes.width = ScreenUtils.getScreenWidth();
+        mWindowAttributes.width = Utils.getScreenWidth(getContext());
         mWindowAttributes.height = WindowManager.LayoutParams.MATCH_PARENT;
         getDialog().setCancelable(false);
         getDialog().setCanceledOnTouchOutside(false);

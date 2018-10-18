@@ -69,7 +69,6 @@ dependencies {
     api 'android.arch.lifecycle:extensions:1.1.1'
     // 工具类
     api 'com.blankj:utilcode:1.21.0'
-    api 'com.github.renyu:AndroidNetworkLibrary:1.0.0'
     // rxbinding
     api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1'
     // AspectJ 每一个application和library都需要

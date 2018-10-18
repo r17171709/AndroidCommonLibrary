@@ -10,7 +10,7 @@ import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
 import com.renyu.androidcommonlibrary.di.module.ReposModule
-import com.renyu.commonlibrary.commonutils.BaseObserver
+import com.renyu.androidcommonlibrary.utils.BaseObserver
 import com.renyu.commonlibrary.network.Retrofit2Utils
 import com.renyu.commonlibrary.network.other.Resource
 import io.reactivex.disposables.Disposable

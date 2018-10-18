@@ -1,4 +1,4 @@
-package com.renyu.commonlibrary.commonutils;
+package com.renyu.androidcommonlibrary.utils;
 
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;

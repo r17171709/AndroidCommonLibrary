@@ -1,21 +1,20 @@
-package com.renyu.commonlibrary.service;
+package com.renyu.commonlibrary.update.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-import com.renyu.commonlibrary.R;
-import com.renyu.commonlibrary.bean.UpdateModel;
-import com.renyu.commonlibrary.commonutils.NotificationUtils;
-import com.renyu.commonlibrary.commonutils.RxBus;
-import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.OKHttpUtils;
-import com.renyu.commonlibrary.params.InitParams;
+import com.renyu.commonlibrary.update.R;
+import com.renyu.commonlibrary.update.bean.UpdateModel;
+import com.renyu.commonlibrary.update.params.InitParams;
+import com.renyu.commonlibrary.update.utils.NotificationUtils;
+import com.renyu.commonlibrary.update.utils.RxBus;
+import com.renyu.commonlibrary.update.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -187,8 +186,6 @@ public class UpdateService extends Service {
         }
     }
 
-
-    @NonNull
     private File fileExists(UpdateModel model) {
         File file;
         String url = model.getUrl();

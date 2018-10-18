@@ -58,8 +58,6 @@ public class ExampleApp extends MultiDexApplication {
             InitParams.ROOT_PATH= Environment.getExternalStorageDirectory().getPath()+ File.separator + "example";
             // 项目图片目录
             InitParams.IMAGE_PATH= InitParams.ROOT_PATH + File.separator + "image";
-            // 项目文件目录
-            InitParams.FILE_PATH= InitParams.ROOT_PATH + File.separator + "file";
             // 项目热修复目录
             InitParams.HOTFIX_PATH= InitParams.ROOT_PATH + File.separator + "hotfix";
             // 项目日志目录
@@ -69,6 +67,8 @@ public class ExampleApp extends MultiDexApplication {
             InitParams.CACHE_PATH= InitParams.ROOT_PATH + File.separator + "cache";
             // fresco缓存目录
             InitParams.FRESCO_CACHE_NAME= "fresco_cache";
+            // app更新功能目录
+            com.renyu.commonlibrary.update.params.InitParams.FILE_PATH= InitParams.ROOT_PATH + File.separator + "file";
 
             // 初始化Sonic
             if (!SonicEngine.isGetInstanceAllowed()) {

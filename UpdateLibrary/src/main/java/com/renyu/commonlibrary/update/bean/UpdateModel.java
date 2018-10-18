@@ -1,4 +1,4 @@
-package com.renyu.commonlibrary.bean;
+package com.renyu.commonlibrary.update.bean;
 
 import java.io.Serializable;
 
