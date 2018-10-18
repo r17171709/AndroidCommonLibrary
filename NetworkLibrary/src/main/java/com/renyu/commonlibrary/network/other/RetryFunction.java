@@ -1,4 +1,4 @@
-package com.renyu.commonlibrary.network;
+package com.renyu.commonlibrary.network.other;
 
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;

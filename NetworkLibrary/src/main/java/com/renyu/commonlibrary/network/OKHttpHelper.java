@@ -6,7 +6,7 @@ package com.renyu.commonlibrary.network;
 public class OKHttpHelper {
 
     private static volatile OKHttpHelper instance = null;
-    private OKHttpUtils okHttpUtils = null;
+    private OKHttpUtils okHttpUtils;
 
     private OKHttpHelper() {
         okHttpUtils = new OKHttpUtils();

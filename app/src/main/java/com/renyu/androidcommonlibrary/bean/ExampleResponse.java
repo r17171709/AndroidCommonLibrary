@@ -1,13 +1,13 @@
 package com.renyu.androidcommonlibrary.bean;
 
 import com.google.gson.annotations.SerializedName;
-import com.renyu.commonlibrary.network.params.Response;
+import com.renyu.commonlibrary.network.impl.IResponse;
 
 /**
  * Created by renyu on 2017/6/6.
  */
 
-public class ExampleResponse<T> implements Response<T> {
+public class ExampleResponse<T> implements IResponse<T> {
 
     @SerializedName("data")
     T data;

@@ -25,11 +25,12 @@ allprojects {
 //        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         jcenter()
         maven { url 'https://jitpack.io' }
+        maven { url 'https://dl.bintray.com/r17171709/AndroidCommonLibrary' }
     }
 
-    tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-        options.addStringOption('encoding', 'UTF-8')
+    // 不纠结Javadoc的问题了
+    tasks.withType(Javadoc).all {
+        enabled = false
     }
 }
 
@@ -37,5 +38,5 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-// 非常重要要不它不认识你的项目.kt文件名 其中CommonLibrary是你的library名
-tasks.getByPath(":CommonLibrary:releaseAndroidJavadocs").enabled = false
+tasks.getByPath(":CommonLibrary:bintrayUpload").enabled = false
+tasks.getByPath(":NetworkLibrary:bintrayUpload").enabled = true

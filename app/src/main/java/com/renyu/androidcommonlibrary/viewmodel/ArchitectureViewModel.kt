@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModel
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
 import com.renyu.androidcommonlibrary.repository.Repos
-import com.renyu.commonlibrary.network.params.Resource
+import com.renyu.commonlibrary.network.other.Resource
 
 /**
  * Created by Administrator on 2018/7/7.

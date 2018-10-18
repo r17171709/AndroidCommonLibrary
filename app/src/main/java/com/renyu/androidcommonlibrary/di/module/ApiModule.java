@@ -7,6 +7,7 @@ import com.renyu.androidcommonlibrary.db.PlainTextDBHelper;
 import com.renyu.commonlibrary.network.HttpsUtils;
 import com.renyu.commonlibrary.network.OKHttpHelper;
 import com.renyu.commonlibrary.network.OKHttpUtils;
+import com.renyu.commonlibrary.network.Retrofit2Helper;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.tencent.wcdb.database.SQLiteDatabase;
 
@@ -52,10 +53,10 @@ public class ApiModule {
     @Singleton
     @Provides
     public Retrofit provideRetrofit(OkHttpClient okHttpClient) {
-        Retrofit2Utils retrofit2Utils=Retrofit2Utils.getInstance("http://www.mocky.io/v2/");
+        Retrofit2Helper retrofit2Utils=Retrofit2Helper.getInstance("http://www.mocky.io/v2/");
         retrofit2Utils.addBaseOKHttpClient(okHttpClient);
         retrofit2Utils.baseBuild();
-        return Retrofit2Utils.getBaseRetrofit();
+        return retrofit2Utils.getBaseRetrofit();
     }
 
     /**

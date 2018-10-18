@@ -16,7 +16,7 @@ import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModel
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModelFactory
 import com.renyu.commonlibrary.baseact.BaseDataBindingActivity
 import com.renyu.commonlibrary.commonutils.Utils
-import com.renyu.commonlibrary.network.params.Status
+import com.renyu.commonlibrary.network.other.Status
 
 /**
  * Created by Administrator on 2018/7/7.

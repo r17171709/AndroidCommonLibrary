@@ -1,9 +1,9 @@
-package com.renyu.commonlibrary.network.params;
+package com.renyu.commonlibrary.network.impl;
 
 /**
  * Created by renyu on 15/12/16.
  */
-public interface Response<T> {
+public interface IResponse<T> {
 
     T getData();
 

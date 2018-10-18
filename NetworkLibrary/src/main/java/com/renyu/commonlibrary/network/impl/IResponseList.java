@@ -1,11 +1,11 @@
-package com.renyu.commonlibrary.network.params;
+package com.renyu.commonlibrary.network.impl;
 
 import java.util.List;
 
 /**
  * Created by renyu on 15/12/25.
  */
-public interface ResponseList<T> {
+public interface IResponseList<T> {
     List<T> getData();
 
     void setData(List<T> data);

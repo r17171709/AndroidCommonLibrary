@@ -1,11 +1,11 @@
-package com.renyu.commonlibrary.network;
+package com.renyu.commonlibrary.commonutils;
 
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.Utils;
-import com.renyu.commonlibrary.network.params.NetworkException;
+import com.renyu.commonlibrary.network.other.NetworkException;
 import com.renyu.commonlibrary.views.dialog.NetworkLoadingDialog;
 
 import io.reactivex.Observer;
@@ -17,13 +17,13 @@ import io.reactivex.disposables.Disposable;
 
 public abstract class BaseObserver<T> implements Observer<T> {
 
-    AppCompatActivity activity;
-    String loadingText;
-    boolean needToast = true;
+    private AppCompatActivity activity;
+    private String loadingText;
+    private boolean needToast = true;
 
-    public NetworkLoadingDialog networkLoadingDialog;
+    protected NetworkLoadingDialog networkLoadingDialog;
 
-    Disposable d;
+    private Disposable d;
 
     public BaseObserver(boolean needToast) {
         this.needToast = needToast;

@@ -1,6 +1,6 @@
 package com.renyu.androidcommonlibrary.bean;
 
-import com.renyu.commonlibrary.network.params.ResponseList;
+import com.renyu.commonlibrary.network.impl.IResponseList;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Created by renyu on 2017/6/6.
  */
 
-public class ExampleResponseList<T> implements ResponseList<T> {
+public class ExampleResponseList<T> implements IResponseList<T> {
     List<T> data;
     int result;
     String message;
