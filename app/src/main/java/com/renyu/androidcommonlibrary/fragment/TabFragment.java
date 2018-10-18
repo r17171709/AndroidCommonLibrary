@@ -6,14 +6,11 @@ import android.widget.LinearLayout;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.basefrag.BaseFragment;
 
-import butterknife.BindView;
-
 /**
  * Created by Administrator on 2018/4/10.
  */
 public class TabFragment extends BaseFragment {
 
-    @BindView(R.id.layout_tab)
     LinearLayout layout_tab;
 
     public static TabFragment getInstance(int color) {
@@ -26,6 +23,7 @@ public class TabFragment extends BaseFragment {
 
     @Override
     public void initParams() {
+        layout_tab = view.findViewById(R.id.layout_tab);
         layout_tab.setBackgroundColor(getArguments().getInt("color"));
     }
 

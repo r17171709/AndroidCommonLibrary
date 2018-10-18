@@ -90,8 +90,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // 协程
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0"
-    // butterknife
-    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
     // AspectJ 每一个application和library都需要
     implementation 'org.aspectj:aspectjrt:1.9.1'
     implementation project(':CommonLibrary')
@@ -100,6 +98,8 @@ dependencies {
     // dagger2
     api 'com.google.dagger:dagger:2.17'
     kapt 'com.google.dagger:dagger-compiler:2.17'
+    // RxLifecycle  Lifecycle handling APIs for Android apps using RxJava
+    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
 //    implementation 'com.github.renyu:AndroidCommonLibrary:1.11.16'
 //    implementation 'com.github.r17171709:AndroidCommonLibrary:v1.9.13'
 }

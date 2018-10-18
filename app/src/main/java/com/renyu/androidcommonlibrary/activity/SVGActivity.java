@@ -7,19 +7,17 @@ import android.support.v7.widget.AppCompatImageView;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 
-import butterknife.BindView;
-
 /**
  * Created by Administrator on 2017/9/7.
  */
 
 public class SVGActivity extends BaseActivity {
 
-    @BindView(R.id.iv_svg)
     AppCompatImageView iv_svg;
 
     @Override
     public void initParams() {
+        iv_svg = findViewById(R.id.iv_svg);
         VectorDrawableCompat a= VectorDrawableCompat.create(getResources(), R.drawable.ic_white_bottom_arrow, getTheme());
         a.setTint(Color.RED);
         iv_svg.setImageDrawable(a);

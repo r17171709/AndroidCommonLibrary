@@ -1,6 +1,7 @@
 package com.renyu.androidcommonlibrary.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +14,16 @@ import com.renyu.androidcommonlibrary.R;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by Administrator on 2017/8/4.
  */
 
 public class HeaderViewAdapter extends DelegateAdapter.Adapter<HeaderViewAdapter.HeaderViewHolder> {
 
-    Context context;
-    LayoutHelper layoutHelper;
+    private Context context;
+    private LayoutHelper layoutHelper;
 
-    ArrayList<Object> beans;
+    private ArrayList<Object> beans;
 
     public HeaderViewAdapter(Context context, LayoutHelper layoutHelper, ArrayList<Object> beans) {
         this.context=context;
@@ -38,14 +36,15 @@ public class HeaderViewAdapter extends DelegateAdapter.Adapter<HeaderViewAdapter
         return layoutHelper;
     }
 
+    @NonNull
     @Override
-    public HeaderViewAdapter.HeaderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HeaderViewAdapter.HeaderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.header_friendlist, parent, false);
         return new HeaderViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(HeaderViewAdapter.HeaderViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HeaderViewAdapter.HeaderViewHolder holder, int position) {
         holder.tv_friendlist_head.setText("a"+beans.get(position).toString());
     }
 
@@ -55,12 +54,11 @@ public class HeaderViewAdapter extends DelegateAdapter.Adapter<HeaderViewAdapter
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_friendlist_head)
         TextView tv_friendlist_head;
 
-        public HeaderViewHolder(View itemView) {
+        HeaderViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            tv_friendlist_head = itemView.findViewById(R.id.tv_friendlist_head);
         }
     }
 }

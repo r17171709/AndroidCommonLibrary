@@ -32,17 +32,14 @@ public class ShowcaseActivity extends AppCompatActivity {
 
         showCaseView=new ShowCaseView(ShowcaseActivity.this);
 
-        btn_showcase= (Button) findViewById(R.id.btn_showcase);
-        btn1_showcase= (Button) findViewById(R.id.btn1_showcase);
-        btn_showcase.post(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<View> views=new ArrayList<>();
-                views.add(a());
-                views.add(b());
-                showCaseView.addViews(views);
-                showCaseView.show();
-            }
+        btn_showcase= findViewById(R.id.btn_showcase);
+        btn1_showcase= findViewById(R.id.btn1_showcase);
+        btn_showcase.post(() -> {
+            ArrayList<View> views=new ArrayList<>();
+            views.add(a());
+            views.add(b());
+            showCaseView.addViews(views);
+            showCaseView.show();
         });
     }
 
@@ -59,15 +56,10 @@ public class ShowcaseActivity extends AppCompatActivity {
         beanArrayList.add(bean);
 
         View view= LayoutInflater.from(ShowcaseActivity.this).inflate(R.layout.view_showcase, null, false);
-        ShowCaseImageView image_showcase= (ShowCaseImageView) view.findViewById(R.id.image_showcase);
+        ShowCaseImageView image_showcase= view.findViewById(R.id.image_showcase);
         image_showcase.setmAnimationEnabled(true);
         image_showcase.setmCalculatorBeen(beanArrayList);
-        image_showcase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showCaseView.dismiss();
-            }
-        });
+        image_showcase.setOnClickListener(view1 -> showCaseView.dismiss());
 
         return view;
     }
@@ -87,15 +79,10 @@ public class ShowcaseActivity extends AppCompatActivity {
         beanArrayList.add(bean1);
 
         View view= LayoutInflater.from(ShowcaseActivity.this).inflate(R.layout.view_showcase, null, false);
-        ShowCaseImageView image_showcase= (ShowCaseImageView) view.findViewById(R.id.image_showcase);
+        ShowCaseImageView image_showcase= view.findViewById(R.id.image_showcase);
         image_showcase.setmAnimationEnabled(true);
         image_showcase.setmCalculatorBeen(beanArrayList);
-        image_showcase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showCaseView.dismiss();
-            }
-        });
+        image_showcase.setOnClickListener(view1 -> showCaseView.dismiss());
 
         return view;
     }

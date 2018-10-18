@@ -18,19 +18,14 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
 /**
  * Created by renyu on 2017/7/9.
  */
 
 public class DiscreteScrollviewActivity extends BaseActivity {
 
-    @BindView(R.id.ib_nav_right)
     ImageButton ib_nav_right;
-    @BindView(R.id.layout_nav_right)
     LinearLayout layout_nav_right;
-    @BindView(R.id.scroll_discrete)
     DiscreteScrollView scroll_discrete;
 
     List<DiscreteBean> data;
@@ -44,6 +39,10 @@ public class DiscreteScrollviewActivity extends BaseActivity {
         data.add(new DiscreteBean(4, "name4", "price4", R.mipmap.shop4));
         data.add(new DiscreteBean(5, "name5", "price5", R.mipmap.shop5));
         data.add(new DiscreteBean(6, "name6", "price6", R.mipmap.shop6));
+
+        ib_nav_right = findViewById(R.id.ib_nav_right);
+        layout_nav_right = findViewById(R.id.layout_nav_right);
+        scroll_discrete = findViewById(R.id.scroll_discrete);
     }
 
     @Override

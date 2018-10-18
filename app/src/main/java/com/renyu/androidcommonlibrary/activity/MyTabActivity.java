@@ -2,15 +2,12 @@ package com.renyu.androidcommonlibrary.activity;
 
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
-import android.view.View;
 
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.fragment.TabFragment;
 import com.renyu.commonlibrary.baseact.BaseTabActivity;
 
 import java.util.ArrayList;
-
-import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2018/4/10.
@@ -93,7 +90,10 @@ public class MyTabActivity extends BaseTabActivity {
 
     @Override
     public void initParams() {
-
+        findViewById(R.id.index_layout).setOnClickListener(v -> switchFragment("one"));
+        findViewById(R.id.fav_layout).setOnClickListener(v -> switchFragment("two"));
+        findViewById(R.id.message_layout).setOnClickListener(v -> switchFragment("three"));
+        findViewById(R.id.my_layout).setOnClickListener(v -> switchFragment("four"));
     }
 
     @Override
@@ -114,23 +114,5 @@ public class MyTabActivity extends BaseTabActivity {
     @Override
     public int setStatusBarTranslucent() {
         return 0;
-    }
-
-    @OnClick({R.id.index_layout, R.id.fav_layout, R.id.message_layout, R.id.my_layout})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.index_layout:
-                switchFragment("one");
-                break;
-            case R.id.fav_layout:
-                switchFragment("two");
-                break;
-            case R.id.message_layout:
-                switchFragment("three");
-                break;
-            case R.id.my_layout:
-                switchFragment("four");
-                break;
-        }
     }
 }

@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.blankj.utilcode.util.ScreenUtils;
 import com.renyu.commonlibrary.commonutils.BarUtils;
@@ -12,12 +13,11 @@ import com.renyu.commonlibrary.commonutils.PermissionsUtils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.tencent.mars.xlog.Log;
 import com.tencent.mars.xlog.Xlog;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
  * Created by Administrator on 2018/7/8.
  */
-public abstract class BaseDataBindingActivity<T> extends RxAppCompatActivity {
+public abstract class BaseDataBindingActivity<T> extends AppCompatActivity {
 
     public abstract void initParams();
     public abstract int initViews();

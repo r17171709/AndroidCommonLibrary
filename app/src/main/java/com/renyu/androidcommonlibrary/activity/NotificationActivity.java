@@ -26,27 +26,18 @@ import com.renyu.commonlibrary.commonutils.NotificationUtils;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-
 /**
  * Created by renyu on 2018/1/29.
  */
 
 public class NotificationActivity extends BaseActivity {
 
-    @BindView(R.id.tv_normal)
     TextView tv_normal;
-    @BindView(R.id.tv_channel1)
     TextView tv_channel1;
-    @BindView(R.id.tv_channel2)
     TextView tv_channel2;
-    @BindView(R.id.tv_send_messagestyle)
     TextView tv_send_messagestyle;
-    @BindView(R.id.tv_update_messagestyle)
     TextView tv_update_messagestyle;
-    @BindView(R.id.tv_send_messagestyle8)
     TextView tv_send_messagestyle8;
-    @BindView(R.id.tv_send_remoteinput)
     TextView tv_send_remoteinput;
 
     NotificationManager manager=null;
@@ -55,6 +46,14 @@ public class NotificationActivity extends BaseActivity {
 
     @Override
     public void initParams() {
+        tv_normal = findViewById(R.id.tv_normal);
+        tv_channel1 = findViewById(R.id.tv_channel1);
+        tv_channel2 = findViewById(R.id.tv_channel2);
+        tv_send_messagestyle = findViewById(R.id.tv_send_messagestyle);
+        tv_update_messagestyle = findViewById(R.id.tv_update_messagestyle);
+        tv_send_messagestyle8 = findViewById(R.id.tv_send_messagestyle8);
+        tv_send_remoteinput = findViewById(R.id.tv_send_remoteinput);
+
         // 询问用户开启通知权限
         if (!NotificationUtils.isNotificationEnabled(this)) {
             NotificationUtils.openNotification(this);

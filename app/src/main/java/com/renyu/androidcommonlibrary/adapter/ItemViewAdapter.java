@@ -1,6 +1,7 @@
 package com.renyu.androidcommonlibrary.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,19 +16,16 @@ import com.renyu.androidcommonlibrary.R;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by Administrator on 2017/8/4.
  */
 
 public class ItemViewAdapter extends DelegateAdapter.Adapter<ItemViewAdapter.ItemViewHolder> {
 
-    Context context;
-    LayoutHelper layoutHelper;
+    private Context context;
+    private LayoutHelper layoutHelper;
 
-    ArrayList<Object> beans;
+    private ArrayList<Object> beans;
 
     public ItemViewAdapter(Context context, LayoutHelper layoutHelper, ArrayList<Object> beans) {
         this.context=context;
@@ -40,14 +38,15 @@ public class ItemViewAdapter extends DelegateAdapter.Adapter<ItemViewAdapter.Ite
         return layoutHelper;
     }
 
+    @NonNull
     @Override
-    public ItemViewAdapter.ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemViewAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.adapter_friendlist, parent, false);
         return new ItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ItemViewAdapter.ItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemViewAdapter.ItemViewHolder holder, int position) {
         holder.tv_adapter_friendlist.setText(""+position);
     }
 
@@ -57,16 +56,15 @@ public class ItemViewAdapter extends DelegateAdapter.Adapter<ItemViewAdapter.Ite
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.layout_adapter_friendlist)
         LinearLayout layout_adapter_friendlist;
-        @BindView(R.id.iv_adapter_friendlist)
         SimpleDraweeView iv_adapter_friendlist;
-        @BindView(R.id.tv_adapter_friendlist)
         TextView tv_adapter_friendlist;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            layout_adapter_friendlist = itemView.findViewById(R.id.layout_adapter_friendlist);
+            iv_adapter_friendlist = itemView.findViewById(R.id.iv_adapter_friendlist);
+            tv_adapter_friendlist = itemView.findViewById(R.id.tv_adapter_friendlist);
         }
     }
 }

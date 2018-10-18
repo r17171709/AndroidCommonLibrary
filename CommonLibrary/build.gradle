@@ -73,16 +73,12 @@ dependencies {
     api 'io.reactivex.rxjava2:rxjava:2.2.1'
     // rxbinding
     api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1'
-    // RxLifecycle  Lifecycle handling APIs for Android apps using RxJava
-    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
     // AspectJ 每一个application和library都需要
     implementation 'org.aspectj:aspectjrt:1.9.1'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     api 'com.tencent.wcdb:wcdb-android:1.0.6.2'
     // VasSonic  VasSonic is a lightweight and high-performance Hybrid framework developed by tencent VAS team, which is intended to speed up the first screen of websites working on Android and iOS platform.
     api 'com.tencent.sonic:sdk:3.0.0'
-    // butterknife
-    api 'com.jakewharton:butterknife:8.8.1'
     // fresco
     api 'com.facebook.fresco:fresco:1.10.0'
     api 'com.facebook.fresco:animated-gif:1.10.0'

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.blankj.utilcode.util.ScreenUtils;
 import com.renyu.commonlibrary.commonutils.BarUtils;
@@ -12,15 +13,12 @@ import com.renyu.commonlibrary.commonutils.PermissionsUtils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.tencent.mars.xlog.Log;
 import com.tencent.mars.xlog.Xlog;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by renyu on 2016/12/27.
  */
 
-public abstract class BaseActivity extends RxAppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract void initParams();
     public abstract int initViews();
@@ -49,7 +47,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
         if (initViews()!=0) {
             setContentView(initViews());
-            ButterKnife.bind(this);
         }
 
         // 设置沉浸式，二选一
@@ -95,8 +92,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     public void showNetworkDialog(String content) {
-        if (networkDialg==null || (networkDialg!=null && !networkDialg.isShowing()) && !isFinishing())
-        networkDialg=ProgressDialog.show(this, "", content);
+        if (networkDialg == null || !networkDialg.isShowing() && !isFinishing())
+            networkDialg=ProgressDialog.show(this, "", content);
     }
 
     public void dismissNetworkDialog() {

@@ -17,15 +17,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import butterknife.BindView;
-
 /**
  * Created by Administrator on 2017/8/4.
  */
 
 public class VlayoutActivity extends BaseActivity {
 
-    @BindView(R.id.rv_vlayout)
     RecyclerView rv_vlayout;
 
     List<DelegateAdapter.Adapter> adapters;
@@ -46,6 +43,7 @@ public class VlayoutActivity extends BaseActivity {
         linearLayoutBeans2.addAll(getBeans());
         adapters=new LinkedList<>();
 
+        rv_vlayout = findViewById(R.id.rv_vlayout);
         VirtualLayoutManager manager=new VirtualLayoutManager(this);
         rv_vlayout.setLayoutManager(manager);
         RecyclerView.RecycledViewPool pool=new RecyclerView.RecycledViewPool();

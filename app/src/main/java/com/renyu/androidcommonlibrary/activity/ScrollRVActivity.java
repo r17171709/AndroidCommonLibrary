@@ -32,34 +32,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import butterknife.BindView;
-
 /**
  * Created by renyu on 2017/9/1.
  */
 
 public class ScrollRVActivity extends BaseActivity {
 
-    @BindView(R.id.swipy_scrollrv)
     SwipyRefreshLayout swipy_scrollrv;
-    @BindView(R.id.cb_scrollrv)
     ConvenientBanner cb_scrollrv;
-    @BindView(R.id.ns_scrollrv)
     NestedScrollView ns_scrollrv;
-    @BindView(R.id.rv_scrollrv)
     RecyclerView rv_scrollrv;
     ScrollRVAdapter adapter;
-    @BindView(R.id.scroll_scrollrv_1)
     HorizontalScrollView scroll_scrollrv_1;
-    @BindView(R.id.layout_scrollrv_1)
     LinearLayout layout_scrollrv_1;
-    @BindView(R.id.scroll_scrollrv_2)
     HorizontalScrollView scroll_scrollrv_2;
-    @BindView(R.id.layout_scrollrv_2)
     LinearLayout layout_scrollrv_2;
-    @BindView(R.id.grid_scrollrv)
     GridLayout grid_scrollrv;
-    @BindView(R.id.marquee_scrollrv)
     MarqueeView marquee_scrollrv;
 
     ArrayList<Uri> linearLayoutBeans1;
@@ -68,6 +56,17 @@ public class ScrollRVActivity extends BaseActivity {
 
     @Override
     public void initParams() {
+        swipy_scrollrv = findViewById(R.id.swipy_scrollrv);
+        cb_scrollrv = findViewById(R.id.cb_scrollrv);
+        ns_scrollrv = findViewById(R.id.ns_scrollrv);
+        rv_scrollrv = findViewById(R.id.rv_scrollrv);
+        scroll_scrollrv_1 = findViewById(R.id.scroll_scrollrv_1);
+        layout_scrollrv_1 = findViewById(R.id.layout_scrollrv_1);
+        scroll_scrollrv_2 = findViewById(R.id.scroll_scrollrv_2);
+        layout_scrollrv_2 = findViewById(R.id.layout_scrollrv_2);
+        grid_scrollrv = findViewById(R.id.grid_scrollrv);
+        marquee_scrollrv = findViewById(R.id.marquee_scrollrv);
+
         linearLayoutBeans1=new ArrayList<>();
         linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160134&di=5f50b14329fdce5d25200b6212f0b8b1&imgtype=0&src=http%3A%2F%2Fold.cicphoto.com%2Fnewcicsite%2Fsyxy%2Ftj%2F201408%2FW020140827418494159324.jpg"));
         linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160134&di=3a25c42f93367a04db3a3de3095e214b&imgtype=0&src=http%3A%2F%2Fpic.hsw.cn%2F0%2F12%2F25%2F40%2F12254064_630448.jpg"));

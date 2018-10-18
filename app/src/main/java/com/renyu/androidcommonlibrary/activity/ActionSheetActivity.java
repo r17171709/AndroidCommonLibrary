@@ -18,8 +18,6 @@ import com.renyu.commonlibrary.views.wheelview.OnItemSelectedListener;
 
 import java.util.ArrayList;
 
-import butterknife.OnClick;
-
 /**
  * Created by Administrator on 2017/7/14.
  */
@@ -27,7 +25,35 @@ import butterknife.OnClick;
 public class ActionSheetActivity extends BaseActivity {
     @Override
     public void initParams() {
+        findViewById(R.id.btn_click).setOnClickListener(v -> {
+            View view_threeloopertitle_floor = addAction();
+            ActionSheetFragment.build()
+                    .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
+                    .setCanDismiss(false)
+                    .setOnOKListener(value -> {
 
+                    })
+                    .setCustomerView(view_threeloopertitle_floor)
+                    .show(ActionSheetActivity.this);
+
+//                ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.GRID).setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
+//                        new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
+//                        position -> {
+//
+//                        }).show(this);
+
+//                ActionSheetUtils.showDateRange(this, "", "取消", "确定", 946656000000L, 1924876800000L, new ActionSheetFragment.OnOKListener() {
+//                    @Override
+//                    public void onOKClick(Object value) {
+//                        Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show();
+//                    }
+//                }, new ActionSheetFragment.OnCancelListener() {
+//                    @Override
+//                    public void onCancelClick() {
+//
+//                    }
+//                });
+        });
     }
 
     @Override
@@ -48,41 +74,6 @@ public class ActionSheetActivity extends BaseActivity {
     @Override
     public int setStatusBarTranslucent() {
         return 0;
-    }
-
-    @OnClick({R.id.btn_click})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_click:
-                View view_threeloopertitle_floor = addAction();
-                ActionSheetFragment.build()
-                        .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
-                        .setCanDismiss(false)
-                        .setOnOKListener(value -> {
-
-                        })
-                        .setCustomerView(view_threeloopertitle_floor)
-                        .show(this);
-
-//                ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.GRID).setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
-//                        new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
-//                        position -> {
-//
-//                        }).show(this);
-
-//                ActionSheetUtils.showDateRange(this, "", "取消", "确定", 946656000000L, 1924876800000L, new ActionSheetFragment.OnOKListener() {
-//                    @Override
-//                    public void onOKClick(Object value) {
-//                        Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show();
-//                    }
-//                }, new ActionSheetFragment.OnCancelListener() {
-//                    @Override
-//                    public void onCancelClick() {
-//
-//                    }
-//                });
-                break;
-        }
     }
 
     private void initLooper(LoopView loopview, ArrayList<String> strings) {

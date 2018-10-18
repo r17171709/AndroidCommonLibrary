@@ -5,19 +5,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.trello.rxlifecycle2.components.support.RxFragment;
-
-import butterknife.ButterKnife;
-
 /**
  * Created by renyu on 15/12/3.
  */
-public abstract class BaseFragment extends RxFragment {
+public abstract class BaseFragment extends Fragment {
 
     public abstract void initParams();
     public abstract int initViews();
@@ -52,10 +50,9 @@ public abstract class BaseFragment extends RxFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view==null) {
             view=LayoutInflater.from(getActivity()).inflate(initViews(), container, false);
-            ButterKnife.bind(this, view);
         }
         ViewGroup parent= (ViewGroup) view.getParent();
         if (parent!=null) {
@@ -65,7 +62,7 @@ public abstract class BaseFragment extends RxFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         initParams();

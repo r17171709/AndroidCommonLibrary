@@ -1,48 +1,32 @@
 package com.renyu.androidcommonlibrary.activity;
 
-import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.renyu.androidcommonlibrary.ExampleApp;
-import com.renyu.androidcommonlibrary.bean.AccessTokenResponse;
 import com.renyu.androidcommonlibrary.api.RetrofitImpl;
+import com.renyu.androidcommonlibrary.bean.AccessTokenResponse;
 import com.renyu.androidcommonlibrary.di.module.ReposModule;
-import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.BaseObserver;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.network.RetryFunction;
 import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import javax.inject.Inject;
 
-public class RetrofitActivity extends BaseActivity {
+public class RetrofitActivity extends RxAppCompatActivity {
     @Inject
     RetrofitImpl retrofitImpl = null;
 
     @Override
-    public void initParams() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ((ExampleApp) (com.blankj.utilcode.util.Utils.getApp())).appComponent.plusAct(new ReposModule()).inject(this);
-    }
 
-    @Override
-    public int initViews() {
-        return 0;
-    }
-
-    @Override
-    public void loadData() {
         getAccessToken();
-    }
-
-    @Override
-    public int setStatusBarColor() {
-        return Color.BLACK;
-    }
-
-    @Override
-    public int setStatusBarTranslucent() {
-        return 0;
     }
 
     private void getAccessToken() {
