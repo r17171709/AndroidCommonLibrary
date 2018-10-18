@@ -4,8 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -25,12 +28,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ScreenUtils;
-import com.blankj.utilcode.util.SizeUtils;
 import com.jakewharton.rxbinding2.view.RxView;
-import com.renyu.commonlibrary.R;
-import com.renyu.commonlibrary.commonutils.BarUtils;
+import com.renyu.commonlibrary.views.utils.Utils;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
+import com.renyu.commonlibrary.views.wheelview.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -178,6 +179,30 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
+    // 不需要再getActivity()了
+    public Context context;
+
+    @TargetApi(23)
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        onAttachToContext(context);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            onAttachToContext(activity);
+        }
+    }
+
+    protected void onAttachToContext(Context context) {
+        this.context = context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -249,7 +274,7 @@ public class ActionSheetFragment extends Fragment {
         else if (getArguments().getInt("type")==2) {
             GridLayout pop_grid= (GridLayout) view.findViewById(R.id.pop_grid);
             pop_grid.setVisibility(View.VISIBLE);
-            int width=(ScreenUtils.getScreenWidth()-SizeUtils.dp2px(20))/(getArguments().getStringArray("items").length<4?getArguments().getStringArray("items").length:4);
+            int width=(Utils.getScreenWidth(context)-Utils.dp2px(context, 20))/(getArguments().getStringArray("items").length<4?getArguments().getStringArray("items").length:4);
             for (int i=0;i<getArguments().getStringArray("items").length;i++) {
                 final int i_=i;
                 View viewChild=LayoutInflater.from(getActivity()).inflate(R.layout.adapter_share, null, false);
@@ -267,7 +292,7 @@ public class ActionSheetFragment extends Fragment {
                 GridLayout.LayoutParams params=new GridLayout.LayoutParams();
                 params.setGravity(Gravity.CENTER);
                 params.width=width;
-                params.height=SizeUtils.dp2px(120);
+                params.height=Utils.dp2px(context, 120);
                 params.columnSpec = GridLayout.spec(i%4);
                 params.rowSpec= GridLayout.spec(i/4);
                 pop_grid.addView(viewChild, params);
@@ -367,7 +392,7 @@ public class ActionSheetFragment extends Fragment {
                 pop_wheel_yearlayout_day.setItems(days);
             });
             pop_wheel_yearlayout_year.setNotLoop();
-            pop_wheel_yearlayout_year.setViewPadding(SizeUtils.dp2px(20), SizeUtils.dp2px(15), SizeUtils.dp2px(20), SizeUtils.dp2px(15));
+            pop_wheel_yearlayout_year.setViewPadding(Utils.dp2px(context, 20), Utils.dp2px(context, 15), Utils.dp2px(context, 20), Utils.dp2px(context, 15));
             pop_wheel_yearlayout_year.setItems(years);
             pop_wheel_yearlayout_year.setTextSize(18);
             pop_wheel_yearlayout_year.setInitPosition(years.size()-1);
@@ -408,13 +433,13 @@ public class ActionSheetFragment extends Fragment {
                 }
                 pop_wheel_yearlayout_day.setItems(days);
             });
-            pop_wheel_yearlayout_month.setViewPadding(SizeUtils.dp2px(30), SizeUtils.dp2px(15), SizeUtils.dp2px(30), SizeUtils.dp2px(15));
+            pop_wheel_yearlayout_month.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
             pop_wheel_yearlayout_month.setItems(months);
             pop_wheel_yearlayout_month.setTextSize(18);
             pop_wheel_yearlayout_month.setInitPosition(months.size()-1);
 
             pop_wheel_yearlayout_day.setNotLoop();
-            pop_wheel_yearlayout_day.setViewPadding(SizeUtils.dp2px(30), SizeUtils.dp2px(15), SizeUtils.dp2px(30), SizeUtils.dp2px(15));
+            pop_wheel_yearlayout_day.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
             pop_wheel_yearlayout_day.setItems(days);
             pop_wheel_yearlayout_day.setTextSize(18);
             pop_wheel_yearlayout_day.setInitPosition(days.size()-1);
@@ -542,7 +567,7 @@ public class ActionSheetFragment extends Fragment {
                 pop_wheel_yearlayout_day.setItems(days);
             });
             pop_wheel_yearlayout_year.setNotLoop();
-            pop_wheel_yearlayout_year.setViewPadding(SizeUtils.dp2px(20), SizeUtils.dp2px(15), SizeUtils.dp2px(20), SizeUtils.dp2px(15));
+            pop_wheel_yearlayout_year.setViewPadding(Utils.dp2px(context, 20), Utils.dp2px(context, 15), Utils.dp2px(context, 20), Utils.dp2px(context, 15));
             pop_wheel_yearlayout_year.setItems(years);
             pop_wheel_yearlayout_year.setTextSize(18);
             pop_wheel_yearlayout_year.setInitPosition(0);
@@ -595,13 +620,13 @@ public class ActionSheetFragment extends Fragment {
                 pop_wheel_yearlayout_day.setItems(days);
 
             });
-            pop_wheel_yearlayout_month.setViewPadding(SizeUtils.dp2px(30), SizeUtils.dp2px(15), SizeUtils.dp2px(30), SizeUtils.dp2px(15));
+            pop_wheel_yearlayout_month.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
             pop_wheel_yearlayout_month.setItems(months);
             pop_wheel_yearlayout_month.setTextSize(18);
             pop_wheel_yearlayout_month.setInitPosition(0);
 
             pop_wheel_yearlayout_day.setNotLoop();
-            pop_wheel_yearlayout_day.setViewPadding(SizeUtils.dp2px(30), SizeUtils.dp2px(15), SizeUtils.dp2px(30), SizeUtils.dp2px(15));
+            pop_wheel_yearlayout_day.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
             pop_wheel_yearlayout_day.setItems(days);
             pop_wheel_yearlayout_day.setTextSize(18);
             pop_wheel_yearlayout_day.setInitPosition(0);
@@ -694,7 +719,7 @@ public class ActionSheetFragment extends Fragment {
                 pop_wheel_datarangelayout_day.setItems(days);
             });
             pop_wheel_datarangelayout_year.setNotLoop();
-            pop_wheel_datarangelayout_year.setViewPadding(SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15));
+            pop_wheel_datarangelayout_year.setViewPadding(Utils.dp2px(context, 15), Utils.dp2px(context, 15), Utils.dp2px(context, 15), Utils.dp2px(context, 15));
             pop_wheel_datarangelayout_year.setItems(years);
             pop_wheel_datarangelayout_year.setTextSize(18);
             for (int i = 0; i < years.size(); i++) {
@@ -730,7 +755,7 @@ public class ActionSheetFragment extends Fragment {
                 }
                 pop_wheel_datarangelayout_day.setItems(days);
             });
-            pop_wheel_datarangelayout_month.setViewPadding(SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15));
+            pop_wheel_datarangelayout_month.setViewPadding(Utils.dp2px(context, 15), Utils.dp2px(context, 15), Utils.dp2px(context, 15), Utils.dp2px(context, 15));
             pop_wheel_datarangelayout_month.setItems(months);
             pop_wheel_datarangelayout_month.setTextSize(18);
             for (int i = 0; i < months.size(); i++) {
@@ -741,7 +766,7 @@ public class ActionSheetFragment extends Fragment {
             }
 
             pop_wheel_datarangelayout_day.setNotLoop();
-            pop_wheel_datarangelayout_day.setViewPadding(SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15));
+            pop_wheel_datarangelayout_day.setViewPadding(Utils.dp2px(context, 15), Utils.dp2px(context, 15), Utils.dp2px(context, 15), Utils.dp2px(context, 15));
             pop_wheel_datarangelayout_day.setItems(days);
             pop_wheel_datarangelayout_day.setTextSize(18);
             if (getArguments().getInt("type")==3) {
@@ -766,11 +791,11 @@ public class ActionSheetFragment extends Fragment {
             }
 
             pop_wheel_datarangelayout_hour.setNotLoop();
-            pop_wheel_datarangelayout_hour.setViewPadding(SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15));
+            pop_wheel_datarangelayout_hour.setViewPadding(Utils.dp2px(context, 15), Utils.dp2px(context, 15), Utils.dp2px(context, 15), Utils.dp2px(context, 15));
             pop_wheel_datarangelayout_hour.setItems(hours);
             pop_wheel_datarangelayout_hour.setTextSize(18);
             pop_wheel_datarangelayout_minute.setNotLoop();
-            pop_wheel_datarangelayout_minute.setViewPadding(SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15));
+            pop_wheel_datarangelayout_minute.setViewPadding(Utils.dp2px(context, 15), Utils.dp2px(context, 15), Utils.dp2px(context, 15), Utils.dp2px(context, 15));
             pop_wheel_datarangelayout_minute.setItems(minutes);
             pop_wheel_datarangelayout_minute.setTextSize(18);
 
@@ -812,11 +837,11 @@ public class ActionSheetFragment extends Fragment {
             LoopView pop_wheel_timelayout_minute= (LoopView) view.findViewById(R.id.pop_wheel_timelayout_minute);
             pop_wheel_timelayout.setVisibility(View.VISIBLE);
             pop_wheel_timelayout_hour.setNotLoop();
-            pop_wheel_timelayout_hour.setViewPadding(SizeUtils.dp2px(60), SizeUtils.dp2px(15), SizeUtils.dp2px(30), SizeUtils.dp2px(15));
+            pop_wheel_timelayout_hour.setViewPadding(Utils.dp2px(context, 60), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
             pop_wheel_timelayout_hour.setItems(hours);
             pop_wheel_timelayout_hour.setTextSize(18);
             pop_wheel_timelayout_minute.setNotLoop();
-            pop_wheel_timelayout_minute.setViewPadding(SizeUtils.dp2px(60), SizeUtils.dp2px(15), SizeUtils.dp2px(30), SizeUtils.dp2px(15));
+            pop_wheel_timelayout_minute.setViewPadding(Utils.dp2px(context, 60), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
             pop_wheel_timelayout_minute.setItems(minutes);
             pop_wheel_timelayout_minute.setTextSize(18);
 
@@ -899,8 +924,8 @@ public class ActionSheetFragment extends Fragment {
                     ArgbEvaluator argbEvaluator=new ArgbEvaluator();
                     realView.setBackgroundColor((Integer) argbEvaluator.evaluate(animation.getAnimatedFraction(), Color.parseColor("#00000000"), Color.parseColor("#70000000")));
                     //当底部存在导航栏并且decorView获取的高度不包含底部状态栏的时候，需要去掉这个高度差
-                    if (BarUtils.getNavBarHeight()>0) {
-                        pop_child_layout.setTranslationY((moveHeight+BarUtils.getNavBarHeight())*(1-animation.getAnimatedFraction())-BarUtils.getNavBarHeight());
+                    if (Utils.getNavBarHeight()>0) {
+                        pop_child_layout.setTranslationY((moveHeight+Utils.getNavBarHeight())*(1-animation.getAnimatedFraction())-Utils.getNavBarHeight());
                     }
                     else {
                         pop_child_layout.setTranslationY(moveHeight*(1-animation.getAnimatedFraction()));
@@ -919,8 +944,8 @@ public class ActionSheetFragment extends Fragment {
             valueAnimator.addUpdateListener(animation -> {
                 ArgbEvaluator argbEvaluator=new ArgbEvaluator();
                 realView.setBackgroundColor((Integer) argbEvaluator.evaluate(animation.getAnimatedFraction(), Color.parseColor("#70000000"), Color.parseColor("#00000000")));
-                if (BarUtils.getNavBarHeight()>0 && decorView.getMeasuredHeight()!= ScreenUtils.getScreenHeight()) {
-                    pop_child_layout.setTranslationY((moveHeight+BarUtils.getNavBarHeight())*animation.getAnimatedFraction()-BarUtils.getNavBarHeight());
+                if (Utils.getNavBarHeight()>0 && decorView.getMeasuredHeight()!= Utils.getScreenHeight(context)) {
+                    pop_child_layout.setTranslationY((moveHeight+Utils.getNavBarHeight())*animation.getAnimatedFraction()-Utils.getNavBarHeight());
                 }
                 else {
                     pop_child_layout.setTranslationY(moveHeight*animation.getAnimatedFraction());

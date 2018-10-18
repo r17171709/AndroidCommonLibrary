@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.renyu.commonlibrary.R;
+import com.renyu.commonlibrary.views.wheelview.R;
 
 /**
  * Created by Clevo on 2016/6/7.

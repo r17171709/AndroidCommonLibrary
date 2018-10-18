@@ -1,7 +1,6 @@
 package com.renyu.commonlibrary.commonutils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
@@ -125,7 +124,6 @@ public class BarUtils {
         if (id > 0 && checkDeviceHasNavigationBar()) {
             navigationBarHeight = rs.getDimensionPixelSize(id);
         }
-
         return navigationBarHeight;
     }
 
@@ -148,10 +146,8 @@ public class BarUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return hasNavigationBar;
     }
-
 
     public static void setDark(Activity activity) {
         String brand= Build.BRAND;

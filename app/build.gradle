@@ -109,6 +109,8 @@ dependencies {
     implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.0'
     // 弹出框
     implementation 'com.github.renyu:AndroidDialogLibrary:1.0.0'
+    // Sheet弹出框
+    implementation 'com.github.renyu:ActionSheetLibrary:1.0.0'
     implementation project(':CommonLibrary')
     //    implementation 'com.github.renyu:AndroidCommonLibrary:1.11.16'
     //    implementation 'com.github.r17171709:AndroidCommonLibrary:v1.9.13'
