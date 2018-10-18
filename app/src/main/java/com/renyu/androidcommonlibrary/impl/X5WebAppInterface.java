@@ -6,14 +6,14 @@ import android.os.Parcelable;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
-import com.renyu.commonlibrary.impl.X5WebAppImpl;
+import com.renyu.commonlibrary.web.impl.IX5WebApp;
 import com.tencent.smtt.sdk.WebView;
 
 /**
  * Created by renyu on 2017/8/14.
  */
 
-public class X5WebAppInterface implements Parcelable, X5WebAppImpl {
+public class X5WebAppInterface implements Parcelable, IX5WebApp {
 
     Context context;
     WebView webView;

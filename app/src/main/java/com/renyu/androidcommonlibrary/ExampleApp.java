@@ -14,7 +14,7 @@ import com.renyu.androidcommonlibrary.di.module.AppModule;
 import com.renyu.androidcommonlibrary.service.X5IntentService;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.commonutils.Utils;
-import com.renyu.commonlibrary.commonutils.sonic.SonicRuntimeImpl;
+import com.renyu.commonlibrary.web.sonic.SonicRuntimeImpl;
 import com.renyu.commonlibrary.params.InitParams;
 import com.tencent.sonic.sdk.SonicConfig;
 import com.tencent.sonic.sdk.SonicEngine;

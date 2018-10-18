@@ -1,24 +1,21 @@
-package com.renyu.commonlibrary.views.web;
+package com.renyu.commonlibrary.web.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.renyu.commonlibrary.R;
-import com.renyu.commonlibrary.baseact.BaseActivity;
-import com.renyu.commonlibrary.commonutils.BarUtils;
-import com.renyu.commonlibrary.impl.X5WebAppImpl;
-import com.renyu.commonlibrary.params.InitParams;
+import com.renyu.commonlibrary.web.impl.IX5WebApp;
+import com.renyu.commonlibrary.web.params.InitParams;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
@@ -40,44 +37,26 @@ import java.util.Map;
  * Created by renyu on 16/2/16.
  * 缺少样式不可以直接使用
  */
-public class X5WebActivity extends BaseActivity {
+public abstract class X5WebActivity extends AppCompatActivity {
 
-    ImageButton ib_nav_left;
-    public WebView web_webview;
-    public TextView tv_nav_title;
+    public abstract WebView getWebView();
+    public abstract TextView getTitleView();
 
-    X5WebAppImpl impl;
-
-    @Override
-    public int setStatusBarColor() {
-        return Color.WHITE;
-    }
-
-    @Override
-    public int setStatusBarTranslucent() {
-        return 0;
-    }
+    IX5WebApp impl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        BarUtils.setDark(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void initParams() {
-        ib_nav_left = findViewById(R.id.ib_nav_left);
-        ib_nav_left.setImageResource(R.mipmap.ic_arrow_black_left);
-        ib_nav_left.setOnClickListener(v -> finish());
-        tv_nav_title = findViewById(R.id.tv_nav_title);
+    public void initViews() {
         if (!TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
-            tv_nav_title.setText(getIntent().getStringExtra("title"));
+            getTitleView().setText(getIntent().getStringExtra("title"));
         }
-        web_webview = findViewById(R.id.web_x5webview);
-        web_webview.setSaveEnabled(true);
-        web_webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        web_webview.setWebChromeClient(new WebChromeClient() {
+        getWebView().setSaveEnabled(true);
+        getWebView().setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        getWebView().setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                 return super.onJsAlert(view, url, message, result);
@@ -87,14 +66,14 @@ public class X5WebActivity extends BaseActivity {
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 if (!TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
-                    tv_nav_title.setText(getIntent().getStringExtra("title"));
+                    getTitleView().setText(getIntent().getStringExtra("title"));
                 }
                 else {
-                    tv_nav_title.setText(title);
+                    getTitleView().setText(title);
                 }
             }
         });
-        WebSettings settings=web_webview.getSettings();
+        WebSettings settings=getWebView().getSettings();
         settings.setDomStorageEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -110,14 +89,14 @@ public class X5WebActivity extends BaseActivity {
         settings.setAllowFileAccess(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setBuiltInZoomControls(false);
-        impl=getIntent().getParcelableExtra("WebAppImpl");
+        impl=getIntent().getParcelableExtra("IWebApp");
         if (impl!=null) {
             impl.setContext(this);
-            impl.setWebView(web_webview);
-            web_webview.addJavascriptInterface(impl, getIntent().getStringExtra("WebAppImplName"));
+            impl.setWebView(getWebView());
+            getWebView().addJavascriptInterface(impl, getIntent().getStringExtra("IWebAppName"));
         }
-        web_webview.removeJavascriptInterface("searchBoxJavaBridge_");
-        web_webview.setWebViewClient(new WebViewClient() {
+        getWebView().removeJavascriptInterface("searchBoxJavaBridge_");
+        getWebView().setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -139,35 +118,24 @@ public class X5WebActivity extends BaseActivity {
             // cookies同步方法要在WebView的setting设置完之后调用，否则无效。
             syncCookie(this, getIntent().getStringExtra("cookieUrl"), cookies);
         }
-        web_webview.loadUrl(getIntent().getStringExtra("url"));
-        findViewById(R.id.ib_nav_left).setOnClickListener(v -> finish());
-    }
-
-    @Override
-    public int initViews() {
-        return R.layout.activity_x5web;
-    }
-
-    @Override
-    public void loadData() {
-
+        getWebView().loadUrl(getIntent().getStringExtra("url"));
     }
 
     @Override
     protected void onDestroy() {
-        if (web_webview!=null) {
-            ViewParent parent = web_webview.getParent();
+        if (getWebView()!=null) {
+            ViewParent parent = getWebView().getParent();
             if (parent != null) {
-                ((ViewGroup) parent).removeView(web_webview);
+                ((ViewGroup) parent).removeView(getWebView());
             }
-            web_webview.stopLoading();
+            getWebView().stopLoading();
             // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
-            web_webview.getSettings().setJavaScriptEnabled(false);
-            web_webview.clearHistory();
-            web_webview.clearView();
-            web_webview.removeAllViews();
+            getWebView().getSettings().setJavaScriptEnabled(false);
+            getWebView().clearHistory();
+            getWebView().clearView();
+            getWebView().removeAllViews();
             try {
-                web_webview.destroy();
+                getWebView().destroy();
             } catch (Throwable ex) {
                 ex.printStackTrace();
             }
@@ -177,8 +145,8 @@ public class X5WebActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (web_webview.canGoBack() && getIntent().getExtras().getBoolean(InitParams.NEED_GOBACK, false)) {
-            web_webview.goBack();
+        if (getWebView().canGoBack() && getIntent().getExtras().getBoolean(InitParams.NEED_GOBACK, false)) {
+            getWebView().goBack();
         }
         else {
             super.onBackPressed();
@@ -188,7 +156,7 @@ public class X5WebActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_OK) {
+        if (resultCode== Activity.RESULT_OK) {
             if (impl!=null) {
                 for (Method method : impl.getClass().getDeclaredMethods()) {
                     String name=method.getName();

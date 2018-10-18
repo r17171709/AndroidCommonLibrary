@@ -38,9 +38,10 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-tasks.getByPath(":CommonLibrary:bintrayUpload").enabled = false
-tasks.getByPath(":NetworkLibrary:bintrayUpload").enabled = false
-tasks.getByPath(":UpdateLibrary:bintrayUpload").enabled = false
-tasks.getByPath(":DialogLibrary:bintrayUpload").enabled = false
-tasks.getByPath(":ActionSheetLibrary:bintrayUpload").enabled = false
-tasks.getByPath(":ShowCaseLibrary:bintrayUpload").enabled = true
+//tasks.getByPath(":CommonLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":NetworkLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":UpdateLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":DialogLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":ActionSheetLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":ShowCaseLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":WebLibrary:bintrayUpload").enabled = true

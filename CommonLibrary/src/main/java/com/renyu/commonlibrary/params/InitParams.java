@@ -22,7 +22,4 @@ public class InitParams {
     public static String CACHE_PATH= ROOT_PATH + File.separator + "cache";
     // fresco缓存目录
     public static String FRESCO_CACHE_NAME= "fresco_cache";
-
-    // 是否交由webview自行控制返回
-    public static String NEED_GOBACK="NEED_GOBACK";
 }

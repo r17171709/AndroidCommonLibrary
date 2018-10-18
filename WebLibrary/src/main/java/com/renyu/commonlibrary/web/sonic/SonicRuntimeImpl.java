@@ -11,7 +11,7 @@
  *
  */
 
-package com.renyu.commonlibrary.commonutils.sonic;
+package com.renyu.commonlibrary.web.sonic;
 
 import android.content.Context;
 import android.os.Build;

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.ShowcaseActivity"
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
@@ -20,10 +20,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MyWebActivity"
+            android:name=".activity.MyX5WebActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MyX5WebActivity"
+            android:name=".activity.MyWebActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.NotificationShowActivity" android:screenOrientation="portrait"/>
         <receiver android:name=".receiver.RemoteInputReceiver" />

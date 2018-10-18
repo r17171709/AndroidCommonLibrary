@@ -7,13 +7,13 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.renyu.commonlibrary.impl.WebAppImpl;
+import com.renyu.commonlibrary.web.impl.IWebApp;
 
 /**
  * Created by renyu on 2017/8/14.
  */
 
-public class WebAppInterface implements Parcelable, WebAppImpl {
+public class WebAppInterface implements Parcelable, IWebApp {
 
     Context context;
     WebView webView;

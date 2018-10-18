@@ -1,13 +1,14 @@
-package com.renyu.commonlibrary.impl;
+package com.renyu.commonlibrary.web.impl;
 
 import android.content.Context;
-import android.webkit.WebView;
+
+import com.tencent.smtt.sdk.WebView;
 
 /**
  * Created by renyu on 2017/8/14.
  */
 
-public interface WebAppImpl {
+public interface IX5WebApp {
     void setContext(Context context);
 
     void setWebView(WebView webView);
