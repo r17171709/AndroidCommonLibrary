@@ -11,7 +11,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -55,11 +54,11 @@ public class ShowCaseImageView extends ImageView {
         this(context, null);
     }
 
-    public ShowCaseImageView(Context context, @Nullable AttributeSet attrs) {
+    public ShowCaseImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ShowCaseImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ShowCaseImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         init();

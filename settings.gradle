@@ -1,1 +1,1 @@
-include ':app', ':CommonLibrary', ':NetworkLibrary', ':UpdateLibrary', ':DialogLibrary', ':ActionSheetLibrary'
+include ':app', ':CommonLibrary', ':NetworkLibrary', ':UpdateLibrary', ':DialogLibrary', ':ActionSheetLibrary', ':ShowCaseLibrary'
