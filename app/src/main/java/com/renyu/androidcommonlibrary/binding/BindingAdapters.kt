@@ -20,7 +20,7 @@ object BindingAdapters {
     @BindingAdapter(value = ["refresh"])
     fun autoRefreshAdapter(recyclerView: RecyclerView, boolean: Boolean) {
         if (boolean) {
-            recyclerView.adapter.notifyDataSetChanged()
+            recyclerView.adapter!!.notifyDataSetChanged()
         }
     }
 }
