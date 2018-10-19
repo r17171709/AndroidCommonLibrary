@@ -88,22 +88,24 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // 添加支持multidex的兼容包
-    api 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // 协程
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.30.2'
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     // dagger2
-    api 'com.google.dagger:dagger:2.17'
+    implementation 'com.google.dagger:dagger:2.17'
     kapt 'com.google.dagger:dagger-compiler:2.17'
     // RxLifecycle  Lifecycle handling APIs for Android apps using RxJava
-    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
+    implementation ('com.trello.rxlifecycle2:rxlifecycle-components:2.2.2') {
+        exclude group: 'com.android.support'
+    }
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
-    api 'com.tencent.wcdb:wcdb-android:1.0.6.2'
+    implementation 'com.tencent.wcdb:wcdb-android:1.0.6.2'
     // 网络请求
-//    implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.0'
-    implementation project(':NetworkLibrary')
+    implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.1'
+//    implementation project(':NetworkLibrary')
     // 升级
 //    implementation 'com.github.renyu:AndroidUpdateLibrary:1.0.1'
     implementation project(':UpdateLibrary')

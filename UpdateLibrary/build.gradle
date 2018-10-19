@@ -52,5 +52,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation project(':NetworkLibrary')
+//    implementation project(':NetworkLibrary')
+    implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.1'
 }
