@@ -12,7 +12,7 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.0'
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
 
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         classpath 'com.novoda:bintray-release:0.8.0'
@@ -44,4 +44,5 @@ task clean(type: Delete) {
 //tasks.getByPath(":DialogLibrary:bintrayUpload").enabled = false
 //tasks.getByPath(":ActionSheetLibrary:bintrayUpload").enabled = false
 //tasks.getByPath(":ShowCaseLibrary:bintrayUpload").enabled = false
-//tasks.getByPath(":WebLibrary:bintrayUpload").enabled = true
+//tasks.getByPath(":WebLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":PermissionLibrary:bintrayUpload").enabled = true

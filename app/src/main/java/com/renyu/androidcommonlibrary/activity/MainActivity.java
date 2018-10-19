@@ -6,9 +6,8 @@ import android.graphics.Color;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.renyu.androidcommonlibrary.R;
-import com.renyu.androidcommonlibrary.impl.WebAppInterface;
-import com.renyu.commonlibrary.annotation.NeedPermission;
-import com.renyu.commonlibrary.annotation.PermissionDenied;
+import com.renyu.commonlibrary.permission.annotation.NeedPermission;
+import com.renyu.commonlibrary.permission.annotation.PermissionDenied;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.params.InitParams;
 

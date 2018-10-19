@@ -1,4 +1,4 @@
-package com.renyu.commonlibrary.commonutils;
+package com.renyu.commonlibrary.permission.utils;
 
 import android.app.Activity;
 import android.content.Context;

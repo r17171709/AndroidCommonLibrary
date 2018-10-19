@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 /**
  * Created by renyu on 2017/9/1.
+ *
+ * ScrollView和RecyclerView嵌套使用显示不全问题解决方案
  */
 
 public class FullyLinearLayoutManager extends LinearLayoutManager {

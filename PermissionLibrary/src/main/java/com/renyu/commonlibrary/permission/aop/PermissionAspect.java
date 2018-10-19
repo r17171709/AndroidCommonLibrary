@@ -1,16 +1,15 @@
-package com.renyu.commonlibrary.aop;
+package com.renyu.commonlibrary.permission.aop;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
-import com.renyu.commonlibrary.annotation.NeedPermission;
-import com.renyu.commonlibrary.annotation.PermissionDenied;
-import com.renyu.commonlibrary.impl.OnPermissionCheckedImpl;
-import com.renyu.commonlibrary.views.permission.PermissionActivity;
+import com.renyu.commonlibrary.permission.activity.PermissionActivity;
+import com.renyu.commonlibrary.permission.annotation.NeedPermission;
+import com.renyu.commonlibrary.permission.annotation.PermissionDenied;
+import com.renyu.commonlibrary.permission.impl.IPermissionStatue;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -27,7 +26,7 @@ import java.lang.reflect.Method;
 @Aspect
 public class PermissionAspect {
 
-    @Pointcut("execution(@com.renyu.commonlibrary.annotation.NeedPermission * *(..))")
+    @Pointcut("execution(@com.renyu.commonlibrary.permission.annotation.NeedPermission * *(..))")
     public void requestPermissionMethod() {
 
     }
@@ -39,7 +38,7 @@ public class PermissionAspect {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         NeedPermission needPermission = methodSignature.getMethod().getAnnotation(NeedPermission.class);
         PermissionActivity.gotoActivity(getContext(joinPoint.getThis()),
-                needPermission.permissions(), needPermission.deniedDesp(), new OnPermissionCheckedImpl() {
+                needPermission.permissions(), needPermission.deniedDesp(), new IPermissionStatue() {
                     @Override
                     public void grant() {
                         try {

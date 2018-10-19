@@ -7,9 +7,9 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.renyu.commonlibrary.commonutils.BarUtils;
-import com.renyu.commonlibrary.commonutils.PermissionsUtils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.tencent.mars.xlog.Log;
 import com.tencent.mars.xlog.Xlog;
@@ -64,7 +64,7 @@ public abstract class BaseDataBindingActivity<T> extends AppCompatActivity {
 
     public void openLog(String path) {
         String[] permissionsSD={Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-        if (!PermissionsUtils.lacksPermissions(this, permissionsSD)) {
+        if (!PermissionUtils.isGranted(permissionsSD)) {
             // 初始化xlog
             Xlog.open(true, Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", path, InitParams.LOG_NAME, "");
             Xlog.setConsoleLogOpen(true);

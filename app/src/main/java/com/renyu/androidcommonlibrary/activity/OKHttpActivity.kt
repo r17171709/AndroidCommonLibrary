@@ -8,8 +8,8 @@ import android.os.Handler
 import android.provider.Settings
 import android.support.annotation.RequiresApi
 import com.renyu.androidcommonlibrary.R
-import com.renyu.commonlibrary.annotation.NeedPermission
-import com.renyu.commonlibrary.annotation.PermissionDenied
+import com.renyu.commonlibrary.permission.annotation.NeedPermission
+import com.renyu.commonlibrary.permission.annotation.PermissionDenied
 import com.renyu.commonlibrary.baseact.BaseActivity
 import com.renyu.commonlibrary.dialog.ChoiceDialog
 import com.renyu.commonlibrary.update.bean.UpdateModel

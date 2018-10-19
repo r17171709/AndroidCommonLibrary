@@ -1,17 +1,19 @@
-package com.renyu.commonlibrary.views.permission;
+package com.renyu.commonlibrary.permission.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
-import com.renyu.commonlibrary.R;
-import com.renyu.commonlibrary.baseact.BaseActivity;
-import com.renyu.commonlibrary.commonutils.PermissionsUtils;
-import com.renyu.commonlibrary.impl.OnPermissionCheckedImpl;
+import com.renyu.commonlibrary.permission.R;
+import com.renyu.commonlibrary.permission.impl.IPermissionStatue;
+import com.renyu.commonlibrary.permission.utils.PermissionsUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,10 +21,10 @@ import java.util.List;
 /**
  * Created by Administrator on 2018/5/26.
  */
-public class PermissionActivity extends BaseActivity {
+public class PermissionActivity extends AppCompatActivity {
 
     // 权限接口相关
-    public static OnPermissionCheckedImpl impl;
+    public static IPermissionStatue impl;
     private List<String> permission;
     String deniedDesp;
 
@@ -31,30 +33,13 @@ public class PermissionActivity extends BaseActivity {
     private boolean needDismiss;
 
     @Override
-    public void initParams() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_permission);
 
-    }
-
-    @Override
-    public int initViews() {
-        return R.layout.activity_permission;
-    }
-
-    @Override
-    public void loadData() {
         this.permission = Arrays.asList(getIntent().getStringArrayExtra("permissions"));
         this.deniedDesp= getIntent().getStringExtra("deniedDesp");
         checkPermission();
-    }
-
-    @Override
-    public int setStatusBarColor() {
-        return 0;
-    }
-
-    @Override
-    public int setStatusBarTranslucent() {
-        return 1;
     }
 
     @Override
@@ -75,7 +60,7 @@ public class PermissionActivity extends BaseActivity {
      * @param deniedDesp
      * @param impl
      */
-    public static void gotoActivity(Context context, String[] permissions, String deniedDesp, OnPermissionCheckedImpl impl) {
+    public static void gotoActivity(Context context, String[] permissions, String deniedDesp, IPermissionStatue impl) {
         PermissionActivity.impl = impl;
         Intent intent=new Intent(context, PermissionActivity.class);
         intent.putExtra("permissions", permissions);
