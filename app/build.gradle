@@ -116,8 +116,8 @@ dependencies {
     implementation 'com.github.renyu:ActionSheetLibrary:1.0.1'
 //    implementation project(':ActionSheetLibrary')
     // 引导框
-//    implementation 'com.github.renyu:AndroidShowCaseLibrary:1.0.0'
-    implementation project(':ShowCaseLibrary')
+    implementation 'com.github.renyu:AndroidShowCaseLibrary:1.0.1'
+//    implementation project(':ShowCaseLibrary')
     // Web浏览器
 //    implementation 'com.github.renyu:AndroidWebLibrary:1.0.1'
     implementation project(':WebLibrary')
