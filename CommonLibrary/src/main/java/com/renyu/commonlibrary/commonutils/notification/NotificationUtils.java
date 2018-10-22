@@ -1,7 +1,6 @@
-package com.renyu.commonlibrary.commonutils;
+package com.renyu.commonlibrary.commonutils.notification;
 
 import android.app.AppOpsManager;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationChannelGroup;
 import android.app.NotificationManager;
@@ -20,10 +19,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.blankj.utilcode.util.Utils;
 import com.renyu.commonlibrary.R;
 
 import java.lang.reflect.Field;
@@ -31,15 +28,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class NotificationUtils {
-
 	private volatile static NotificationUtils center=null;
 	private static NotificationManager manager=null;
-
-	private static Context context=null;
 
 	private static HashMap<String, NotificationCompat.Builder> builders;
 
@@ -59,15 +52,14 @@ public class NotificationUtils {
 
 	/**
 	 * 通知栏中心调度
-	 * @param context
 	 * @return
 	 */
-	public static NotificationUtils getNotificationCenter(Context context) {
+	public static NotificationUtils getNotificationCenter() {
 		if(center==null) {
 			synchronized (NotificationUtils.class) {
 				if (center==null) {
 					center=new NotificationUtils();
-					manager=(NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+					manager=(NotificationManager) Utils.getApp().getSystemService(Context.NOTIFICATION_SERVICE);
 					if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
 						ArrayList<NotificationChannelGroup> groups = new ArrayList<>();
 						NotificationChannelGroup group = new NotificationChannelGroup(groupId, groupName);
@@ -80,7 +72,7 @@ public class NotificationUtils {
 						// 开启指示灯，如果设备有的话
 						channel.enableLights(true);
 						// 设置指示灯颜色
-						channel.setLightColor(ContextCompat.getColor(context, R.color.colorPrimary));
+						channel.setLightColor(ContextCompat.getColor(Utils.getApp(), R.color.colorPrimary));
 						// 是否在久按桌面图标时显示此渠道的通知
 						channel.setShowBadge(true);
 						// 设置是否应在锁定屏幕上显示此频道的通知
@@ -97,7 +89,6 @@ public class NotificationUtils {
 					}
 					builders=new HashMap<>();
 					lastPercentMaps=new HashMap<>();
-					NotificationUtils.context = context.getApplicationContext();
 				}
 			}
 		}
@@ -146,16 +137,16 @@ public class NotificationUtils {
 	 * @return
 	 */
 	public NotificationCompat.Builder getSimpleBuilder(String ticker, String title, String content, int color, int smallIcon, int largeIcon, String channelId, Intent intent) {
-		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, channelId);
+		NotificationCompat.Builder builder=new NotificationCompat.Builder(Utils.getApp(), channelId);
 		builder.setTicker(ticker);
 		builder.setContentTitle(title);
 		builder.setContentText(content);
-		builder.setContentIntent(PendingIntent.getBroadcast(context, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
+		builder.setContentIntent(PendingIntent.getBroadcast(Utils.getApp(), (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
 		builder.setColor(color);
 		// 设置和启用通知的背景颜色（只能在用户必须一眼就能看到的持续任务的通知中使用此功能）
 		builder.setColorized(true);
 		builder.setSmallIcon(smallIcon);
-		builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon));
+		builder.setLargeIcon(BitmapFactory.decodeResource(Utils.getApp().getResources(), largeIcon));
 		builder.setWhen(System.currentTimeMillis());
 		builder.setAutoCancel(true);
 		builder.setPriority(NotificationCompat.PRIORITY_MAX);
@@ -219,7 +210,7 @@ public class NotificationUtils {
 										 int actionIcon1, String actionTitle1, Class actionClass1,
 										 Intent intent, String channelId) {
 		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
-		builder.addAction(actionIcon1, actionTitle1, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass1), PendingIntent.FLAG_UPDATE_CURRENT));
+		builder.addAction(actionIcon1, actionTitle1, PendingIntent.getActivity(Utils.getApp(), (int) SystemClock.uptimeMillis(), new Intent(Utils.getApp(), actionClass1), PendingIntent.FLAG_UPDATE_CURRENT));
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
@@ -229,8 +220,8 @@ public class NotificationUtils {
 										  int actionIcon2, String actionTitle2, Class actionClass2,
 										  Intent intent, String channelId) {
 		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
-		builder.addAction(actionIcon1, actionTitle1, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass1), PendingIntent.FLAG_UPDATE_CURRENT));
-		builder.addAction(actionIcon2, actionTitle2, PendingIntent.getActivity(context, (int) SystemClock.uptimeMillis(), new Intent(context, actionClass2), PendingIntent.FLAG_UPDATE_CURRENT));
+		builder.addAction(actionIcon1, actionTitle1, PendingIntent.getActivity(Utils.getApp(), (int) SystemClock.uptimeMillis(), new Intent(Utils.getApp(), actionClass1), PendingIntent.FLAG_UPDATE_CURRENT));
+		builder.addAction(actionIcon2, actionTitle2, PendingIntent.getActivity(Utils.getApp(), (int) SystemClock.uptimeMillis(), new Intent(Utils.getApp(), actionClass2), PendingIntent.FLAG_UPDATE_CURRENT));
 		manager.notify((int) (System.currentTimeMillis()/1000), builder.build());
 	}
 
@@ -318,8 +309,8 @@ public class NotificationUtils {
 										   int bigLargeIcon, int bigPicture, String bigContentTitle, String summaryText,
 										   Intent intent, String channelId) {
 		NotificationCompat.BigPictureStyle style=new NotificationCompat.BigPictureStyle();
-		style.bigLargeIcon(BitmapFactory.decodeResource(context.getResources(), bigLargeIcon));
-		style.bigPicture(BitmapFactory.decodeResource(context.getResources(), bigPicture));
+		style.bigLargeIcon(BitmapFactory.decodeResource(Utils.getApp().getResources(), bigLargeIcon));
+		style.bigPicture(BitmapFactory.decodeResource(Utils.getApp().getResources(), bigPicture));
 		style.setBigContentTitle(bigContentTitle);
 		style.setSummaryText(summaryText);
 		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
@@ -356,10 +347,10 @@ public class NotificationUtils {
 	}
 
 	public NotificationCompat.MessagingStyle createMessagingStyleNotification(String ticker, String title, String content,
-												 int color, int smallIcon, int largeIcon,
-												 String userDisplayName, String conversationTitle,
-												 ArrayList<NotificationCompat.MessagingStyle.Message> messages,
-												 Intent intent, String channelId, int notifyId) {
+																			  int color, int smallIcon, int largeIcon,
+																			  String userDisplayName, String conversationTitle,
+																			  ArrayList<NotificationCompat.MessagingStyle.Message> messages,
+																			  Intent intent, String channelId, int notifyId) {
 		NotificationCompat.MessagingStyle style = new NotificationCompat
 				.MessagingStyle(userDisplayName)
 				.setConversationTitle(conversationTitle);
@@ -389,8 +380,8 @@ public class NotificationUtils {
 								  String replyLabel, Class receiverClass, int replyIcon, CharSequence replyTitle) {
 		NotificationCompat.Builder builder = getSimpleBuilder(ticker, title, content, color, smallIcon, largeIcon, channelId, intent);
 		RemoteInput remoteInput = new RemoteInput.Builder(KEY_TEXT_REPLY).setLabel(replyLabel).build();
-		Intent intent1 = new Intent(context, receiverClass);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent1, PendingIntent.FLAG_ONE_SHOT);
+		Intent intent1 = new Intent(Utils.getApp(), receiverClass);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(Utils.getApp(), 0, intent1, PendingIntent.FLAG_ONE_SHOT);
 		NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(replyIcon, replyTitle, pendingIntent).addRemoteInput(remoteInput).build();
 		builder.addAction(replyAction);
 		manager.notify(notifyId, builder.build());
@@ -408,9 +399,9 @@ public class NotificationUtils {
 		if (checkContainId(id)) {
 			return;
 		}
-		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.channelDownloadId);
+		NotificationCompat.Builder builder=new NotificationCompat.Builder(Utils.getApp(), NotificationUtils.channelDownloadId);
 		builder.setSmallIcon(smallIcon);
-		builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon));
+		builder.setLargeIcon(BitmapFactory.decodeResource(Utils.getApp().getResources(), largeIcon));
 		builder.setWhen(System.currentTimeMillis());
 		builder.setPriority(NotificationCompat.PRIORITY_MAX);
 		builder.setColor(color);
@@ -422,7 +413,7 @@ public class NotificationUtils {
 		builder.setProgress(100, 0,false);
 		builder.setAutoCancel(false);
 		builder.setShowWhen(false);
-		builder.setContentIntent(PendingIntent.getBroadcast(context, (int) SystemClock.uptimeMillis(), new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
+		builder.setContentIntent(PendingIntent.getBroadcast(Utils.getApp(), (int) SystemClock.uptimeMillis(), new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
 		manager.notify(id, builder.build());
 		builders.put(""+id, builder);
 		lastPercentMaps.put(""+id, 0);
@@ -541,79 +532,21 @@ public class NotificationUtils {
 		return manager;
 	}
 
-	private static boolean isDarkNotificationTheme() {
-		return !isSimilarColor(Color.BLACK, getNotificationColor());
-	}
-
-	/**
-	 * 获取通知栏颜色
-	 * @return
-	 */
-	private static int getNotificationColor() {
-		NotificationCompat.Builder builder=new NotificationCompat.Builder(context, NotificationUtils.channelDefaultId);
-		Notification notification=builder.build();
-		// 7.0没有解决
-		if (notification.contentView==null) {
-			return Color.WHITE;
-		}
-		int layoutId=notification.contentView.getLayoutId();
-		ViewGroup viewGroup= (ViewGroup) LayoutInflater.from(context).inflate(layoutId, null, false);
-		if (viewGroup.findViewById(android.R.id.title)!=null) {
-			return ((TextView) viewGroup.findViewById(android.R.id.title)).getCurrentTextColor();
-		}
-		return findColor(viewGroup);
-	}
-
-	private static int findColor(ViewGroup viewGroupSource) {
-		int color=Color.TRANSPARENT;
-		LinkedList<ViewGroup> viewGroups=new LinkedList<>();
-		viewGroups.add(viewGroupSource);
-		while (viewGroups.size()>0) {
-			ViewGroup viewGroup1=viewGroups.getFirst();
-			for (int i = 0; i < viewGroup1.getChildCount(); i++) {
-				if (viewGroup1.getChildAt(i) instanceof ViewGroup) {
-					viewGroups.add((ViewGroup) viewGroup1.getChildAt(i));
-				}
-				else if (viewGroup1.getChildAt(i) instanceof TextView) {
-					if (((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor()!=-1) {
-						color=((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor();
-					}
-				}
-			}
-			viewGroups.remove(viewGroup1);
-		}
-		return color;
-	}
-
-	private static boolean isSimilarColor(int baseColor, int color) {
-		int simpleBaseColor=baseColor|0xff000000;
-		int simpleColor=color|0xff000000;
-		int baseRed=Color.red(simpleBaseColor)-Color.red(simpleColor);
-		int baseGreen=Color.green(simpleBaseColor)-Color.green(simpleColor);
-		int baseBlue=Color.blue(simpleBaseColor)-Color.blue(simpleColor);
-		double value=Math.sqrt(baseRed*baseRed+baseGreen*baseGreen+baseBlue*baseBlue);
-		if (value<180.0) {
-			return true;
-		}
-		return false;
-	}
-
 	/**
 	 * 判断是否开启通知权限
-	 * @param context
 	 * @return
 	 */
 	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-	public static boolean isNotificationEnabled(Context context) {
+	public static boolean isNotificationEnabled() {
 		String CHECK_OP_NO_THROW = "checkOpNoThrow";
 		String OP_POST_NOTIFICATION = "OP_POST_NOTIFICATION";
 
-		AppOpsManager mAppOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-		ApplicationInfo appInfo = context.getApplicationInfo();
-		String pkg = context.getApplicationContext().getPackageName();
+		AppOpsManager mAppOps = (AppOpsManager) Utils.getApp().getSystemService(Context.APP_OPS_SERVICE);
+		ApplicationInfo appInfo = Utils.getApp().getApplicationInfo();
+		String pkg = Utils.getApp().getPackageName();
 		int uid = appInfo.uid;
 
-		Class appOpsClass = null;
+		Class appOpsClass;
 		/* Context.APP_OPS_MANAGER */
 		try {
 			appOpsClass = Class.forName(AppOpsManager.class.getName());
@@ -633,17 +566,11 @@ public class NotificationUtils {
 	/**
 	 * 跳转通知设置界面
 	 */
-	public static void openNotification(Context context) {
+	public static void openNotification() {
 		Intent localIntent = new Intent();
 		localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		if (Build.VERSION.SDK_INT >= 9) {
-			localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-			localIntent.setData(Uri.fromParts("package", context.getPackageName(), null));
-		} else if (Build.VERSION.SDK_INT <= 8) {
-			localIntent.setAction(Intent.ACTION_VIEW);
-			localIntent.setClassName("com.android.settings", "com.android.setting.InstalledAppDetails");
-			localIntent.putExtra("com.android.settings.ApplicationPkgName", context.getPackageName());
-		}
-		context.startActivity(localIntent);
+		localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+		localIntent.setData(Uri.fromParts("package", Utils.getApp().getPackageName(), null));
+		Utils.getApp().startActivity(localIntent);
 	}
 }

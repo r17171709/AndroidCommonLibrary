@@ -53,7 +53,7 @@ public class UpdateService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // android o 开启前台服务
         if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
-            NotificationUtils.getNotificationCenter(getApplicationContext()).showStartForeground(
+            NotificationUtils.getNotificationCenter().showStartForeground(
                     this,
                     "提示",
                     "升级服务",
@@ -73,7 +73,7 @@ public class UpdateService extends Service {
             //这个无所谓是不是清空，只要保留键值对即可
             ids.put(url, intent.getExtras().getInt("ids"));
 
-            NotificationUtils.getNotificationCenter(getApplicationContext())
+            NotificationUtils.getNotificationCenter()
                     .createDownloadNotification(
                             intent.getExtras().getInt("ids"),
                             intent.getExtras().getString("name"),
@@ -118,7 +118,7 @@ public class UpdateService extends Service {
         }
         else {
             if (ids.containsKey(url)) {
-                NotificationUtils.getNotificationCenter(getApplicationContext()).cancelNotification(ids.get(url));
+                NotificationUtils.getNotificationCenter().cancelNotification(ids.get(url));
             }
             //取消下载移除标志
             downloadUrls.remove(url);
@@ -132,7 +132,7 @@ public class UpdateService extends Service {
     public void updateInfo(UpdateModel model) {
         if (model.getState()== UpdateModel.State.DOWNLOADING) {
             if (ids.containsKey(model.getUrl())) {
-                NotificationUtils.getNotificationCenter(getApplicationContext()).updateDownloadNotification(ids.get(model.getUrl()), model.getProcess(), model.getNotificationTitle());
+                NotificationUtils.getNotificationCenter().updateDownloadNotification(ids.get(model.getUrl()), model.getProcess(), model.getNotificationTitle());
             }
         }
         else if (model.getState()== UpdateModel.State.SUCCESS) {
@@ -140,7 +140,7 @@ public class UpdateService extends Service {
             if (Utils.checkAPKState(this, new File(model.getLocalPath()).getPath())) {
                 Toast.makeText(this, "下载成功", Toast.LENGTH_SHORT).show();
                 if (ids.containsKey(model.getUrl())) {
-                    NotificationUtils.getNotificationCenter(getApplicationContext()).showEndNotification(ids.get(model.getUrl()));
+                    NotificationUtils.getNotificationCenter().showEndNotification(ids.get(model.getUrl()));
                 }
 
                 File file = fileExists(model);
@@ -153,7 +153,7 @@ public class UpdateService extends Service {
                 model.setState(UpdateModel.State.FAIL);
                 Toast.makeText(this, "下载失败", Toast.LENGTH_SHORT).show();
                 if (ids.containsKey(model.getUrl())) {
-                    NotificationUtils.getNotificationCenter(getApplicationContext()).cancelNotification(ids.get(model.getUrl()));
+                    NotificationUtils.getNotificationCenter().cancelNotification(ids.get(model.getUrl()));
                 }
             }
             downloadUrls.remove(model.getUrl());
@@ -166,7 +166,7 @@ public class UpdateService extends Service {
             else {
                 Toast.makeText(this, "下载失败", Toast.LENGTH_SHORT).show();
                 if (ids.containsKey(model.getUrl())) {
-                    NotificationUtils.getNotificationCenter(getApplicationContext()).cancelNotification(ids.get(model.getUrl()));
+                    NotificationUtils.getNotificationCenter().cancelNotification(ids.get(model.getUrl()));
                 }
                 downloadUrls.remove(model.getUrl());
             }
@@ -182,7 +182,7 @@ public class UpdateService extends Service {
         }
         // android o 关闭后台服务
         if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
-            NotificationUtils.getNotificationCenter(getApplicationContext()).hideStartForeground(this, 1000);
+            NotificationUtils.getNotificationCenter().hideStartForeground(this, 1000);
         }
     }
 

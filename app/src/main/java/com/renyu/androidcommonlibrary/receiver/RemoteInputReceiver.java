@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.RemoteInput;
 
 import com.renyu.androidcommonlibrary.R;
-import com.renyu.commonlibrary.commonutils.NotificationUtils;
+import com.renyu.commonlibrary.commonutils.notification.NotificationUtils;
 
 /**
  * Created by Administrator on 2018/1/29.
@@ -20,7 +20,7 @@ public class RemoteInputReceiver extends BroadcastReceiver {
         Bundle bundle = RemoteInput.getResultsFromIntent(intent);
         if (bundle!=null) {
             String reply = bundle.getCharSequence(NotificationUtils.KEY_TEXT_REPLY)==null?"":bundle.getCharSequence(NotificationUtils.KEY_TEXT_REPLY).toString();
-            NotificationUtils.getNotificationCenter(context).createNormalNotification("ticker", "channel1", reply, Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new Intent(), NotificationUtils.channelDefaultId, 105);
+            NotificationUtils.getNotificationCenter().createNormalNotification("ticker", "channel1", reply, Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new Intent(), NotificationUtils.channelDefaultId, 105);
         }
     }
 }
