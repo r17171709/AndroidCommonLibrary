@@ -5,7 +5,6 @@ import android.widget.TextView
 import com.blankj.utilcode.util.Utils
 import com.renyu.androidcommonlibrary.ExampleApp
 import com.renyu.androidcommonlibrary.R
-import com.renyu.androidcommonlibrary.di.module.ReposModule
 import com.renyu.commonlibrary.baseact.BaseActivity
 import com.renyu.commonlibrary.network.OKHttpUtils
 import kotlinx.coroutines.experimental.*
@@ -20,7 +19,7 @@ class CoroutinesDemoActivity : BaseActivity() {
     private var job: Job? = null
 
     override fun initParams() {
-        (Utils.getApp() as ExampleApp).appComponent.plusAct(ReposModule()).inject(this)
+        (Utils.getApp() as ExampleApp).appComponent.plusAct().inject(this)
     }
 
     override fun initViews() = R.layout.activity_main

@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.api.RetrofitImpl;
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse;
-import com.renyu.androidcommonlibrary.di.module.ReposModule;
 import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.androidcommonlibrary.utils.BaseObserver;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
@@ -24,7 +23,7 @@ public class RetrofitActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((ExampleApp) (com.blankj.utilcode.util.Utils.getApp())).appComponent.plusAct(new ReposModule()).inject(this);
+        ((ExampleApp) (com.blankj.utilcode.util.Utils.getApp())).appComponent.plusAct().inject(this);
 
         getAccessToken();
     }

@@ -9,7 +9,6 @@ import com.renyu.androidcommonlibrary.api.RetrofitImpl
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
 import com.renyu.androidcommonlibrary.bean.TokenRequest
 import com.renyu.androidcommonlibrary.bean.TokenResponse
-import com.renyu.androidcommonlibrary.di.module.ReposModule
 import com.renyu.androidcommonlibrary.utils.BaseObserver
 import com.renyu.commonlibrary.network.Retrofit2Utils
 import com.renyu.commonlibrary.network.other.Resource
@@ -42,7 +41,7 @@ class Repos {
     }
 
     init {
-        (Utils.getApp() as ExampleApp).appComponent.plus(ReposModule()).inject(this)
+        (Utils.getApp() as ExampleApp).appComponent.plusRepos().inject(this)
     }
 
     fun getTokenResponse(input: TokenRequest) : MutableLiveData<Resource<TokenResponse>> {

@@ -19,7 +19,6 @@ import com.renyu.commonlibrary.update.views.AppUpdateDialogFragment
  * Created by Administrator on 2017/12/7.
  */
 class OKHttpActivity : BaseActivity() {
-    val pics = arrayOf("/storage/sdcard0/aizuna365/image/150405650959a614bd132d5.jpg")
 
     override fun initParams() {
 
@@ -28,7 +27,7 @@ class OKHttpActivity : BaseActivity() {
     override fun initViews() = R.layout.activity_main
 
     override fun loadData() {
-        var haveInstallPermission: Boolean
+        val haveInstallPermission: Boolean
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             //先获取是否有安装未知来源应用的权限
             haveInstallPermission = packageManager.canRequestPackageInstalls()

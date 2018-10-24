@@ -9,7 +9,6 @@ import com.blankj.utilcode.util.Utils;
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.db.PlainTextDBHelper;
-import com.renyu.androidcommonlibrary.di.module.ReposModule;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.tencent.wcdb.database.SQLiteDatabase;
 
@@ -26,7 +25,7 @@ public class WCDBActivity extends BaseActivity {
 
     @Override
     public void initParams() {
-        ((ExampleApp) (Utils.getApp())).appComponent.plusAct(new ReposModule()).inject(this);
+        ((ExampleApp) (Utils.getApp())).appComponent.plusAct().inject(this);
 
         findViewById(R.id.btn_wcdb_insert).setOnClickListener(v -> {
             ContentValues cv=new ContentValues();
