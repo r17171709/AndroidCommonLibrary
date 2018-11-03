@@ -61,7 +61,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'com.android.support:support-v13:28.0.0'
     api 'com.android.support:design:28.0.0'
     api 'com.android.support:gridlayout-v7:28.0.0'
     api 'com.android.support:recyclerview-v7:28.0.0'
@@ -84,6 +83,7 @@ dependencies {
     // vlayout
     api('com.alibaba.android:vlayout:1.2.18@aar') {
         transitive = true
+        exclude group: 'com.android.support'
     }
     // BadgeView  支持自由定制外观、拖拽消除的MaterialDesign风格Android BadgeView
     api 'q.rorbin:badgeview:1.1.3'
