@@ -107,8 +107,8 @@ dependencies {
     implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.1'
 //    implementation project(':NetworkLibrary')
     // 升级
-//    implementation 'com.github.renyu:AndroidUpdateLibrary:1.0.3'
-    implementation project(':UpdateLibrary')
+    implementation 'com.github.renyu:AndroidUpdateLibrary:1.0.4'
+//    implementation project(':UpdateLibrary')
     // 弹出框
     implementation 'com.github.renyu:AndroidDialogLibrary:1.0.1'
 //    implementation project(':DialogLibrary')

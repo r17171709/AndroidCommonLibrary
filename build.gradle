@@ -16,7 +16,7 @@ buildscript {
         classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
 
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
-        classpath 'com.novoda:bintray-release:SNAPSHOT-6'
+        classpath 'com.novoda:bintray-release:SNAPSHOT-10'
     }
 }
 
