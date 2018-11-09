@@ -65,7 +65,7 @@ public class OKHttpUtils {
         void onSuccess(String string);
         void onError();
     }
-    
+
     public interface ProgressListener {
         void updateprogress(int progress, long bytesRead, long contentLength);
     }
@@ -190,11 +190,78 @@ public class OKHttpUtils {
      * @param json
      * @return
      */
-    private Call postJsonPrepare(String url, String json) {
+    private Call postJsonPrepare(String url, String json, HashMap<String, String> headers) {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(JSON, json);
-        Request request = new Request.Builder().url(url).post(body).build();
+        Request.Builder req_builder = new Request.Builder();
+        if (headers != null && headers.size() > 0) {
+            Iterator<Map.Entry<String, String>> header_it = headers.entrySet().iterator();
+            while (header_it.hasNext()) {
+                Map.Entry<String, String> header_en = header_it.next();
+                req_builder.addHeader(header_en.getKey(), header_en.getValue());
+            }
+        }
+        Request request = req_builder.url(url).post(body).build();
         return okHttpClient.newCall(request);
+    }
+
+    public void asyncPostJson(String url, String json, HashMap<String, String> headers, final RequestListener requestListener) {
+        if (requestListener != null) {
+            requestListener.onStart();
+        }
+        Call call=postJsonPrepare(url, json, headers);
+        call.enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
+                    if (requestListener != null) {
+                        requestListener.onError();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (requestListener != null) {
+                    if (response.isSuccessful()) {
+                        Observable.just(response.body().string()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onSuccess(s));
+                    } else {
+                        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onError());
+                    }
+                }
+            }
+        });
+    }
+
+    public void asyncPostJson(String url, String json, HashMap<String, String> headers) {
+        asyncPostJson(url, json, headers, null);
+    }
+
+    public void asyncPostJson(String url, String json, RequestListener requestListener) {
+        asyncPostJson(url, json, null, requestListener);
+    }
+
+    public void asyncPostJson(String url, String json) {
+        asyncPostJson(url, json, null, null);
+    }
+
+    public Response syncPostJson(String url, String json, HashMap<String, String> headers) {
+        Call call=postJsonPrepare(url, json, headers);
+        try {
+            Response response=call.execute();
+            if (!response.isSuccessful()) {
+                return null;
+            }
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Response syncPostJson(String url, String json) {
+        return syncPostJson(url, json, null);
     }
 
     /**
