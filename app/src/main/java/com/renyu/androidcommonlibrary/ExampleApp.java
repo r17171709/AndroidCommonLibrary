@@ -5,17 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.multidex.MultiDexApplication;
-
+import com.blankj.utilcode.util.ProcessUtils;
+import com.blankj.utilcode.util.Utils;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.renyu.androidcommonlibrary.di.component.AppComponent;
 import com.renyu.androidcommonlibrary.di.component.DaggerAppComponent;
 import com.renyu.androidcommonlibrary.di.module.ApiModule;
-import com.renyu.androidcommonlibrary.di.component.AppComponent;
 import com.renyu.androidcommonlibrary.di.module.AppModule;
 import com.renyu.androidcommonlibrary.service.X5IntentService;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
-import com.renyu.commonlibrary.commonutils.Utils;
-import com.renyu.commonlibrary.web.sonic.SonicRuntimeImpl;
 import com.renyu.commonlibrary.params.InitParams;
+import com.renyu.commonlibrary.web.sonic.SonicRuntimeImpl;
 import com.tencent.sonic.sdk.SonicConfig;
 import com.tencent.sonic.sdk.SonicEngine;
 
@@ -38,7 +38,7 @@ public class ExampleApp extends MultiDexApplication {
 
         openClassNames = new ArrayList<>();
 
-        String processName= Utils.getProcessName(android.os.Process.myPid());
+        String processName= ProcessUtils.getCurrentProcessName();
         if (processName != null && processName.equals(getPackageName())) {
             // dagger2注入
             appComponent = DaggerAppComponent.builder()
@@ -47,7 +47,7 @@ public class ExampleApp extends MultiDexApplication {
                     .build();
 
             // 初始化工具库
-            com.blankj.utilcode.util.Utils.init(this);
+            Utils.init(this);
 
             // 初始化fresco
             Fresco.initialize(this, ImagePipelineConfigUtils.getDefaultImagePipelineConfig(this));
