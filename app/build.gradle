@@ -125,7 +125,7 @@ dependencies {
     implementation 'com.github.renyu:AndroidPermissionLibrary:1.0.1'
 //    implementation project(':PermissionLibrary')
     // 基础库
-//    implementation 'com.github.renyu:AndroidCommonLibrary:2.1.3'
-    implementation project(':CommonLibrary')
+    implementation 'com.github.renyu:AndroidCommonLibrary:2.1.4'
+//    implementation project(':CommonLibrary')
 //    implementation 'com.github.r17171709:AndroidCommonLibrary:v1.9.13'
 }
