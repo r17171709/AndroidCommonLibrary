@@ -4,7 +4,6 @@
 ### 支持功能
 * 使用Fresco加载图片
 * 集成Rxjava2
-* 集成rxbinding
 * 使用Retrofit2完成网络请求加载
 * 提供多种工具类
 * 支持沉浸式
@@ -12,6 +11,7 @@
 * 支持多种通知栏效果
 * 支持权限判断
 * 集成腾讯xlog日志记录框架
+* 集成MMKV——基于 mmap 的高性能通用 key-value 组件
 * 使用SwipyRefreshLayout完成下拉上拉加载
 * 集成侧滑删除RecyclerView子项控件
 
@@ -38,7 +38,6 @@
 * 集成圆形进度条控件
 * 集成流式布局控件
 * 集成自带删除功能的输入框控件
-* 支持网页浏览功能
 * 集成ViewPagerTransforms，viewpager切换动画
 
 ![ViewPagerTransforms](https://camo.githubusercontent.com/8dabc7f764609bd8fbe9a7c594251e0e5d20ebdc/687474703a2f2f692e696d6775722e636f6d2f72766845326e732e676966)

@@ -16,6 +16,7 @@ import com.renyu.androidcommonlibrary.service.X5IntentService;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.renyu.commonlibrary.web.sonic.SonicRuntimeImpl;
+import com.tencent.mmkv.MMKV;
 import com.tencent.sonic.sdk.SonicConfig;
 import com.tencent.sonic.sdk.SonicEngine;
 
@@ -48,6 +49,9 @@ public class ExampleApp extends MultiDexApplication {
 
             // 初始化工具库
             Utils.init(this);
+
+            // 初始化MMKV
+            MMKV.initialize(this);
 
             // 初始化fresco
             Fresco.initialize(this, ImagePipelineConfigUtils.getDefaultImagePipelineConfig(this));
