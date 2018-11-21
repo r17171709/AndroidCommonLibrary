@@ -21,8 +21,13 @@ import okhttp3.RequestBody;
  */
 
 public class Retrofit2Utils {
+
+    // 设置成功码
+    public static int sucessedCode = 1;
+
     /**
      * post方式提交json数据
+     *
      * @param json
      * @return
      */
@@ -31,18 +36,23 @@ public class Retrofit2Utils {
         return RequestBody.create(JSON, json);
     }
 
+    public static <R> ObservableTransformer<R, R> withSchedulers() {
+        return upstream -> upstream.subscribeOn(Schedulers.io())
+                .unsubscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public static <T> ObservableTransformer<IResponse<T>, T> background() {
         return upstream -> upstream
                 .flatMap((Function<IResponse<T>, ObservableSource<T>>) response -> Observable.create(e -> {
-                    if (response.getResult()==1) {
+                    if (response.getResult() == Retrofit2Utils.sucessedCode) {
                         if (response.getData() instanceof EmptyResponse) {
                             ((EmptyResponse) response.getData()).setMessage(response.getMessage());
                         }
                         e.onNext(response.getData());
                         e.onComplete();
-                    }
-                    else {
-                        NetworkException exception=new NetworkException();
+                    } else {
+                        NetworkException exception = new NetworkException();
                         exception.setMessage(response.getMessage());
                         exception.setResult(response.getResult());
                         e.onError(exception);
@@ -52,26 +62,22 @@ public class Retrofit2Utils {
                     if (throwable instanceof NetworkException) {
                         return Observable.error(throwable);
                     }
-                    // 处理未知异常情况
-                    NetworkException exception=new NetworkException();
+                    // 未知异常均转换为NetworkException
+                    NetworkException exception = new NetworkException();
                     exception.setMessage(throwable.getMessage());
                     exception.setResult(-1);
                     return Observable.error(exception);
-                })
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                });
     }
 
     public static <T> ObservableTransformer<IResponseList<T>, List<T>> backgroundList() {
         return upstream -> upstream
                 .flatMap((Function<IResponseList<T>, ObservableSource<List<T>>>) response -> Observable.create(e -> {
-                    if (response.getResult()==1) {
+                    if (response.getResult() == Retrofit2Utils.sucessedCode) {
                         e.onNext(response.getData());
                         e.onComplete();
-                    }
-                    else {
-                        NetworkException exception=new NetworkException();
+                    } else {
+                        NetworkException exception = new NetworkException();
                         exception.setMessage(response.getMessage());
                         exception.setResult(response.getResult());
                         e.onError(exception);
@@ -82,28 +88,24 @@ public class Retrofit2Utils {
                     if (throwable instanceof NetworkException) {
                         return Observable.error(throwable);
                     }
-                    // 处理未知异常情况
-                    NetworkException exception=new NetworkException();
+                    // 未知异常均转换为NetworkException
+                    NetworkException exception = new NetworkException();
                     exception.setMessage(throwable.getMessage());
                     exception.setResult(-1);
                     return Observable.error(exception);
-                })
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                });
     }
 
     public static <T> ObservableTransformer<IResponseList<T>, T> asyncEmptyBackground() {
         return upstream -> upstream
                 .flatMap((Function<IResponseList<T>, ObservableSource<T>>) response -> Observable.create(e -> {
-                    if (response.getResult()==1) {
-                        EmptyResponse response1=new EmptyResponse();
+                    if (response.getResult() == Retrofit2Utils.sucessedCode) {
+                        EmptyResponse response1 = new EmptyResponse();
                         response1.setMessage(response.getMessage());
                         e.onNext((T) response1);
                         e.onComplete();
-                    }
-                    else {
-                        NetworkException exception=new NetworkException();
+                    } else {
+                        NetworkException exception = new NetworkException();
                         exception.setMessage(response.getMessage());
                         exception.setResult(response.getResult());
                         e.onError(exception);
@@ -113,14 +115,11 @@ public class Retrofit2Utils {
                     if (throwable instanceof NetworkException) {
                         return Observable.error(throwable);
                     }
-                    // 处理未知异常情况
-                    NetworkException exception=new NetworkException();
+                    // 未知异常均转换为NetworkException
+                    NetworkException exception = new NetworkException();
                     exception.setMessage(throwable.getMessage());
                     exception.setResult(-1);
                     return Observable.error(exception);
-                })
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                });
     }
 }

@@ -5,8 +5,8 @@ package com.renyu.commonlibrary.network.other;
  */
 
 public class NetworkException extends Exception {
-    int result;
-    String message;
+    private int result;
+    private String message;
 
     public int getResult() {
         return result;

@@ -104,11 +104,11 @@ dependencies {
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     implementation 'com.tencent.wcdb:wcdb-android:1.0.6.2'
     // 网络请求
-    implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.2'
-//    implementation project(':NetworkLibrary')
+//    implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.2'
+    implementation project(':NetworkLibrary')
     // 升级
-    implementation 'com.github.renyu:AndroidUpdateLibrary:1.0.5'
-//    implementation project(':UpdateLibrary')
+//    implementation 'com.github.renyu:AndroidUpdateLibrary:1.0.5'
+    implementation project(':UpdateLibrary')
     // 弹出框
     implementation 'com.github.renyu:AndroidDialogLibrary:1.0.1'
 //    implementation project(':DialogLibrary')
@@ -125,7 +125,7 @@ dependencies {
     implementation 'com.github.renyu:AndroidPermissionLibrary:1.0.1'
 //    implementation project(':PermissionLibrary')
     // 基础库
-    implementation 'com.github.renyu:AndroidCommonLibrary:2.1.4'
-//    implementation project(':CommonLibrary')
+//    implementation 'com.github.renyu:AndroidCommonLibrary:2.1.4'
+    implementation project(':CommonLibrary')
 //    implementation 'com.github.r17171709:AndroidCommonLibrary:v1.9.13'
 }

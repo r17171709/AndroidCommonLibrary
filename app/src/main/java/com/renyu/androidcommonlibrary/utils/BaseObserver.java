@@ -3,11 +3,8 @@ package com.renyu.androidcommonlibrary.utils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
-
 import com.blankj.utilcode.util.Utils;
 import com.renyu.commonlibrary.dialog.NetworkLoadingDialog;
-import com.renyu.commonlibrary.network.other.NetworkException;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -56,19 +53,9 @@ public abstract class BaseObserver<T> implements Observer<T> {
     public void onError(Throwable e) {
         if (needToast) {
             if (networkLoadingDialog != null) {
-                if (e instanceof NetworkException) {
-                    networkLoadingDialog.closeWithText(e.getMessage());
-                } else {
-                    networkLoadingDialog.closeWithText("网络异常，请稍后再试");
-                }
+                networkLoadingDialog.close();
             }
-            else {
-                if (e instanceof NetworkException) {
-                    Toast.makeText(Utils.getApp(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(Utils.getApp(), "网络异常，请稍后再试", Toast.LENGTH_SHORT).show();
-                }
-            }
+            Toast.makeText(Utils.getApp(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -54,6 +54,6 @@ dependencies {
 
     // 工具类
     api 'com.blankj:utilcode:1.21.0'
-//    implementation project(':NetworkLibrary')
-    implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.1'
+    implementation project(':NetworkLibrary')
+//    implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.2'
 }

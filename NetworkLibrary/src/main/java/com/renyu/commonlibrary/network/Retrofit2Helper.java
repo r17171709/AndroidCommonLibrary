@@ -31,7 +31,7 @@ public class Retrofit2Helper {
 
     public static Retrofit2Helper getInstance(String baseUrl) {
         if (retrofit2Utils==null) {
-            synchronized (Retrofit2Utils.class) {
+            synchronized (Retrofit2Helper.class) {
                 if (retrofit2Utils==null) {
                     retrofit2Utils=new Retrofit2Helper(baseUrl);
                 }
