@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:background="@android:color/transparent">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="16dip"
+            android:layout_marginRight="16dip"
+            android:layout_marginTop="32dip"
+            android:background="@drawable/shape_loadingdialog">
+        <LinearLayout
+                android:id="@+id/code_vertication_customerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_loadingdialog_top"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+        </LinearLayout>
+        <com.renyu.commonlibrary.dialog.view.VerificationCodeInput
+                android:id="@+id/code_vertication_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:layout_marginBottom="20dip"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dip"
+                android:layout_gravity="center"
+                app:box="6"
+                app:box_bg_focus="@drawable/verification_edit_bg_focus"
+                app:box_bg_normal="@drawable/verification_edit_bg_normal"
+                app:child_h_padding="5dp"
+                app:child_height="40dp"
+                app:child_width="40dp"
+                app:inputType="text"/>
+    </LinearLayout>
+</RelativeLayout>
