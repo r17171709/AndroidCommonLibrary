@@ -19,10 +19,11 @@ class DialogActivity : AppCompatActivity() {
             view.setBackgroundColor(Color.RED)
             val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(150f))
             view.layoutParams = layoutParams
-            CodeDialog().setVarificationInputType(VerificationCodeInput.VerificationCodeInputType.TYPE_NUMBER)
+            CodeDialog().setMarginTop(SizeUtils.dp2px(100f))
+                .setVarificationInputType(VerificationCodeInput.VerificationCodeInputType.TYPE_NUMBER)
                 .setCustomerView(view).setOnCodeListener {
 
-            }.show(this)
+                }.show(this)
         }
     }
 }

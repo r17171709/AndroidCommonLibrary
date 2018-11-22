@@ -14,6 +14,7 @@ import com.renyu.androidcommonlibrary.di.module.ApiModule;
 import com.renyu.androidcommonlibrary.di.module.AppModule;
 import com.renyu.androidcommonlibrary.service.X5IntentService;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
+import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.renyu.commonlibrary.web.sonic.SonicRuntimeImpl;
 import com.tencent.mmkv.MMKV;
@@ -49,6 +50,13 @@ public class ExampleApp extends MultiDexApplication {
 
             // 初始化工具库
             Utils.init(this);
+
+            // 宽高字体缩放适配设置
+            InitParams.designWidthInPx = 360;
+            InitParams.designHeightInPx = 640;
+
+            // 设置网络请求成功码
+            Retrofit2Utils.sucessedCode = 1;
 
             // 初始化MMKV
             MMKV.initialize(this);

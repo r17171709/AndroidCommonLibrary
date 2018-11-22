@@ -31,6 +31,8 @@ public class CodeDialog extends DialogFragment {
     View customerView;
     // 自定义EditText输入类型
     VerificationCodeInput.VerificationCodeInputType inputType;
+    // 距离顶部的边距
+    int marginTop;
 
     boolean isDismiss = true;
     FragmentManager manager = null;
@@ -53,6 +55,11 @@ public class CodeDialog extends DialogFragment {
 
     public CodeDialog setVarificationInputType(VerificationCodeInput.VerificationCodeInputType inputType) {
         this.inputType = inputType;
+        return this;
+    }
+
+    public CodeDialog setMarginTop(int marginTop) {
+        this.marginTop = marginTop;
         return this;
     }
 
@@ -109,7 +116,6 @@ public class CodeDialog extends DialogFragment {
             dismissDialog();
             onCodeListener.getCode(content);
         }, 500));
-
         return view;
     }
 
@@ -117,8 +123,17 @@ public class CodeDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         VerificationCodeInput code_vertication_input = view.findViewById(R.id.code_vertication_input);
-        code_vertication_input.post(() -> {
-            KeyboardUtils.showSoftInput(code_vertication_input.getChildAt(0));
+        code_vertication_input.post(() -> KeyboardUtils.showSoftInput(code_vertication_input.getChildAt(0)));
+        View code_vertication_space = view.findViewById(R.id.code_vertication_space);
+        code_vertication_space.post(() -> {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) code_vertication_space.getLayoutParams();
+            if (params == null) {
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, marginTop);
+            }
+            else {
+                params.height = marginTop;
+            }
+            code_vertication_space.setLayoutParams(params);
         });
     }
 

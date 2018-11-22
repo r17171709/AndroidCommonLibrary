@@ -22,4 +22,8 @@ public class InitParams {
     public static String CACHE_PATH= ROOT_PATH + File.separator + "cache";
     // fresco缓存目录
     public static String FRESCO_CACHE_NAME= "fresco_cache";
+
+    // 宽高字体缩放适配设置
+    public static int designWidthInPx = 360;
+    public static int designHeightInPx = 640;
 }

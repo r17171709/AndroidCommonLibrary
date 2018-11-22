@@ -5,7 +5,7 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
-        maven { url 'https://novoda.bintray.com/snapshots' }
+//        maven { url 'https://novoda.bintray.com/snapshots' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
@@ -16,7 +16,7 @@ buildscript {
         classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
 
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
-        classpath 'com.novoda:bintray-release:SNAPSHOT-10'
+        classpath 'com.novoda:bintray-release:0.9'
     }
 }
 
@@ -39,11 +39,11 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-// tasks.getByPath(":CommonLibrary:bintrayUpload").enabled = false
-// tasks.getByPath(":NetworkLibrary:bintrayUpload").enabled = false
-// tasks.getByPath(":UpdateLibrary:bintrayUpload").enabled = false
-// tasks.getByPath(":DialogLibrary:bintrayUpload").enabled = false
-// tasks.getByPath(":ActionSheetLibrary:bintrayUpload").enabled = false
-// tasks.getByPath(":ShowCaseLibrary:bintrayUpload").enabled = false
-// tasks.getByPath(":WebLibrary:bintrayUpload").enabled = false
-// tasks.getByPath(":PermissionLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":CommonLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":NetworkLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":UpdateLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":DialogLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":ActionSheetLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":ShowCaseLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":WebLibrary:bintrayUpload").enabled = false
+//tasks.getByPath(":PermissionLibrary:bintrayUpload").enabled = false

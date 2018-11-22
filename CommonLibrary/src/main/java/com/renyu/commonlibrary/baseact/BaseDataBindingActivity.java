@@ -34,9 +34,9 @@ public abstract class BaseDataBindingActivity<T> extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (ScreenUtils.isPortrait()) {
-            ScreenUtils.adaptScreen4VerticalSlide(this, 360);
+            ScreenUtils.adaptScreen4VerticalSlide(this, InitParams.designWidthInPx);
         } else {
-            ScreenUtils.adaptScreen4HorizontalSlide(this, 360);
+            ScreenUtils.adaptScreen4HorizontalSlide(this, InitParams.designHeightInPx);
         }
 
         if (!isNeedOnCreate) {

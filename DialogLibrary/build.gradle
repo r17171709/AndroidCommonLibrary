@@ -52,5 +52,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // 工具类
-    api 'com.blankj:utilcode:1.21.0'
+    implementation 'com.blankj:utilcode:1.21.0'
 }

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent" android:layout_height="match_parent"
-                android:background="@android:color/transparent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:background="@android:color/transparent" android:orientation="vertical">
+    <View android:layout_width="match_parent" android:layout_height="0dip"
+          android:id="@+id/code_vertication_space" android:background="@android:color/transparent"/>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginLeft="16dip"
             android:layout_marginRight="16dip"
-            android:layout_marginTop="32dip"
             android:background="@drawable/shape_loadingdialog">
         <LinearLayout
                 android:id="@+id/code_vertication_customerview"
@@ -37,4 +38,4 @@
                 app:child_width="40dp"
                 app:inputType="text"/>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
