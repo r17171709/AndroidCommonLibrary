@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.views.actionsheet.ActionSheetFragment;
+import com.renyu.commonlibrary.views.actionsheet.ActionSheetUtils;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
 import com.renyu.commonlibrary.views.wheelview.OnItemSelectedListener;
 
@@ -41,11 +42,11 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                        }).show(this);
 
-            ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.ITEM)
-                    .setTitle("Hello")
-                    .setListItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, position -> {
-
-                    }).setChoiceIndex(2).show(this);
+//            ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.ITEM)
+//                    .setTitle("Hello")
+//                    .setListItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, position -> {
+//
+//                    }).setChoiceIndex(2).show(this);
 
 //            ActionSheetUtils.showDateRange(this, "Title", "Cancel", "OK", 2017, 2019, new ActionSheetFragment.OnOKListener() {
 //                @Override
@@ -59,17 +60,17 @@ public class ActionSheetActivity extends BaseActivity {
 //                }
 //            });
 
-//            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
-//                @Override
-//                public void onOKClick(Object value) {
-//
-//                }
-//            }, new ActionSheetFragment.OnCancelListener() {
-//                @Override
-//                public void onCancelClick() {
-//
-//                }
-//            });
+            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
+                @Override
+                public void onOKClick(Object value) {
+
+                }
+            }, new ActionSheetFragment.OnCancelListener() {
+                @Override
+                public void onCancelClick() {
+
+                }
+            });
 
 //            ActionSheetUtils.showAfterDate(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
 //                @Override

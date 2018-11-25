@@ -654,8 +654,8 @@ public class ActionSheetFragment extends Fragment {
             Calendar calendar_end = Calendar.getInstance();
             SimpleDateFormat formatDateRange = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             try {
-                calendar_start.setTime(formatDateRange.parse(getArguments().getInt("startYear")+"-01-01 00:00"));
-                calendar_end.setTime(formatDateRange.parse(getArguments().getInt("endYear")+"-01-01 00:00"));
+                calendar_start.setTime(formatDateRange.parse(getArguments().getInt("startYear") + "-01-01 00:00"));
+                calendar_end.setTime(formatDateRange.parse(getArguments().getInt("endYear") + "-01-01 00:00"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -843,8 +843,12 @@ public class ActionSheetFragment extends Fragment {
             pop_ok1.setOnClickListener(v -> {
                 if (onOKListener != null) {
                     onOKListener.onOKClick(
-                            Integer.parseInt(hours.get(pop_wheel_timelayout_hour.getSelectedItem())) < 10 ? "0" + hours.get(pop_wheel_timelayout_hour.getSelectedItem()) : hours.get(pop_wheel_timelayout_hour.getSelectedItem()) + ":" +
-                                    minutes.get(pop_wheel_timelayout_minute.getSelectedItem()));
+                            (Integer.parseInt(hours.get(pop_wheel_timelayout_hour.getSelectedItem())) < 10 ?
+                                    "0" +
+                                            hours.get(pop_wheel_timelayout_hour.getSelectedItem()) :
+                                    hours.get(pop_wheel_timelayout_hour.getSelectedItem())) +
+                                            ":" +
+                                    (minutes.get(pop_wheel_timelayout_minute.getSelectedItem())));
                 }
                 dismiss();
             });
