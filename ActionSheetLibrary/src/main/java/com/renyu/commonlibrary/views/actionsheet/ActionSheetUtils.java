@@ -39,9 +39,9 @@ public class ActionSheetUtils {
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 
-    public static void showList(FragmentActivity activity, String title, String[] items, ActionSheetFragment.OnItemClickListener onItemClickListener, ActionSheetFragment.OnCancelListener onCancelListener) {
+    public static void showList(FragmentActivity activity, String title, String[] items, String[] subItems, ActionSheetFragment.OnItemClickListener onItemClickListener, ActionSheetFragment.OnCancelListener onCancelListener) {
         ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.ITEM)
-                .setTitle(title).setListItems(items, onItemClickListener)
+                .setTitle(title).setListItems(items, subItems, onItemClickListener)
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 }
