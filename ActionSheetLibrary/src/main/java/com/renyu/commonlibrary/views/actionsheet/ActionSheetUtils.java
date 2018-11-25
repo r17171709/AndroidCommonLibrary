@@ -27,9 +27,9 @@ public class ActionSheetUtils {
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 
-    public static void showDateRange(FragmentActivity activity, String title, String cancelTitle, String okTitle, long startRangeTime, long endRangeTime, ActionSheetFragment.OnOKListener onOKListener, ActionSheetFragment.OnCancelListener onCancelListener) {
+    public static void showDateRange(FragmentActivity activity, String title, String cancelTitle, String okTitle, int startYear, int endYear, ActionSheetFragment.OnOKListener onOKListener, ActionSheetFragment.OnCancelListener onCancelListener) {
         ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.DATERANGE)
-                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setTimeRange(startRangeTime, endRangeTime)
+                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setTimeRange(startYear, endYear)
                 .setOnOKListener(onOKListener).setOnCancelListener(onCancelListener).show(activity);
     }
 
@@ -39,9 +39,10 @@ public class ActionSheetUtils {
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 
-    public static void showList(FragmentActivity activity, String title, String[] items, String[] subItems, ActionSheetFragment.OnItemClickListener onItemClickListener, ActionSheetFragment.OnCancelListener onCancelListener) {
+    public static void showList(FragmentActivity activity, String title, String[] items, String[] subItems, int setChoiceIndex, ActionSheetFragment.OnItemClickListener onItemClickListener, ActionSheetFragment.OnCancelListener onCancelListener) {
         ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.ITEM)
                 .setTitle(title).setListItems(items, subItems, onItemClickListener)
+                .setChoiceIndex(setChoiceIndex)
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 }

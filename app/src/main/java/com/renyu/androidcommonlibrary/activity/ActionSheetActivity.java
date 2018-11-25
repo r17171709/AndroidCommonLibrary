@@ -47,6 +47,42 @@ public class ActionSheetActivity extends BaseActivity {
 
                     }).setChoiceIndex(2).show(this);
 
+//            ActionSheetUtils.showDateRange(this, "Title", "Cancel", "OK", 2017, 2019, new ActionSheetFragment.OnOKListener() {
+//                @Override
+//                public void onOKClick(Object value) {
+//
+//                }
+//            }, new ActionSheetFragment.OnCancelListener() {
+//                @Override
+//                public void onCancelClick() {
+//
+//                }
+//            });
+
+//            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
+//                @Override
+//                public void onOKClick(Object value) {
+//
+//                }
+//            }, new ActionSheetFragment.OnCancelListener() {
+//                @Override
+//                public void onCancelClick() {
+//
+//                }
+//            });
+
+//            ActionSheetUtils.showAfterDate(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
+//                @Override
+//                public void onOKClick(Object value) {
+//
+//                }
+//            }, new ActionSheetFragment.OnCancelListener() {
+//                @Override
+//                public void onCancelClick() {
+//
+//                }
+//            });
+
 //                ActionSheetUtils.showDateRange(this, "", "取消", "确定", 946656000000L, 1924876800000L, new ActionSheetFragment.OnOKListener() {
 //                    @Override
 //                    public void onOKClick(Object value) {

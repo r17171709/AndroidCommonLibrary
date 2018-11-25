@@ -145,14 +145,14 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newDateRangeInstance(String title, String okTitle, String cancelTitle, long startRangeTime, long endRangeTime) {
+    private static ActionSheetFragment newDateRangeInstance(String title, String okTitle, String cancelTitle, int startYear, int endYear) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
         bundle.putString("okTitle", okTitle);
         bundle.putString("cancelTitle", cancelTitle);
-        bundle.putLong("startRangeTime", startRangeTime);
-        bundle.putLong("endRangeTime", endRangeTime);
+        bundle.putInt("startYear", startYear);
+        bundle.putInt("endYear", endYear);
         bundle.putInt("type", 6);
         fragment.setArguments(bundle);
         return fragment;
@@ -652,13 +652,18 @@ public class ActionSheetFragment extends Fragment {
 
             Calendar calendar_start = Calendar.getInstance();
             Calendar calendar_end = Calendar.getInstance();
-            calendar_start.setTime(new Date(getArguments().getLong("startRangeTime")));
-            calendar_end.setTime(new Date(getArguments().getLong("endRangeTime")));
+            SimpleDateFormat formatDateRange = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            try {
+                calendar_start.setTime(formatDateRange.parse(getArguments().getInt("startYear")+"-01-01 00:00"));
+                calendar_end.setTime(formatDateRange.parse(getArguments().getInt("endYear")+"-01-01 00:00"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             for (int i = calendar_start.get(Calendar.YEAR); i <= calendar_end.get(Calendar.YEAR); i++) {
                 years.add("" + i);
             }
             final ArrayList<String> months = new ArrayList<>();
-            for (int i = calendar_start.get(Calendar.MONTH) + 1; i <= (calendar_end.get(Calendar.MONTH) + 1); i++) {
+            for (int i = calendar_start.get(Calendar.MONTH) + 1; i <= 12 - (calendar_start.get(Calendar.MONTH) + 1) + 1; i++) {
                 months.add("" + i);
             }
             final ArrayList<String> days = new ArrayList<>();
@@ -1024,8 +1029,8 @@ public class ActionSheetFragment extends Fragment {
         // 自定义视图
         View customerView;
         //时间范围选择
-        long startRangeTime;
-        long endRangeTime;
+        int startYear;
+        int endYear;
 
         public Builder setTag(String tag) {
             this.tag = tag;
@@ -1091,9 +1096,9 @@ public class ActionSheetFragment extends Fragment {
             return this;
         }
 
-        public Builder setTimeRange(long startRangeTime, long endRangeTime) {
-            this.startRangeTime = startRangeTime;
-            this.endRangeTime = endRangeTime;
+        public Builder setTimeRange(int startYear, int endYear) {
+            this.startYear = startYear;
+            this.endYear = endYear;
             return this;
         }
 
@@ -1119,7 +1124,7 @@ public class ActionSheetFragment extends Fragment {
                 fragment.setOnCancelListener(onCancelListener);
             }
             if (choice == CHOICE.DATERANGE) {
-                fragment = ActionSheetFragment.newDateRangeInstance(title, okTitle, cancelTitle, startRangeTime, endRangeTime);
+                fragment = ActionSheetFragment.newDateRangeInstance(title, okTitle, cancelTitle, startYear, endYear);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
             }
