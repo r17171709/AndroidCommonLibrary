@@ -19,7 +19,7 @@ public abstract class BaseObserver2<T> implements Observer<Resource<T>> {
     private String loadingText;
     private boolean needToast = true;
 
-    protected NetworkLoadingDialog networkLoadingDialog;
+    private NetworkLoadingDialog networkLoadingDialog;
 
     private Disposable d;
 
@@ -74,3 +74,4 @@ public abstract class BaseObserver2<T> implements Observer<Resource<T>> {
         }
     }
 }
+
