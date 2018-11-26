@@ -38,8 +38,8 @@ public abstract class BaseObserver<T> implements Observer<T> {
     @Override
     public void onSubscribe(Disposable d) {
         this.d = d;
-        if (activity!=null) {
-            networkLoadingDialog = TextUtils.isEmpty(loadingText)?NetworkLoadingDialog.getInstance():NetworkLoadingDialog.getInstance(loadingText);
+        if (activity != null) {
+            networkLoadingDialog = TextUtils.isEmpty(loadingText) ? NetworkLoadingDialog.getInstance() : NetworkLoadingDialog.getInstance(loadingText);
             networkLoadingDialog.setDialogDismissListener(() -> networkLoadingDialog = null);
             try {
                 networkLoadingDialog.show(activity);
@@ -51,10 +51,10 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
+        if (networkLoadingDialog != null) {
+            networkLoadingDialog.close();
+        }
         if (needToast) {
-            if (networkLoadingDialog != null) {
-                networkLoadingDialog.close();
-            }
             Toast.makeText(Utils.getApp(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -65,7 +65,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
     }
 
     public void cancelRequest() {
-        if (d!=null && !d.isDisposed()) {
+        if (d != null && !d.isDisposed()) {
             d.dispose();
         }
     }

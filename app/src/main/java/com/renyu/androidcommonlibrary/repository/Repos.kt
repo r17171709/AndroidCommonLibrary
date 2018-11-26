@@ -77,7 +77,7 @@ class Repos {
             .subscribe(object : BaseObserver<AccessTokenResponse>(false) {
                 override fun onSubscribe(d: Disposable) {
                     super.onSubscribe(d)
-                    tokenResponse.value = Resource.loading()
+                    tokenResponse.value = Resource.loading(d)
                 }
 
                 override fun onNext(accessTokenResponse: AccessTokenResponse) {
