@@ -66,9 +66,12 @@ public class RetrofitActivity extends RxAppCompatActivity {
                 .subscribe(new BaseObserver<AccessTokenResponse>(this) {
                     @Override
                     public void onNext(AccessTokenResponse accessTokenResponse) {
+                        networkLoadingDialog.setDialogDismissListener(() -> {
+                            finish();
+                            networkLoadingDialog = null;
+                        });
                         String access_token = accessTokenResponse.getAccess_token();
-                        Toast.makeText(RetrofitActivity.this, access_token, Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(com.blankj.utilcode.util.Utils.getApp(), access_token, Toast.LENGTH_SHORT).show();
                         networkLoadingDialog.close();
                     }
                 });

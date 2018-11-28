@@ -3,6 +3,7 @@ package com.renyu.commonlibrary.dialog;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -14,18 +15,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.renyu.commonlibrary.dialog.utils.Utils;
 
 import java.lang.reflect.Field;
@@ -39,6 +34,8 @@ public class NetworkLoadingDialog extends DialogFragment {
     private boolean isDismiss = true;
     private FragmentManager manager = null;
     private OnDialogDismiss onDialogDismissListener = null;
+    // 是否由手动触发关闭产生
+    private boolean isHandlerDismiss = false;
 
     public static NetworkLoadingDialog getInstance() {
         return getInstance("");
@@ -178,10 +175,8 @@ public class NetworkLoadingDialog extends DialogFragment {
     }
 
     public void close() {
+        isHandlerDismiss = true;
         dismissDialog();
-        if (onDialogDismissListener != null) {
-            onDialogDismissListener.onDismiss();
-        }
     }
 
     /**
@@ -214,6 +209,14 @@ public class NetworkLoadingDialog extends DialogFragment {
             dismissAllowingStateLoss();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (onDialogDismissListener != null && isHandlerDismiss) {
+            onDialogDismissListener.onDismiss();
         }
     }
 }

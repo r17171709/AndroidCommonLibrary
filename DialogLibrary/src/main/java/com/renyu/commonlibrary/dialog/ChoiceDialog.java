@@ -14,16 +14,10 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.renyu.commonlibrary.dialog.utils.Utils;
 
 import java.lang.reflect.Field;
@@ -42,6 +36,8 @@ public class ChoiceDialog extends DialogFragment {
 
     boolean isDismiss = true;
     FragmentManager manager = null;
+    // 是否由手动触发关闭产生
+    private boolean isHandlerDismiss = false;
 
     private ChoiceDialog() {
 
@@ -175,20 +171,22 @@ public class ChoiceDialog extends DialogFragment {
         });
 
         View view = inflater.inflate(R.layout.dialog_choice, container, false);
-        choice_container_content = (TextView) view.findViewById(R.id.choice_container_content);
-        choice_container_title = (TextView) view.findViewById(R.id.choice_container_title);
-        choice_container_positive = (Button) view.findViewById(R.id.choice_container_positive);
+        choice_container_content = view.findViewById(R.id.choice_container_content);
+        choice_container_title = view.findViewById(R.id.choice_container_title);
+        choice_container_positive = view.findViewById(R.id.choice_container_positive);
         choice_container_positive.setOnClickListener(v -> {
             if (onDialogPosListener != null) {
                 onDialogPosListener.onPos();
             }
+            isHandlerDismiss = true;
             dismissDialog();
         });
-        choice_container_negative = (Button) view.findViewById(R.id.choice_container_negative);
+        choice_container_negative = view.findViewById(R.id.choice_container_negative);
         choice_container_negative.setOnClickListener(v -> {
             if (onDialogNegListener != null) {
                 onDialogNegListener.onNeg();
             }
+            isHandlerDismiss = true;
             dismissDialog();
         });
         choice_container_line = view.findViewById(R.id.choice_container_line);
@@ -248,7 +246,7 @@ public class ChoiceDialog extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (onDialogDismissListener != null) {
+        if (onDialogDismissListener != null && isHandlerDismiss) {
             onDialogDismissListener.onDismiss();
         }
     }

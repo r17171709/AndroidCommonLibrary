@@ -17,6 +17,7 @@ import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.renyu.commonlibrary.web.sonic.SonicRuntimeImpl;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mmkv.MMKV;
 import com.tencent.sonic.sdk.SonicConfig;
 import com.tencent.sonic.sdk.SonicEngine;
@@ -127,6 +128,11 @@ public class ExampleApp extends MultiDexApplication {
 
                 }
             });
+
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                return;
+            }
+            LeakCanary.install(this);
         }
     }
 }

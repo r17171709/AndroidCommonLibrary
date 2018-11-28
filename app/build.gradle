@@ -110,8 +110,8 @@ dependencies {
     implementation 'com.github.renyu:AndroidUpdateLibrary:1.0.7'
 //    implementation project(':UpdateLibrary')
     // 弹出框
-    implementation 'com.github.renyu:AndroidDialogLibrary:1.0.2'
-//    implementation project(':DialogLibrary')
+//    implementation 'com.github.renyu:AndroidDialogLibrary:1.0.2'
+    implementation project(':DialogLibrary')
     // Sheet弹出框
     implementation 'com.github.renyu:ActionSheetLibrary:1.0.3'
 //    implementation project(':ActionSheetLibrary')
@@ -127,4 +127,9 @@ dependencies {
     // 基础库
     implementation 'com.github.renyu:AndroidCommonLibrary:2.1.5'
 //    implementation project(':CommonLibrary')
+
+    // leakcanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
 }

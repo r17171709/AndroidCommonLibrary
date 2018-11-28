@@ -51,11 +51,11 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        if (networkLoadingDialog != null) {
-            networkLoadingDialog.close();
-        }
         if (needToast) {
             Toast.makeText(Utils.getApp(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        if (networkLoadingDialog != null) {
+            networkLoadingDialog.close();
         }
     }
 
