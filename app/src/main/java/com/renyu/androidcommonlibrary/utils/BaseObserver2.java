@@ -17,18 +17,18 @@ public abstract class BaseObserver2<T> implements Observer<Resource<T>> {
 
     private AppCompatActivity activity;
     private String loadingText;
-    private boolean needToast = true;
 
     private NetworkLoadingDialog networkLoadingDialog;
 
     private Disposable d;
 
-    public BaseObserver2(boolean needToast) {
-        this.needToast = needToast;
+    public BaseObserver2() {
+
     }
 
     public BaseObserver2(AppCompatActivity activity) {
         this.activity = activity;
+        this.loadingText = "正在加载中...";
     }
 
     public BaseObserver2(AppCompatActivity activity, String loadingText) {
@@ -41,15 +41,16 @@ public abstract class BaseObserver2<T> implements Observer<Resource<T>> {
         if (tResource != null) {
             switch (tResource.getStatus()) {
                 case ERROR:
-                    if (needToast) {
-                        Toast.makeText(Utils.getApp(), tResource.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                    onError(tResource);
                     if (networkLoadingDialog != null) {
                         networkLoadingDialog.close();
                     }
+                    Toast.makeText(Utils.getApp(), tResource.getMessage(), Toast.LENGTH_SHORT).show();
+                    onError(tResource);
                     break;
                 case SUCESS:
+                    if (networkLoadingDialog != null) {
+                        networkLoadingDialog.close();
+                    }
                     onSucess(tResource);
                     break;
                 case LOADING:
@@ -74,4 +75,3 @@ public abstract class BaseObserver2<T> implements Observer<Resource<T>> {
         }
     }
 }
-

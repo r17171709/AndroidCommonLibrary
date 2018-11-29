@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.blankj.utilcode.util.SizeUtils;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.renyu.commonlibrary.views.utils.Utils;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
@@ -112,12 +113,14 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newGridInstance(String title, String[] items, int[] images) {
+    private static ActionSheetFragment newGridInstance(String title, String cancelTitle, String[] items, int[] images, int columnCount) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
+        bundle.putString("cancelTitle", cancelTitle);
         bundle.putStringArray("items", items);
         bundle.putIntArray("images", images);
+        bundle.putInt("columnCount", columnCount);
         bundle.putInt("type", 2);
         fragment.setArguments(bundle);
         return fragment;
@@ -275,9 +278,14 @@ public class ActionSheetFragment extends Fragment {
                 pop_morechoice.setVisibility(View.VISIBLE);
             }
         } else if (getArguments().getInt("type") == 2) {
+            View view_space = view.findViewById(R.id.view_space);
+            view_space.setVisibility(View.VISIBLE);
+            TextView pop_cancel = view.findViewById(R.id.pop_cancel);
+            pop_cancel.setVisibility(View.VISIBLE);
+            pop_cancel.setOnClickListener(view12 -> dismiss());
             GridLayout pop_grid = view.findViewById(R.id.pop_grid);
             pop_grid.setVisibility(View.VISIBLE);
-            int width = (Utils.getScreenWidth(context) - Utils.dp2px(context, 20)) / (getArguments().getStringArray("items").length < 4 ? getArguments().getStringArray("items").length : 4);
+            int width = (Utils.getScreenWidth(context) - Utils.dp2px(context, 20)) / getArguments().getInt("columnCount");
             for (int i = 0; i < getArguments().getStringArray("items").length; i++) {
                 final int i_ = i;
                 View viewChild = LayoutInflater.from(getActivity()).inflate(R.layout.adapter_share, null, false);
@@ -295,10 +303,14 @@ public class ActionSheetFragment extends Fragment {
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
                 params.setGravity(Gravity.CENTER);
                 params.width = width;
-                params.height = Utils.dp2px(context, 120);
-                params.columnSpec = GridLayout.spec(i % 4);
-                params.rowSpec = GridLayout.spec(i / 4);
+                params.height = Utils.dp2px(context, SizeUtils.dp2px(30));
+                params.columnSpec = GridLayout.spec(i % getArguments().getInt("columnCount"));
+                params.rowSpec = GridLayout.spec(i / getArguments().getInt("columnCount"));
                 pop_grid.addView(viewChild, params);
+            }
+            if (!TextUtils.isEmpty(title)) {
+                LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
+                pop_morechoice.setVisibility(View.VISIBLE);
             }
         } else if (getArguments().getInt("type") == 3) {
             final ArrayList<String> years = new ArrayList<>();
@@ -1024,6 +1036,8 @@ public class ActionSheetFragment extends Fragment {
         String[] items;
         String[] subItems;
         int[] images;
+        // Gird每排的数量
+        int columnCount = 4;
         // 是否可以点击确定之后关闭
         boolean canDismiss = true;
         // 监听事件
@@ -1068,9 +1082,10 @@ public class ActionSheetFragment extends Fragment {
             return this;
         }
 
-        public Builder setGridItems(String[] items, int[] images, OnItemClickListener onItemClickListener) {
+        public Builder setGridItems(String[] items, int[] images, int columnCount, OnItemClickListener onItemClickListener) {
             this.items = items;
             this.images = images;
+            this.columnCount = columnCount;
             this.onItemClickListener = onItemClickListener;
             return this;
         }
@@ -1114,7 +1129,7 @@ public class ActionSheetFragment extends Fragment {
                 fragment.setOnCancelListener(onCancelListener);
             }
             if (choice == CHOICE.GRID) {
-                fragment = ActionSheetFragment.newGridInstance(title, items, images);
+                fragment = ActionSheetFragment.newGridInstance(title, cancelTitle, items, images, columnCount);
                 fragment.setOnItemClickListener(onItemClickListener);
             }
             if (choice == CHOICE.BEFOREDATE) {

@@ -36,11 +36,12 @@ public class ActionSheetActivity extends BaseActivity {
 //                    .setCustomerView(view_threeloopertitle_floor)
 //                    .show(ActionSheetActivity.this);
 
-//                ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.GRID).setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
-//                        new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
-//                        position -> {
-//
-//                        }).show(this);
+            ActionSheetFragment.build().setTitle("Hello").setCancelTitle("cancel").setChoice(ActionSheetFragment.CHOICE.GRID)
+                    .setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
+                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher}, 3,
+                    position -> {
+
+                    }).show(this);
 
 //            ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.ITEM)
 //                    .setTitle("Hello")
@@ -60,17 +61,17 @@ public class ActionSheetActivity extends BaseActivity {
 //                }
 //            });
 
-            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
-                @Override
-                public void onOKClick(Object value) {
-
-                }
-            }, new ActionSheetFragment.OnCancelListener() {
-                @Override
-                public void onCancelClick() {
-
-                }
-            });
+//            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
+//                @Override
+//                public void onOKClick(Object value) {
+//
+//                }
+//            }, new ActionSheetFragment.OnCancelListener() {
+//                @Override
+//                public void onCancelClick() {
+//
+//                }
+//            });
 
 //            ActionSheetUtils.showAfterDate(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
 //                @Override
