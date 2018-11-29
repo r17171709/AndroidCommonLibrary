@@ -249,6 +249,7 @@ public class ActionSheetFragment extends Fragment {
         pop_child_layout.setOnTouchListener((v, event) -> true);
         realView.setOnClickListener(v -> dismiss());
         String title = getArguments().getString("title");
+        String cancelTitle = getArguments().getString("cancelTitle");
         TextView pop_title = view.findViewById(R.id.pop_title);
         pop_title.setText(title);
         if (TextUtils.isEmpty(title)) {
@@ -281,10 +282,17 @@ public class ActionSheetFragment extends Fragment {
             View view_space = view.findViewById(R.id.view_space);
             view_space.setVisibility(View.VISIBLE);
             TextView pop_cancel = view.findViewById(R.id.pop_cancel);
-            pop_cancel.setVisibility(View.VISIBLE);
-            pop_cancel.setOnClickListener(view12 -> dismiss());
+            if (!TextUtils.isEmpty(cancelTitle)) {
+                pop_cancel.setText(cancelTitle);
+                pop_cancel.setVisibility(View.VISIBLE);
+                pop_cancel.setOnClickListener(view12 -> dismiss());
+            }
             GridLayout pop_grid = view.findViewById(R.id.pop_grid);
             pop_grid.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(title)) {
+                LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
+                pop_morechoice.setVisibility(View.VISIBLE);
+            }
             int width = (Utils.getScreenWidth(context) - Utils.dp2px(context, 20)) / getArguments().getInt("columnCount");
             for (int i = 0; i < getArguments().getStringArray("items").length; i++) {
                 final int i_ = i;
@@ -307,10 +315,6 @@ public class ActionSheetFragment extends Fragment {
                 params.columnSpec = GridLayout.spec(i % getArguments().getInt("columnCount"));
                 params.rowSpec = GridLayout.spec(i / getArguments().getInt("columnCount"));
                 pop_grid.addView(viewChild, params);
-            }
-            if (!TextUtils.isEmpty(title)) {
-                LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
-                pop_morechoice.setVisibility(View.VISIBLE);
             }
         } else if (getArguments().getInt("type") == 3) {
             final ArrayList<String> years = new ArrayList<>();
@@ -465,7 +469,7 @@ public class ActionSheetFragment extends Fragment {
                 dismiss();
             });
             TextView pop_cancel1 = view.findViewById(R.id.pop_cancel1);
-            pop_cancel1.setText(getArguments().getString("cancelTitle"));
+            pop_cancel1.setText(cancelTitle);
             pop_cancel1.setOnClickListener(v -> {
                 if (onCancelListener != null) {
                     onCancelListener.onCancelClick();
@@ -649,7 +653,7 @@ public class ActionSheetFragment extends Fragment {
                 }
             });
             TextView pop_cancel1 = view.findViewById(R.id.pop_cancel1);
-            pop_cancel1.setText(getArguments().getString("cancelTitle"));
+            pop_cancel1.setText(cancelTitle);
             pop_cancel1.setOnClickListener(v -> {
                 if (onCancelListener != null) {
                     onCancelListener.onCancelClick();
@@ -818,7 +822,7 @@ public class ActionSheetFragment extends Fragment {
                 dismiss();
             });
             TextView pop_cancel1 = view.findViewById(R.id.pop_cancel1);
-            pop_cancel1.setText(getArguments().getString("cancelTitle"));
+            pop_cancel1.setText(cancelTitle);
             pop_cancel1.setOnClickListener(v -> {
                 if (onCancelListener != null) {
                     onCancelListener.onCancelClick();
@@ -865,7 +869,7 @@ public class ActionSheetFragment extends Fragment {
                 dismiss();
             });
             TextView pop_cancel1 = view.findViewById(R.id.pop_cancel1);
-            pop_cancel1.setText(getArguments().getString("cancelTitle"));
+            pop_cancel1.setText(cancelTitle);
             pop_cancel1.setOnClickListener(v -> {
                 if (onCancelListener != null) {
                     onCancelListener.onCancelClick();
@@ -874,7 +878,7 @@ public class ActionSheetFragment extends Fragment {
             });
         } else if (getArguments().getInt("type") == 7) {
             LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
-            if (TextUtils.isEmpty(title) && TextUtils.isEmpty(getArguments().getString("okTitle")) && TextUtils.isEmpty(getArguments().getString("cancelTitle"))) {
+            if (TextUtils.isEmpty(title) && TextUtils.isEmpty(getArguments().getString("okTitle")) && TextUtils.isEmpty(cancelTitle)) {
                 pop_morechoice.setVisibility(View.GONE);
             } else {
                 pop_morechoice.setVisibility(View.VISIBLE);
@@ -889,7 +893,7 @@ public class ActionSheetFragment extends Fragment {
                     }
                 });
                 TextView pop_cancel1 = view.findViewById(R.id.pop_cancel1);
-                pop_cancel1.setText(getArguments().getString("cancelTitle"));
+                pop_cancel1.setText(cancelTitle);
                 pop_cancel1.setOnClickListener(v -> {
                     if (onCancelListener != null) {
                         onCancelListener.onCancelClick();

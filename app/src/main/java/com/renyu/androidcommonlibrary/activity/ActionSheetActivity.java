@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
@@ -29,6 +30,9 @@ public class ActionSheetActivity extends BaseActivity {
 //            View view_threeloopertitle_floor = addAction();
 //            ActionSheetFragment.build()
 //                    .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
+//                    .setTitle("title")
+//                    .setCancelTitle("取消")
+//                    .setOkTitle("确定")
 //                    .setCanDismiss(false)
 //                    .setOnOKListener(value -> {
 //
@@ -36,12 +40,12 @@ public class ActionSheetActivity extends BaseActivity {
 //                    .setCustomerView(view_threeloopertitle_floor)
 //                    .show(ActionSheetActivity.this);
 
-            ActionSheetFragment.build().setTitle("Hello").setCancelTitle("cancel").setChoice(ActionSheetFragment.CHOICE.GRID)
-                    .setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
-                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher}, 3,
-                    position -> {
-
-                    }).show(this);
+//            ActionSheetFragment.build().setTitle("Hello").setCancelTitle("cancel").setChoice(ActionSheetFragment.CHOICE.GRID)
+//                    .setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
+//                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher}, 3,
+//                    position -> {
+//
+//                    }).show(this);
 
 //            ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.ITEM)
 //                    .setTitle("Hello")
@@ -54,11 +58,8 @@ public class ActionSheetActivity extends BaseActivity {
 //                public void onOKClick(Object value) {
 //
 //                }
-//            }, new ActionSheetFragment.OnCancelListener() {
-//                @Override
-//                public void onCancelClick() {
+//            }, () -> {
 //
-//                }
 //            });
 
 //            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
@@ -85,17 +86,10 @@ public class ActionSheetActivity extends BaseActivity {
 //                }
 //            });
 
-//                ActionSheetUtils.showDateRange(this, "", "取消", "确定", 946656000000L, 1924876800000L, new ActionSheetFragment.OnOKListener() {
-//                    @Override
-//                    public void onOKClick(Object value) {
-//                        Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show();
-//                    }
-//                }, new ActionSheetFragment.OnCancelListener() {
-//                    @Override
-//                    public void onCancelClick() {
-//
-//                    }
-//                });
+            ActionSheetUtils.showDateRange(this, "", "取消", "确定", 2018, 2019,
+                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
+
+                    });
         });
     }
 
