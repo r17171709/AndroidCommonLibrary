@@ -7,28 +7,9 @@ import android.support.v4.app.FragmentActivity;
  */
 
 public class ActionSheetUtils {
-
-    public static void showBeforeDate(FragmentActivity activity, String title, String cancelTitle, String okTitle, ActionSheetFragment.OnOKListener onOKListener, ActionSheetFragment.OnCancelListener onCancelListener) {
-        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.BEFOREDATE)
-                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setOnOKListener(onOKListener)
-                .setOnCancelListener(onCancelListener).show(activity);
-    }
-
-    public static void showAfterDate(FragmentActivity activity, String title, String cancelTitle, String okTitle, ActionSheetFragment.OnOKListener onOKListener, ActionSheetFragment.OnCancelListener onCancelListener) {
-        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.AFTERDATE)
-                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setOnOKListener(onOKListener)
-                .setOnCancelListener(onCancelListener).show(activity);
-    }
-
-    public static ActionSheetFragment showAfterDateWithoutDismiss(FragmentActivity activity, String title, String cancelTitle, String okTitle, ActionSheetFragment.OnOKListener onOKListener, ActionSheetFragment.OnCancelListener onCancelListener) {
-        return ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.AFTERDATE).setCanDismiss(false)
-                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setOnOKListener(onOKListener)
-                .setOnCancelListener(onCancelListener).show(activity);
-    }
-
-    public static void showDateRange(FragmentActivity activity, String title, String cancelTitle, String okTitle, long startTime, long endTime, ActionSheetFragment.OnOKListener onOKListener, ActionSheetFragment.OnCancelListener onCancelListener) {
+    public static void showDateRange(FragmentActivity activity, String title, String cancelTitle, String okTitle, long startTime, long endTime, boolean isNeedHM, ActionSheetFragment.OnOKListener onOKListener, ActionSheetFragment.OnCancelListener onCancelListener) {
         ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.DATERANGE)
-                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setTimeRange(startTime, endTime)
+                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setTimeRange(startTime, endTime, isNeedHM)
                 .setOnOKListener(onOKListener).setOnCancelListener(onCancelListener).show(activity);
     }
 
@@ -43,5 +24,11 @@ public class ActionSheetUtils {
                 .setTitle(title).setListItems(items, subItems, onItemClickListener)
                 .setChoiceIndex(setChoiceIndex)
                 .setOnCancelListener(onCancelListener).show(activity);
+    }
+
+    public static void showGrid(FragmentActivity activity, String title, String cancelTitle, String[] items, int[] imageItems, int columnCount, ActionSheetFragment.OnItemClickListener onItemClickListener) {
+        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.GRID)
+                .setTitle(title).setCancelTitle(cancelTitle)
+                .setGridItems(items, imageItems, columnCount, onItemClickListener).show(activity);
     }
 }

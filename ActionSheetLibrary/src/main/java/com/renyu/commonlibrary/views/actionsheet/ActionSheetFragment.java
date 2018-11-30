@@ -34,11 +34,7 @@ import com.renyu.commonlibrary.views.utils.Utils;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
 import com.renyu.commonlibrary.views.wheelview.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -60,7 +56,7 @@ public class ActionSheetFragment extends Fragment {
 
     //提供类型
     public enum CHOICE {
-        ITEM, BEFOREDATE, AFTERDATE, DATERANGE, TIME, GRID, CUSTOMER
+        ITEM, DATERANGE, TIME, GRID, CUSTOMER
     }
 
     //是否自动关闭
@@ -127,29 +123,7 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newBeforeDateInstance(String title, String okTitle, String cancelTitle) {
-        ActionSheetFragment fragment = new ActionSheetFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("title", title);
-        bundle.putString("okTitle", okTitle);
-        bundle.putString("cancelTitle", cancelTitle);
-        bundle.putInt("type", 3);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    private static ActionSheetFragment newAfterDateInstance(String title, String okTitle, String cancelTitle) {
-        ActionSheetFragment fragment = new ActionSheetFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("title", title);
-        bundle.putString("okTitle", okTitle);
-        bundle.putString("cancelTitle", cancelTitle);
-        bundle.putInt("type", 5);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    private static ActionSheetFragment newDateRangeInstance(String title, String okTitle, String cancelTitle, long startTime, long endTime) {
+    private static ActionSheetFragment newDateRangeInstance(String title, String okTitle, String cancelTitle, long startTime, long endTime, boolean isNeedHM) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -157,6 +131,7 @@ public class ActionSheetFragment extends Fragment {
         bundle.putString("cancelTitle", cancelTitle);
         bundle.putLong("startTime", startTime);
         bundle.putLong("endTime", endTime);
+        bundle.putBoolean("isNeedHM", isNeedHM);
         bundle.putInt("type", 6);
         fragment.setArguments(bundle);
         return fragment;
@@ -317,353 +292,6 @@ public class ActionSheetFragment extends Fragment {
                 params.rowSpec = GridLayout.spec(i / getArguments().getInt("columnCount"));
                 pop_grid.addView(viewChild, params);
             }
-        } else if (getArguments().getInt("type") == 3) {
-            final ArrayList<String> years = new ArrayList<>();
-
-            Calendar calendar_today = Calendar.getInstance();
-            calendar_today.setTime(new Date());
-
-            Calendar calendar_start = Calendar.getInstance();
-            Calendar calendar_end = Calendar.getInstance();
-            SimpleDateFormat format_temp = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                calendar_start.setTime(format_temp.parse("1950-01-01"));
-                calendar_end.setTime(new Date());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            for (int i = calendar_start.get(Calendar.YEAR); i <= calendar_end.get(Calendar.YEAR); i++) {
-                years.add("" + i);
-            }
-            final ArrayList<String> months = new ArrayList<>();
-            for (int i = calendar_start.get(Calendar.MONTH) + 1; i <= (calendar_end.get(Calendar.MONTH) + 1); i++) {
-                months.add("" + i);
-            }
-            final ArrayList<String> days = new ArrayList<>();
-            for (int i = calendar_start.get(Calendar.DAY_OF_MONTH); i <= calendar_end.get(Calendar.DAY_OF_MONTH); i++) {
-                days.add("" + i);
-            }
-
-            LinearLayout pop_wheel_yearlayout = view.findViewById(R.id.pop_wheel_yearlayout);
-            pop_wheel_yearlayout.setVisibility(View.VISIBLE);
-
-            LoopView pop_wheel_yearlayout_year = view.findViewById(R.id.pop_wheel_yearlayout_year);
-            LoopView pop_wheel_yearlayout_month = view.findViewById(R.id.pop_wheel_yearlayout_month);
-            LoopView pop_wheel_yearlayout_day = view.findViewById(R.id.pop_wheel_yearlayout_day);
-
-            pop_wheel_yearlayout_year.setListener(index -> {
-                months.clear();
-                days.clear();
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
-                if (years.get(index).equals("" + calendar.get(Calendar.YEAR))) {
-                    for (int i = 1; i <= (calendar.get(Calendar.MONTH) + 1); i++) {
-                        months.add("" + i);
-                    }
-                    if (months.size() < pop_wheel_yearlayout_month.getSelectedItem()) {
-                        pop_wheel_yearlayout_month.setInitPosition(0);
-                        pop_wheel_yearlayout_month.setTotalScrollYPosition(months.size() - 1);
-                    } else {
-                        pop_wheel_yearlayout_month.setInitPosition(0);
-                        pop_wheel_yearlayout_month.setTotalScrollYPosition(pop_wheel_yearlayout_month.getSelectedItem());
-                    }
-                    pop_wheel_yearlayout_month.setItems(months);
-
-                } else {
-                    for (int i = 1; i <= 12; i++) {
-                        months.add("" + i);
-                    }
-                    pop_wheel_yearlayout_month.setItems(months);
-
-                }
-
-                //当前月份最大天数
-                int dayCount = 0;
-                if (years.get(index).equals("" + calendar.get(Calendar.YEAR)) && months.size() <= 1 + pop_wheel_yearlayout_month.getSelectedItem()) {
-                    for (int i = 1; i <= calendar.get(Calendar.DAY_OF_MONTH); i++) {
-                        days.add("" + i);
-                    }
-                    dayCount = calendar.get(Calendar.DAY_OF_MONTH);
-                } else {
-                    Calendar cl = Calendar.getInstance();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    try {
-                        cl.setTime(format.parse(years.get(index) + "-" + months.get(pop_wheel_yearlayout_month.getSelectedItem()) + "-01"));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    dayCount = cl.getActualMaximum(Calendar.DATE);
-                    for (int i = 1; i <= dayCount; i++) {
-                        days.add("" + i);
-                    }
-                }
-                if (pop_wheel_yearlayout_day.getSelectedItem() + 1 > dayCount) {
-                    pop_wheel_yearlayout_day.setInitPosition(0);
-                    pop_wheel_yearlayout_day.setTotalScrollYPosition(dayCount - 1);
-                } else {
-                    pop_wheel_yearlayout_day.setInitPosition(0);
-                    pop_wheel_yearlayout_day.setTotalScrollYPosition(pop_wheel_yearlayout_day.getSelectedItem());
-                }
-                pop_wheel_yearlayout_day.setItems(days);
-            });
-            pop_wheel_yearlayout_year.setNotLoop();
-            pop_wheel_yearlayout_year.setViewPadding(Utils.dp2px(context, 20), Utils.dp2px(context, 15), Utils.dp2px(context, 20), Utils.dp2px(context, 15));
-            pop_wheel_yearlayout_year.setItems(years);
-            pop_wheel_yearlayout_year.setTextSize(18);
-            pop_wheel_yearlayout_year.setInitPosition(years.size() - 1);
-
-            pop_wheel_yearlayout_month.setNotLoop();
-            pop_wheel_yearlayout_month.setListener(index -> {
-                days.clear();
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
-                //当前月份最大天数
-                int dayCount = 0;
-                if (index == months.size() - 1 && years.get(pop_wheel_yearlayout_year.getSelectedItem()).equals("" + calendar.get(Calendar.YEAR))) {
-                    for (int i = 1; i <= calendar.get(Calendar.DAY_OF_MONTH); i++) {
-                        days.add("" + i);
-                    }
-                    dayCount = calendar.get(Calendar.DAY_OF_MONTH);
-                } else {
-                    Calendar cl = Calendar.getInstance();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    try {
-                        cl.setTime(format.parse(years.get(pop_wheel_yearlayout_year.getSelectedItem()) + "-" + months.get(index) + "-01"));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    dayCount = cl.getActualMaximum(Calendar.DATE);
-                    for (int i = 1; i <= dayCount; i++) {
-                        days.add("" + i);
-                    }
-                }
-                if (pop_wheel_yearlayout_day.getSelectedItem() + 1 > dayCount) {
-                    pop_wheel_yearlayout_day.setInitPosition(0);
-                    pop_wheel_yearlayout_day.setTotalScrollYPosition(dayCount - 1);
-                } else {
-                    pop_wheel_yearlayout_day.setInitPosition(0);
-                    pop_wheel_yearlayout_day.setTotalScrollYPosition(pop_wheel_yearlayout_day.getSelectedItem());
-                }
-                pop_wheel_yearlayout_day.setItems(days);
-            });
-            pop_wheel_yearlayout_month.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
-            pop_wheel_yearlayout_month.setItems(months);
-            pop_wheel_yearlayout_month.setTextSize(18);
-            pop_wheel_yearlayout_month.setInitPosition(months.size() - 1);
-
-            pop_wheel_yearlayout_day.setNotLoop();
-            pop_wheel_yearlayout_day.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
-            pop_wheel_yearlayout_day.setItems(days);
-            pop_wheel_yearlayout_day.setTextSize(18);
-            pop_wheel_yearlayout_day.setInitPosition(days.size() - 1);
-
-            LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
-            pop_morechoice.setVisibility(View.VISIBLE);
-            TextView pop_ok1 = view.findViewById(R.id.pop_ok1);
-            pop_ok1.setText(getArguments().getString("okTitle"));
-            pop_ok1.setOnClickListener(v -> {
-                if (onOKListener != null) {
-                    onOKListener.onOKClick(years.get(pop_wheel_yearlayout_year.getSelectedItem()) + "-"
-                            + months.get(pop_wheel_yearlayout_month.getSelectedItem()) + "-"
-                            + days.get(pop_wheel_yearlayout_day.getSelectedItem()));
-                }
-                dismiss();
-            });
-            TextView pop_cancel1 = view.findViewById(R.id.pop_cancel1);
-            pop_cancel1.setText(cancelTitle);
-            pop_cancel1.setOnClickListener(v -> {
-                if (onCancelListener != null) {
-                    onCancelListener.onCancelClick();
-                }
-                dismiss();
-            });
-        } else if (getArguments().getInt("type") == 5) {
-            final ArrayList<String> years = new ArrayList<>();
-            Calendar calendar_today = Calendar.getInstance();
-            calendar_today.setTime(new Date());
-            int currentYear = calendar_today.get(Calendar.YEAR);
-            for (int i = currentYear; i < currentYear + 5; i++) {
-                years.add("" + i);
-            }
-            final ArrayList<String> months = new ArrayList<>();
-            for (int i = (calendar_today.get(Calendar.MONTH) + 1); i <= 12; i++) {
-                months.add("" + i);
-            }
-            final ArrayList<String> days = new ArrayList<>();
-            for (int i = calendar_today.get(Calendar.DAY_OF_MONTH); i <= calendar_today.getActualMaximum(Calendar.DATE); i++) {
-                days.add("" + i);
-            }
-
-            LinearLayout pop_wheel_yearlayout = view.findViewById(R.id.pop_wheel_yearlayout);
-            pop_wheel_yearlayout.setVisibility(View.VISIBLE);
-
-            LoopView pop_wheel_yearlayout_year = view.findViewById(R.id.pop_wheel_yearlayout_year);
-            LoopView pop_wheel_yearlayout_month = view.findViewById(R.id.pop_wheel_yearlayout_month);
-            LoopView pop_wheel_yearlayout_day = view.findViewById(R.id.pop_wheel_yearlayout_day);
-
-            pop_wheel_yearlayout_year.setListener(index -> {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
-                // month起始位置
-                int initMonthPosition = 0;
-                if (years.get(index).equals("" + calendar.get(Calendar.YEAR))) {
-                    // 当月不是从1月份开始，年份切换导致month大小变化
-                    initMonthPosition = pop_wheel_yearlayout_month.getSelectedItem() - calendar.get(Calendar.MONTH);
-                    // 年份切换不足部分补充
-                    if (initMonthPosition < 0) {
-                        initMonthPosition = 0;
-                    }
-                    months.clear();
-                    for (int i = (calendar.get(Calendar.MONTH) + 1); i <= 12; i++) {
-                        months.add("" + i);
-                    }
-                } else {
-                    // 年份切换导致month大小变化
-                    if (months.size() != 12) {
-                        initMonthPosition = Integer.parseInt(months.get(pop_wheel_yearlayout_month.getSelectedItem())) - 1;
-                    } else {
-                        initMonthPosition = pop_wheel_yearlayout_month.getSelectedItem();
-                    }
-                    months.clear();
-                    for (int i = 1; i <= 12; i++) {
-                        months.add("" + i);
-                    }
-                }
-                pop_wheel_yearlayout_month.setInitPosition(0);
-                pop_wheel_yearlayout_month.setTotalScrollYPosition(initMonthPosition);
-                pop_wheel_yearlayout_month.setItems(months);
-
-                // day起始日期
-                int initDay = Integer.parseInt(days.get(pop_wheel_yearlayout_day.getSelectedItem()));
-                // day初始化位置
-                int initDayPosition = 0;
-                days.clear();
-                if (years.get(index).equals("" + calendar.get(Calendar.YEAR)) &&
-                        ("" + (calendar.get(Calendar.MONTH) + 1)).equals(months.get(initMonthPosition))) {
-                    for (int i = calendar.get(Calendar.DAY_OF_MONTH); i <= calendar.getActualMaximum(Calendar.DATE); i++) {
-                        days.add("" + i);
-                    }
-                    initDayPosition = initDay - calendar.get(Calendar.DAY_OF_MONTH);
-                    // 月份切换不足部分补充
-                    if (initDayPosition < 0) {
-                        initDayPosition = 0;
-                    }
-                } else {
-                    Calendar cl = Calendar.getInstance();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    try {
-                        cl.setTime(format.parse(years.get(index) + "-" + months.get(pop_wheel_yearlayout_month.getSelectedItem()) + "-01"));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    for (int i = 1; i <= cl.getActualMaximum(Calendar.DATE); i++) {
-                        days.add("" + i);
-                    }
-                    boolean isFind = false;
-                    for (int i = 0; i < days.size(); i++) {
-                        if (days.get(i).equals(initDay + "")) {
-                            initDayPosition = i;
-                            isFind = true;
-                            break;
-                        }
-                    }
-                    if (!isFind) {
-                        initDayPosition = days.size() - 1;
-                    }
-                }
-                pop_wheel_yearlayout_day.setInitPosition(0);
-                pop_wheel_yearlayout_day.setTotalScrollYPosition(initDayPosition);
-                pop_wheel_yearlayout_day.setItems(days);
-            });
-            pop_wheel_yearlayout_year.setNotLoop();
-            pop_wheel_yearlayout_year.setViewPadding(Utils.dp2px(context, 20), Utils.dp2px(context, 15), Utils.dp2px(context, 20), Utils.dp2px(context, 15));
-            pop_wheel_yearlayout_year.setItems(years);
-            pop_wheel_yearlayout_year.setTextSize(18);
-            pop_wheel_yearlayout_year.setInitPosition(0);
-
-            pop_wheel_yearlayout_month.setNotLoop();
-            pop_wheel_yearlayout_month.setListener(index -> {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
-                // day起始日期
-                int initDay = Integer.parseInt(days.get(pop_wheel_yearlayout_day.getSelectedItem()));
-                // day初始化位置
-                int initDayPosition = 0;
-                days.clear();
-                if (years.get(pop_wheel_yearlayout_year.getSelectedItem()).equals("" + calendar.get(Calendar.YEAR)) &&
-                        ("" + (calendar.get(Calendar.MONTH) + 1)).equals(months.get(index))) {
-                    for (int i = calendar.get(Calendar.DAY_OF_MONTH); i <= calendar.getActualMaximum(Calendar.DATE); i++) {
-                        days.add("" + i);
-                    }
-                    initDayPosition = initDay - calendar.get(Calendar.DAY_OF_MONTH);
-                    // 月份切换不足部分补充
-                    if (initDayPosition < 0) {
-                        initDayPosition = 0;
-                    }
-                } else {
-                    Calendar cl = Calendar.getInstance();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    try {
-                        cl.setTime(format.parse(years.get(pop_wheel_yearlayout_year.getSelectedItem()) + "-" + months.get(index) + "-01"));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    for (int i = 1; i <= cl.getActualMaximum(Calendar.DATE); i++) {
-                        days.add("" + i);
-                    }
-                    boolean isFind = false;
-                    for (int i = 0; i < days.size(); i++) {
-                        if (days.get(i).equals(initDay + "")) {
-                            initDayPosition = i;
-                            isFind = true;
-                            break;
-                        }
-                    }
-                    if (!isFind) {
-                        initDayPosition = days.size() - 1;
-                    }
-                }
-                pop_wheel_yearlayout_day.setInitPosition(0);
-                pop_wheel_yearlayout_day.setTotalScrollYPosition(initDayPosition);
-                pop_wheel_yearlayout_day.setItems(days);
-
-            });
-            pop_wheel_yearlayout_month.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
-            pop_wheel_yearlayout_month.setItems(months);
-            pop_wheel_yearlayout_month.setTextSize(18);
-            pop_wheel_yearlayout_month.setInitPosition(0);
-
-            pop_wheel_yearlayout_day.setNotLoop();
-            pop_wheel_yearlayout_day.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
-            pop_wheel_yearlayout_day.setItems(days);
-            pop_wheel_yearlayout_day.setTextSize(18);
-            pop_wheel_yearlayout_day.setInitPosition(0);
-
-            LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
-            pop_morechoice.setVisibility(View.VISIBLE);
-            TextView pop_ok1 = view.findViewById(R.id.pop_ok1);
-            pop_ok1.setText(getArguments().getString("okTitle"));
-            pop_ok1.setOnClickListener(v -> {
-                if (onOKListener != null) {
-                    onOKListener.onOKClick(years.get(pop_wheel_yearlayout_year.getSelectedItem()) + "-"
-                            + months.get(pop_wheel_yearlayout_month.getSelectedItem()) + "-"
-                            + days.get(pop_wheel_yearlayout_day.getSelectedItem()));
-                }
-                if (canDismiss) {
-                    dismiss();
-                }
-            });
-            TextView pop_cancel1 = view.findViewById(R.id.pop_cancel1);
-            pop_cancel1.setText(cancelTitle);
-            pop_cancel1.setOnClickListener(v -> {
-                if (onCancelListener != null) {
-                    onCancelListener.onCancelClick();
-                }
-                dismiss();
-            });
-        } else if (getArguments().getInt("type") == 6) {
-            DateRangeUtils dateRangeUtils = new DateRangeUtils(getArguments().getLong("startTime"), getArguments().getLong("endTime"));
-            dateRangeUtils.showDateRange(this, view, onOKListener, onCancelListener);
         } else if (getArguments().getInt("type") == 4) {
             ArrayList<String> hours = new ArrayList<>();
             for (int i = 0; i < 24; i++) {
@@ -711,6 +339,9 @@ public class ActionSheetFragment extends Fragment {
                 }
                 dismiss();
             });
+        } else if (getArguments().getInt("type") == 6) {
+            DateRangeUtils dateRangeUtils = new DateRangeUtils(getArguments().getLong("startTime"), getArguments().getLong("endTime"), getArguments().getBoolean("isNeedHM"));
+            dateRangeUtils.showDateRange(this, view, onOKListener, onCancelListener);
         } else if (getArguments().getInt("type") == 7) {
             LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
             if (TextUtils.isEmpty(title) && TextUtils.isEmpty(getArguments().getString("okTitle")) && TextUtils.isEmpty(cancelTitle)) {
@@ -885,9 +516,11 @@ public class ActionSheetFragment extends Fragment {
         OnOKListener onOKListener;
         // 自定义视图
         View customerView;
-        //时间范围选择
+        // 时间范围选择
         long startTime;
         long endTime;
+        // 是否展示时分
+        boolean isNeedHM;
 
         public Builder setTag(String tag) {
             this.tag = tag;
@@ -954,9 +587,10 @@ public class ActionSheetFragment extends Fragment {
             return this;
         }
 
-        public Builder setTimeRange(long startTime, long endTime) {
+        public Builder setTimeRange(long startTime, long endTime, boolean isNeedHM) {
             this.startTime = startTime;
             this.endTime = endTime;
+            this.isNeedHM = isNeedHM;
             return this;
         }
 
@@ -971,18 +605,8 @@ public class ActionSheetFragment extends Fragment {
                 fragment = ActionSheetFragment.newGridInstance(title, cancelTitle, items, images, columnCount);
                 fragment.setOnItemClickListener(onItemClickListener);
             }
-            if (choice == CHOICE.BEFOREDATE) {
-                fragment = ActionSheetFragment.newBeforeDateInstance(title, okTitle, cancelTitle);
-                fragment.setOnOKListener(onOKListener);
-                fragment.setOnCancelListener(onCancelListener);
-            }
-            if (choice == CHOICE.AFTERDATE) {
-                fragment = ActionSheetFragment.newAfterDateInstance(title, okTitle, cancelTitle);
-                fragment.setOnOKListener(onOKListener);
-                fragment.setOnCancelListener(onCancelListener);
-            }
             if (choice == CHOICE.DATERANGE) {
-                fragment = ActionSheetFragment.newDateRangeInstance(title, okTitle, cancelTitle, startTime, endTime);
+                fragment = ActionSheetFragment.newDateRangeInstance(title, okTitle, cancelTitle, startTime, endTime, isNeedHM);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
             }

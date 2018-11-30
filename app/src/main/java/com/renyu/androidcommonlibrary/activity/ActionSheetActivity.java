@@ -40,27 +40,18 @@ public class ActionSheetActivity extends BaseActivity {
 //                    .setCustomerView(view_threeloopertitle_floor)
 //                    .show(ActionSheetActivity.this);
 
-//            ActionSheetFragment.build().setTitle("Hello").setCancelTitle("cancel").setChoice(ActionSheetFragment.CHOICE.GRID)
-//                    .setGridItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
-//                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher}, 3,
-//                    position -> {
+//            ActionSheetUtils.showGrid(this, "Hello", "cancel",
+//                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
+//                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
+//                    3, position -> {
 //
-//                    }).show(this);
+//                    });
 
 //            ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.ITEM)
 //                    .setTitle("Hello")
 //                    .setListItems(new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, position -> {
 //
 //                    }).setChoiceIndex(2).show(this);
-
-//            ActionSheetUtils.showDateRange(this, "Title", "Cancel", "OK", 2017, 2019, new ActionSheetFragment.OnOKListener() {
-//                @Override
-//                public void onOKClick(Object value) {
-//
-//                }
-//            }, () -> {
-//
-//            });
 
 //            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
 //                @Override
@@ -74,19 +65,7 @@ public class ActionSheetActivity extends BaseActivity {
 //                }
 //            });
 
-//            ActionSheetUtils.showAfterDate(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
-//                @Override
-//                public void onOKClick(Object value) {
-//
-//                }
-//            }, new ActionSheetFragment.OnCancelListener() {
-//                @Override
-//                public void onCancelClick() {
-//
-//                }
-//            });
-
-            ActionSheetUtils.showDateRange(this, "设置日期", "取消", "确定", 1448897867000L, 1575128267000L,
+            ActionSheetUtils.showDateRange(this, "设置日期", "取消", "确定", 1448897867000L, System.currentTimeMillis(), false,
                     value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
 
                     });

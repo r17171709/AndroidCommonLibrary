@@ -16,21 +16,25 @@ public class DateRangeUtils {
 
     public static String[] weeks = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
 
+    // 周期起始时间
+    private Calendar calendar_start;
+    private Calendar calendar_end;
     private int year_start;
     private int month_start;
     private int day_start;
     private int year_end;
     private int month_end;
     private int day_end;
+    // 当前时间
     private Calendar calendar_today;
-    private Calendar calendar_start;
-    private Calendar calendar_end;
 
-    public DateRangeUtils(long startTime, long endTime) {
-        // 当前时间
+    // 是否需要显示时分
+    boolean isNeedHM;
+
+    public DateRangeUtils(long startTime, long endTime, boolean isNeedHM) {
         calendar_today = Calendar.getInstance();
         calendar_today.setTime(new Date());
-        // 周期起始时间
+
         calendar_start = Calendar.getInstance();
         calendar_end = Calendar.getInstance();
         Date dateStart = new Date();
@@ -45,6 +49,8 @@ public class DateRangeUtils {
         year_end = calendar_end.get(Calendar.YEAR);
         month_end = calendar_end.get(Calendar.MONTH);
         day_end = calendar_end.get(Calendar.DATE);
+
+        this.isNeedHM = isNeedHM;
     }
 
     public void showDateRange(ActionSheetFragment actionSheetFragment, View view,
@@ -57,6 +63,10 @@ public class DateRangeUtils {
         LoopView pop_wheel_datarangelayout_day = view.findViewById(R.id.pop_wheel_datarangelayout_day);
         LoopView pop_wheel_datarangelayout_hour = view.findViewById(R.id.pop_wheel_datarangelayout_hour);
         LoopView pop_wheel_datarangelayout_minute = view.findViewById(R.id.pop_wheel_datarangelayout_minute);
+        if (!isNeedHM) {
+            pop_wheel_datarangelayout_hour.setVisibility(View.GONE);
+            pop_wheel_datarangelayout_minute.setVisibility(View.GONE);
+        }
 
         final ArrayList<String> years = new ArrayList<>();
         final ArrayList<String> months = new ArrayList<>();
@@ -67,14 +77,14 @@ public class DateRangeUtils {
         for (int i = year_start; i <= calendar_end.get(Calendar.YEAR); i++) {
             years.add("" + i);
         }
-        // 得到月份数据
         // 通过当前月份判断是否为开始时间与结束时间年份
         int begin = year_start == calendar_today.get(Calendar.YEAR) ? (month_start+1) : 1;
         int end = year_end == calendar_today.get(Calendar.YEAR) ? (month_end+1) : 12;
+        // 得到月份数据
         for (int i = begin; i <= end; i++) {
             months.add(i < 10 ? "0" + i : "" + i);
         }
-        // 得到选中月份天数
+        // 得到选中月份天数据
         boolean isAfterStart = isAfterStart(year_start, month_start, day_start, calendar_today);
         Calendar cl = Calendar.getInstance();
         cl.setTime(isAfterStart ? calendar_start.getTime() : calendar_today.getTime());
