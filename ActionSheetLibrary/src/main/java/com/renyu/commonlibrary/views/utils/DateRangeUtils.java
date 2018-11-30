@@ -42,25 +42,26 @@ public class DateRangeUtils {
         Calendar calendar_end = Calendar.getInstance();
         SimpleDateFormat formatDateRange = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
-            calendar_start.setTime(formatDateRange.parse(actionSheetFragment.getArguments().getInt("startYear") + "-01-01 00:00"));
+            calendar_start.setTime(formatDateRange.parse(actionSheetFragment.getArguments().getInt("startYear") + "-10-01 00:00"));
             calendar_end.setTime(formatDateRange.parse(actionSheetFragment.getArguments().getInt("endYear") + "-01-01 00:00"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         int year_start = calendar_start.get(Calendar.YEAR);
         int month_start = calendar_start.get(Calendar.MONTH);
-        int month_day = calendar_start.get(Calendar.DATE);
+        int day_start = calendar_start.get(Calendar.DATE);
 
         // 得到年份数据
-        for (int i = year_start ; i <= calendar_end.get(Calendar.YEAR) ; i++) {
+        for (int i = year_start; i <= calendar_end.get(Calendar.YEAR); i++) {
             years.add("" + i);
         }
         // 得到月份数据
-        for (int i = month_start + 1 ; i <= 12 ; i++) {
+        for (int i = (month_start + 1); i <= 12; i++) {
             months.add(i < 10 ? "0" + i : "" + i);
         }
         // 得到选中月份天数
         Calendar calendar_temp = Calendar.getInstance();
+        calendar_temp.setTime(calendar_start.getTime());
         // 设置为上个月的月历
         calendar_temp.add(Calendar.MONTH, -1);
         calendar_temp.set(Calendar.DATE, calendar_temp.getActualMaximum(Calendar.DATE));
@@ -71,24 +72,51 @@ public class DateRangeUtils {
 
         // 年份滚轮参数设置
         pop_wheel_datarangelayout_year.setListener(index -> {
+            // 上一次选中的月份
+            int lastSelectedMonth = Integer.parseInt(months.get(pop_wheel_datarangelayout_month.getSelectedItem()));
+            // 当前需要展示的月份
+            int currentSelectedMonth = -1;
+            // 当前选中的月份索引
+            int currentSelectedIndex = -1;
             months.clear();
             days.clear();
-            for (int i = 1; i <= 12; i++) {
-                months.add(i < 10 ? "0" + i : "" + i);
+            // 得到当前选中的月份索引
+            if (Integer.parseInt(years.get(index)) == year_start) {
+                for (int i = (month_start + 1); i <= 12; i++) {
+                    months.add(i < 10 ? "0" + i : "" + i);
+                    if (lastSelectedMonth == i) {
+                        currentSelectedMonth = i;
+                    }
+                }
+                if (currentSelectedMonth == -1) {
+                    currentSelectedMonth = month_start+1;
+                }
+            } else {
+                for (int i = 1; i <= 12; i++) {
+                    months.add(i < 10 ? "0" + i : "" + i);
+                    if (lastSelectedMonth == i) {
+                        currentSelectedMonth = i;
+                    }
+                }
             }
+            for (int i = 0; i < months.size(); i++) {
+                if (Integer.parseInt(months.get(i)) == currentSelectedMonth) {
+                    currentSelectedIndex = i;
+                }
+            }
+
+            pop_wheel_datarangelayout_month.setInitPosition(0);
+            pop_wheel_datarangelayout_month.setTotalScrollYPosition(currentSelectedIndex);
+            pop_wheel_datarangelayout_month.setItems(months);
 
             Calendar cl = Calendar.getInstance();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
-                cl.setTime(format.parse(years.get(index) + "-" + months.get(pop_wheel_datarangelayout_month.getSelectedItem()) + "-01"));
+                cl.setTime(format.parse(years.get(index) + "-" + months.get(currentSelectedIndex) + "-01"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-            pop_wheel_datarangelayout_month.setItems(months);
-
             // 得到当前月份天数
-
             int dayCount = cl.getActualMaximum(Calendar.DATE);
             for (int i = 1; i <= dayCount; i++) {
                 // 第一天不用加了
@@ -175,14 +203,21 @@ public class DateRangeUtils {
         }
         pop_wheel_datarangelayout_day.setItems(tempDays);
         pop_wheel_datarangelayout_day.setTextSize(18);
-        Iterator<Map.Entry<Integer, String>> iterator = days.entrySet().iterator();
-        int tempCount = 1;
-        while (iterator.hasNext()) {
-            if (calendar_today.get(Calendar.DAY_OF_MONTH) == tempCount) {
-                pop_wheel_datarangelayout_day.setInitPosition(tempCount - 1);
-                break;
+        // 比较起始时间与当前时间
+        if (year_start > calendar_today.get(Calendar.YEAR) ||
+                (year_start == calendar_today.get(Calendar.YEAR) && month_start > calendar_today.get(Calendar.MONTH)) ||
+                (year_start == calendar_today.get(Calendar.YEAR) && month_start == calendar_today.get(Calendar.MONTH) && day_start > calendar_today.get(Calendar.DATE))) {
+            pop_wheel_datarangelayout_day.setInitPosition(0);
+        } else {
+            Iterator<Map.Entry<Integer, String>> iterator = days.entrySet().iterator();
+            int tempCount = 1;
+            while (iterator.hasNext()) {
+                if (calendar_today.get(Calendar.DAY_OF_MONTH) == tempCount) {
+                    pop_wheel_datarangelayout_day.setInitPosition(tempCount - 1);
+                    break;
+                }
+                tempCount++;
             }
-            tempCount++;
         }
 
         ArrayList<String> hours = new ArrayList<>();
