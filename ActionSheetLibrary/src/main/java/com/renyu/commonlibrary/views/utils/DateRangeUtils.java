@@ -16,12 +16,40 @@ public class DateRangeUtils {
 
     public static String[] weeks = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
 
+    private int year_start;
+    private int month_start;
+    private int day_start;
+    private int year_end;
+    private int month_end;
+    private int day_end;
+    private Calendar calendar_today;
+    private Calendar calendar_start;
+    private Calendar calendar_end;
+
+    public DateRangeUtils(long startTime, long endTime) {
+        // 当前时间
+        calendar_today = Calendar.getInstance();
+        calendar_today.setTime(new Date());
+        // 周期起始时间
+        calendar_start = Calendar.getInstance();
+        calendar_end = Calendar.getInstance();
+        Date dateStart = new Date();
+        dateStart.setTime(startTime);
+        calendar_start.setTime(dateStart);
+        Date dateEnd = new Date();
+        dateEnd.setTime(endTime);
+        calendar_end.setTime(dateEnd);
+        year_start = calendar_start.get(Calendar.YEAR);
+        month_start = calendar_start.get(Calendar.MONTH);
+        day_start = calendar_start.get(Calendar.DATE);
+        year_end = calendar_end.get(Calendar.YEAR);
+        month_end = calendar_end.get(Calendar.MONTH);
+        day_end = calendar_end.get(Calendar.DATE);
+    }
+
     public void showDateRange(ActionSheetFragment actionSheetFragment, View view,
                               ActionSheetFragment.OnOKListener onOKListener,
-                              ActionSheetFragment.OnCancelListener onCancelListener) throws Exception {
-        if (actionSheetFragment.getArguments() == null) {
-            throw new Exception("ActionSheetFragment参数不完整");
-        }
+                              ActionSheetFragment.OnCancelListener onCancelListener) {
         LinearLayout pop_wheel_datarangelayout = view.findViewById(R.id.pop_wheel_datarangelayout);
         pop_wheel_datarangelayout.setVisibility(View.VISIBLE);
         LoopView pop_wheel_datarangelayout_year = view.findViewById(R.id.pop_wheel_datarangelayout_year);
@@ -34,53 +62,41 @@ public class DateRangeUtils {
         final ArrayList<String> months = new ArrayList<>();
         final LinkedHashMap<Integer, String> days = new LinkedHashMap<>();
 
-        // 当前时间
-        Calendar calendar_today = Calendar.getInstance();
-        calendar_today.setTime(new Date());
-        // 周期起始时间
-        Calendar calendar_start = Calendar.getInstance();
-        Calendar calendar_end = Calendar.getInstance();
-        SimpleDateFormat formatDateRange = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        try {
-            calendar_start.setTime(formatDateRange.parse(actionSheetFragment.getArguments().getInt("startYear") + "-01-10 00:00"));
-            calendar_end.setTime(formatDateRange.parse(actionSheetFragment.getArguments().getInt("endYear") + "-01-01 00:00"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        int year_start = calendar_start.get(Calendar.YEAR);
-        int month_start = calendar_start.get(Calendar.MONTH);
-        int day_start = calendar_start.get(Calendar.DATE);
-
         // 初始化数据
         // 得到年份数据
         for (int i = year_start; i <= calendar_end.get(Calendar.YEAR); i++) {
             years.add("" + i);
         }
         // 得到月份数据
-        for (int i = (month_start + 1); i <= 12; i++) {
+        // 通过当前月份判断是否为开始时间与结束时间年份
+        int begin = year_start == calendar_today.get(Calendar.YEAR) ? (month_start+1) : 1;
+        int end = year_end == calendar_today.get(Calendar.YEAR) ? (month_end+1) : 12;
+        for (int i = begin; i <= end; i++) {
             months.add(i < 10 ? "0" + i : "" + i);
         }
         // 得到选中月份天数
         boolean isAfterStart = isAfterStart(year_start, month_start, day_start, calendar_today);
-        Calendar calendar_temp = Calendar.getInstance();
-        calendar_temp.setTime(isAfterStart ? calendar_start.getTime() : calendar_today.getTime());
-        calendar_temp.add(Calendar.MONTH, 0);
+        Calendar cl = Calendar.getInstance();
+        cl.setTime(isAfterStart ? calendar_start.getTime() : calendar_today.getTime());
+        cl.add(Calendar.MONTH, 0);
         if (isAfterStart) {
-            calendar_temp.set(Calendar.DAY_OF_MONTH, day_start);
-            for (int i = 1; i <= calendar_start.getActualMaximum(Calendar.DATE) - day_start + 1; i++) {
+            cl.set(Calendar.DAY_OF_MONTH, day_start);
+            int dayCount = isSameEnd(year_end, month_end, cl) ? day_end : cl.getActualMaximum(Calendar.DATE);
+            for (int i = 1; i <= dayCount - day_start + 1; i++) {
                 if (i != 1) {
-                    calendar_temp.add(Calendar.DATE, 1);
+                    cl.add(Calendar.DATE, 1);
                 }
                 int value = day_start + (i - 1);
-                days.put(i, "" + (value < 10 ? "0" + value : value) + " " + weeks[calendar_temp.get(Calendar.DAY_OF_WEEK) - 1]);
+                days.put(i, "" + (value < 10 ? "0" + value : value) + " " + weeks[cl.get(Calendar.DAY_OF_WEEK) - 1]);
             }
         } else {
-            calendar_temp.set(Calendar.DAY_OF_MONTH, 1);
-            for (int i = 1; i <= calendar_today.getActualMaximum(Calendar.DATE); i++) {
+            cl.set(Calendar.DAY_OF_MONTH, 1);
+            int dayCount = isSameEnd(year_end, month_end, cl) ? day_end : cl.getActualMaximum(Calendar.DATE);
+            for (int i = 1; i <= dayCount; i++) {
                 if (i != 1) {
-                    calendar_temp.add(Calendar.DATE, 1);
+                    cl.add(Calendar.DATE, 1);
                 }
-                days.put(i, "" + (i < 10 ? "0" + i : i) + " " + weeks[calendar_temp.get(Calendar.DAY_OF_WEEK) - 1]);
+                days.put(i, "" + (i < 10 ? "0" + i : i) + " " + weeks[cl.get(Calendar.DAY_OF_WEEK) - 1]);
             }
         }
 
@@ -104,6 +120,16 @@ public class DateRangeUtils {
                     }
                     if (currentSelectedMonth == -1) {
                         currentSelectedMonth = month_start + 1;
+                    }
+                } else if (Integer.parseInt(years.get(index)) == year_end) {
+                    for (int i = 1; i <= (month_end + 1); i++) {
+                        months.add(i < 10 ? "0" + i : "" + i);
+                        if (lastSelectedMonth == i) {
+                            currentSelectedMonth = i;
+                        }
+                    }
+                    if (currentSelectedMonth == -1) {
+                        currentSelectedMonth = month_end + 1;
                     }
                 } else {
                     for (int i = 1; i <= 12; i++) {
@@ -242,6 +268,10 @@ public class DateRangeUtils {
         return year_start == cl.get(Calendar.YEAR) && month_start == cl.get(Calendar.MONTH);
     }
 
+    private boolean isSameEnd(int year_end, int month_end, Calendar cl) {
+        return year_end == cl.get(Calendar.YEAR) && month_end == cl.get(Calendar.MONTH);
+    }
+
     /**
      * 对天的操作
      * @param years
@@ -278,7 +308,7 @@ public class DateRangeUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        int dayCount = cl.getActualMaximum(Calendar.DATE);
+        int dayCount = isSameEnd(year_end, month_end, cl) ? day_end : cl.getActualMaximum(Calendar.DATE);
         // 如果当前月为起始月，则将Calendar移动到相应位置
         boolean isSameStart = isSameStart(year_start, month_start, cl);
         if (isSameStart) {

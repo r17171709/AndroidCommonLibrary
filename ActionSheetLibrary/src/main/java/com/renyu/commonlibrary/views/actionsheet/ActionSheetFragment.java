@@ -149,14 +149,14 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newDateRangeInstance(String title, String okTitle, String cancelTitle, int startYear, int endYear) {
+    private static ActionSheetFragment newDateRangeInstance(String title, String okTitle, String cancelTitle, long startTime, long endTime) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
         bundle.putString("okTitle", okTitle);
         bundle.putString("cancelTitle", cancelTitle);
-        bundle.putInt("startYear", startYear);
-        bundle.putInt("endYear", endYear);
+        bundle.putLong("startTime", startTime);
+        bundle.putLong("endTime", endTime);
         bundle.putInt("type", 6);
         fragment.setArguments(bundle);
         return fragment;
@@ -662,12 +662,8 @@ public class ActionSheetFragment extends Fragment {
                 dismiss();
             });
         } else if (getArguments().getInt("type") == 6) {
-            DateRangeUtils dateRangeUtils = new DateRangeUtils();
-            try {
-                dateRangeUtils.showDateRange(this, view, onOKListener, onCancelListener);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            DateRangeUtils dateRangeUtils = new DateRangeUtils(getArguments().getLong("startTime"), getArguments().getLong("endTime"));
+            dateRangeUtils.showDateRange(this, view, onOKListener, onCancelListener);
         } else if (getArguments().getInt("type") == 4) {
             ArrayList<String> hours = new ArrayList<>();
             for (int i = 0; i < 24; i++) {
@@ -890,8 +886,8 @@ public class ActionSheetFragment extends Fragment {
         // 自定义视图
         View customerView;
         //时间范围选择
-        int startYear;
-        int endYear;
+        long startTime;
+        long endTime;
 
         public Builder setTag(String tag) {
             this.tag = tag;
@@ -958,9 +954,9 @@ public class ActionSheetFragment extends Fragment {
             return this;
         }
 
-        public Builder setTimeRange(int startYear, int endYear) {
-            this.startYear = startYear;
-            this.endYear = endYear;
+        public Builder setTimeRange(long startTime, long endTime) {
+            this.startTime = startTime;
+            this.endTime = endTime;
             return this;
         }
 
@@ -986,7 +982,7 @@ public class ActionSheetFragment extends Fragment {
                 fragment.setOnCancelListener(onCancelListener);
             }
             if (choice == CHOICE.DATERANGE) {
-                fragment = ActionSheetFragment.newDateRangeInstance(title, okTitle, cancelTitle, startYear, endYear);
+                fragment = ActionSheetFragment.newDateRangeInstance(title, okTitle, cancelTitle, startTime, endTime);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
             }

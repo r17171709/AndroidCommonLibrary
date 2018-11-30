@@ -1,7 +1,6 @@
 package com.renyu.commonlibrary.views.actionsheet;
 
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 
 /**
  * Created by renyu on 2017/2/22.
@@ -27,9 +26,9 @@ public class ActionSheetUtils {
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 
-    public static void showDateRange(FragmentActivity activity, String title, String cancelTitle, String okTitle, int startYear, int endYear, ActionSheetFragment.OnOKListener onOKListener, ActionSheetFragment.OnCancelListener onCancelListener) {
+    public static void showDateRange(FragmentActivity activity, String title, String cancelTitle, String okTitle, long startTime, long endTime, ActionSheetFragment.OnOKListener onOKListener, ActionSheetFragment.OnCancelListener onCancelListener) {
         ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.DATERANGE)
-                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setTimeRange(startYear, endYear)
+                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setTimeRange(startTime, endTime)
                 .setOnOKListener(onOKListener).setOnCancelListener(onCancelListener).show(activity);
     }
 
