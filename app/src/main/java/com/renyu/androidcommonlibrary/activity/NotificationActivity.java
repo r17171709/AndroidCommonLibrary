@@ -18,10 +18,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.Person;
 import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
-
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.receiver.RemoteInputReceiver;
+import com.renyu.androidcommonlibrary.service.NotificationCollectorService;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.notification.NotificationUtils;
 
@@ -40,6 +40,7 @@ public class NotificationActivity extends BaseActivity {
     TextView tv_update_messagestyle;
     TextView tv_send_messagestyle8;
     TextView tv_send_remoteinput;
+    TextView tv_notificationlistener;
 
     NotificationManager manager=null;
 
@@ -54,6 +55,7 @@ public class NotificationActivity extends BaseActivity {
         tv_update_messagestyle = findViewById(R.id.tv_update_messagestyle);
         tv_send_messagestyle8 = findViewById(R.id.tv_send_messagestyle8);
         tv_send_remoteinput = findViewById(R.id.tv_send_remoteinput);
+        tv_notificationlistener = findViewById(R.id.tv_notificationlistener);
 
         // 询问用户开启通知权限
         if (!NotificationUtils.isNotificationEnabled()) {
@@ -69,6 +71,10 @@ public class NotificationActivity extends BaseActivity {
             channel.setLockscreenVisibility(NotificationCompat.VISIBILITY_PRIVATE);
             channel.setBypassDnd(true);
             manager.createNotificationChannel(channel);
+        }
+
+        if (NotificationUtils.isNotificationListenerEnabled(this)){
+            NotificationUtils.toggleNotificationListenerService(NotificationCollectorService.class);
         }
 
         tv_normal.setOnClickListener(v -> {
@@ -135,6 +141,13 @@ public class NotificationActivity extends BaseActivity {
         tv_send_remoteinput.setOnClickListener(v -> {
             NotificationUtils.getNotificationCenter().createRemoteInput("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", new Intent(), 105,
                     "快速回复", RemoteInputReceiver.class, R.mipmap.ic_launcher, "请输入回复的内容");
+        });
+
+        tv_notificationlistener.setOnClickListener((view) -> {
+            if (!NotificationUtils.isNotificationListenerEnabled(this)){
+                NotificationUtils.openNotificationListenSettings();
+            }
+            NotificationUtils.toggleNotificationListenerService(NotificationCollectorService.class);
         });
     }
 

@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.ActionSheetActivity"
+            android:name=".activity.NotificationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
@@ -28,7 +28,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.NotificationShowActivity" android:screenOrientation="portrait"/>
         <receiver android:name=".receiver.RemoteInputReceiver" />
-        <service android:name=".service.RemoveNotificationService"
+        <service android:name=".service.NotificationCollectorService"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
