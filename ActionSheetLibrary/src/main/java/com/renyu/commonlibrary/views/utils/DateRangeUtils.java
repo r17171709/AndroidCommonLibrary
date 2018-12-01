@@ -29,7 +29,12 @@ public class DateRangeUtils {
     private Calendar calendar_today;
 
     // 是否需要显示时分
-    boolean isNeedHM;
+    private boolean isNeedHM;
+
+    private ArrayList<String> years = new ArrayList<>();
+    private ArrayList<String> months = new ArrayList<>();
+    private LinkedHashMap<Integer, String> days = new LinkedHashMap<>();
+
 
     public DateRangeUtils(long startTime, long endTime, boolean isNeedHM) {
         calendar_today = Calendar.getInstance();
@@ -68,30 +73,27 @@ public class DateRangeUtils {
             pop_wheel_datarangelayout_minute.setVisibility(View.GONE);
         }
 
-        final ArrayList<String> years = new ArrayList<>();
-        final ArrayList<String> months = new ArrayList<>();
-        final LinkedHashMap<Integer, String> days = new LinkedHashMap<>();
-
         // 初始化数据
         // 得到年份数据
         for (int i = year_start; i <= calendar_end.get(Calendar.YEAR); i++) {
             years.add("" + i);
         }
+        // 分别处理时间点前后的情况
+        boolean special = isBeforeStart() || isAfterEnd();
         // 通过当前月份判断是否为开始时间与结束时间年份
-        int begin = year_start == calendar_today.get(Calendar.YEAR) ? (month_start+1) : 1;
-        int end = year_end == calendar_today.get(Calendar.YEAR) ? (month_end+1) : 12;
+        int begin = special ? (year_start == calendar_start.get(Calendar.YEAR) ? (month_start+1) : 1) : (year_start == calendar_today.get(Calendar.YEAR) ? (month_start+1) : 1);
+        int end = special ? (year_start == calendar_end.get(Calendar.YEAR) ? (month_end+1) : 12) : (year_end == calendar_today.get(Calendar.YEAR) ? (month_end+1) : 12);
         // 得到月份数据
         for (int i = begin; i <= end; i++) {
             months.add(i < 10 ? "0" + i : "" + i);
         }
         // 得到选中月份天数据
-        boolean isAfterStart = isAfterStart(year_start, month_start, day_start, calendar_today);
         Calendar cl = Calendar.getInstance();
-        cl.setTime(isAfterStart ? calendar_start.getTime() : calendar_today.getTime());
+        cl.setTime(special ? calendar_start.getTime() : calendar_today.getTime());
         cl.add(Calendar.MONTH, 0);
-        if (isAfterStart) {
+        if (special) {
             cl.set(Calendar.DAY_OF_MONTH, day_start);
-            int dayCount = isSameEnd(year_end, month_end, cl) ? day_end : cl.getActualMaximum(Calendar.DATE);
+            int dayCount = isSameEnd(cl) ? day_end : cl.getActualMaximum(Calendar.DATE);
             for (int i = 1; i <= dayCount - day_start + 1; i++) {
                 if (i != 1) {
                     cl.add(Calendar.DATE, 1);
@@ -101,7 +103,7 @@ public class DateRangeUtils {
             }
         } else {
             cl.set(Calendar.DAY_OF_MONTH, 1);
-            int dayCount = isSameEnd(year_end, month_end, cl) ? day_end : cl.getActualMaximum(Calendar.DATE);
+            int dayCount = isSameEnd(cl) ? day_end : cl.getActualMaximum(Calendar.DATE);
             for (int i = 1; i <= dayCount; i++) {
                 if (i != 1) {
                     cl.add(Calendar.DATE, 1);
@@ -159,7 +161,7 @@ public class DateRangeUtils {
                 pop_wheel_datarangelayout_month.setTotalScrollYPosition(currentSelectedIndex);
                 pop_wheel_datarangelayout_month.setItems(months);
                 // 调整天
-                operDay(years, months, days, year_start, month_start, day_start, pop_wheel_datarangelayout_day, index, currentSelectedIndex);
+                operDay(pop_wheel_datarangelayout_day, index, currentSelectedIndex);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -168,23 +170,35 @@ public class DateRangeUtils {
         pop_wheel_datarangelayout_year.setViewPadding(SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15));
         pop_wheel_datarangelayout_year.setItems(years);
         pop_wheel_datarangelayout_year.setTextSize(18);
-        for (int i = 0; i < years.size(); i++) {
-            if (calendar_today.get(Calendar.YEAR) == Integer.parseInt(years.get(i))) {
-                pop_wheel_datarangelayout_year.setInitPosition(i);
-                break;
+        // 比较起始时间与当前时间
+        if (whereIsTodayPosition() == TodayPosition.AfterEndTime ||
+                whereIsTodayPosition() == TodayPosition.BeforeStartTime) {
+            pop_wheel_datarangelayout_year.setInitPosition(0);
+        } else {
+            for (int i = 0; i < years.size(); i++) {
+                if (calendar_today.get(Calendar.YEAR) == Integer.parseInt(years.get(i))) {
+                    pop_wheel_datarangelayout_year.setInitPosition(i);
+                    break;
+                }
             }
         }
 
         // 月份滚轮参数设置
         pop_wheel_datarangelayout_month.setNotLoop();
-        pop_wheel_datarangelayout_month.setListener(index -> operDay(years, months, days, year_start, month_start, day_start, pop_wheel_datarangelayout_day, pop_wheel_datarangelayout_year.getSelectedItem(), index));
+        pop_wheel_datarangelayout_month.setListener(index -> operDay(pop_wheel_datarangelayout_day, pop_wheel_datarangelayout_year.getSelectedItem(), index));
         pop_wheel_datarangelayout_month.setViewPadding(SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15), SizeUtils.dp2px(15));
         pop_wheel_datarangelayout_month.setItems(months);
         pop_wheel_datarangelayout_month.setTextSize(18);
-        for (int i = 0; i < months.size(); i++) {
-            if (calendar_today.get(Calendar.MONTH) + 1 == Integer.parseInt(months.get(i))) {
-                pop_wheel_datarangelayout_month.setInitPosition(i);
-                break;
+        // 比较起始时间与当前时间
+        if (whereIsTodayPosition() == TodayPosition.AfterEndTime ||
+                whereIsTodayPosition() == TodayPosition.BeforeStartTime) {
+            pop_wheel_datarangelayout_month.setInitPosition(0);
+        } else {
+            for (int i = 0; i < months.size(); i++) {
+                if (calendar_today.get(Calendar.MONTH) + 1 == Integer.parseInt(months.get(i))) {
+                    pop_wheel_datarangelayout_month.setInitPosition(i);
+                    break;
+                }
             }
         }
 
@@ -198,7 +212,8 @@ public class DateRangeUtils {
         pop_wheel_datarangelayout_day.setItems(tempDays);
         pop_wheel_datarangelayout_day.setTextSize(18);
         // 比较起始时间与当前时间
-        if (isAfterStart && !isSameStart(year_start, month_start, calendar_today)) {
+        if (whereIsTodayPosition() == TodayPosition.AfterEndTime ||
+                whereIsTodayPosition() == TodayPosition.BeforeStartTime) {
             pop_wheel_datarangelayout_day.setInitPosition(0);
         } else {
             Iterator<Map.Entry<Integer, String>> iterator = days.entrySet().iterator();
@@ -266,38 +281,70 @@ public class DateRangeUtils {
         });
     }
 
-    // 天数显示数量判断依据
-    private boolean isAfterStart(int year_start, int month_start, int day_start, Calendar calendar_today) {
-        return (year_start > calendar_today.get(Calendar.YEAR) ||
-                (year_start == calendar_today.get(Calendar.YEAR) && month_start > calendar_today.get(Calendar.MONTH)) ||
-                (year_start == calendar_today.get(Calendar.YEAR) && month_start == calendar_today.get(Calendar.MONTH) && calendar_today.get(Calendar.DATE) >= day_start));
+    // 当前时间所在位置
+    enum TodayPosition {
+        AfterEndTime,
+        Inside,
+        BeforeStartTime
     }
 
-    // 是否起始时间跟当前时间在同一个月
-    private boolean isSameStart(int year_start, int month_start, Calendar cl) {
+    private TodayPosition whereIsTodayPosition() {
+        if (isBeforeStart()) {
+            return TodayPosition.BeforeStartTime;
+        }
+        else if (isAfterEnd()) {
+            return TodayPosition.AfterEndTime;
+        }
+        else {
+            return TodayPosition.Inside;
+        }
+    }
+
+    /**
+     * 当前时间是否在开始时间之前
+     * @return
+     */
+    private boolean isBeforeStart() {
+        return (year_start > calendar_today.get(Calendar.YEAR) ||
+                (year_start == calendar_today.get(Calendar.YEAR) && month_start > calendar_today.get(Calendar.MONTH)) ||
+                (year_start == calendar_today.get(Calendar.YEAR) && month_start == calendar_today.get(Calendar.MONTH) && day_start > calendar_today.get(Calendar.DATE)));
+    }
+
+    /**
+     * 当前时间是否在结束时间之后
+     * @return
+     */
+    private boolean isAfterEnd() {
+        return (year_end < calendar_today.get(Calendar.YEAR) ||
+                (year_end == calendar_today.get(Calendar.YEAR) && month_end < calendar_today.get(Calendar.MONTH)) ||
+                (year_end == calendar_today.get(Calendar.YEAR) && month_end == calendar_today.get(Calendar.MONTH) && day_end < calendar_today.get(Calendar.DATE)));
+    }
+
+    /**
+     * 当前选择的时间跟起始时间是否在同一个月
+     * @param cl
+     * @return
+     */
+    private boolean isSameStart(Calendar cl) {
         return year_start == cl.get(Calendar.YEAR) && month_start == cl.get(Calendar.MONTH);
     }
 
-    private boolean isSameEnd(int year_end, int month_end, Calendar cl) {
+    /**
+     * 当前选择的时间跟结束时间是否在同一个月
+     * @param cl
+     * @return
+     */
+    private boolean isSameEnd(Calendar cl) {
         return year_end == cl.get(Calendar.YEAR) && month_end == cl.get(Calendar.MONTH);
     }
 
     /**
      * 对天的操作
-     * @param years
-     * @param months
-     * @param days
-     * @param year_start
-     * @param month_start
-     * @param day_start
      * @param pop_wheel_datarangelayout_day
      * @param yearIndex
      * @param monthIndex
      */
-    private void operDay(ArrayList<String> years, ArrayList<String> months, LinkedHashMap<Integer, String> days,
-                         int year_start, int month_start, int day_start,
-                         LoopView pop_wheel_datarangelayout_day,
-                         int yearIndex, int monthIndex) {
+    private void operDay(LoopView pop_wheel_datarangelayout_day, int yearIndex, int monthIndex) {
         // 上一次选中的天
         int lastSelectedDay = -1;
         Iterator<Map.Entry<Integer, String>> iterator = days.entrySet().iterator();
@@ -318,9 +365,9 @@ public class DateRangeUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        int dayCount = isSameEnd(year_end, month_end, cl) ? day_end : cl.getActualMaximum(Calendar.DATE);
+        int dayCount = isSameEnd(cl) ? day_end : cl.getActualMaximum(Calendar.DATE);
         // 如果当前月为起始月，则将Calendar移动到相应位置
-        boolean isSameStart = isSameStart(year_start, month_start, cl);
+        boolean isSameStart = isSameStart(cl);
         if (isSameStart) {
             cl.set(Calendar.DAY_OF_MONTH, day_start);
         }
