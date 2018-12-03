@@ -1,6 +1,10 @@
 package com.renyu.commonlibrary.network;
 
 import com.renyu.commonlibrary.network.other.ProgressRequestBody;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,20 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Cookie;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * Created by renyu on 15/10/14.
@@ -354,10 +344,10 @@ public class OKHttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 InputStream is=null;
                 FileOutputStream fos=null;
-                boolean isDownloadOK=false;
+                boolean isDownloadOK;
                 File file = null;
                 try {
-                    if (response!=null && response.isSuccessful()) {
+                    if (response.isSuccessful()) {
                         //文件总长度
                         long fileSize = response.body().contentLength();
                         long fileSizeDownloaded = 0;
@@ -609,6 +599,35 @@ public class OKHttpUtils {
                     call.cancel();
                 }
             }
+        }
+    }
+
+    public Call putJsonPrepare(String url, String json, HashMap<String, String> headers) {
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(JSON, json);
+        Request.Builder req_builder = new Request.Builder();
+        if (headers != null && headers.size() > 0) {
+            Iterator<Map.Entry<String, String>> header_it = headers.entrySet().iterator();
+            while (header_it.hasNext()) {
+                Map.Entry<String, String> header_en = header_it.next();
+                req_builder.addHeader(header_en.getKey(), header_en.getValue());
+            }
+        }
+        Request request = req_builder.url(url).put(body).build();
+        return okHttpClient.newCall(request);
+    }
+
+    public Response syncPutJson(String url, String json, HashMap<String, String> headers) {
+        Call call=putJsonPrepare(url, json, headers);
+        try {
+            Response response=call.execute();
+            if (!response.isSuccessful()) {
+                return null;
+            }
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

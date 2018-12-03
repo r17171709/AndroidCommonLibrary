@@ -28,15 +28,18 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.NotificationShowActivity" android:screenOrientation="portrait"/>
         <receiver android:name=".receiver.RemoteInputReceiver" />
+        <!-- 通知栏增删监听 -->
         <service android:name=".service.NotificationCollectorService"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <!-- 腾讯浏览服务 -->
         <service
             android:name=".service.X5IntentService"
             android:enabled="true" />
+        <!-- 文件使用权限 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
