@@ -33,6 +33,8 @@ public class CodeDialog extends DialogFragment {
     VerificationCodeInput.VerificationCodeInputType inputType;
     // 距离顶部的边距
     int marginTop;
+    // box数量
+    int boxNum = -1;
 
     boolean isDismiss = true;
     FragmentManager manager = null;
@@ -60,6 +62,11 @@ public class CodeDialog extends DialogFragment {
 
     public CodeDialog setMarginTop(int marginTop) {
         this.marginTop = marginTop;
+        return this;
+    }
+
+    public CodeDialog setBoxNum(int boxNum) {
+        this.boxNum = boxNum;
         return this;
     }
 
@@ -99,9 +106,18 @@ public class CodeDialog extends DialogFragment {
         mWindowAttributes.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
         getDialog().setCancelable(false);
         getDialog().setCanceledOnTouchOutside(false);
+        getDialog().setOnKeyListener((dialog, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                return true;
+            }
+            return false;
+        });
 
         View view = inflater.inflate(R.layout.dialog_code, container, false);
         VerificationCodeInput code_vertication_input = view.findViewById(R.id.code_vertication_input);
+        if (boxNum > 0) {
+            code_vertication_input.setBox(boxNum);
+        }
         if (customerView != null) {
             LinearLayout code_vertication_customerview = view.findViewById(R.id.code_vertication_customerview);
             code_vertication_customerview.setVisibility(View.VISIBLE);

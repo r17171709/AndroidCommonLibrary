@@ -29,14 +29,14 @@ public class VerificationCodeInput extends ViewGroup {
         TYPE_PHONE
     }
 
-    private int box = 4;
-    private int boxWidth = 120;
-    private int boxHeight = 120;
-    private int childHPadding = 14;
-    private int childVPadding = 14;
+    private int box;
+    private int boxWidth;
+    private int boxHeight;
+    private int childHPadding;
+    private int childVPadding;
     private VerificationCodeInputType inputType = null;
-    private Drawable boxBgFocus = null;
-    private Drawable boxBgNormal = null;
+    private Drawable boxBgFocus;
+    private Drawable boxBgNormal;
     private Listener listener;
 
     public VerificationCodeInput(Context context, AttributeSet attrs) {
@@ -62,8 +62,8 @@ public class VerificationCodeInput extends ViewGroup {
                 break;
         }
 
-        boxWidth = (int) a.getDimension(R.styleable.vericationCodeInput_child_width, boxWidth);
-        boxHeight = (int) a.getDimension(R.styleable.vericationCodeInput_child_height, boxHeight);
+        boxWidth = (int) a.getDimension(R.styleable.vericationCodeInput_child_width, 120);
+        boxHeight = (int) a.getDimension(R.styleable.vericationCodeInput_child_height, 120);
         a.recycle();
         initViews();
     }
@@ -98,6 +98,8 @@ public class VerificationCodeInput extends ViewGroup {
                 return false;
             }
         };
+
+        removeAllViews();
 
         for (int i = 0; i < box; i++) {
             EditText editText = new EditText(getContext());
@@ -264,6 +266,12 @@ public class VerificationCodeInput extends ViewGroup {
 
     public interface Listener {
         void onComplete(String content);
+    }
+
+    public void setBox(int box) {
+        this.box = box;
+        initViews();
+        requestLayout();
     }
 }
 

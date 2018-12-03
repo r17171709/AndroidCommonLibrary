@@ -30,7 +30,6 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dip"
                 android:layout_gravity="center"
-                app:box="6"
                 app:box_bg_focus="@drawable/verification_edit_bg_focus"
                 app:box_bg_normal="@drawable/verification_edit_bg_normal"
                 app:child_h_padding="5dp"
