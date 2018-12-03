@@ -138,7 +138,7 @@ public class OKHttpUtils {
                 return null;
             }
             return response;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -244,7 +244,7 @@ public class OKHttpUtils {
                 return null;
             }
             return response;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -310,7 +310,7 @@ public class OKHttpUtils {
                 return null;
             }
             return response;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -388,7 +388,7 @@ public class OKHttpUtils {
                         if (fos!=null) {
                             fos.close();
                         }
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -470,16 +470,13 @@ public class OKHttpUtils {
             file=null;
         } finally {
             try {
-                if (is!=null)
+                if (is!=null) {
                     is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                file=null;
-            }
-            try {
-                if (fos!=null)
+                }
+                if (fos!=null) {
                     fos.close();
-            } catch (IOException e) {
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
                 file=null;
             }
@@ -625,7 +622,7 @@ public class OKHttpUtils {
                 return null;
             }
             return response;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
