@@ -44,14 +44,14 @@ class SMSActivity : AppCompatActivity() {
     }
 
     @NeedPermission(
-        permissions = [Manifest.permission.READ_SMS],
-        deniedDesp = "请授予短信读取权限"
+        permissions = [Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE],
+        deniedDesp = "请授予短信、电话读取权限"
     )
     fun check() {
 
     }
 
-    @PermissionDenied(permissions = [Manifest.permission.READ_SMS])
+    @PermissionDenied(permissions = [Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE])
     fun permissionDenied() {
 
     }

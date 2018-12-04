@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".ExampleApp"
@@ -31,6 +32,19 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.NotificationShowActivity" android:screenOrientation="portrait"/>
         <receiver android:name=".receiver.RemoteInputReceiver" />
+        <!-- 新短信通知广播 -->
+        <receiver android:name=".receiver.SmsReceiver" android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.provider.Telephony.SMS_DELIVER"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+        <!-- 来电通知广播 -->
+        <receiver android:name=".receiver.IncomingCallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </intent-filter>
+        </receiver>
         <!-- 通知栏增删监听 -->
         <service android:name=".service.NotificationCollectorService"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
