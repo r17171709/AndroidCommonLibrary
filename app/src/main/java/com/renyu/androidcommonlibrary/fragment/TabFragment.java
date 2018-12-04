@@ -1,10 +1,15 @@
 package com.renyu.androidcommonlibrary.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.LinearLayout;
 
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.basefrag.BaseFragment;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by Administrator on 2018/4/10.
@@ -36,4 +41,6 @@ public class TabFragment extends BaseFragment {
     public void loadData() {
 
     }
+
+
 }

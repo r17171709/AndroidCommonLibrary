@@ -4,13 +4,26 @@ import android.Manifest
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Message
 import android.support.v7.app.AppCompatActivity
 import com.renyu.androidcommonlibrary.contentobserver.SMSContentObserver
 import com.renyu.commonlibrary.permission.annotation.NeedPermission
 import com.renyu.commonlibrary.permission.annotation.PermissionDenied
+import java.lang.ref.WeakReference
+
 
 class SMSActivity : AppCompatActivity() {
-    private val mHandler = object : Handler() {}
+    private val mHandler = MyHandler(this)
+
+    class MyHandler(activity: SMSActivity) : Handler() {
+        private val softReference: WeakReference<SMSActivity> = WeakReference(activity)
+
+        override fun handleMessage(msg: Message) {
+            if (softReference.get() != null) {
+
+            }
+        }
+    }
 
     private val smsContentObserver: SMSContentObserver by lazy {
         SMSContentObserver(this, mHandler)
@@ -27,6 +40,7 @@ class SMSActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         contentResolver.unregisterContentObserver(smsContentObserver)
+        mHandler.removeCallbacksAndMessages(null)
     }
 
     @NeedPermission(
