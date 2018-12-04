@@ -62,9 +62,6 @@ public class ExampleApp extends MultiDexApplication {
             // 初始化MMKV
             MMKV.initialize(this);
 
-            // 初始化fresco
-            Fresco.initialize(this, ImagePipelineConfigUtils.getDefaultImagePipelineConfig(this));
-
             // 初始化相关配置参数
             // 项目根目录
             // 请注意修改xml文件夹下filepaths.xml中的external-path节点，此值需与ROOT_PATH值相同，作为fileprovider使用
@@ -82,6 +79,9 @@ public class ExampleApp extends MultiDexApplication {
             InitParams.FRESCO_CACHE_NAME= "fresco_cache";
             // app更新功能目录
             com.renyu.commonlibrary.update.params.InitParams.FILE_PATH= InitParams.ROOT_PATH + File.separator + "file";
+
+            // 初始化fresco
+            Fresco.initialize(this, ImagePipelineConfigUtils.getDefaultImagePipelineConfig(this));
 
             // 初始化Sonic
             if (!SonicEngine.isGetInstanceAllowed()) {
