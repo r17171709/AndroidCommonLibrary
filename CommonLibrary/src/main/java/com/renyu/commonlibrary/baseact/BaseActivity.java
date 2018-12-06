@@ -35,11 +35,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     @CallSuper
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (ScreenUtils.isPortrait()) {
-            ScreenUtils.adaptScreen4VerticalSlide(this, InitParams.designWidthInPx);
-        } else {
-            ScreenUtils.adaptScreen4HorizontalSlide(this, InitParams.designHeightInPx);
-        }
+//        if (ScreenUtils.isPortrait()) {
+//            ScreenUtils.adaptScreen4VerticalSlide(this, InitParams.designWidthInPx);
+//        } else {
+//            ScreenUtils.adaptScreen4HorizontalSlide(this, InitParams.designHeightInPx);
+//        }
 
         if (!isNeedOnCreate) {
             return;

@@ -7,6 +7,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.blankj.utilcode.util.AdaptScreenUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.renyu.commonlibrary.commonutils.BarUtils;
@@ -33,11 +34,11 @@ public abstract class BaseDataBindingActivity<T> extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (ScreenUtils.isPortrait()) {
-            ScreenUtils.adaptScreen4VerticalSlide(this, InitParams.designWidthInPx);
-        } else {
-            ScreenUtils.adaptScreen4HorizontalSlide(this, InitParams.designHeightInPx);
-        }
+//        if (ScreenUtils.isPortrait()) {
+//            AdaptScreenUtils.adaptWidth(InitParams.designWidthInPx);
+//        } else {
+//            AdaptScreenUtils.adaptHeight(InitParams.designHeightInPx);
+//        }
 
         if (!isNeedOnCreate) {
             return;
