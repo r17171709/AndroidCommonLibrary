@@ -26,9 +26,10 @@ public class ActionSheetUtils {
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 
-    public static void showGrid(FragmentActivity activity, String title, String cancelTitle, String[] items, int[] imageItems, int columnCount, ActionSheetFragment.OnItemClickListener onItemClickListener) {
+    public static void showGrid(FragmentActivity activity, String title, String cancelTitle, String[] items, int[] imageItems, int columnCount, ActionSheetFragment.OnItemClickListener onItemClickListener, ActionSheetFragment.OnCancelListener onCancelListener) {
         ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.GRID)
                 .setTitle(title).setCancelTitle(cancelTitle)
-                .setGridItems(items, imageItems, columnCount, onItemClickListener).show(activity);
+                .setGridItems(items, imageItems, columnCount, onItemClickListener)
+                .setOnCancelListener(onCancelListener).show(activity);
     }
 }

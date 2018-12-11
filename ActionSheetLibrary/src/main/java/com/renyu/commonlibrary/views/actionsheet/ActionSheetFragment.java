@@ -236,7 +236,12 @@ public class ActionSheetFragment extends Fragment {
             view_space.setVisibility(View.VISIBLE);
             TextView pop_cancel = view.findViewById(R.id.pop_cancel);
             pop_cancel.setVisibility(View.VISIBLE);
-            pop_cancel.setOnClickListener(view12 -> dismiss());
+            pop_cancel.setOnClickListener(v -> {
+                if (onCancelListener != null) {
+                    onCancelListener.onCancelClick();
+                }
+                dismiss();
+            });
             ListView pop_listview = view.findViewById(R.id.pop_listview);
             pop_listview.setVisibility(View.VISIBLE);
             ActionSheetAdapter adapter = new ActionSheetAdapter(getActivity(), getArguments().getStringArray("items"),
@@ -261,7 +266,12 @@ public class ActionSheetFragment extends Fragment {
             if (!TextUtils.isEmpty(cancelTitle)) {
                 pop_cancel.setText(cancelTitle);
                 pop_cancel.setVisibility(View.VISIBLE);
-                pop_cancel.setOnClickListener(view12 -> dismiss());
+                pop_cancel.setOnClickListener(v -> {
+                    if (onCancelListener != null) {
+                        onCancelListener.onCancelClick();
+                    }
+                    dismiss();
+                });
             }
             GridLayout pop_grid = view.findViewById(R.id.pop_grid);
             pop_grid.setVisibility(View.VISIBLE);
