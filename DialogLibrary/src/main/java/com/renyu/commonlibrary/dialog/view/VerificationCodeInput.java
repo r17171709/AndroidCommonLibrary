@@ -10,7 +10,6 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -212,7 +211,6 @@ public class VerificationCodeInput extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.d(getClass().getName(), "onMeasure");
         int count = getChildCount();
 
         for (int i = 0; i < count; i++) {
@@ -232,7 +230,6 @@ public class VerificationCodeInput extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        Log.d(getClass().getName(), "onLayout");
         int childCount = getChildCount();
 
         for (int i = 0; i < childCount; i++) {
