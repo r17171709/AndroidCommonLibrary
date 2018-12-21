@@ -7,7 +7,7 @@ import com.renyu.androidcommonlibrary.ExampleApp
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
 import com.renyu.commonlibrary.network.OKHttpUtils
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class CoroutinesDemoActivity : BaseActivity() {

@@ -1,5 +1,6 @@
 package com.renyu.commonlibrary.permission.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -66,6 +67,7 @@ public class PermissionActivity extends AppCompatActivity {
         intent.putExtra("permissions", permissions);
         intent.putExtra("deniedDesp", deniedDesp);
         context.startActivity(intent);
+        ((Activity) context).overridePendingTransition(0, 0);
     }
 
     private void checkPermission() {
@@ -87,6 +89,7 @@ public class PermissionActivity extends AppCompatActivity {
             }
             else {
                 finish();
+                overridePendingTransition(0, 0);
                 impl.grant();
             }
         }
@@ -105,6 +108,7 @@ public class PermissionActivity extends AppCompatActivity {
         if (impl!=null) {
             if (isGrant) {
                 finish();
+                overridePendingTransition(0, 0);
                 impl.grant();
             }
             else {
@@ -129,6 +133,7 @@ public class PermissionActivity extends AppCompatActivity {
                 .setOnDismissListener(dialog -> {
                     if (needDismiss) {
                         finish();
+                        overridePendingTransition(0, 0);
                         impl.denied();
                     }
                 }).show();
