@@ -81,8 +81,8 @@ public class DateRangeUtils {
         // 分别处理时间点前后的情况
         boolean special = isBeforeStart() || isAfterEnd();
         // 通过当前月份判断是否为开始时间与结束时间年份
-        int begin = special ? (year_start == calendar_start.get(Calendar.YEAR) ? (month_start+1) : 1) : (year_start == calendar_today.get(Calendar.YEAR) ? (month_start+1) : 1);
-        int end = special ? (year_start == calendar_end.get(Calendar.YEAR) ? (month_end+1) : 12) : (year_end == calendar_today.get(Calendar.YEAR) ? (month_end+1) : 12);
+        int begin = special ? (year_start == calendar_start.get(Calendar.YEAR) ? (month_start + 1) : 1) : (year_start == calendar_today.get(Calendar.YEAR) ? (month_start + 1) : 1);
+        int end = special ? (year_start == calendar_end.get(Calendar.YEAR) ? (month_end + 1) : 12) : (year_end == calendar_today.get(Calendar.YEAR) ? (month_end + 1) : 12);
         // 得到月份数据
         for (int i = begin; i <= end; i++) {
             months.add(i < 10 ? "0" + i : "" + i);
@@ -264,9 +264,9 @@ public class DateRangeUtils {
                     tempCount++;
                 }
                 onOKListener.onOKClick(years.get(pop_wheel_datarangelayout_year.getSelectedItem()) + "-"
-                        + (Integer.parseInt(months.get(pop_wheel_datarangelayout_month.getSelectedItem())) < 10 ? "0" + months.get(pop_wheel_datarangelayout_month.getSelectedItem()) : months.get(pop_wheel_datarangelayout_month.getSelectedItem())) + "-"
+                        + months.get(pop_wheel_datarangelayout_month.getSelectedItem()) + "-"
                         + day.split("周")[0].trim() + " "
-                        + (Integer.parseInt(hours.get(pop_wheel_datarangelayout_hour.getSelectedItem())) < 10 ? hours.get(pop_wheel_datarangelayout_hour.getSelectedItem()) : hours.get(pop_wheel_datarangelayout_hour.getSelectedItem())) + ":"
+                        + hours.get(pop_wheel_datarangelayout_hour.getSelectedItem()) + ":"
                         + minutes.get(pop_wheel_datarangelayout_minute.getSelectedItem()));
             }
             actionSheetFragment.dismiss();
@@ -291,17 +291,16 @@ public class DateRangeUtils {
     private TodayPosition whereIsTodayPosition() {
         if (isBeforeStart()) {
             return TodayPosition.BeforeStartTime;
-        }
-        else if (isAfterEnd()) {
+        } else if (isAfterEnd()) {
             return TodayPosition.AfterEndTime;
-        }
-        else {
+        } else {
             return TodayPosition.Inside;
         }
     }
 
     /**
      * 当前时间是否在开始时间之前
+     *
      * @return
      */
     private boolean isBeforeStart() {
@@ -312,6 +311,7 @@ public class DateRangeUtils {
 
     /**
      * 当前时间是否在结束时间之后
+     *
      * @return
      */
     private boolean isAfterEnd() {
@@ -322,6 +322,7 @@ public class DateRangeUtils {
 
     /**
      * 当前选择的时间跟起始时间是否在同一个月
+     *
      * @param cl
      * @return
      */
@@ -331,6 +332,7 @@ public class DateRangeUtils {
 
     /**
      * 当前选择的时间跟结束时间是否在同一个月
+     *
      * @param cl
      * @return
      */
@@ -340,6 +342,7 @@ public class DateRangeUtils {
 
     /**
      * 对天的操作
+     *
      * @param pop_wheel_datarangelayout_day
      * @param yearIndex
      * @param monthIndex
