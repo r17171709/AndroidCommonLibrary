@@ -47,11 +47,11 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                    });
 
-            ActionSheetUtils.showList(this, "Hello",
-                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
-                    2, position -> {
-
-                    }, this::finish);
+//            ActionSheetUtils.showList(this, "Hello",
+//                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
+//                    2, position -> {
+//
+//                    }, this::finish);
 
 //            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
 //                @Override
@@ -65,10 +65,10 @@ public class ActionSheetActivity extends BaseActivity {
 //                }
 //            });
 
-//            ActionSheetUtils.showDateRange(this, "设置日期", "取消", "确定", System.currentTimeMillis(), 1584575205000L, false,
-//                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
-//
-//                    });
+            ActionSheetUtils.showDateRange(this, "设置日期", "取消", "确定", 1545689754000L, System.currentTimeMillis(), false,
+                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
+
+                    });
         });
     }
 

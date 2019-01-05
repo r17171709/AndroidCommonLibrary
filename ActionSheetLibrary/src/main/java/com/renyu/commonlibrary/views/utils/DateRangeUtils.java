@@ -306,7 +306,7 @@ public class DateRangeUtils {
     private boolean isBeforeStart() {
         return (year_start > calendar_today.get(Calendar.YEAR) ||
                 (year_start == calendar_today.get(Calendar.YEAR) && month_start > calendar_today.get(Calendar.MONTH)) ||
-                (year_start == calendar_today.get(Calendar.YEAR) && month_start == calendar_today.get(Calendar.MONTH) && day_start > calendar_today.get(Calendar.DATE)));
+                (year_start == calendar_today.get(Calendar.YEAR) && month_start == calendar_today.get(Calendar.MONTH) && day_start >= calendar_today.get(Calendar.DATE)));
     }
 
     /**
