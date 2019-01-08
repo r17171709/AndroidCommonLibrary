@@ -8,14 +8,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.views.actionsheet.ActionSheetFragment;
 import com.renyu.commonlibrary.views.actionsheet.ActionSheetUtils;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
-import com.renyu.commonlibrary.views.wheelview.OnItemSelectedListener;
 
 import java.util.ArrayList;
 
@@ -53,22 +51,16 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                    }, this::finish);
 
-//            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", new ActionSheetFragment.OnOKListener() {
-//                @Override
-//                public void onOKClick(Object value) {
-//
-//                }
-//            }, new ActionSheetFragment.OnCancelListener() {
-//                @Override
-//                public void onCancelClick() {
-//
-//                }
-//            });
+            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", 10, 12, value -> {
 
-            ActionSheetUtils.showDateRange(this, "设置日期", "取消", "确定", 1545689754000L, System.currentTimeMillis(), false,
-                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
+            }, () -> {
 
-                    });
+            });
+
+//            ActionSheetUtils.showDateRange(this, "设置日期", "取消", "确定", 1545689754000L, System.currentTimeMillis(), false,
+//                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
+//
+//                    });
         });
     }
 
@@ -129,23 +121,20 @@ public class ActionSheetActivity extends BaseActivity {
             floor4.add("" + i);
         }
         View view_threeloopertitle_floor = LayoutInflater.from(this).inflate(R.layout.view_releaserental_threeloopertitle, null, false);
-        final LoopView view_releaserental_threelooptitleview1 = (LoopView) view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview1);
-        final LoopView view_releaserental_threelooptitleview2 = (LoopView) view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview2);
-        final LoopView view_releaserental_threelooptitleview3 = (LoopView) view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview3);
-        final LoopView view_releaserental_threelooptitleview4 = (LoopView) view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview4);
+        final LoopView view_releaserental_threelooptitleview1 = view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview1);
+        final LoopView view_releaserental_threelooptitleview2 = view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview2);
+        final LoopView view_releaserental_threelooptitleview3 = view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview3);
+        final LoopView view_releaserental_threelooptitleview4 = view_threeloopertitle_floor.findViewById(R.id.view_releaserental_threelooptitleview4);
         view_releaserental_threelooptitleview4.setVisibility(View.GONE);
-        final TextView tv_releaserental_threelooptitleview4 = (TextView) view_threeloopertitle_floor.findViewById(R.id.tv_releaserental_threelooptitleview4);
+        final TextView tv_releaserental_threelooptitleview4 = view_threeloopertitle_floor.findViewById(R.id.tv_releaserental_threelooptitleview4);
         tv_releaserental_threelooptitleview4.setVisibility(View.GONE);
-        view_releaserental_threelooptitleview1.setListener(new OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(int index) {
-                if (index == 1) {
-                    view_releaserental_threelooptitleview4.setVisibility(View.VISIBLE);
-                    tv_releaserental_threelooptitleview4.setVisibility(View.VISIBLE);
-                } else if (index == 0) {
-                    view_releaserental_threelooptitleview4.setVisibility(View.GONE);
-                    tv_releaserental_threelooptitleview4.setVisibility(View.GONE);
-                }
+        view_releaserental_threelooptitleview1.setListener(index -> {
+            if (index == 1) {
+                view_releaserental_threelooptitleview4.setVisibility(View.VISIBLE);
+                tv_releaserental_threelooptitleview4.setVisibility(View.VISIBLE);
+            } else if (index == 0) {
+                view_releaserental_threelooptitleview4.setVisibility(View.GONE);
+                tv_releaserental_threelooptitleview4.setVisibility(View.GONE);
             }
         });
         initLooper(view_releaserental_threelooptitleview1, floor1);

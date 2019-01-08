@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="left|center_vertical"
+                android:gravity="start|center_vertical"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 android:layout_marginStart="12dip" />
@@ -39,11 +39,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="right|center_vertical"
+                android:gravity="end|center_vertical"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 android:layout_marginEnd="12dip"
-                android:layout_gravity="right" />
+                android:layout_gravity="end" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"

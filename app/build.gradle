@@ -107,8 +107,8 @@ dependencies {
     implementation 'com.github.renyu:AndroidDialogLibrary:1.0.6'
 //    implementation project(':DialogLibrary')
     // Sheet弹出框
-//    implementation 'com.github.renyu:ActionSheetLibrary:1.0.8'
-    implementation project(':ActionSheetLibrary')
+    implementation 'com.github.renyu:ActionSheetLibrary:1.0.9'
+//    implementation project(':ActionSheetLibrary')
     // 引导框
     implementation 'com.github.renyu:AndroidShowCaseLibrary:1.0.1'
 //    implementation project(':ShowCaseLibrary')

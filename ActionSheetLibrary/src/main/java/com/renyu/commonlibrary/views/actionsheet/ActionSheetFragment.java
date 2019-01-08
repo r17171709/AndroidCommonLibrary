@@ -137,12 +137,14 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newTimeInstance(String title, String okTitle, String cancelTitle) {
+    private static ActionSheetFragment newTimeInstance(String title, String okTitle, String cancelTitle, int hour, int minute) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
         bundle.putString("okTitle", okTitle);
         bundle.putString("cancelTitle", cancelTitle);
+        bundle.putInt("hour", hour);
+        bundle.putInt("minute", minute);
         bundle.putInt("type", 4);
         fragment.setArguments(bundle);
         return fragment;
@@ -305,25 +307,32 @@ public class ActionSheetFragment extends Fragment {
         } else if (getArguments().getInt("type") == 4) {
             ArrayList<String> hours = new ArrayList<>();
             for (int i = 0; i < 24; i++) {
-                hours.add("" + i);
+                hours.add(i < 10 ? "0" + i : "" + i);
             }
             ArrayList<String> minutes = new ArrayList<>();
             for (int i = 0; i < 60; i++) {
                 minutes.add(i < 10 ? "0" + i : "" + i);
             }
 
+            final int[] hourSelectedItem = {getArguments().getInt("hour")};
+            final int[] minuteSelectedItem = {getArguments().getInt("minute")};
+
             LinearLayout pop_wheel_timelayout = view.findViewById(R.id.pop_wheel_timelayout);
             LoopView pop_wheel_timelayout_hour = view.findViewById(R.id.pop_wheel_timelayout_hour);
             LoopView pop_wheel_timelayout_minute = view.findViewById(R.id.pop_wheel_timelayout_minute);
             pop_wheel_timelayout.setVisibility(View.VISIBLE);
             pop_wheel_timelayout_hour.setNotLoop();
-            pop_wheel_timelayout_hour.setViewPadding(Utils.dp2px(context, 60), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
+            pop_wheel_timelayout_hour.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
             pop_wheel_timelayout_hour.setItems(hours);
             pop_wheel_timelayout_hour.setTextSize(18);
+            pop_wheel_timelayout_hour.setInitPosition(hourSelectedItem[0]);
+            pop_wheel_timelayout_hour.setListener(index -> hourSelectedItem[0] = index);
             pop_wheel_timelayout_minute.setNotLoop();
-            pop_wheel_timelayout_minute.setViewPadding(Utils.dp2px(context, 60), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
+            pop_wheel_timelayout_minute.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
             pop_wheel_timelayout_minute.setItems(minutes);
             pop_wheel_timelayout_minute.setTextSize(18);
+            pop_wheel_timelayout_minute.setInitPosition(minuteSelectedItem[0]);
+            pop_wheel_timelayout_minute.setListener(index -> minuteSelectedItem[0] = index);
 
             LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
             pop_morechoice.setVisibility(View.VISIBLE);
@@ -331,13 +340,7 @@ public class ActionSheetFragment extends Fragment {
             pop_ok1.setText(getArguments().getString("okTitle"));
             pop_ok1.setOnClickListener(v -> {
                 if (onOKListener != null) {
-                    onOKListener.onOKClick(
-                            (Integer.parseInt(hours.get(pop_wheel_timelayout_hour.getSelectedItem())) < 10 ?
-                                    "0" +
-                                            hours.get(pop_wheel_timelayout_hour.getSelectedItem()) :
-                                    hours.get(pop_wheel_timelayout_hour.getSelectedItem())) +
-                                            ":" +
-                                    (minutes.get(pop_wheel_timelayout_minute.getSelectedItem())));
+                    onOKListener.onOKClick(hours.get(minuteSelectedItem[0]) + ":" + (minutes.get(minuteSelectedItem[0])));
                 }
                 dismiss();
             });
@@ -492,8 +495,7 @@ public class ActionSheetFragment extends Fragment {
     }
 
     public static Builder build() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder {
@@ -531,6 +533,9 @@ public class ActionSheetFragment extends Fragment {
         long endTime;
         // 是否展示时分
         boolean isNeedHM;
+        // 时分选择器选择的时分
+        int hour;
+        int minute;
 
         public Builder setTag(String tag) {
             this.tag = tag;
@@ -604,6 +609,16 @@ public class ActionSheetFragment extends Fragment {
             return this;
         }
 
+        public Builder setTimeHour(int hour) {
+            this.hour = hour;
+            return this;
+        }
+
+        public Builder setTimeMinute(int minute) {
+            this.minute = minute;
+            return this;
+        }
+
         public ActionSheetFragment show(FragmentActivity fragmentActivity) {
             ActionSheetFragment fragment = null;
             if (choice == CHOICE.ITEM) {
@@ -621,7 +636,7 @@ public class ActionSheetFragment extends Fragment {
                 fragment.setOnCancelListener(onCancelListener);
             }
             if (choice == CHOICE.TIME) {
-                fragment = ActionSheetFragment.newTimeInstance(title, okTitle, cancelTitle);
+                fragment = ActionSheetFragment.newTimeInstance(title, okTitle, cancelTitle, hour, minute);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
             }
