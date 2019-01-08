@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
@@ -52,7 +53,7 @@ public class ActionSheetActivity extends BaseActivity {
 //                    }, this::finish);
 
             ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", 10, 12, value -> {
-
+                Toast.makeText(this, "value:" + value, Toast.LENGTH_SHORT).show();
             }, () -> {
 
             });

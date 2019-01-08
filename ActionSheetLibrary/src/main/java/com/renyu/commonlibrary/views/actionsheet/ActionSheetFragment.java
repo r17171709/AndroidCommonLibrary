@@ -340,7 +340,7 @@ public class ActionSheetFragment extends Fragment {
             pop_ok1.setText(getArguments().getString("okTitle"));
             pop_ok1.setOnClickListener(v -> {
                 if (onOKListener != null) {
-                    onOKListener.onOKClick(hours.get(minuteSelectedItem[0]) + ":" + (minutes.get(minuteSelectedItem[0])));
+                    onOKListener.onOKClick(hours.get(hourSelectedItem[0]) + ":" + (minutes.get(minuteSelectedItem[0])));
                 }
                 dismiss();
             });
