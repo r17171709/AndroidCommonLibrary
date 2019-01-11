@@ -52,11 +52,21 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                    }, this::finish);
 
-            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", 10, 12, value -> {
-                Toast.makeText(this, "value:" + value, Toast.LENGTH_SHORT).show();
-            }, () -> {
+//            ActionSheetUtils.showTime(this, "Title", "Cancel", "OK", 10, 12, value -> {
+//                Toast.makeText(this, "value:" + value, Toast.LENGTH_SHORT).show();
+//            }, () -> {
+//
+//            });
 
-            });
+            ActionSheetUtils.showToutiaoChoice(this, new String[]{"微信好友", "朋友圈", "QQ好友", "微博",
+                            "微信好友", "朋友圈", "QQ好友", "微博"},
+                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
+                            R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
+                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
+                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
+                    (row, column) -> Toast.makeText(ActionSheetActivity.this, "row:" + row + " column:" + column, Toast.LENGTH_SHORT).show(), () -> {
+
+                    });
 
 //            ActionSheetUtils.showDateRange(this, "设置日期", "取消", "确定", 1545689754000L, System.currentTimeMillis(), false,
 //                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {

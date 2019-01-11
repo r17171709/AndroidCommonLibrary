@@ -17,6 +17,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -56,13 +58,14 @@ public class ActionSheetFragment extends Fragment {
 
     //提供类型
     public enum CHOICE {
-        ITEM, DATERANGE, TIME, GRID, CUSTOMER
+        ITEM, GRID, TOUTIAO, TIME, DATERANGE, CUSTOMER
     }
 
     //是否自动关闭
     boolean canDismiss = true;
 
     OnItemClickListener onItemClickListener;
+    OnToutiaoChoiceItemClickListener onToutiaoChoiceItemClickListener;
     OnCancelListener onCancelListener;
     OnOKListener onOKListener;
 
@@ -78,8 +81,16 @@ public class ActionSheetFragment extends Fragment {
         void onItemClick(int position);
     }
 
+    public interface OnToutiaoChoiceItemClickListener {
+        void onItemClick(int row, int column);
+    }
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public void setOnToutiaoChoiceItemClickListener(OnToutiaoChoiceItemClickListener onToutiaoChoiceItemClickListener) {
+        this.onToutiaoChoiceItemClickListener = onToutiaoChoiceItemClickListener;
     }
 
     public void setOnCancelListener(OnCancelListener onCancelListener) {
@@ -123,16 +134,14 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newDateRangeInstance(String title, String okTitle, String cancelTitle, long startTime, long endTime, boolean isNeedHM) {
+    private static ActionSheetFragment newToutiaochoiceInstance(String[] topTitles, int[] topImages, String[] bottomTitles, int[] bottomImages) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("title", title);
-        bundle.putString("okTitle", okTitle);
-        bundle.putString("cancelTitle", cancelTitle);
-        bundle.putLong("startTime", startTime);
-        bundle.putLong("endTime", endTime);
-        bundle.putBoolean("isNeedHM", isNeedHM);
-        bundle.putInt("type", 6);
+        bundle.putStringArray("topTitles", topTitles);
+        bundle.putIntArray("topImages", topImages);
+        bundle.putStringArray("bottomTitles", bottomTitles);
+        bundle.putIntArray("bottomImages", bottomImages);
+        bundle.putInt("type", 3);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -146,6 +155,20 @@ public class ActionSheetFragment extends Fragment {
         bundle.putInt("hour", hour);
         bundle.putInt("minute", minute);
         bundle.putInt("type", 4);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    private static ActionSheetFragment newDateRangeInstance(String title, String okTitle, String cancelTitle, long startTime, long endTime, boolean isNeedHM) {
+        ActionSheetFragment fragment = new ActionSheetFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        bundle.putString("okTitle", okTitle);
+        bundle.putString("cancelTitle", cancelTitle);
+        bundle.putLong("startTime", startTime);
+        bundle.putLong("endTime", endTime);
+        bundle.putBoolean("isNeedHM", isNeedHM);
+        bundle.putInt("type", 6);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -190,7 +213,7 @@ public class ActionSheetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         realView = inflater.inflate(R.layout.view_actionsheet, container, false);
         initViews(realView);
-        decorView = getActivity().getWindow().getDecorView();
+        decorView = ((Activity) context).getWindow().getDecorView();
         ((ViewGroup) decorView).addView(realView);
         startPlay();
 
@@ -202,7 +225,7 @@ public class ActionSheetFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             isDismiss = savedInstanceState.getBoolean("isDismiss");
-            FragmentActivity activity = getActivity();
+            FragmentActivity activity = (FragmentActivity) context;
             if (activity != null) {
                 manager = activity.getSupportFragmentManager();
             }
@@ -212,9 +235,9 @@ public class ActionSheetFragment extends Fragment {
 
             }
         }
-        InputMethodManager manager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager manager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager.isActive()) {
-            View focusView = getActivity().getCurrentFocus();
+            View focusView = ((Activity) context).getCurrentFocus();
             if (focusView != null) {
                 manager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
             }
@@ -244,9 +267,14 @@ public class ActionSheetFragment extends Fragment {
                 }
                 dismiss();
             });
+            if (!TextUtils.isEmpty(title)) {
+                LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
+                pop_morechoice.setVisibility(View.VISIBLE);
+            }
+
             ListView pop_listview = view.findViewById(R.id.pop_listview);
             pop_listview.setVisibility(View.VISIBLE);
-            ActionSheetAdapter adapter = new ActionSheetAdapter(getActivity(), getArguments().getStringArray("items"),
+            ActionSheetAdapter adapter = new ActionSheetAdapter(context, getArguments().getStringArray("items"),
                     getArguments().getStringArray("subItems"),
                     getArguments().getInt("choiceIndex"));
             pop_listview.setAdapter(adapter);
@@ -257,10 +285,6 @@ public class ActionSheetFragment extends Fragment {
                     dismiss();
                 }
             });
-            if (!TextUtils.isEmpty(title)) {
-                LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
-                pop_morechoice.setVisibility(View.VISIBLE);
-            }
         } else if (getArguments().getInt("type") == 2) {
             View view_space = view.findViewById(R.id.view_space);
             view_space.setVisibility(View.VISIBLE);
@@ -275,16 +299,17 @@ public class ActionSheetFragment extends Fragment {
                     dismiss();
                 });
             }
-            GridLayout pop_grid = view.findViewById(R.id.pop_grid);
-            pop_grid.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(title)) {
                 LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
                 pop_morechoice.setVisibility(View.VISIBLE);
             }
+
+            GridLayout pop_grid = view.findViewById(R.id.pop_grid);
+            pop_grid.setVisibility(View.VISIBLE);
             int width = (Utils.getScreenWidth(context) - Utils.dp2px(context, 20)) / getArguments().getInt("columnCount");
             for (int i = 0; i < getArguments().getStringArray("items").length; i++) {
                 final int i_ = i;
-                View viewChild = LayoutInflater.from(getActivity()).inflate(R.layout.adapter_share, null, false);
+                View viewChild = LayoutInflater.from(context).inflate(R.layout.adapter_share, null, false);
                 LinearLayout adapter_share_layout = viewChild.findViewById(R.id.adapter_share_layout);
                 RxView.clicks(adapter_share_layout).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(aVoid -> {
                     if (onItemClickListener != null) {
@@ -304,6 +329,35 @@ public class ActionSheetFragment extends Fragment {
                 params.rowSpec = GridLayout.spec(i / getArguments().getInt("columnCount"));
                 pop_grid.addView(viewChild, params);
             }
+        } else if (getArguments().getInt("type") == 3) {
+            TextView pop_cancel = view.findViewById(R.id.pop_cancel);
+            pop_cancel.setText(cancelTitle);
+            pop_cancel.setVisibility(View.VISIBLE);
+            pop_cancel.setOnClickListener(v -> {
+                if (onCancelListener != null) {
+                    onCancelListener.onCancelClick();
+                }
+                dismiss();
+            });
+
+            LinearLayout pop_toutiaochoice_layout = view.findViewById(R.id.pop_toutiaochoice_layout);
+            pop_toutiaochoice_layout.setVisibility(View.VISIBLE);
+
+            String[] topTitles = getArguments().getStringArray("topTitles");
+            int[] topImages = getArguments().getIntArray("topImages");
+            RecyclerView rv_toutiaochoice_top = view.findViewById(R.id.rv_toutiaochoice_top);
+            rv_toutiaochoice_top.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            rv_toutiaochoice_top.setHasFixedSize(true);
+            ToutiaochoiceAdapter adapterTop = new ToutiaochoiceAdapter(topTitles, topImages, 1, onToutiaoChoiceItemClickListener);
+            rv_toutiaochoice_top.setAdapter(adapterTop);
+
+            String[] bottomTitles = getArguments().getStringArray("bottomTitles");
+            int[] bottomImages = getArguments().getIntArray("bottomImages");
+            RecyclerView rv_toutiaochoice_bottom = view.findViewById(R.id.rv_toutiaochoice_bottom);
+            rv_toutiaochoice_bottom.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            rv_toutiaochoice_bottom.setHasFixedSize(true);
+            ToutiaochoiceAdapter adapterBottom = new ToutiaochoiceAdapter(bottomTitles, bottomImages, 2, onToutiaoChoiceItemClickListener);
+            rv_toutiaochoice_bottom.setAdapter(adapterBottom);
         } else if (getArguments().getInt("type") == 4) {
             ArrayList<String> hours = new ArrayList<>();
             for (int i = 0; i < 24; i++) {
@@ -313,26 +367,8 @@ public class ActionSheetFragment extends Fragment {
             for (int i = 0; i < 60; i++) {
                 minutes.add(i < 10 ? "0" + i : "" + i);
             }
-
             final int[] hourSelectedItem = {getArguments().getInt("hour")};
             final int[] minuteSelectedItem = {getArguments().getInt("minute")};
-
-            LinearLayout pop_wheel_timelayout = view.findViewById(R.id.pop_wheel_timelayout);
-            LoopView pop_wheel_timelayout_hour = view.findViewById(R.id.pop_wheel_timelayout_hour);
-            LoopView pop_wheel_timelayout_minute = view.findViewById(R.id.pop_wheel_timelayout_minute);
-            pop_wheel_timelayout.setVisibility(View.VISIBLE);
-            pop_wheel_timelayout_hour.setNotLoop();
-            pop_wheel_timelayout_hour.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
-            pop_wheel_timelayout_hour.setItems(hours);
-            pop_wheel_timelayout_hour.setTextSize(18);
-            pop_wheel_timelayout_hour.setInitPosition(hourSelectedItem[0]);
-            pop_wheel_timelayout_hour.setListener(index -> hourSelectedItem[0] = index);
-            pop_wheel_timelayout_minute.setNotLoop();
-            pop_wheel_timelayout_minute.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
-            pop_wheel_timelayout_minute.setItems(minutes);
-            pop_wheel_timelayout_minute.setTextSize(18);
-            pop_wheel_timelayout_minute.setInitPosition(minuteSelectedItem[0]);
-            pop_wheel_timelayout_minute.setListener(index -> minuteSelectedItem[0] = index);
 
             LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
             pop_morechoice.setVisibility(View.VISIBLE);
@@ -352,6 +388,23 @@ public class ActionSheetFragment extends Fragment {
                 }
                 dismiss();
             });
+
+            LinearLayout pop_wheel_timelayout = view.findViewById(R.id.pop_wheel_timelayout);
+            LoopView pop_wheel_timelayout_hour = view.findViewById(R.id.pop_wheel_timelayout_hour);
+            LoopView pop_wheel_timelayout_minute = view.findViewById(R.id.pop_wheel_timelayout_minute);
+            pop_wheel_timelayout.setVisibility(View.VISIBLE);
+            pop_wheel_timelayout_hour.setNotLoop();
+            pop_wheel_timelayout_hour.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
+            pop_wheel_timelayout_hour.setItems(hours);
+            pop_wheel_timelayout_hour.setTextSize(18);
+            pop_wheel_timelayout_hour.setInitPosition(hourSelectedItem[0]);
+            pop_wheel_timelayout_hour.setListener(index -> hourSelectedItem[0] = index);
+            pop_wheel_timelayout_minute.setNotLoop();
+            pop_wheel_timelayout_minute.setViewPadding(Utils.dp2px(context, 30), Utils.dp2px(context, 15), Utils.dp2px(context, 30), Utils.dp2px(context, 15));
+            pop_wheel_timelayout_minute.setItems(minutes);
+            pop_wheel_timelayout_minute.setTextSize(18);
+            pop_wheel_timelayout_minute.setInitPosition(minuteSelectedItem[0]);
+            pop_wheel_timelayout_minute.setListener(index -> minuteSelectedItem[0] = index);
         } else if (getArguments().getInt("type") == 6) {
             DateRangeUtils dateRangeUtils = new DateRangeUtils(getArguments().getLong("startTime"), getArguments().getLong("endTime"), getArguments().getBoolean("isNeedHM"));
             dateRangeUtils.showDateRange(this, view, onOKListener, onCancelListener);
@@ -461,7 +514,7 @@ public class ActionSheetFragment extends Fragment {
                 return;
             }
             isDismiss = true;
-            if (getActivity() != null && getActivity().isFinishing()) {
+            if (context != null && ((Activity) context).isFinishing()) {
                 return;
             }
             new Handler().post(() -> {
@@ -524,6 +577,7 @@ public class ActionSheetFragment extends Fragment {
         boolean canDismiss = true;
         // 监听事件
         OnItemClickListener onItemClickListener;
+        OnToutiaoChoiceItemClickListener onToutiaoChoiceItemClickListener;
         OnCancelListener onCancelListener;
         OnOKListener onOKListener;
         // 自定义视图
@@ -536,6 +590,11 @@ public class ActionSheetFragment extends Fragment {
         // 时分选择器选择的时分
         int hour;
         int minute;
+        // 头条选择器使用
+        String[] topTitles;
+        int[] topImages;
+        String[] bottomTitles;
+        int[] bottomImages;
 
         public Builder setTag(String tag) {
             this.tag = tag;
@@ -619,6 +678,16 @@ public class ActionSheetFragment extends Fragment {
             return this;
         }
 
+        public Builder setToutiaochoice(String[] topTitles, int[] topImages, String[] bottomTitles, int[] bottomImages,
+                                        OnToutiaoChoiceItemClickListener onToutiaoChoiceItemClickListener) {
+            this.topTitles = topTitles;
+            this.topImages = topImages;
+            this.bottomTitles = bottomTitles;
+            this.bottomImages = bottomImages;
+            this.onToutiaoChoiceItemClickListener = onToutiaoChoiceItemClickListener;
+            return this;
+        }
+
         public ActionSheetFragment show(FragmentActivity fragmentActivity) {
             ActionSheetFragment fragment = null;
             if (choice == CHOICE.ITEM) {
@@ -630,13 +699,18 @@ public class ActionSheetFragment extends Fragment {
                 fragment = ActionSheetFragment.newGridInstance(title, cancelTitle, items, images, columnCount);
                 fragment.setOnItemClickListener(onItemClickListener);
             }
-            if (choice == CHOICE.DATERANGE) {
-                fragment = ActionSheetFragment.newDateRangeInstance(title, okTitle, cancelTitle, startTime, endTime, isNeedHM);
-                fragment.setOnOKListener(onOKListener);
+            if (choice == CHOICE.TOUTIAO) {
+                fragment = ActionSheetFragment.newToutiaochoiceInstance(topTitles, topImages, bottomTitles, bottomImages);
+                fragment.setOnToutiaoChoiceItemClickListener(onToutiaoChoiceItemClickListener);
                 fragment.setOnCancelListener(onCancelListener);
             }
             if (choice == CHOICE.TIME) {
                 fragment = ActionSheetFragment.newTimeInstance(title, okTitle, cancelTitle, hour, minute);
+                fragment.setOnOKListener(onOKListener);
+                fragment.setOnCancelListener(onCancelListener);
+            }
+            if (choice == CHOICE.DATERANGE) {
+                fragment = ActionSheetFragment.newDateRangeInstance(title, okTitle, cancelTitle, startTime, endTime, isNeedHM);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
             }

@@ -7,26 +7,6 @@ import android.support.v4.app.FragmentActivity;
  */
 
 public class ActionSheetUtils {
-    public static void showDateRange(FragmentActivity activity, String title, String cancelTitle, String okTitle,
-                                     long startTime, long endTime, boolean isNeedHM,
-                                     ActionSheetFragment.OnOKListener onOKListener,
-                                     ActionSheetFragment.OnCancelListener onCancelListener) {
-        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.DATERANGE)
-                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setTimeRange(startTime, endTime, isNeedHM)
-                .setOnOKListener(onOKListener).setOnCancelListener(onCancelListener).show(activity);
-    }
-
-    public static void showTime(FragmentActivity activity, String title, String cancelTitle, String okTitle,
-                                int hour, int minute,
-                                ActionSheetFragment.OnOKListener onOKListener,
-                                ActionSheetFragment.OnCancelListener onCancelListener) {
-        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.TIME)
-                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle)
-                .setTimeHour(hour).setTimeMinute(minute)
-                .setOnOKListener(onOKListener)
-                .setOnCancelListener(onCancelListener).show(activity);
-    }
-
     public static void showList(FragmentActivity activity, String title,
                                 String[] items, String[] subItems, int setChoiceIndex,
                                 ActionSheetFragment.OnItemClickListener onItemClickListener,
@@ -45,5 +25,34 @@ public class ActionSheetUtils {
                 .setTitle(title).setCancelTitle(cancelTitle)
                 .setGridItems(items, imageItems, columnCount, onItemClickListener)
                 .setOnCancelListener(onCancelListener).show(activity);
+    }
+
+    public static void showToutiaoChoice(FragmentActivity activity, String[] topTitles, int[] topImages,
+                                         String[] bottomTitles, int[] bottomImages,
+                                         ActionSheetFragment.OnToutiaoChoiceItemClickListener onToutiaoChoiceItemClickListener,
+                                         ActionSheetFragment.OnCancelListener onCancelListener) {
+        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.TOUTIAO)
+                .setToutiaochoice(topTitles, topImages, bottomTitles, bottomImages, onToutiaoChoiceItemClickListener)
+                .setOnCancelListener(onCancelListener).show(activity);
+    }
+
+    public static void showTime(FragmentActivity activity, String title, String cancelTitle, String okTitle,
+                                int hour, int minute,
+                                ActionSheetFragment.OnOKListener onOKListener,
+                                ActionSheetFragment.OnCancelListener onCancelListener) {
+        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.TIME)
+                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle)
+                .setTimeHour(hour).setTimeMinute(minute)
+                .setOnOKListener(onOKListener)
+                .setOnCancelListener(onCancelListener).show(activity);
+    }
+
+    public static void showDateRange(FragmentActivity activity, String title, String cancelTitle, String okTitle,
+                                     long startTime, long endTime, boolean isNeedHM,
+                                     ActionSheetFragment.OnOKListener onOKListener,
+                                     ActionSheetFragment.OnCancelListener onCancelListener) {
+        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.DATERANGE)
+                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setTimeRange(startTime, endTime, isNeedHM)
+                .setOnOKListener(onOKListener).setOnCancelListener(onCancelListener).show(activity);
     }
 }
