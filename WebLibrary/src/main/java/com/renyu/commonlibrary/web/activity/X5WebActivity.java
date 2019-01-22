@@ -124,10 +124,6 @@ public abstract class X5WebActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (getWebView()!=null) {
-            ViewParent parent = getWebView().getParent();
-            if (parent != null) {
-                ((ViewGroup) parent).removeView(getWebView());
-            }
             getWebView().stopLoading();
             // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
             getWebView().getSettings().setJavaScriptEnabled(false);
@@ -138,6 +134,10 @@ public abstract class X5WebActivity extends AppCompatActivity {
                 getWebView().destroy();
             } catch (Throwable ex) {
                 ex.printStackTrace();
+            }
+            ViewParent parent = getWebView().getParent();
+            if (parent != null) {
+                ((ViewGroup) parent).removeView(getWebView());
             }
         }
         super.onDestroy();
