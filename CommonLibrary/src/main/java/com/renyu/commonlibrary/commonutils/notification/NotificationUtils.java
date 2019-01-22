@@ -150,8 +150,17 @@ public class NotificationUtils {
         builder.setAutoCancel(true);
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
         builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        // 显示消息时间
+//        builder.setShowWhen(true);
         // 保持通知不被移除
         builder.setOngoing(false);
+        // 浮动通知
+//        builder.setFullScreenIntent(PendingIntent.getBroadcast(Utils.getApp(), (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT), true);
+        // 锁屏通知
+//        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        // 自定义RemoteViews
+//        builder.setCustomBigContentView()
+//        builder.setCustomContentView()
         return builder;
     }
 

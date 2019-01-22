@@ -6,10 +6,12 @@ import android.graphics.Color;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.renyu.androidcommonlibrary.R;
+import com.renyu.androidcommonlibrary.impl.WebAppInterface;
 import com.renyu.commonlibrary.permission.annotation.NeedPermission;
 import com.renyu.commonlibrary.permission.annotation.PermissionDenied;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.params.InitParams;
+import com.tencent.mars.xlog.Log;
 
 import java.util.ArrayList;
 
@@ -53,29 +55,31 @@ public class MainActivity extends BaseActivity {
         // app更新功能文件夹初始化
         FileUtils.createOrExistsDir(com.renyu.commonlibrary.update.params.InitParams.FILE_PATH);
 
-        // js调用示例，使用淘房范例
-//        Intent intent=new Intent(MainActivity.this, MyWebActivity.class);
-//        // 定义跨平台交互关键字
-//        intent.putExtra("IWebAppName", "house365js");
-//        intent.putExtra("title", "测试");
-//        // 定义方法实现接口
-//        intent.putExtra("IWebApp", new WebAppInterface());
-////        intent.putExtra("url", "http://house.3dnest.cn/house365/index.html?city=nj&house_type=sell&house_id=211246849");
-//        intent.putExtra("url", "https://mtt.house365.com/H5/test/vrapp.php?addtionaltype=1");
-////        intent.putExtra("url", "file:///android_asset/new_file.html");
-////        intent.putExtra("url", "https://m.house365.com//nj//secondhouse//215175369.html");
-//        intent.putExtra(com.renyu.commonlibrary.web.params.InitParams.NEED_GOBACK, true);
-//        startActivity(intent);
+        Log.d("Test", "Hello");
 
-        Intent intent1=new Intent(MainActivity.this, MyX5WebActivity.class);
-        intent1.putExtra("url", "https://mtt.house365.com/index.php?m=home&c=fangdaijisuanqi&a=index&city=nj&q=business_fund_20__cn");
-        intent1.putExtra("cookieUrl", "mtt.house365.com");
-        ArrayList<String> cookieValues = new ArrayList<>();
-        cookieValues.add("is_close_app_down");
-        cookieValues.add("2");
-        intent1.putExtra("cookieValues", cookieValues);
-        intent1.putExtra(com.renyu.commonlibrary.web.params.InitParams.NEED_GOBACK, true);
-        startActivity(intent1);
+        // js调用示例，使用淘房范例
+        Intent intent=new Intent(MainActivity.this, MyWebActivity.class);
+        // 定义跨平台交互关键字
+        intent.putExtra("IWebAppName", "house365js");
+        intent.putExtra("title", "测试");
+        // 定义方法实现接口
+        intent.putExtra("IWebApp", new WebAppInterface());
+//        intent.putExtra("url", "http://house.3dnest.cn/house365/index.html?city=nj&house_type=sell&house_id=211246849");
+        intent.putExtra("url", "https://mtt.house365.com/H5/test/vrapp.php?addtionaltype=1");
+//        intent.putExtra("url", "file:///android_asset/new_file.html");
+//        intent.putExtra("url", "https://m.house365.com//nj//secondhouse//215175369.html");
+        intent.putExtra(com.renyu.commonlibrary.web.params.InitParams.NEED_GOBACK, true);
+        startActivity(intent);
+
+//        Intent intent1=new Intent(MainActivity.this, MyX5WebActivity.class);
+//        intent1.putExtra("url", "https://mtt.house365.com/index.php?m=home&c=fangdaijisuanqi&a=index&city=nj&q=business_fund_20__cn");
+//        intent1.putExtra("cookieUrl", "mtt.house365.com");
+//        ArrayList<String> cookieValues = new ArrayList<>();
+//        cookieValues.add("is_close_app_down");
+//        cookieValues.add("2");
+//        intent1.putExtra("cookieValues", cookieValues);
+//        intent1.putExtra(com.renyu.commonlibrary.web.params.InitParams.NEED_GOBACK, true);
+//        startActivity(intent1);
 
 //                ChoiceDialog choiceDialog = ChoiceDialog.getInstanceByChoice("内容", "确定", "取消");
 //                choiceDialog.setOnDialogPosListener(() -> {

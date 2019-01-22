@@ -21,8 +21,8 @@ import java.util.Stack;
  */
 public class NotificationCompatColor {
 
-    private int finalContentTitleColor = 0;
-    private int finalContentTextColor = 0;
+    private int finalContentTitleColor = Color.WHITE;
+    private int finalContentTextColor = Color.WHITE;
 
     public void byAutomation() {
         RemoteViews remoteViews = buildFakeRemoteViews();
