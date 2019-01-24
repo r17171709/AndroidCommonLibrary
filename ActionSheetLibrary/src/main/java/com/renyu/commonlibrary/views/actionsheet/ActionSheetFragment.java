@@ -121,11 +121,13 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newGridInstance(String title, String cancelTitle, String[] items, int[] images, int columnCount) {
+    private static ActionSheetFragment newGridInstance(String title, int titleColor, String cancelTitle, int cancelTitleColor, String[] items, int[] images, int columnCount) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
+        bundle.putInt("titleColor", titleColor);
         bundle.putString("cancelTitle", cancelTitle);
+        bundle.putInt("cancelTitleColor", cancelTitleColor);
         bundle.putStringArray("items", items);
         bundle.putIntArray("images", images);
         bundle.putInt("columnCount", columnCount);
@@ -146,12 +148,15 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newTimeInstance(String title, String okTitle, String cancelTitle, int hour, int minute) {
+    private static ActionSheetFragment newTimeInstance(String title, int titleColor, String okTitle, int okTitleColor, String cancelTitle, int cancelTitleColor, int hour, int minute) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
+        bundle.putInt("titleColor", titleColor);
         bundle.putString("okTitle", okTitle);
+        bundle.putInt("okTitleColor", okTitleColor);
         bundle.putString("cancelTitle", cancelTitle);
+        bundle.putInt("cancelTitleColor", cancelTitleColor);
         bundle.putInt("hour", hour);
         bundle.putInt("minute", minute);
         bundle.putInt("type", 4);
@@ -159,12 +164,15 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newDateRangeInstance(String title, String okTitle, String cancelTitle, long startTime, long endTime, boolean isNeedHM) {
+    private static ActionSheetFragment newDateRangeInstance(String title, int titleColor, String okTitle, int okTitleColor, String cancelTitle, int cancelTitleColor, long startTime, long endTime, boolean isNeedHM) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
+        bundle.putInt("titleColor", titleColor);
         bundle.putString("okTitle", okTitle);
+        bundle.putInt("okTitleColor", okTitleColor);
         bundle.putString("cancelTitle", cancelTitle);
+        bundle.putInt("cancelTitleColor", cancelTitleColor);
         bundle.putLong("startTime", startTime);
         bundle.putLong("endTime", endTime);
         bundle.putBoolean("isNeedHM", isNeedHM);
@@ -173,12 +181,15 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newCustomerInstance(String title, String okTitle, String cancelTitle) {
+    private static ActionSheetFragment newCustomerInstance(String title, int titleColor, String okTitle, int okTitleColor, String cancelTitle, int cancelTitleColor) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
+        bundle.putInt("titleColor", titleColor);
         bundle.putString("okTitle", okTitle);
+        bundle.putInt("okTitleColor", okTitleColor);
         bundle.putString("cancelTitle", cancelTitle);
+        bundle.putInt("cancelTitleColor", cancelTitleColor);
         bundle.putInt("type", 7);
         fragment.setArguments(bundle);
         return fragment;
@@ -249,13 +260,37 @@ public class ActionSheetFragment extends Fragment {
         pop_child_layout.setVisibility(View.INVISIBLE);
         pop_child_layout.setOnTouchListener((v, event) -> true);
         realView.setOnClickListener(v -> dismiss());
+
         String title = getArguments().getString("title");
-        String cancelTitle = getArguments().getString("cancelTitle");
         TextView pop_title = view.findViewById(R.id.pop_title);
-        pop_title.setText(title);
+        if (getArguments().getInt("titleColor", -1) != -1) {
+            pop_title.setTextColor(getArguments().getInt("titleColor"));
+        }
         if (TextUtils.isEmpty(title)) {
             pop_title.setVisibility(View.GONE);
         }
+        else {
+            pop_title.setText(title);
+        }
+
+        TextView pop_cancel1 = view.findViewById(R.id.pop_cancel1);
+        if (getArguments().getInt("cancelTitleColor", -1) != -1) {
+            pop_cancel1.setTextColor(getArguments().getInt("cancelTitleColor"));
+        }
+        String cancelTitle = getArguments().getString("cancelTitle");
+        if (!TextUtils.isEmpty(cancelTitle)) {
+            pop_cancel1.setText(cancelTitle);
+        }
+
+        TextView pop_ok1 = view.findViewById(R.id.pop_ok1);
+        if (getArguments().getInt("okTitleColor", -1) != -1) {
+            pop_ok1.setTextColor(getArguments().getInt("okTitleColor"));
+        }
+        String okTitle = getArguments().getString("okTitle");
+        if (!TextUtils.isEmpty(okTitle)) {
+            pop_ok1.setText(okTitle);
+        }
+
         if (getArguments().getInt("type") == 1) {
             View view_space = view.findViewById(R.id.view_space);
             view_space.setVisibility(View.VISIBLE);
@@ -372,16 +407,12 @@ public class ActionSheetFragment extends Fragment {
 
             LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
             pop_morechoice.setVisibility(View.VISIBLE);
-            TextView pop_ok1 = view.findViewById(R.id.pop_ok1);
-            pop_ok1.setText(getArguments().getString("okTitle"));
             pop_ok1.setOnClickListener(v -> {
                 if (onOKListener != null) {
                     onOKListener.onOKClick(hours.get(hourSelectedItem[0]) + ":" + (minutes.get(minuteSelectedItem[0])));
                 }
                 dismiss();
             });
-            TextView pop_cancel1 = view.findViewById(R.id.pop_cancel1);
-            pop_cancel1.setText(cancelTitle);
             pop_cancel1.setOnClickListener(v -> {
                 if (onCancelListener != null) {
                     onCancelListener.onCancelClick();
@@ -410,12 +441,10 @@ public class ActionSheetFragment extends Fragment {
             dateRangeUtils.showDateRange(this, view, onOKListener, onCancelListener);
         } else if (getArguments().getInt("type") == 7) {
             LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
-            if (TextUtils.isEmpty(title) && TextUtils.isEmpty(getArguments().getString("okTitle")) && TextUtils.isEmpty(cancelTitle)) {
+            if (TextUtils.isEmpty(title) && TextUtils.isEmpty(okTitle) && TextUtils.isEmpty(cancelTitle)) {
                 pop_morechoice.setVisibility(View.GONE);
             } else {
                 pop_morechoice.setVisibility(View.VISIBLE);
-                TextView pop_ok1 = view.findViewById(R.id.pop_ok1);
-                pop_ok1.setText(getArguments().getString("okTitle"));
                 pop_ok1.setOnClickListener(v -> {
                     if (onOKListener != null) {
                         onOKListener.onOKClick("");
@@ -424,8 +453,6 @@ public class ActionSheetFragment extends Fragment {
                         dismiss();
                     }
                 });
-                TextView pop_cancel1 = view.findViewById(R.id.pop_cancel1);
-                pop_cancel1.setText(cancelTitle);
                 pop_cancel1.setOnClickListener(v -> {
                     if (onCancelListener != null) {
                         onCancelListener.onCancelClick();
@@ -559,10 +586,13 @@ public class ActionSheetFragment extends Fragment {
         String tag = "ActionSheetFragment";
         // 标题
         String title = "";
+        int titleColor = Color.parseColor("#333333");
         // 确定
         String okTitle = "";
+        int okTitleColor = Color.parseColor("#333333");
         // 取消
         String cancelTitle = "";
+        int cancelTitleColor  = Color.parseColor("#333333");
         // 弹窗类型
         CHOICE choice;
         // list选中项中的选中值
@@ -606,13 +636,31 @@ public class ActionSheetFragment extends Fragment {
             return this;
         }
 
+        public Builder setTitle(String title, int color) {
+            this.title = title;
+            this.titleColor = color;
+            return this;
+        }
+
         public Builder setOkTitle(String okTitle) {
             this.okTitle = okTitle;
             return this;
         }
 
+        public Builder setOkTitle(String okTitle, int color) {
+            this.okTitle = okTitle;
+            this.okTitleColor = color;
+            return this;
+        }
+
         public Builder setCancelTitle(String cancelTitle) {
             this.cancelTitle = cancelTitle;
+            return this;
+        }
+
+        public Builder setCancelTitle(String cancelTitle, int color) {
+            this.cancelTitle = cancelTitle;
+            this.cancelTitleColor = color;
             return this;
         }
 
@@ -696,7 +744,7 @@ public class ActionSheetFragment extends Fragment {
                 fragment.setOnCancelListener(onCancelListener);
             }
             if (choice == CHOICE.GRID) {
-                fragment = ActionSheetFragment.newGridInstance(title, cancelTitle, items, images, columnCount);
+                fragment = ActionSheetFragment.newGridInstance(title, titleColor, cancelTitle, cancelTitleColor, items, images, columnCount);
                 fragment.setOnItemClickListener(onItemClickListener);
             }
             if (choice == CHOICE.TOUTIAO) {
@@ -705,17 +753,17 @@ public class ActionSheetFragment extends Fragment {
                 fragment.setOnCancelListener(onCancelListener);
             }
             if (choice == CHOICE.TIME) {
-                fragment = ActionSheetFragment.newTimeInstance(title, okTitle, cancelTitle, hour, minute);
+                fragment = ActionSheetFragment.newTimeInstance(title, titleColor, okTitle, okTitleColor, cancelTitle, cancelTitleColor, hour, minute);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
             }
             if (choice == CHOICE.DATERANGE) {
-                fragment = ActionSheetFragment.newDateRangeInstance(title, okTitle, cancelTitle, startTime, endTime, isNeedHM);
+                fragment = ActionSheetFragment.newDateRangeInstance(title, titleColor, okTitle, okTitleColor, cancelTitle, cancelTitleColor, startTime, endTime, isNeedHM);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
             }
             if (choice == CHOICE.CUSTOMER) {
-                fragment = ActionSheetFragment.newCustomerInstance(title, okTitle, cancelTitle);
+                fragment = ActionSheetFragment.newCustomerInstance(title, titleColor, okTitle, okTitleColor, cancelTitle, cancelTitleColor);
                 fragment.setOnOKListener(onOKListener);
                 fragment.setOnCancelListener(onCancelListener);
                 fragment.setCustomerView(customerView);

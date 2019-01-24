@@ -17,12 +17,12 @@ public class ActionSheetUtils {
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 
-    public static void showGrid(FragmentActivity activity, String title, String cancelTitle,
+    public static void showGrid(FragmentActivity activity, String title, int titleColor, String cancelTitle, int cancelColor,
                                 String[] items, int[] imageItems, int columnCount,
                                 ActionSheetFragment.OnItemClickListener onItemClickListener,
                                 ActionSheetFragment.OnCancelListener onCancelListener) {
         ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.GRID)
-                .setTitle(title).setCancelTitle(cancelTitle)
+                .setTitle(title, titleColor).setCancelTitle(cancelTitle, cancelColor)
                 .setGridItems(items, imageItems, columnCount, onItemClickListener)
                 .setOnCancelListener(onCancelListener).show(activity);
     }
@@ -36,23 +36,28 @@ public class ActionSheetUtils {
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 
-    public static void showTime(FragmentActivity activity, String title, String cancelTitle, String okTitle,
+    public static void showTime(FragmentActivity activity, String title, int titleColor,
+                                String cancelTitle, int cancelColor,
+                                String okTitle, int okColor,
                                 int hour, int minute,
                                 ActionSheetFragment.OnOKListener onOKListener,
                                 ActionSheetFragment.OnCancelListener onCancelListener) {
         ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.TIME)
-                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle)
+                .setTitle(title, titleColor).setOkTitle(okTitle, okColor).setCancelTitle(cancelTitle, cancelColor)
                 .setTimeHour(hour).setTimeMinute(minute)
                 .setOnOKListener(onOKListener)
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 
-    public static void showDateRange(FragmentActivity activity, String title, String cancelTitle, String okTitle,
+    public static void showDateRange(FragmentActivity activity, String title, int titleColor,
+                                     String cancelTitle, int cancelColor,
+                                     String okTitle, int okColor,
                                      long startTime, long endTime, boolean isNeedHM,
                                      ActionSheetFragment.OnOKListener onOKListener,
                                      ActionSheetFragment.OnCancelListener onCancelListener) {
         ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.DATERANGE)
-                .setTitle(title).setOkTitle(okTitle).setCancelTitle(cancelTitle).setTimeRange(startTime, endTime, isNeedHM)
+                .setTitle(title, titleColor).setOkTitle(okTitle, okColor).setCancelTitle(cancelTitle, cancelColor)
+                .setTimeRange(startTime, endTime, isNeedHM)
                 .setOnOKListener(onOKListener).setOnCancelListener(onCancelListener).show(activity);
     }
 }
