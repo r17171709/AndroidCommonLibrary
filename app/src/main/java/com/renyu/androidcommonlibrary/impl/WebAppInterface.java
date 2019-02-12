@@ -15,14 +15,14 @@ import com.renyu.commonlibrary.web.impl.IWebApp;
 
 public class WebAppInterface implements Parcelable, IWebApp {
 
-    Context context;
-    WebView webView;
+    private Context context;
+    private WebView webView;
 
     public WebAppInterface() {
         super();
     }
 
-    protected WebAppInterface(Parcel in) {
+    private WebAppInterface(Parcel in) {
 
     }
 

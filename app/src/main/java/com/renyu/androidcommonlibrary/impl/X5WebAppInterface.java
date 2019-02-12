@@ -15,14 +15,14 @@ import com.tencent.smtt.sdk.WebView;
 
 public class X5WebAppInterface implements Parcelable, IX5WebApp {
 
-    Context context;
-    WebView webView;
+    private Context context;
+    private WebView webView;
 
     public X5WebAppInterface() {
         super();
     }
 
-    protected X5WebAppInterface(Parcel in) {
+    private X5WebAppInterface(Parcel in) {
 
     }
 
