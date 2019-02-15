@@ -44,7 +44,7 @@ public abstract class BaseObserver2<T> implements Observer<Resource<T>> {
                     if (networkLoadingDialog != null) {
                         networkLoadingDialog.close();
                     }
-                    Toast.makeText(Utils.getApp(), tResource.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Utils.getApp(), tResource.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     onError(tResource);
                     break;
                 case SUCESS:

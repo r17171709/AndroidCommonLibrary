@@ -62,16 +62,17 @@ class Repos {
             6000
         )
             .compose(Retrofit2Utils.background<AccessTokenResponse>())
-            .retryWhen(RetryFunction(3, 3,
-                object : IRetryCondition {
-                    override fun canRetry(throwable: Throwable?): Boolean {
-                        return throwable is NetworkException && throwable.result == 1
-                    }
+            .retryWhen(
+                RetryFunction(3, 3,
+                    object : IRetryCondition {
+                        override fun canRetry(throwable: Throwable?): Boolean {
+                            return throwable is NetworkException && throwable.result == 1
+                        }
 
-                    override fun doBeforeRetry() {
-                        Thread.sleep(2000)
-                    }
-                })
+                        override fun doBeforeRetry() {
+                            Thread.sleep(2000)
+                        }
+                    })
             )
             .compose(Retrofit2Utils.withSchedulers())
             .subscribe(object : BaseObserver<AccessTokenResponse>(false) {
@@ -90,7 +91,10 @@ class Repos {
 
                 override fun onError(e: Throwable) {
                     super.onError(e)
-                    tokenResponse.value = Resource.error(e.message)
+                    val exception = NetworkException()
+                    exception.setMessage(e.message)
+                    exception.result = -1
+                    tokenResponse.value = Resource.error(exception)
                 }
             })
         return tokenResponse

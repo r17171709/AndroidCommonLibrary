@@ -92,16 +92,18 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.17'
     kapt 'com.google.dagger:dagger-compiler:2.17'
     // RxLifecycle  Lifecycle handling APIs for Android apps using RxJava
-    implementation ('com.trello.rxlifecycle2:rxlifecycle-components:2.2.2') {
+    implementation('com.trello.rxlifecycle2:rxlifecycle-components:2.2.2') {
         exclude group: 'com.android.support'
     }
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     implementation 'com.tencent.wcdb:wcdb-android:1.0.6.2'
     // 网络请求
-    implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.4'
+    implementation 'com.github.renyu:AndroidNetworkLibrary:1.0.8'
 //    implementation project(':NetworkLibrary')
     // 升级
-    implementation 'com.github.renyu:AndroidUpdateLibrary:1.0.10'
+    implementation('com.github.renyu:AndroidUpdateLibrary:1.0.11') {
+        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
+    }
 //    implementation project(':UpdateLibrary')
     // 弹出框
     implementation 'com.github.renyu:AndroidDialogLibrary:1.0.6'
