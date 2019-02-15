@@ -15,4 +15,25 @@
             <enum name="both" value="2" /> 
         </attr> 
     </declare-styleable>
+
+    <!-- 导航条相关属性 -->
+    <declare-styleable name="LineIndicatorViewAttr">
+        <!-- 指示标的高度 -->
+        <attr name="height" format="dimension"/>
+        <!-- 指示标的宽度 -->
+        <attr name="width" format="dimension"/>
+        <!-- 指示标的形状 -->
+        <attr name="type" format="enum">
+            <!-- 圆形 -->
+            <enum name="circle" value="1"/>
+            <!-- 长方形 -->
+            <enum name="rectangle" value="2"/>
+        </attr>
+        <!-- 选中的颜色 -->
+        <attr name="choiceColor" format="reference|color"/>
+        <!-- 默认的颜色 -->
+        <attr name="noneChoiceColor" format="reference|color"/>
+        <!-- 间距 -->
+        <attr name="margin" format="dimension"/>
+    </declare-styleable>
 </resources>
