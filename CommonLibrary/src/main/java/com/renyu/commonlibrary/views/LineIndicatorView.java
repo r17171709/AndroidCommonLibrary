@@ -70,7 +70,7 @@ public class LineIndicatorView extends LinearLayout {
         for (int i = 0; i < nums; i++) {
             View view = new View(context);
             view.setBackgroundResource(noneChoiceColor);
-            LayoutParams params = new LayoutParams(SizeUtils.dp2px(width), SizeUtils.dp2px(height));
+            LayoutParams params = new LayoutParams(width, height);
             params.setMargins(margin, 0, margin, 0);
             addView(view, params);
             views.add(view);
