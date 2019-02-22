@@ -18,14 +18,11 @@ import java.util.ArrayList;
 public class LineIndicatorView extends LinearLayout {
     int choiceColor;
     int noneChoiceColor;
-    int height;
-    int width;
     int margin;
-    // 形状
-    TYPE type;
-    public enum TYPE {
-        CIRCLE, LINE
-    }
+    int heightSel;
+    int widthSel;
+    int heightNor;
+    int widthNor;
 
     Context context;
 
@@ -48,17 +45,13 @@ public class LineIndicatorView extends LinearLayout {
         setGravity(Gravity.CENTER);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.LineIndicatorViewAttr);
-        height = array.getDimensionPixelOffset(R.styleable.LineIndicatorViewAttr_height, SizeUtils.dp2px(3));
-        width = array.getDimensionPixelOffset(R.styleable.LineIndicatorViewAttr_width, SizeUtils.dp2px(3));
-        int temp = array.getInteger(R.styleable.LineIndicatorViewAttr_type, 1);
-        if (temp == 1) {
-            type = TYPE.CIRCLE;
-        } else {
-            type = TYPE.LINE;
-        }
         choiceColor = array.getResourceId(R.styleable.LineIndicatorViewAttr_choiceColor, Color.BLACK);
         noneChoiceColor = array.getResourceId(R.styleable.LineIndicatorViewAttr_noneChoiceColor, Color.WHITE);
         margin = array.getDimensionPixelOffset(R.styleable.LineIndicatorViewAttr_margin, SizeUtils.dp2px(5));
+        heightSel = array.getDimensionPixelOffset(R.styleable.LineIndicatorViewAttr_heightSel, SizeUtils.dp2px(3));
+        widthSel = array.getDimensionPixelOffset(R.styleable.LineIndicatorViewAttr_widthSel, SizeUtils.dp2px(3));
+        heightNor = array.getDimensionPixelOffset(R.styleable.LineIndicatorViewAttr_heightNor, SizeUtils.dp2px(3));
+        widthNor = array.getDimensionPixelOffset(R.styleable.LineIndicatorViewAttr_widthNor, SizeUtils.dp2px(3));
         array.recycle();
 
         views = new ArrayList<>();
@@ -70,7 +63,7 @@ public class LineIndicatorView extends LinearLayout {
         for (int i = 0; i < nums; i++) {
             View view = new View(context);
             view.setBackgroundResource(noneChoiceColor);
-            LayoutParams params = new LayoutParams(width, height);
+            LayoutParams params = new LayoutParams(widthNor, heightNor);
             params.setMargins(margin, 0, margin, 0);
             addView(view, params);
             views.add(view);
@@ -80,9 +73,13 @@ public class LineIndicatorView extends LinearLayout {
     public void setCurrentPosition(int currentNum) {
         for (View view : views) {
             view.setBackgroundResource(noneChoiceColor);
+            view.getLayoutParams().height = heightNor;
+            view.getLayoutParams().width = widthNor;
         }
         if (views.size() > 0) {
             views.get(currentNum).setBackgroundResource(choiceColor);
+            views.get(currentNum).getLayoutParams().height = heightSel;
+            views.get(currentNum).getLayoutParams().width = widthSel;
         }
     }
 }

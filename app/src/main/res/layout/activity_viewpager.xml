@@ -15,12 +15,13 @@
             android:layout_height="wrap_content"
             android:paddingBottom="15dip"
             android:layout_alignParentBottom="true"
-            app:width="5dip"
-            app:height="5dip"
-            app:type="circle"
+            app:heightSel="5dip"
+            app:widthSel="7dip"
+            app:heightNor="5dip"
+            app:widthNor="5dip"
             app:margin="5dip"
-            app:choiceColor="@drawable/shape_select"
-            app:noneChoiceColor="@drawable/shape_normal">
+            app:choiceColor="@mipmap/ic_vp_sel"
+            app:noneChoiceColor="@mipmap/ic_vp_nor">
 
     </com.renyu.commonlibrary.views.LineIndicatorView>
 </RelativeLayout>

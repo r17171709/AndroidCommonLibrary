@@ -1,6 +1,7 @@
 package com.renyu.androidcommonlibrary.activity
 
 import android.graphics.Color
+import android.os.Handler
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.fragment.EmptyFragment
 import com.renyu.commonlibrary.baseact.BaseActivity
@@ -14,7 +15,12 @@ class ViewPagerActivity : BaseActivity() {
         findViewById<LineIndicatorView>(R.id.indicator_vp).setIndicatorNums(2)
         findViewById<LineIndicatorView>(R.id.indicator_vp).setCurrentPosition(0)
 
-        supportFragmentManager.beginTransaction().replace(R.id.layout_vp, EmptyFragment(), "tag").commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().replace(R.id.layout_vp, EmptyFragment(), "tag")
+            .commitAllowingStateLoss()
+
+        Handler().postDelayed({
+            findViewById<LineIndicatorView>(R.id.indicator_vp).setCurrentPosition(1)
+        }, 4000)
     }
 
     override fun initViews(): Int {
