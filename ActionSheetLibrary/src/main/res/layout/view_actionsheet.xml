@@ -83,7 +83,7 @@
             <LinearLayout
                     android:id="@+id/pop_toutiaochoice_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="230dip"
+                    android:layout_height="220dip"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:visibility="gone">
@@ -94,14 +94,6 @@
                         android:layout_weight="1">
 
                 </android.support.v7.widget.RecyclerView>
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dip"
-                        android:layout_marginStart="16dip"
-                        android:layout_marginEnd="16dip"
-                        android:background="#999999">
-
-                </View>
                 <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_toutiaochoice_bottom"
                         android:layout_width="match_parent"

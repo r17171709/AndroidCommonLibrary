@@ -109,10 +109,13 @@ public class ActionSheetFragment extends Fragment {
         this.canDismiss = canDismiss;
     }
 
-    private static ActionSheetFragment newItemInstance(String title, String[] items, String[] subItems, int choiceIndex) {
+    private static ActionSheetFragment newItemInstance(String title, int titleColor, String cancelTitle, int cancelTitleColor, String[] items, String[] subItems, int choiceIndex) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
+        bundle.putInt("titleColor", titleColor);
+        bundle.putString("cancelTitle", cancelTitle);
+        bundle.putInt("cancelTitleColor", cancelTitleColor);
         bundle.putStringArray("items", items);
         bundle.putStringArray("subItems", subItems);
         bundle.putInt("choiceIndex", choiceIndex);
@@ -136,9 +139,11 @@ public class ActionSheetFragment extends Fragment {
         return fragment;
     }
 
-    private static ActionSheetFragment newToutiaochoiceInstance(String[] topTitles, int[] topImages, String[] bottomTitles, int[] bottomImages) {
+    private static ActionSheetFragment newToutiaochoiceInstance(String cancelTitle, int cancelTitleColor, String[] topTitles, int[] topImages, String[] bottomTitles, int[] bottomImages) {
         ActionSheetFragment fragment = new ActionSheetFragment();
         Bundle bundle = new Bundle();
+        bundle.putString("cancelTitle", cancelTitle);
+        bundle.putInt("cancelTitleColor", cancelTitleColor);
         bundle.putStringArray("topTitles", topTitles);
         bundle.putIntArray("topImages", topImages);
         bundle.putStringArray("bottomTitles", bottomTitles);
@@ -292,16 +297,25 @@ public class ActionSheetFragment extends Fragment {
         }
 
         if (getArguments().getInt("type") == 1) {
+            // 不需要标题栏的取消功能
+            pop_cancel1.setVisibility(View.INVISIBLE);
+
             View view_space = view.findViewById(R.id.view_space);
             view_space.setVisibility(View.VISIBLE);
             TextView pop_cancel = view.findViewById(R.id.pop_cancel);
-            pop_cancel.setVisibility(View.VISIBLE);
-            pop_cancel.setOnClickListener(v -> {
-                if (onCancelListener != null) {
-                    onCancelListener.onCancelClick();
-                }
-                dismiss();
-            });
+            if (getArguments().getInt("cancelTitleColor", -1) != -1) {
+                pop_cancel.setTextColor(getArguments().getInt("cancelTitleColor"));
+            }
+            if (!TextUtils.isEmpty(cancelTitle)) {
+                pop_cancel.setText(cancelTitle);
+                pop_cancel.setVisibility(View.VISIBLE);
+                pop_cancel.setOnClickListener(v -> {
+                    if (onCancelListener != null) {
+                        onCancelListener.onCancelClick();
+                    }
+                    dismiss();
+                });
+            }
             if (!TextUtils.isEmpty(title)) {
                 LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
                 pop_morechoice.setVisibility(View.VISIBLE);
@@ -321,9 +335,15 @@ public class ActionSheetFragment extends Fragment {
                 }
             });
         } else if (getArguments().getInt("type") == 2) {
+            // 不需要标题栏的取消功能
+            pop_cancel1.setVisibility(View.INVISIBLE);
+
             View view_space = view.findViewById(R.id.view_space);
             view_space.setVisibility(View.VISIBLE);
             TextView pop_cancel = view.findViewById(R.id.pop_cancel);
+            if (getArguments().getInt("cancelTitleColor", -1) != -1) {
+                pop_cancel.setTextColor(getArguments().getInt("cancelTitleColor"));
+            }
             if (!TextUtils.isEmpty(cancelTitle)) {
                 pop_cancel.setText(cancelTitle);
                 pop_cancel.setVisibility(View.VISIBLE);
@@ -366,14 +386,19 @@ public class ActionSheetFragment extends Fragment {
             }
         } else if (getArguments().getInt("type") == 3) {
             TextView pop_cancel = view.findViewById(R.id.pop_cancel);
-            pop_cancel.setText(cancelTitle);
-            pop_cancel.setVisibility(View.VISIBLE);
-            pop_cancel.setOnClickListener(v -> {
-                if (onCancelListener != null) {
-                    onCancelListener.onCancelClick();
-                }
-                dismiss();
-            });
+            if (getArguments().getInt("cancelTitleColor", -1) != -1) {
+                pop_cancel.setTextColor(getArguments().getInt("cancelTitleColor"));
+            }
+            if (!TextUtils.isEmpty(cancelTitle)) {
+                pop_cancel.setText(cancelTitle);
+                pop_cancel.setVisibility(View.VISIBLE);
+                pop_cancel.setOnClickListener(v -> {
+                    if (onCancelListener != null) {
+                        onCancelListener.onCancelClick();
+                    }
+                    dismiss();
+                });
+            }
 
             LinearLayout pop_toutiaochoice_layout = view.findViewById(R.id.pop_toutiaochoice_layout);
             pop_toutiaochoice_layout.setVisibility(View.VISIBLE);
@@ -739,7 +764,7 @@ public class ActionSheetFragment extends Fragment {
         public ActionSheetFragment show(FragmentActivity fragmentActivity) {
             ActionSheetFragment fragment = null;
             if (choice == CHOICE.ITEM) {
-                fragment = ActionSheetFragment.newItemInstance(title, items, subItems, choiceIndex);
+                fragment = ActionSheetFragment.newItemInstance(title, titleColor, cancelTitle, cancelTitleColor, items, subItems, choiceIndex);
                 fragment.setOnItemClickListener(onItemClickListener);
                 fragment.setOnCancelListener(onCancelListener);
             }
@@ -748,7 +773,7 @@ public class ActionSheetFragment extends Fragment {
                 fragment.setOnItemClickListener(onItemClickListener);
             }
             if (choice == CHOICE.TOUTIAO) {
-                fragment = ActionSheetFragment.newToutiaochoiceInstance(topTitles, topImages, bottomTitles, bottomImages);
+                fragment = ActionSheetFragment.newToutiaochoiceInstance(cancelTitle, cancelTitleColor, topTitles, topImages, bottomTitles, bottomImages);
                 fragment.setOnToutiaoChoiceItemClickListener(onToutiaoChoiceItemClickListener);
                 fragment.setOnCancelListener(onCancelListener);
             }

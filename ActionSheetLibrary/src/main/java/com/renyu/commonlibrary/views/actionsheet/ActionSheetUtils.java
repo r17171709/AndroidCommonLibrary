@@ -7,12 +7,13 @@ import android.support.v4.app.FragmentActivity;
  */
 
 public class ActionSheetUtils {
-    public static void showList(FragmentActivity activity, String title,
+    public static void showList(FragmentActivity activity, String title, int titleColor, String cancelTitle, int cancelColor,
                                 String[] items, String[] subItems, int setChoiceIndex,
                                 ActionSheetFragment.OnItemClickListener onItemClickListener,
                                 ActionSheetFragment.OnCancelListener onCancelListener) {
         ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.ITEM)
-                .setTitle(title).setListItems(items, subItems, onItemClickListener)
+                .setCancelTitle(cancelTitle, cancelColor).setTitle(title, titleColor)
+                .setListItems(items, subItems, onItemClickListener)
                 .setChoiceIndex(setChoiceIndex)
                 .setOnCancelListener(onCancelListener).show(activity);
     }
@@ -27,11 +28,12 @@ public class ActionSheetUtils {
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 
-    public static void showToutiaoChoice(FragmentActivity activity, String[] topTitles, int[] topImages,
+    public static void showToutiaoChoice(FragmentActivity activity, String cancelTitle, int cancelColor,
+                                         String[] topTitles, int[] topImages,
                                          String[] bottomTitles, int[] bottomImages,
                                          ActionSheetFragment.OnToutiaoChoiceItemClickListener onToutiaoChoiceItemClickListener,
                                          ActionSheetFragment.OnCancelListener onCancelListener) {
-        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.TOUTIAO)
+        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.TOUTIAO).setCancelTitle(cancelTitle, cancelColor)
                 .setToutiaochoice(topTitles, topImages, bottomTitles, bottomImages, onToutiaoChoiceItemClickListener)
                 .setOnCancelListener(onCancelListener).show(activity);
     }

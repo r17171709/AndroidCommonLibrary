@@ -26,20 +26,20 @@ public class ActionSheetActivity extends BaseActivity {
     @Override
     public void initParams() {
         findViewById(R.id.btn_click).setOnClickListener(v -> {
-            View view_threeloopertitle_floor = addAction();
-            ActionSheetFragment.build()
-                    .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
-                    .setTitle("title", Color.BLUE)
-                    .setCancelTitle("取消", Color.YELLOW)
-                    .setOkTitle("确定", Color.RED)
-                    .setCanDismiss(false)
-                    .setOnOKListener(value -> {
+//            View view_threeloopertitle_floor = addAction();
+//            ActionSheetFragment.build()
+//                    .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
+//                    .setTitle("title", Color.BLUE)
+//                    .setCancelTitle("取消", Color.YELLOW)
+//                    .setOkTitle("确定", Color.RED)
+//                    .setCanDismiss(false)
+//                    .setOnOKListener(value -> {
+//
+//                    })
+//                    .setCustomerView(view_threeloopertitle_floor)
+//                    .show(ActionSheetActivity.this);
 
-                    })
-                    .setCustomerView(view_threeloopertitle_floor)
-                    .show(ActionSheetActivity.this);
-
-//            ActionSheetUtils.showGrid(this, "Hello", Color.BLUE, "cancel", Color.YELLOW,
+//            ActionSheetUtils.showGrid(this, "Hello", Color.BLUE, "cancel", Color.RED,
 //                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
 //                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
 //                    3, position -> {
@@ -48,7 +48,7 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                    });
 
-//            ActionSheetUtils.showList(this, "Hello",
+//            ActionSheetUtils.showList(this, "Hello", Color.BLUE, "cancel", Color.RED,
 //                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
 //                    2, position -> {
 //
@@ -61,15 +61,15 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //            });
 
-//            ActionSheetUtils.showToutiaoChoice(this, new String[]{"微信好友", "朋友圈", "QQ好友", "微博",
-//                            "微信好友", "朋友圈", "QQ好友", "微博"},
-//                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-//                            R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
-//                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
-//                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
-//                    (row, column) -> Toast.makeText(ActionSheetActivity.this, "row:" + row + " column:" + column, Toast.LENGTH_SHORT).show(), () -> {
-//
-//                    });
+            ActionSheetUtils.showToutiaoChoice(this, "取消", Color.BLACK, new String[]{"微信好友", "朋友圈", "QQ好友", "微博",
+                            "微信好友", "朋友圈", "QQ好友", "微博"},
+                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
+                            R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
+                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
+                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
+                    (row, column) -> Toast.makeText(ActionSheetActivity.this, "row:" + row + " column:" + column, Toast.LENGTH_SHORT).show(), () -> {
+
+                    });
 
 //            ActionSheetUtils.showDateRange(this, "设置日期", Color.BLUE, "取消", Color.GRAY, "确定", Color.RED, 1545689754000L, System.currentTimeMillis(), false,
 //                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
