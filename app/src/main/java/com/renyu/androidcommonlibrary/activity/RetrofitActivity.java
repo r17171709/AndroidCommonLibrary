@@ -12,6 +12,7 @@ import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.network.impl.IRetryCondition;
 import com.renyu.commonlibrary.network.other.NetworkException;
 import com.renyu.commonlibrary.network.other.RetryFunction;
+import com.renyu.commonlibrary.network.other.AllInfoResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -44,7 +45,7 @@ public class RetrofitActivity extends RxAppCompatActivity {
                 0,
                 1,
                 6000)
-                .compose(Retrofit2Utils.background())
+                .compose(Retrofit2Utils.backgroundWithAllInfo())
                 .retryWhen(new RetryFunction(3, 3,
                         new IRetryCondition() {
                             @Override
@@ -63,14 +64,14 @@ public class RetrofitActivity extends RxAppCompatActivity {
                         }))
                 .compose(Retrofit2Utils.withSchedulers())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new BaseObserver<AccessTokenResponse>(this) {
+                .subscribe(new BaseObserver<AllInfoResponse<AccessTokenResponse>>(this) {
                     @Override
-                    public void onNext(AccessTokenResponse accessTokenResponse) {
+                    public void onNext(AllInfoResponse<AccessTokenResponse> response) {
                         networkLoadingDialog.setDialogDismissListener(() -> {
                             finish();
                             networkLoadingDialog = null;
                         });
-                        String access_token = accessTokenResponse.getAccess_token();
+                        String access_token = response.getData().getAccess_token();
                         Toast.makeText(com.blankj.utilcode.util.Utils.getApp(), access_token, Toast.LENGTH_SHORT).show();
                         networkLoadingDialog.close();
                     }

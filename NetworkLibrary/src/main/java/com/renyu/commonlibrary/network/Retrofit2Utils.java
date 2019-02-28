@@ -7,6 +7,7 @@ import com.renyu.commonlibrary.network.other.NetworkException;
 
 import java.util.List;
 
+import com.renyu.commonlibrary.network.other.AllInfoResponse;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -70,6 +71,35 @@ public class Retrofit2Utils {
                 });
     }
 
+    public static <T> ObservableTransformer<IResponse<T>, AllInfoResponse<T>> backgroundWithAllInfo() {
+        return upstream -> upstream
+                .flatMap((Function<IResponse<T>, ObservableSource<AllInfoResponse<T>>>) response -> Observable.create(e -> {
+                    if (response.getResult() == Retrofit2Utils.sucessedCode) {
+                        AllInfoResponse<T> withMessageResponse = new AllInfoResponse<>();
+                        withMessageResponse.setData(response.getData());
+                        withMessageResponse.setMessage(response.getMessage());
+                        withMessageResponse.setResult(withMessageResponse.getResult());
+                        e.onNext(withMessageResponse);
+                        e.onComplete();
+                    } else {
+                        NetworkException exception = new NetworkException();
+                        exception.setMessage(response.getMessage());
+                        exception.setResult(response.getResult());
+                        e.onError(exception);
+                    }
+                }))
+                .onErrorResumeNext(throwable -> {
+                    if (throwable instanceof NetworkException) {
+                        return Observable.error(throwable);
+                    }
+                    // 未知异常均转换为NetworkException
+                    NetworkException exception = new NetworkException();
+                    exception.setMessage(throwable.getMessage());
+                    exception.setResult(-1);
+                    return Observable.error(exception);
+                });
+    }
+
     public static <T> ObservableTransformer<IResponseList<T>, List<T>> backgroundList() {
         return upstream -> upstream
                 .flatMap((Function<IResponseList<T>, ObservableSource<List<T>>>) response -> Observable.create(e -> {
@@ -96,7 +126,7 @@ public class Retrofit2Utils {
                 });
     }
 
-    public static <T> ObservableTransformer<IResponseList<T>, T> asyncEmptyBackground() {
+    public static <T> ObservableTransformer<IResponseList<T>, T> emptyBackgroundList() {
         return upstream -> upstream
                 .flatMap((Function<IResponseList<T>, ObservableSource<T>>) response -> Observable.create(e -> {
                     if (response.getResult() == Retrofit2Utils.sucessedCode) {
