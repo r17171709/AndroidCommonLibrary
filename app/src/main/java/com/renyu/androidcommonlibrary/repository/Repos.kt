@@ -75,13 +75,14 @@ class Repos {
                     })
             )
             .compose(Retrofit2Utils.withSchedulers())
-            .subscribe(object : BaseObserver<AccessTokenResponse>(false) {
+            .subscribe(object : BaseObserver<AccessTokenResponse>() {
                 override fun onSubscribe(d: Disposable) {
                     super.onSubscribe(d)
                     tokenResponse.value = Resource.loading(d)
                 }
 
                 override fun onNext(accessTokenResponse: AccessTokenResponse) {
+                    super.onNext(accessTokenResponse)
                     val tempResponse = TokenResponse(
                         ObservableField(accessTokenResponse.access_token),
                         ObservableInt(accessTokenResponse.expires_in)

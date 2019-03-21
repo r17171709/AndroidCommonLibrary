@@ -2,17 +2,13 @@ package com.renyu.androidcommonlibrary.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
+import com.blankj.utilcode.util.ToastUtils;
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.api.RetrofitImpl;
-import com.renyu.androidcommonlibrary.bean.AccessTokenResponse;
+import com.renyu.androidcommonlibrary.bean.DataListResponse;
 import com.renyu.androidcommonlibrary.utils.BaseObserver;
-import com.renyu.commonlibrary.commonutils.Utils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
-import com.renyu.commonlibrary.network.impl.IRetryCondition;
-import com.renyu.commonlibrary.network.other.NetworkException;
-import com.renyu.commonlibrary.network.other.RetryFunction;
-import com.renyu.commonlibrary.network.other.AllInfoResponse;
+import com.renyu.commonlibrary.network.other.AllInfoListResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -31,49 +27,62 @@ public class RetrofitActivity extends RxAppCompatActivity {
     }
 
     private void getAccessToken() {
-        int timestamp = (int) (System.currentTimeMillis() / 1000);
-        String random = "abcdefghijklmn";
-        String signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
-                Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp;
-        retrofitImpl.getAccessToken("nj",
-                timestamp,
-                "46877648",
-                random,
-                Utils.getMD5(signature),
-                Utils.getUniquePsuedoID(),
-                "v1.0",
-                0,
-                1,
-                6000)
-                .compose(Retrofit2Utils.backgroundWithAllInfo())
-                .retryWhen(new RetryFunction(3, 3,
-                        new IRetryCondition() {
-                            @Override
-                            public boolean canRetry(Throwable throwable) {
-                                return throwable instanceof NetworkException && ((NetworkException) throwable).getResult() == 1;
-                            }
+//        int timestamp = (int) (System.currentTimeMillis() / 1000);
+//        String random = "abcdefghijklmn";
+//        String signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
+//                Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp;
+//        retrofitImpl.getAccessToken("nj",
+//                timestamp,
+//                "46877648",
+//                random,
+//                Utils.getMD5(signature),
+//                Utils.getUniquePsuedoID(),
+//                "v1.0",
+//                0,
+//                1,
+//                6000)
+//                .compose(Retrofit2Utils.backgroundWithAllInfo())
+//                .retryWhen(new RetryFunction(3, 3,
+//                        new IRetryCondition() {
+//                            @Override
+//                            public boolean canRetry(Throwable throwable) {
+//                                return throwable instanceof NetworkException && ((NetworkException) throwable).getResult() == 1;
+//                            }
+//
+//                            @Override
+//                            public void doBeforeRetry() {
+//                                try {
+//                                    Thread.sleep(2000);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }))
+//                .compose(Retrofit2Utils.withSchedulers())
+//                .compose(bindUntilEvent(ActivityEvent.DESTROY))
+//                .subscribe(new BaseObserver<AllInfoResponse<AccessTokenResponse>>(this) {
+//                    @Override
+//                    public void onNext(AllInfoResponse<AccessTokenResponse> response) {
+//                        networkLoadingDialog.setDialogDismissListener(() -> {
+//                            finish();
+//                            networkLoadingDialog = null;
+//                        });
+//                        String access_token = response.getData().getAccess_token();
+//                        ToastUtils.showShort(access_token);
+//                        networkLoadingDialog.close();
+//                    }
+//                });
 
-                            @Override
-                            public void doBeforeRetry() {
-                                try {
-                                    Thread.sleep(2000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }))
+        retrofitImpl.getDataList()
+                .compose(Retrofit2Utils.backgroundListWithAllInfo())
                 .compose(Retrofit2Utils.withSchedulers())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new BaseObserver<AllInfoResponse<AccessTokenResponse>>(this) {
+                .subscribe(new BaseObserver<AllInfoListResponse<DataListResponse>>(this) {
                     @Override
-                    public void onNext(AllInfoResponse<AccessTokenResponse> response) {
-                        networkLoadingDialog.setDialogDismissListener(() -> {
-                            finish();
-                            networkLoadingDialog = null;
-                        });
-                        String access_token = response.getData().getAccess_token();
-                        Toast.makeText(com.blankj.utilcode.util.Utils.getApp(), access_token, Toast.LENGTH_SHORT).show();
-                        networkLoadingDialog.close();
+                    public void onNext(AllInfoListResponse<DataListResponse> dataListResponseAllInfoListResponse) {
+                        super.onNext(dataListResponseAllInfoListResponse);
+                        ToastUtils.showShort(dataListResponseAllInfoListResponse.getMessage());
+                        dismissDialog();
                     }
                 });
     }

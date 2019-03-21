@@ -2,12 +2,10 @@ package com.renyu.commonlibrary.network;
 
 import com.renyu.commonlibrary.network.impl.IResponse;
 import com.renyu.commonlibrary.network.impl.IResponseList;
+import com.renyu.commonlibrary.network.other.AllInfoListResponse;
+import com.renyu.commonlibrary.network.other.AllInfoResponse;
 import com.renyu.commonlibrary.network.other.EmptyResponse;
 import com.renyu.commonlibrary.network.other.NetworkException;
-
-import java.util.List;
-
-import com.renyu.commonlibrary.network.other.AllInfoResponse;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -16,6 +14,8 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+
+import java.util.List;
 
 /**
  * Created by renyu on 2017/2/3.
@@ -113,6 +113,35 @@ public class Retrofit2Utils {
                         e.onError(exception);
                     }
 
+                }))
+                .onErrorResumeNext(throwable -> {
+                    if (throwable instanceof NetworkException) {
+                        return Observable.error(throwable);
+                    }
+                    // 未知异常均转换为NetworkException
+                    NetworkException exception = new NetworkException();
+                    exception.setMessage(throwable.getMessage());
+                    exception.setResult(-1);
+                    return Observable.error(exception);
+                });
+    }
+
+    public static <T> ObservableTransformer<IResponseList<T>, AllInfoListResponse<T>> backgroundListWithAllInfo() {
+        return upstream -> upstream
+                .flatMap((Function<IResponseList<T>, ObservableSource<AllInfoListResponse<T>>>) response -> Observable.create(e -> {
+                    if (response.getResult() == Retrofit2Utils.sucessedCode) {
+                        AllInfoListResponse<T> withMessageResponse = new AllInfoListResponse<>();
+                        withMessageResponse.setData(response.getData());
+                        withMessageResponse.setMessage(response.getMessage());
+                        withMessageResponse.setResult(withMessageResponse.getResult());
+                        e.onNext(withMessageResponse);
+                        e.onComplete();
+                    } else {
+                        NetworkException exception = new NetworkException();
+                        exception.setMessage(response.getMessage());
+                        exception.setResult(response.getResult());
+                        e.onError(exception);
+                    }
                 }))
                 .onErrorResumeNext(throwable -> {
                     if (throwable instanceof NetworkException) {

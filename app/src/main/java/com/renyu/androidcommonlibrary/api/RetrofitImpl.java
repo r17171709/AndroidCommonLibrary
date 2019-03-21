@@ -1,9 +1,6 @@
 package com.renyu.androidcommonlibrary.api;
 
-import com.renyu.androidcommonlibrary.bean.AccessTokenResponse;
-import com.renyu.androidcommonlibrary.bean.ExampleAResponse;
-import com.renyu.androidcommonlibrary.bean.ExampleResponse;
-import com.renyu.androidcommonlibrary.bean.RentResponse;
+import com.renyu.androidcommonlibrary.bean.*;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -29,4 +26,7 @@ public interface RetrofitImpl {
                                                                  @Header("debug") int debug,
                                                                  @Header("netGet") int netGet,
                                                                  @Header("netGet_cacheTime") int netGet_cacheTime);
+
+    @GET("http://www.mocky.io/v2/5c933487320000ea6e6bd231")
+    Observable<ExampleResponseList<DataListResponse>> getDataList();
 }
