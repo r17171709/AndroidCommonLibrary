@@ -38,7 +38,11 @@ public abstract class BaseObserver<T> implements Observer<T> {
         this.d = d;
         if (activity != null) {
             networkLoadingDialog = TextUtils.isEmpty(loadingText) ? NetworkLoadingDialog.getInstance() : NetworkLoadingDialog.getInstance(loadingText);
-            networkLoadingDialog.setDialogDismissListener(() -> networkLoadingDialog = null);
+            networkLoadingDialog.setDialogDismissListener(() -> {
+                networkLoadingDialog = null;
+                activity = null;
+                cancelRequest();
+            });
             try {
                 networkLoadingDialog.show(activity);
             } catch (Exception e) {
@@ -61,15 +65,11 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     }
 
-    @Override
-    public void onNext(T t) {
-        activity = null;
-    }
-
     public void cancelRequest() {
         if (d != null && !d.isDisposed()) {
             d.dispose();
         }
+        d = null;
     }
 
     public void dismissDialog() {

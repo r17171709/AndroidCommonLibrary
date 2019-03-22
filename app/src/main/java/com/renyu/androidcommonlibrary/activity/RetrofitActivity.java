@@ -80,7 +80,6 @@ public class RetrofitActivity extends RxAppCompatActivity {
                 .subscribe(new BaseObserver<AllInfoListResponse<DataListResponse>>(this) {
                     @Override
                     public void onNext(AllInfoListResponse<DataListResponse> dataListResponseAllInfoListResponse) {
-                        super.onNext(dataListResponseAllInfoListResponse);
                         ToastUtils.showShort(dataListResponseAllInfoListResponse.getMessage());
                         dismissDialog();
                     }

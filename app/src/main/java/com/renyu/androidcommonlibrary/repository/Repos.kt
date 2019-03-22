@@ -82,7 +82,6 @@ class Repos {
                 }
 
                 override fun onNext(accessTokenResponse: AccessTokenResponse) {
-                    super.onNext(accessTokenResponse)
                     val tempResponse = TokenResponse(
                         ObservableField(accessTokenResponse.access_token),
                         ObservableInt(accessTokenResponse.expires_in)
