@@ -54,6 +54,12 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                    }, this::finish);
 
+            ActionSheetUtils.showCenterList(this, "", Color.BLUE, "cancel", Color.RED,
+                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, position -> {
+
+                    }, this::finish);
+
+
 //            ActionSheetUtils.showTime(this, "Title", Color.BLUE, "Cancel", Color.YELLOW, "OK", Color.RED,
 //                    10, 12, value -> {
 //                Toast.makeText(this, "value:" + value, Toast.LENGTH_SHORT).show();
@@ -61,15 +67,15 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //            });
 
-            ActionSheetUtils.showToutiaoChoice(this, "取消", Color.BLACK, new String[]{"微信好友", "朋友圈", "QQ好友", "微博",
-                            "微信好友", "朋友圈", "QQ好友", "微博"},
-                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                            R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
-                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
-                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
-                    (row, column) -> Toast.makeText(ActionSheetActivity.this, "row:" + row + " column:" + column, Toast.LENGTH_SHORT).show(), () -> {
-
-                    });
+//            ActionSheetUtils.showToutiaoChoice(this, "取消", Color.BLACK, new String[]{"微信好友", "朋友圈", "QQ好友", "微博",
+//                            "微信好友", "朋友圈", "QQ好友", "微博"},
+//                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
+//                            R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
+//                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
+//                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
+//                    (row, column) -> Toast.makeText(ActionSheetActivity.this, "row:" + row + " column:" + column, Toast.LENGTH_SHORT).show(), () -> {
+//
+//                    });
 
 //            ActionSheetUtils.showDateRange(this, "设置日期", Color.BLUE, "取消", Color.GRAY, "确定", Color.RED, 1545689754000L, System.currentTimeMillis(), false,
 //                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {

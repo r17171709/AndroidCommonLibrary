@@ -17,7 +17,6 @@ import com.renyu.commonlibrary.views.wheelview.R;
  * Created by Clevo on 2016/6/7.
  */
 public class ActionSheetAdapter extends BaseAdapter {
-
     private Context context;
     private String title[];
     private String subTitle[];

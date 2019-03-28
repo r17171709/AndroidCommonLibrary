@@ -18,6 +18,16 @@ public class ActionSheetUtils {
                 .setOnCancelListener(onCancelListener).show(activity);
     }
 
+    public static void showCenterList(FragmentActivity activity, String title, int titleColor, String cancelTitle, int cancelColor,
+                                      String[] items,
+                                      ActionSheetFragment.OnItemClickListener onItemClickListener,
+                                      ActionSheetFragment.OnCancelListener onCancelListener) {
+        ActionSheetFragment.build().setChoice(ActionSheetFragment.CHOICE.CENTERITEM)
+                .setCancelTitle(cancelTitle, cancelColor).setTitle(title, titleColor)
+                .setCenterListItems(items, onItemClickListener)
+                .setOnCancelListener(onCancelListener).show(activity);
+    }
+
     public static void showGrid(FragmentActivity activity, String title, int titleColor, String cancelTitle, int cancelColor,
                                 String[] items, int[] imageItems, int columnCount,
                                 ActionSheetFragment.OnItemClickListener onItemClickListener,

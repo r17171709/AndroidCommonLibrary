@@ -36,7 +36,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
     @Override
     public void onSubscribe(Disposable d) {
         this.d = d;
-        if (activity != null) {
+        if (activity != null && networkLoadingDialog == null) {
             networkLoadingDialog = TextUtils.isEmpty(loadingText) ? NetworkLoadingDialog.getInstance() : NetworkLoadingDialog.getInstance(loadingText);
             networkLoadingDialog.setDialogDismissListener(() -> {
                 networkLoadingDialog = null;

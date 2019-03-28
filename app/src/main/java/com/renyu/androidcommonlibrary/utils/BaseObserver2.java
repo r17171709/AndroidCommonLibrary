@@ -55,7 +55,7 @@ public abstract class BaseObserver2<T> implements Observer<Resource<T>> {
                     break;
                 case LOADING:
                     this.d = tResource.getDisposable();
-                    if (activity != null) {
+                    if (activity != null && networkLoadingDialog == null) {
                         networkLoadingDialog = TextUtils.isEmpty(loadingText) ? NetworkLoadingDialog.getInstance() : NetworkLoadingDialog.getInstance(loadingText);
                         networkLoadingDialog.setDialogDismissListener(() -> networkLoadingDialog = null);
                         try {

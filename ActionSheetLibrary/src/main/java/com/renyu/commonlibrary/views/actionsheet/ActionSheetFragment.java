@@ -58,7 +58,7 @@ public class ActionSheetFragment extends Fragment {
 
     //提供类型
     public enum CHOICE {
-        ITEM, GRID, TOUTIAO, TIME, DATERANGE, CUSTOMER
+        ITEM, CENTERITEM, GRID, TOUTIAO, TIME, DATERANGE, CUSTOMER
     }
 
     //是否自动关闭
@@ -120,6 +120,19 @@ public class ActionSheetFragment extends Fragment {
         bundle.putStringArray("subItems", subItems);
         bundle.putInt("choiceIndex", choiceIndex);
         bundle.putInt("type", 1);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    private static ActionSheetFragment newCenterItemInstance(String title, int titleColor, String cancelTitle, int cancelTitleColor, String[] items) {
+        ActionSheetFragment fragment = new ActionSheetFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        bundle.putInt("titleColor", titleColor);
+        bundle.putString("cancelTitle", cancelTitle);
+        bundle.putInt("cancelTitleColor", cancelTitleColor);
+        bundle.putStringArray("items", items);
+        bundle.putInt("type", 5);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -329,6 +342,41 @@ public class ActionSheetFragment extends Fragment {
             pop_listview.setAdapter(adapter);
             pop_listview.setOnItemClickListener((parent, view1, position, id) -> {
                 adapter.setChoiceIndex(position);
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(position);
+                    dismiss();
+                }
+            });
+        } else if (getArguments().getInt("type") == 5) {
+            // 不需要标题栏的取消功能
+            pop_cancel1.setVisibility(View.INVISIBLE);
+
+            View view_space = view.findViewById(R.id.view_space);
+            view_space.setVisibility(View.VISIBLE);
+            TextView pop_cancel = view.findViewById(R.id.pop_cancel);
+            if (getArguments().getInt("cancelTitleColor", -1) != -1) {
+                pop_cancel.setTextColor(getArguments().getInt("cancelTitleColor"));
+            }
+            if (!TextUtils.isEmpty(cancelTitle)) {
+                pop_cancel.setText(cancelTitle);
+                pop_cancel.setVisibility(View.VISIBLE);
+                pop_cancel.setOnClickListener(v -> {
+                    if (onCancelListener != null) {
+                        onCancelListener.onCancelClick();
+                    }
+                    dismiss();
+                });
+            }
+            if (!TextUtils.isEmpty(title)) {
+                LinearLayout pop_morechoice = view.findViewById(R.id.pop_morechoice);
+                pop_morechoice.setVisibility(View.VISIBLE);
+            }
+
+            ListView pop_listview = view.findViewById(R.id.pop_listview);
+            pop_listview.setVisibility(View.VISIBLE);
+            ActionSheetCenterAdapter adapter = new ActionSheetCenterAdapter(context, getArguments().getStringArray("items"));
+            pop_listview.setAdapter(adapter);
+            pop_listview.setOnItemClickListener((parent, view1, position, id) -> {
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(position);
                     dismiss();
@@ -701,6 +749,12 @@ public class ActionSheetFragment extends Fragment {
             return this;
         }
 
+        public Builder setCenterListItems(String[] items, OnItemClickListener onItemClickListener) {
+            this.items = items;
+            this.onItemClickListener = onItemClickListener;
+            return this;
+        }
+
         public Builder setGridItems(String[] items, int[] images, int columnCount, OnItemClickListener onItemClickListener) {
             this.items = items;
             this.images = images;
@@ -765,6 +819,11 @@ public class ActionSheetFragment extends Fragment {
             ActionSheetFragment fragment = null;
             if (choice == CHOICE.ITEM) {
                 fragment = ActionSheetFragment.newItemInstance(title, titleColor, cancelTitle, cancelTitleColor, items, subItems, choiceIndex);
+                fragment.setOnItemClickListener(onItemClickListener);
+                fragment.setOnCancelListener(onCancelListener);
+            }
+            if (choice == CHOICE.CENTERITEM) {
+                fragment = ActionSheetFragment.newCenterItemInstance(title, titleColor, cancelTitle, cancelTitleColor, items);
                 fragment.setOnItemClickListener(onItemClickListener);
                 fragment.setOnCancelListener(onCancelListener);
             }
