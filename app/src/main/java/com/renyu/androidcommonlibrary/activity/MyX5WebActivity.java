@@ -14,9 +14,6 @@ import com.tencent.smtt.sdk.WebView;
  */
 
 public class MyX5WebActivity extends X5WebActivity {
-
-    ImageButton ib_nav_right;
-
     @Override
     public WebView getWebView() {
         return findViewById(R.id.web_x5webview);
@@ -28,15 +25,23 @@ public class MyX5WebActivity extends X5WebActivity {
     }
 
     @Override
+    public ImageButton getNavClose() {
+        return findViewById(R.id.ib_nav_close);
+    }
+
+    @Override
+    public ImageButton getNavBack() {
+        return findViewById(R.id.ib_nav_left);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_x5web);
 
-        ib_nav_right = findViewById(R.id.ib_nav_right);
-        ib_nav_right.setImageResource(R.mipmap.ic_launcher);
-        ib_nav_right.setOnClickListener(v -> {
-
-        });
+        getNavClose().setImageResource(R.mipmap.ic_web_close);
+        getNavClose().setOnClickListener(v -> finish());
+        getNavBack().setImageResource(R.mipmap.ic_arrow_black_left);
         initViews();
     }
 }

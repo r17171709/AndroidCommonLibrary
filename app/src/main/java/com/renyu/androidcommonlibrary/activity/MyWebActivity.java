@@ -7,18 +7,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.renyu.androidcommonlibrary.R;
-import com.renyu.androidcommonlibrary.impl.WebAppInterface;
 import com.renyu.commonlibrary.web.activity.WebActivity;
-import com.renyu.commonlibrary.web.impl.IWebApp;
 
 /**
  * Created by Administrator on 2017/9/13.
  */
 
 public class MyWebActivity extends WebActivity {
-
-    ImageButton ib_nav_right;
-
     @Override
     public WebView getWebView() {
         return findViewById(R.id.web_webview);
@@ -30,16 +25,23 @@ public class MyWebActivity extends WebActivity {
     }
 
     @Override
+    public ImageButton getNavClose() {
+        return findViewById(R.id.ib_nav_close);
+    }
+
+    @Override
+    public ImageButton getNavBack() {
+        return findViewById(R.id.ib_nav_left);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
 
-        ib_nav_right = findViewById(R.id.ib_nav_right);
-        ib_nav_right.setImageResource(R.mipmap.ic_launcher);
-        ib_nav_right.setOnClickListener(v -> {
-            IWebApp impl=getIntent().getParcelableExtra("IWebApp");
-            ((WebAppInterface) impl).call1(123);
-        });
+        getNavClose().setImageResource(R.mipmap.ic_web_close);
+        getNavClose().setOnClickListener(v -> finish());
+        getNavBack().setImageResource(R.mipmap.ic_arrow_black_left);
         initViews();
     }
 }

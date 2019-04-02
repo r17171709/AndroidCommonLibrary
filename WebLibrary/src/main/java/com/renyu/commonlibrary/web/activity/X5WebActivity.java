@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.renyu.commonlibrary.web.impl.IX5WebApp;
@@ -41,6 +42,11 @@ public abstract class X5WebActivity extends AppCompatActivity {
 
     public abstract WebView getWebView();
     public abstract TextView getTitleView();
+    public abstract ImageButton getNavClose();
+    public abstract ImageButton getNavBack();
+
+    // 是否需要展示Close按钮
+    private int finishTimes = 0;
 
     IX5WebApp impl;
 
@@ -54,6 +60,7 @@ public abstract class X5WebActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
             getTitleView().setText(getIntent().getStringExtra("title"));
         }
+        getNavBack().setOnClickListener(v -> onBackPressed());
         getWebView().setSaveEnabled(true);
         getWebView().setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         getWebView().setWebChromeClient(new WebChromeClient() {
@@ -100,6 +107,13 @@ public abstract class X5WebActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                // 判断是否展示Close按钮
+                if (getIntent().getExtras().getBoolean(InitParams.NEED_GOBACK, false)) {
+                    finishTimes++;
+                    if (finishTimes > 1) {
+                        getNavClose().setVisibility(View.VISIBLE);
+                    }
+                }
             }
 
             @Override
