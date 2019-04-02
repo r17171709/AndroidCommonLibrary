@@ -67,15 +67,15 @@ dependencies {
     api 'com.android.support:cardview-v7:28.0.0'
     api 'android.arch.lifecycle:extensions:1.1.1'
     // 工具类
-    api 'com.blankj:utilcode:1.22.1'
+    api 'com.blankj:utilcode:1.23.7'
     // rxandroid
-    api 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
     // MMKV——基于 mmap 的高性能通用 key-value 组件
-    api 'com.tencent:mmkv:1.0.13'
+    api 'com.tencent:mmkv:1.0.18'
     // fresco
-    api 'com.facebook.fresco:fresco:1.11.0'
-    api 'com.facebook.fresco:animated-gif:1.11.0'
-    api 'com.facebook.fresco:drawee-span:1.11.0'
+    api 'com.facebook.fresco:fresco:1.13.0'
+    api 'com.facebook.fresco:animated-gif:1.13.0'
+    api 'com.facebook.fresco:drawee-span:1.13.0'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
     api 'com.kyleduo.switchbutton:library:2.0.0@aar'
     // SwipeDelMenuLayout  史上最简单侧滑菜单，0耦合，支持任意ViewGroup。一步集成侧滑(删除)菜单，高仿QQ、IOS。
@@ -83,7 +83,7 @@ dependencies {
     // RecyclerItemDecoration  ItemDecoration for RecyclerView using LinearLayoutManager for Android
     api 'com.github.magiepooh:recycler-itemdecoration:1.1.1@aar'
     // vlayout
-    api('com.alibaba.android:vlayout:1.2.18@aar') {
+    api('com.alibaba.android:vlayout:1.2.22@aar') {
         transitive = true
         exclude group: 'com.android.support'
     }
@@ -92,7 +92,7 @@ dependencies {
     // Android-ConvenientBanner  Simple and convenient banner, loop viewpager with 3D effects
     api 'com.bigkoo:ConvenientBanner:2.1.4@aar'
     // ViewPagerTransforms  Library containing common animations needed for transforming ViewPager scrolling for Android v13+.
-    api 'com.github.ToxicBakery:ViewPagerTransforms:1.3@aar'
+    api 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
     // CircleIndicator  A lightweight viewpager indicator like in nexus 5 launcher
     api 'me.relex:circleindicator:1.2.2@aar'
     // SwipyRefreshLayout  A SwipeRefreshLayout extension that allows to swipe in both direction
