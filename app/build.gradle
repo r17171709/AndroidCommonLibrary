@@ -115,8 +115,8 @@ dependencies {
     implementation 'com.github.renyu:AndroidShowCaseLibrary:1.0.1'
 //    implementation project(':ShowCaseLibrary')
     // Web浏览器
-//    implementation 'com.github.renyu:AndroidWebLibrary:1.0.4'
-    implementation project(':WebLibrary')
+    implementation 'com.github.renyu:AndroidWebLibrary:1.0.5'
+//    implementation project(':WebLibrary')
     // 权限判断
     implementation 'com.github.renyu:AndroidPermissionLibrary:1.0.2'
 //    implementation project(':PermissionLibrary')
