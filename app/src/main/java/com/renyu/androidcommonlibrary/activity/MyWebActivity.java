@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
+import com.blankj.utilcode.util.ToastUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.web.activity.WebActivity;
 
@@ -35,12 +35,16 @@ public class MyWebActivity extends WebActivity {
     }
 
     @Override
+    public void onPageFinished(String url) {
+        ToastUtils.showShort(url);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
 
         getNavClose().setImageResource(R.mipmap.ic_web_close);
-        getNavClose().setOnClickListener(v -> finish());
         getNavBack().setImageResource(R.mipmap.ic_arrow_black_left);
         initViews();
     }

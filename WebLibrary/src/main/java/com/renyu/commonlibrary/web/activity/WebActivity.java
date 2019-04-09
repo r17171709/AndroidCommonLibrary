@@ -50,6 +50,7 @@ public abstract class WebActivity extends AppCompatActivity {
     public abstract TextView getTitleView();
     public abstract ImageButton getNavClose();
     public abstract ImageButton getNavBack();
+    public abstract void onPageFinished(String url);
 
     // 是否需要展示Close按钮
     private int finishTimes = 0;
@@ -128,6 +129,7 @@ public abstract class WebActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                WebActivity.this.onPageFinished(url);
                 // 判断是否展示Close按钮
                 if (getIntent().getExtras().getBoolean(InitParams.NEED_GOBACK, false)) {
                     finishTimes++;
