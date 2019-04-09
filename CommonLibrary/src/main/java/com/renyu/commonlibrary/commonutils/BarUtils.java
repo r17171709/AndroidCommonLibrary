@@ -10,7 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -92,16 +91,16 @@ public class BarUtils {
      * @param alpha alpha值
      * @return 最终的状态栏颜色
      */
-    private static int calculateStatusColor(int color, int alpha) {
-        try {
-            Class BarUtilsClass=Class.forName("com.blankj.utilcode.util.BarUtils");
-            Method calculateStatusColorMethod=BarUtilsClass.getDeclaredMethod("getStatusBarColor", int.class, int.class);
-            calculateStatusColorMethod.setAccessible(true);
-            return (int) calculateStatusColorMethod.invoke(null, color, alpha);
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return Color.TRANSPARENT;
+    public static int calculateStatusColor(int color, int alpha) {
+        if (alpha == 0) return color;
+        float a = 1 - alpha / 255f;
+        int red = (color >> 16) & 0xff;
+        int green = (color >> 8) & 0xff;
+        int blue = color & 0xff;
+        red = (int) (red * a + 0.5);
+        green = (int) (green * a + 0.5);
+        blue = (int) (blue * a + 0.5);
+        return Color.argb(255, red, green, blue);
     }
 
     public static void adjustStatusBar(Activity activity, ViewGroup contentLayout, int color) {
