@@ -1,189 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical" android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="bottom"
-              android:background="@android:color/transparent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
     <LinearLayout
-            android:id="@+id/pop_child_layout"
-            android:orientation="vertical"
-            android:gravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:id="@+id/pop_child_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
         <LinearLayout
-                android:background="@android:color/white"
-                android:id="@+id/pop_morechoice"
-                android:visibility="gone"
+            android:id="@+id/pop_morechoice"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/pop_cancel1"
                 android:layout_width="match_parent"
-                android:layout_height="40dip"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dip"
+                android:layout_weight="1"
+                android:gravity="start|center_vertical"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
+
             <TextView
-                    android:id="@+id/pop_cancel1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="start|center_vertical"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14sp"
-                    android:layout_marginStart="12dip"/>
+                android:id="@+id/pop_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
             <TextView
-                    android:id="@+id/pop_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textColor="#333333"
-                    android:textSize="16sp"/>
-            <TextView
-                    android:id="@+id/pop_ok1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="end|center_vertical"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14sp"
-                    android:layout_marginEnd="12dip"
-                    android:layout_gravity="end"/>
+                android:id="@+id/pop_ok1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginEnd="12dip"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
         </LinearLayout>
+
         <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dip"
-                android:background="#999999">
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="#999999">
 
         </View>
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/pop_listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@android:color/white">
-            <ListView
-                    android:id="@+id/pop_listview"
-                    android:scrollbars="none"
-                    android:cacheColorHint="@android:color/transparent"
-                    android:listSelector="@android:color/transparent"
-                    android:divider="#c9c9c9"
-                    android:dividerHeight="0.5dip"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="#c9c9c9"
+                android:dividerHeight="0.5dip"
+                android:listSelector="@android:color/transparent"
+                android:scrollbars="none"
+                android:visibility="gone">
 
             </ListView>
-            <android.support.v7.widget.GridLayout
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/pop_grid"
-                    app:columnCount="4"
-                    app:orientation="horizontal"
-                    android:visibility="gone"
-                    android:layout_marginLeft="10dip"
-                    android:layout_marginRight="10dip"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+
+            <android.support.v7.widget.GridLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/pop_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:visibility="gone"
+                app:columnCount="4"
+                app:orientation="horizontal">
 
             </android.support.v7.widget.GridLayout>
+
             <LinearLayout
-                    android:id="@+id/pop_toutiaochoice_layout"
+                android:id="@+id/pop_toutiaochoice_layout"
+                android:layout_width="match_parent"
+                android:layout_height="220dip"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_toutiaochoice_top"
                     android:layout_width="match_parent"
-                    android:layout_height="220dip"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-                <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_toutiaochoice_top"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
                 </android.support.v7.widget.RecyclerView>
+
                 <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_toutiaochoice_bottom"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+                    android:id="@+id/rv_toutiaochoice_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
                 </android.support.v7.widget.RecyclerView>
+
                 <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dip"
-                        android:layout_marginStart="16dip"
-                        android:layout_marginEnd="16dip"
-                        android:background="#999999">
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dip"
+                    android:layout_marginStart="16dip"
+                    android:layout_marginEnd="16dip"
+                    android:background="#999999">
 
                 </View>
             </LinearLayout>
+
             <LinearLayout
-                    android:id="@+id/pop_wheel_timelayout"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="230dip"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                android:id="@+id/pop_wheel_timelayout"
+                android:layout_width="match_parent"
+                android:layout_height="230dip"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
                 <com.renyu.commonlibrary.views.wheelview.LoopView
-                        android:id="@+id/pop_wheel_timelayout_hour"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                    android:id="@+id/pop_wheel_timelayout_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:text=":"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@android:color/black" />
+
                 <com.renyu.commonlibrary.views.wheelview.LoopView
-                        android:id="@+id/pop_wheel_timelayout_minute"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                    android:id="@+id/pop_wheel_timelayout_minute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
-                    android:id="@+id/pop_wheel_datarangelayout"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="230dip"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                android:id="@+id/pop_wheel_datarangelayout"
+                android:layout_width="match_parent"
+                android:layout_height="230dip"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
                 <com.renyu.commonlibrary.views.wheelview.LoopView
-                        android:id="@+id/pop_wheel_datarangelayout_year"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    android:id="@+id/pop_wheel_datarangelayout_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <com.renyu.commonlibrary.views.wheelview.LoopView
-                        android:id="@+id/pop_wheel_datarangelayout_month"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    android:id="@+id/pop_wheel_datarangelayout_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <com.renyu.commonlibrary.views.wheelview.LoopView
-                        android:id="@+id/pop_wheel_datarangelayout_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    android:id="@+id/pop_wheel_datarangelayout_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <com.renyu.commonlibrary.views.wheelview.LoopView
-                        android:id="@+id/pop_wheel_datarangelayout_hour"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    android:id="@+id/pop_wheel_datarangelayout_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <com.renyu.commonlibrary.views.wheelview.LoopView
-                        android:id="@+id/pop_wheel_datarangelayout_minute"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    android:id="@+id/pop_wheel_datarangelayout_minute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
-                    android:id="@+id/pop_customer_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"
-                    android:gravity="bottom|center_horizontal"
-                    android:orientation="vertical">
+                android:id="@+id/pop_customer_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom|center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
 
             </LinearLayout>
         </LinearLayout>
+
         <View
-                android:id="@+id/view_space"
-                android:layout_width="match_parent"
-                android:layout_height="10dip"
-                android:visibility="gone"
-                android:background="#f4f4f4"></View>
+            android:id="@+id/view_space"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="#999999"
+            android:visibility="gone">
+
+        </View>
+
         <TextView
-                android:id="@+id/pop_cancel"
-                android:layout_width="match_parent"
-                android:layout_height="50dip"
-                android:visibility="gone"
-                android:gravity="center"
-                android:text="取消"
-                android:background="@android:color/white"
-                android:textColor="#333333"
-                android:textSize="14sp"/>
+            android:id="@+id/pop_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>
