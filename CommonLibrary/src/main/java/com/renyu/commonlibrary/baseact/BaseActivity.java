@@ -2,6 +2,8 @@ package com.renyu.commonlibrary.baseact;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
@@ -56,6 +58,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         if (setStatusBarTranslucent()!=0) {
             BarUtils.setTranslucent(this);
+        }
+        // 底部导航栏颜色
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            com.blankj.utilcode.util.BarUtils.setNavBarColor(this, Color.BLACK);
         }
 
         initParams();
