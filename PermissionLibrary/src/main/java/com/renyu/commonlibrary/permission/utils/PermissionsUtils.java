@@ -28,6 +28,9 @@ public class PermissionsUtils {
 
     /**
      * 用户关闭并不再提醒所有权限提示
+     *
+     * 华为手机第一次请求权限和勾选了Don't ask again，shouldShowRequestPermissionRationale都会返回FALSE
+     *
      * @param activity
      * @param permissions
      * @return
@@ -35,14 +38,14 @@ public class PermissionsUtils {
     public static boolean hasDelayAllPermissions(Activity activity, String... permissions) {
         int count=0;
         for (String permission : permissions) {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) && ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) && ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_DENIED) {
                 count++;
             }
         }
         if (count!=0) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**

@@ -39,7 +39,7 @@ public class PermissionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_permission);
 
         this.permission = Arrays.asList(getIntent().getStringArrayExtra("permissions"));
-        this.deniedDesp= getIntent().getStringExtra("deniedDesp");
+        this.deniedDesp = getIntent().getStringExtra("deniedDesp");
         checkPermission();
     }
 
@@ -48,7 +48,7 @@ public class PermissionActivity extends AppCompatActivity {
         super.onResume();
 
         if (isCheckAgain) {
-            isCheckAgain=false;
+            isCheckAgain = false;
             checkPermission();
         }
     }
@@ -56,6 +56,7 @@ public class PermissionActivity extends AppCompatActivity {
     /**
      * 跳转权限授权页面
      * todo 接口传递其实是有问题的
+     *
      * @param context
      * @param permissions
      * @param deniedDesp
@@ -63,7 +64,7 @@ public class PermissionActivity extends AppCompatActivity {
      */
     public static void gotoActivity(Context context, String[] permissions, String deniedDesp, IPermissionStatue impl) {
         PermissionActivity.impl = impl;
-        Intent intent=new Intent(context, PermissionActivity.class);
+        Intent intent = new Intent(context, PermissionActivity.class);
         intent.putExtra("permissions", permissions);
         intent.putExtra("deniedDesp", deniedDesp);
         context.startActivity(intent);
@@ -71,23 +72,17 @@ public class PermissionActivity extends AppCompatActivity {
     }
 
     private void checkPermission() {
-        if (permission==null || permission.size()==0) {
+        if (permission == null || permission.size() == 0) {
             return;
         }
-        String[] permissions=new String[permission.size()];
+        String[] permissions = new String[permission.size()];
         for (int i = 0; i < permission.size(); i++) {
-            permissions[i]=permission.get(i);
+            permissions[i] = permission.get(i);
         }
-        if (impl!=null) {
+        if (impl != null) {
             if (PermissionsUtils.lacksPermissions(this, permissions)) {
-                if (PermissionsUtils.hasDelayAllPermissions(this, permissions)) {
-                    openPermissionDialog();
-                }
-                else {
-                    PermissionsUtils.requestPermissions(this, permissions);
-                }
-            }
-            else {
+                PermissionsUtils.requestPermissions(this, permissions);
+            } else {
                 finish();
                 overridePendingTransition(0, 0);
                 impl.grant();
@@ -98,27 +93,26 @@ public class PermissionActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean isGrant=true;
+        boolean isGrant = true;
         for (int grantResult : grantResults) {
-            if (grantResult== PackageManager.PERMISSION_DENIED) {
-                isGrant=false;
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                isGrant = false;
                 break;
             }
         }
-        if (impl!=null) {
+        if (impl != null) {
             if (isGrant) {
                 finish();
                 overridePendingTransition(0, 0);
                 impl.grant();
-            }
-            else {
+            } else {
                 openPermissionDialog();
             }
         }
     }
 
     public void openPermissionDialog() {
-        AlertDialog.Builder builder=new AlertDialog.Builder(PermissionActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(PermissionActivity.this);
         builder.setTitle("提示")
                 .setMessage(deniedDesp)
                 .setPositiveButton("确定", (dialog, which) -> {
@@ -127,7 +121,7 @@ public class PermissionActivity extends AppCompatActivity {
                     intent.setData(Uri.parse("package:" + getPackageName()));
                     startActivity(intent);
 
-                    isCheckAgain=true;
+                    isCheckAgain = true;
                 })
                 .setNegativeButton("取消", (dialog, which) -> needDismiss = true)
                 .setOnDismissListener(dialog -> {
