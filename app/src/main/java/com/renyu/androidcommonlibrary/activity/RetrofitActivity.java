@@ -2,17 +2,20 @@ package com.renyu.androidcommonlibrary.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.api.RetrofitImpl;
 import com.renyu.androidcommonlibrary.bean.DataListResponse;
-import com.renyu.androidcommonlibrary.utils.BaseObserver;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.network.other.AllInfoListResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class RetrofitActivity extends RxAppCompatActivity {
     @Inject
@@ -77,11 +80,25 @@ public class RetrofitActivity extends RxAppCompatActivity {
                 .compose(Retrofit2Utils.backgroundListWithAllInfo())
                 .compose(Retrofit2Utils.withSchedulers())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new BaseObserver<AllInfoListResponse<DataListResponse>>(this) {
+                .subscribe(new Observer<AllInfoListResponse<DataListResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
                     @Override
                     public void onNext(AllInfoListResponse<DataListResponse> dataListResponseAllInfoListResponse) {
                         ToastUtils.showShort(dataListResponseAllInfoListResponse.getMessage());
-                        dismissDialog();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }

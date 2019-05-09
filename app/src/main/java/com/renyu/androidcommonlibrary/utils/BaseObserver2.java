@@ -4,15 +4,17 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.widget.Toast;
-import com.blankj.utilcode.util.Utils;
+
+import com.blankj.utilcode.util.ToastUtils;
 import com.renyu.commonlibrary.dialog.NetworkLoadingDialog;
 import com.renyu.commonlibrary.network.other.Resource;
+
 import io.reactivex.disposables.Disposable;
 
 public abstract class BaseObserver2<T> implements Observer<Resource<T>> {
 
     public abstract void onError(Resource<T> tResource);
+
     public abstract void onSucess(Resource<T> tResource);
 
     private AppCompatActivity activity;
@@ -44,7 +46,11 @@ public abstract class BaseObserver2<T> implements Observer<Resource<T>> {
                     if (networkLoadingDialog != null) {
                         networkLoadingDialog.close();
                     }
-                    Toast.makeText(Utils.getApp(), tResource.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    if (tResource.getException().getResult() == -1) {
+                        ToastUtils.showShort("网络数据异常,请稍后再试");
+                    } else {
+                        ToastUtils.showShort(tResource.getException().getMessage());
+                    }
                     onError(tResource);
                     break;
                 case SUCESS:

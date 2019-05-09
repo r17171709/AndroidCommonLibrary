@@ -1,17 +1,18 @@
 package com.renyu.androidcommonlibrary.utils;
 
+import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.renyu.commonlibrary.dialog.NetworkLoadingDialog;
-import io.reactivex.Observer;
+import com.renyu.commonlibrary.network.other.Resource;
 import io.reactivex.disposables.Disposable;
 
-/**
- * Created by Administrator on 2018/2/28 0028.
- */
+public abstract class BaseObserver<T> implements Observer<Resource<T>> {
 
-public abstract class BaseObserver<T> implements Observer<T> {
+    public abstract void onError(Resource<T> tResource);
+    public abstract void onSucess(Resource<T> tResource);
+
     private AppCompatActivity activity;
     private String loadingText;
 
@@ -34,42 +35,35 @@ public abstract class BaseObserver<T> implements Observer<T> {
     }
 
     @Override
-    public void onSubscribe(Disposable d) {
-        this.d = d;
-        if (activity != null && networkLoadingDialog == null) {
-            networkLoadingDialog = TextUtils.isEmpty(loadingText) ? NetworkLoadingDialog.getInstance() : NetworkLoadingDialog.getInstance(loadingText);
-            networkLoadingDialog.setDialogDismissListener(() -> {
-                networkLoadingDialog = null;
-                activity = null;
-                cancelRequest();
-            });
-            try {
-                networkLoadingDialog.show(activity);
-            } catch (Exception e) {
+    public void onChanged(@Nullable Resource<T> tResource) {
+        if (tResource != null) {
+            switch (tResource.getStatus()) {
+                case ERROR:
+                    onError(tResource);
+                    break;
+                case SUCESS:
+                    onSucess(tResource);
+                    break;
+                case LOADING:
+                    this.d = tResource.getDisposable();
+                    if (activity != null && networkLoadingDialog == null) {
+                        networkLoadingDialog = TextUtils.isEmpty(loadingText) ? NetworkLoadingDialog.getInstance() : NetworkLoadingDialog.getInstance(loadingText);
+                        networkLoadingDialog.setDialogDismissListener(() -> networkLoadingDialog = null);
+                        try {
+                            networkLoadingDialog.show(activity);
+                        } catch (Exception e) {
 
+                        }
+                    }
+                    break;
             }
         }
-    }
-
-    @Override
-    public void onError(Throwable e) {
-        activity = null;
-        ToastUtils.showShort(e.getMessage());
-        if (networkLoadingDialog != null) {
-            networkLoadingDialog.close();
-        }
-    }
-
-    @Override
-    public void onComplete() {
-
     }
 
     public void cancelRequest() {
         if (d != null && !d.isDisposed()) {
             d.dispose();
         }
-        d = null;
     }
 
     public void dismissDialog() {

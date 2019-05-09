@@ -1,6 +1,5 @@
 package com.renyu.androidcommonlibrary.activity
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
@@ -8,21 +7,22 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import com.renyu.androidcommonlibrary.R
-import com.renyu.androidcommonlibrary.bean.TokenRequest
-import com.renyu.androidcommonlibrary.bean.TokenResponse
+import com.renyu.androidcommonlibrary.bean.AccessTokenRequest
+import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
+import com.renyu.androidcommonlibrary.bean.Demo
 import com.renyu.androidcommonlibrary.databinding.ActivityArchitectureBinding
 import com.renyu.androidcommonlibrary.impl.EventImpl
+import com.renyu.androidcommonlibrary.utils.BaseObserver2
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModel
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModelFactory
 import com.renyu.commonlibrary.baseact.BaseDataBindingActivity
 import com.renyu.commonlibrary.commonutils.Utils
-import com.renyu.commonlibrary.network.other.Status
+import com.renyu.commonlibrary.network.other.Resource
 
 /**
  * Created by Administrator on 2018/7/7.
  */
 class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding>(), EventImpl {
-
     override fun initParams() {
 
     }
@@ -39,6 +39,10 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
 
     private var vm: ArchitectureViewModel? = null
 
+    val demo: Demo by lazy {
+        Demo(ObservableField(""), ObservableInt(0))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,30 +51,31 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
             val random = "abcdefghijklmn"
             val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
                     Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
-            it.tokenRequest = TokenRequest("nj", timestamp, "46877648", random, Utils.getMD5(signature), Utils.getUniquePsuedoID())
+            it.tokenRequest =
+                    AccessTokenRequest("nj", timestamp, "46877648", random, Utils.getMD5(signature), Utils.getUniquePsuedoID())
             it.eventImpl = this
-            it.tokenResponse = TokenResponse(ObservableField(""), ObservableInt(0))
+            it.tokenResponse = AccessTokenResponse("", 0)
+            it.demo = demo
 
-            vm = ViewModelProviders.of(this, ArchitectureViewModelFactory(it.tokenResponse!!)).get(ArchitectureViewModel::class.java)
-            vm?.tokenResponse?.observe(this, Observer {
-                if (it != null) {
-                    if (it.status == Status.SUCESS) {
-                        if (it.data != null) {
-                            vm?.refreshUI(it.data!!)
-                        }
-                    }
-                    else if (it.status == Status.ERROR) {
+            vm = ViewModelProviders.of(this, ArchitectureViewModelFactory(it))
+                    .get(ArchitectureViewModel::class.java)
+            vm?.tokenResponse?.observe(this, object : BaseObserver2<AccessTokenResponse>() {
+                override fun onError(tResource: Resource<AccessTokenResponse>?) {
 
-                    }
-                    else if (it.status == Status.LOADING) {
+                }
 
+                override fun onSucess(tResource: Resource<AccessTokenResponse>?) {
+                    if (tResource?.data != null) {
+                        vm?.refreshUI(tResource.data!!)
+                        demo.access_token.set(tResource.data!!.access_token)
+                        demo.expires_in.set(tResource.data!!.expires_in)
                     }
                 }
             })
         }
     }
 
-    override fun click(view: View, request: TokenRequest) {
+    override fun click(view: View, request: AccessTokenRequest) {
         vm?.sendRequest(request)
     }
 }
