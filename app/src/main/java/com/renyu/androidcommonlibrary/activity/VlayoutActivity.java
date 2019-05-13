@@ -1,8 +1,7 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
-
+import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
@@ -33,23 +32,23 @@ public class VlayoutActivity extends BaseActivity {
 
     @Override
     public void initParams() {
-        linearLayoutBeansHeader1=new ArrayList<>();
+        linearLayoutBeansHeader1 = new ArrayList<>();
         linearLayoutBeansHeader1.add("cccc1");
-        linearLayoutBeans1=new ArrayList<>();
+        linearLayoutBeans1 = new ArrayList<>();
         linearLayoutBeans1.addAll(getBeans());
-        linearLayoutBeansHeader2=new ArrayList<>();
+        linearLayoutBeansHeader2 = new ArrayList<>();
         linearLayoutBeansHeader2.add("cccc2");
-        linearLayoutBeans2=new ArrayList<>();
+        linearLayoutBeans2 = new ArrayList<>();
         linearLayoutBeans2.addAll(getBeans());
-        adapters=new LinkedList<>();
+        adapters = new LinkedList<>();
 
         rv_vlayout = findViewById(R.id.rv_vlayout);
-        VirtualLayoutManager manager=new VirtualLayoutManager(this);
+        VirtualLayoutManager manager = new VirtualLayoutManager(this);
         rv_vlayout.setLayoutManager(manager);
-        RecyclerView.RecycledViewPool pool=new RecyclerView.RecycledViewPool();
+        RecyclerView.RecycledViewPool pool = new RecyclerView.RecycledViewPool();
         pool.setMaxRecycledViews(0, 20);
         rv_vlayout.setRecycledViewPool(pool);
-        DelegateAdapter delegateAdapter=new DelegateAdapter(manager, false);
+        DelegateAdapter delegateAdapter = new DelegateAdapter(manager, false);
         rv_vlayout.setAdapter(delegateAdapter);
         adapters.add(new HeaderViewAdapter(this, new StickyLayoutHelper(), linearLayoutBeansHeader1));
         adapters.add(new ItemViewAdapter(this, new LinearLayoutHelper(), linearLayoutBeans1));
@@ -75,10 +74,10 @@ public class VlayoutActivity extends BaseActivity {
     }
 
     private ArrayList<Object> getBeans() {
-        ArrayList<Object> linearLayoutBeans=new ArrayList<>();
-        Random random=new Random();
-        for (int i=0;i<5+random.nextInt(5);i++) {
-            linearLayoutBeans.add(""+i);
+        ArrayList<Object> linearLayoutBeans = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 5 + random.nextInt(5); i++) {
+            linearLayoutBeans.add("" + i);
         }
         return linearLayoutBeans;
     }

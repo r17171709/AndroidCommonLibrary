@@ -1,11 +1,11 @@
 package com.renyu.androidcommonlibrary.activity
 
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.ObservableField
-import android.databinding.ObservableInt
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
+import androidx.lifecycle.ViewModelProviders
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.bean.AccessTokenRequest
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
@@ -52,13 +52,20 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
             val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
                     Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
             it.tokenRequest =
-                    AccessTokenRequest("nj", timestamp, "46877648", random, Utils.getMD5(signature), Utils.getUniquePsuedoID())
+                AccessTokenRequest(
+                    "nj",
+                    timestamp,
+                    "46877648",
+                    random,
+                    Utils.getMD5(signature),
+                    Utils.getUniquePsuedoID()
+                )
             it.eventImpl = this
             it.tokenResponse = AccessTokenResponse("", 0)
             it.demo = demo
 
             vm = ViewModelProviders.of(this, ArchitectureViewModelFactory(it))
-                    .get(ArchitectureViewModel::class.java)
+                .get(ArchitectureViewModel::class.java)
             vm?.tokenResponse?.observe(this, object : BaseObserver2<AccessTokenResponse>() {
                 override fun onError(tResource: Resource<AccessTokenResponse>?) {
 

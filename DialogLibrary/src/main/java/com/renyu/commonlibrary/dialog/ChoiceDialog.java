@@ -8,16 +8,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.renyu.commonlibrary.dialog.utils.Utils;
 
 import java.lang.reflect.Field;
@@ -28,14 +28,14 @@ import java.lang.reflect.Field;
 
 public class ChoiceDialog extends DialogFragment {
 
-    TextView choice_container_content;
-    TextView choice_container_title;
-    Button choice_container_positive;
-    Button choice_container_negative;
-    View choice_container_line;
+    private TextView choice_container_content;
+    private TextView choice_container_title;
+    private Button choice_container_positive;
+    private Button choice_container_negative;
+    private View choice_container_line;
 
-    boolean isDismiss = true;
-    FragmentManager manager = null;
+    private boolean isDismiss = true;
+    private FragmentManager manager = null;
     // 是否由手动触发关闭产生
     private boolean isHandlerDismiss = false;
 
@@ -55,9 +55,9 @@ public class ChoiceDialog extends DialogFragment {
         void onNeg();
     }
 
-    OnDialogDismiss onDialogDismissListener;
-    OnDialogPos onDialogPosListener;
-    OnDialogNeg onDialogNegListener;
+    private OnDialogDismiss onDialogDismissListener;
+    private OnDialogPos onDialogPosListener;
+    private OnDialogNeg onDialogNegListener;
 
     public void setOnDialogDismissListener(OnDialogDismiss onDialogDismissListener) {
         this.onDialogDismissListener = onDialogDismissListener;
@@ -73,6 +73,7 @@ public class ChoiceDialog extends DialogFragment {
 
     /**
      * 選擇弹出框
+     *
      * @param content
      * @param pos
      * @param neg
@@ -91,6 +92,7 @@ public class ChoiceDialog extends DialogFragment {
 
     /**
      * 選擇弹出框 title+content
+     *
      * @param title
      * @param content
      * @param pos
@@ -111,13 +113,14 @@ public class ChoiceDialog extends DialogFragment {
 
     /**
      * 确定弹出框
+     *
      * @param content
      * @param pos
      * @return
      */
     public static ChoiceDialog getInstanceByTextCommit(String content, String pos) {
-        ChoiceDialog dialog=new ChoiceDialog();
-        Bundle bundle=new Bundle();
+        ChoiceDialog dialog = new ChoiceDialog();
+        Bundle bundle = new Bundle();
         bundle.putInt("type", 12);
         bundle.putString("content", content);
         bundle.putString("pos", pos);
@@ -219,8 +222,8 @@ public class ChoiceDialog extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState!=null) {
-            isDismiss=savedInstanceState.getBoolean("isDismiss");
+        if (savedInstanceState != null) {
+            isDismiss = savedInstanceState.getBoolean("isDismiss");
             FragmentActivity activity = (FragmentActivity) context;
             if (activity != null) {
                 manager = activity.getSupportFragmentManager();
@@ -228,10 +231,10 @@ public class ChoiceDialog extends DialogFragment {
             dismissDialog();
         }
 
-        InputMethodManager manager= (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager manager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager.isActive()) {
-            View focusView=((FragmentActivity) context).getCurrentFocus();
-            if (focusView!=null) {
+            View focusView = ((FragmentActivity) context).getCurrentFocus();
+            if (focusView != null) {
                 manager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
             }
         }
@@ -272,18 +275,18 @@ public class ChoiceDialog extends DialogFragment {
             e.printStackTrace();
         }
 
-        FragmentTransaction transaction=manager.beginTransaction();
+        FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(this, tag);
         transaction.commitAllowingStateLoss();
 
-        isDismiss=false;
+        isDismiss = false;
     }
 
     private void dismissDialog() {
         if (isDismiss) {
             return;
         }
-        isDismiss=true;
+        isDismiss = true;
         try {
             dismissAllowingStateLoss();
         } catch (Exception e) {

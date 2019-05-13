@@ -2,13 +2,12 @@ package com.renyu.androidcommonlibrary.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;

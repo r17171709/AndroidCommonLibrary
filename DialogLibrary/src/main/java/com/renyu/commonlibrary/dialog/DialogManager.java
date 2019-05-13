@@ -1,6 +1,6 @@
 package com.renyu.commonlibrary.dialog;
 
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +25,7 @@ public class DialogManager {
 
     /**
      * 添加Dialog
+     *
      * @param fragmentActivity
      * @param choiceDialog
      */

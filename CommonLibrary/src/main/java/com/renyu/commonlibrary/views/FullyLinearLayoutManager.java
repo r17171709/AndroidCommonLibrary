@@ -1,14 +1,14 @@
 package com.renyu.commonlibrary.views;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by renyu on 2017/9/1.
- *
+ * <p>
  * ScrollView和RecyclerView嵌套使用显示不全问题解决方案
  */
 

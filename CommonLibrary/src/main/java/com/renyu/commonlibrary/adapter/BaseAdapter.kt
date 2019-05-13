@@ -1,23 +1,25 @@
 package com.renyu.commonlibrary.adapter
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
 /**
  * Created by Administrator on 2018/7/16.
  */
 
-abstract class BaseAdapter<T: ViewDataBinding, D>(private val beans: ArrayList<D>) : RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
+abstract class BaseAdapter<T : ViewDataBinding, D>(private val beans: ArrayList<D>) :
+    RecyclerView.Adapter<BaseAdapter.BaseViewHolder>() {
 
     abstract fun initViews(): Int
     abstract fun dataVariableId(): Int
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        val viewDataBinding = DataBindingUtil.inflate<T>(LayoutInflater.from(parent.context), initViews(), parent, false)
+        val viewDataBinding =
+            DataBindingUtil.inflate<T>(LayoutInflater.from(parent.context), initViews(), parent, false)
         return BaseViewHolder(viewDataBinding)
     }
 

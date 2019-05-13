@@ -1,6 +1,6 @@
 package com.renyu.androidcommonlibrary.repository
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.Utils
 import com.renyu.androidcommonlibrary.ExampleApp
 import com.renyu.androidcommonlibrary.api.RetrofitImpl
@@ -50,40 +50,40 @@ class Repos {
     fun getTokenResponse(input: AccessTokenRequest, cancelTag: String): MutableLiveData<Resource<AccessTokenResponse>> {
         val tokenResponse = MutableLiveData<Resource<AccessTokenResponse>>()
         val disposable = retrofitImpl!!.getAccessToken(
-                input.city,
-                input.timestamp,
-                input.app_id,
-                input.rand_str,
-                input.signature,
-                input.device_id,
-                "v1.0",
-                0,
-                1,
-                6000
+            input.city,
+            input.timestamp,
+            input.app_id,
+            input.rand_str,
+            input.signature,
+            input.device_id,
+            "v1.0",
+            0,
+            1,
+            6000
         )
-                .compose(Retrofit2Utils.background<AccessTokenResponse>())
-                .retryWhen(
-                        RetryFunction(3, 3,
-                                object : IRetryCondition {
-                                    override fun canRetry(throwable: Throwable?): Boolean {
-                                        return throwable is NetworkException && throwable.result == 1
-                                    }
+            .compose(Retrofit2Utils.background<AccessTokenResponse>())
+            .retryWhen(
+                RetryFunction(3, 3,
+                    object : IRetryCondition {
+                        override fun canRetry(throwable: Throwable?): Boolean {
+                            return throwable is NetworkException && throwable.result == 1
+                        }
 
-                                    override fun doBeforeRetry() {
-                                        Thread.sleep(2000)
-                                    }
-                                })
-                )
-                .compose(Retrofit2Utils.withSchedulers())
-                .subscribe({
-                    tokenResponse.value = Resource.sucess(it)
-                }, { error ->
-                    tokenResponse.value = Resource.error(error as NetworkException)
-                }, {
+                        override fun doBeforeRetry() {
+                            Thread.sleep(2000)
+                        }
+                    })
+            )
+            .compose(Retrofit2Utils.withSchedulers())
+            .subscribe({
+                tokenResponse.value = Resource.sucess(it)
+            }, { error ->
+                tokenResponse.value = Resource.error(error as NetworkException)
+            }, {
 
-                }, {
-                    tokenResponse.value = Resource.loading(it)
-                })
+            }, {
+                tokenResponse.value = Resource.loading(it)
+            })
         disposoables[cancelTag] = disposable
         return tokenResponse
     }

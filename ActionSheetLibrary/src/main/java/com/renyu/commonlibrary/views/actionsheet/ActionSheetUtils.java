@@ -1,6 +1,7 @@
 package com.renyu.commonlibrary.views.actionsheet;
 
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * Created by renyu on 2017/2/22.

@@ -7,14 +7,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Build;
-import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -61,6 +60,7 @@ public class Utils {
 
     /**
      * 获得独一无二的Psuedo ID
+     *
      * @return
      */
     public static String getUniquePsuedoID() {
@@ -120,6 +120,7 @@ public class Utils {
 
     /**
      * 设置tablayout线条的宽度
+     *
      * @param context
      * @param tabs
      * @param leftDip
@@ -175,8 +176,8 @@ public class Utils {
             // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
             String value = new BigInteger(1, md.digest()).toString(16);
             // 确保32位
-            while (32-value.length()>0) {
-                value = "0"+value;
+            while (32 - value.length() > 0) {
+                value = "0" + value;
             }
             return value;
         } catch (Exception e) {
@@ -201,6 +202,7 @@ public class Utils {
 
     /**
      * 获取view截图
+     *
      * @param view
      * @return
      */

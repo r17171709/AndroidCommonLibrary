@@ -7,8 +7,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.content.FileProvider;
 import android.view.WindowManager;
+import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 public class Utils {
     /**
      * 安装app
+     *
      * @param context
      * @param path
      */
@@ -26,11 +27,10 @@ public class Utils {
         if (path == null) return null;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri downloadURI = FileProvider.getUriForFile(context, context.getPackageName()+".fileprovider", new File(path));
+            Uri downloadURI = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", new File(path));
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setDataAndType(downloadURI, "application/vnd.android.package-archive");
-        }
-        else {
+        } else {
             intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");
         }
         return intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -38,26 +38,27 @@ public class Utils {
 
     /**
      * 判断下载文件是否完整
+     *
      * @param context
      * @param path
      * @return
      */
     public static boolean checkAPKState(Context context, String path) {
-        PackageInfo pi=null;
+        PackageInfo pi = null;
         try {
-            PackageManager pm=context.getPackageManager();
-            pi=pm.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
-            if(pi==null) {
-                File file=new File(path);
-                if(file.exists()) {
+            PackageManager pm = context.getPackageManager();
+            pi = pm.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
+            if (pi == null) {
+                File file = new File(path);
+                if (file.exists()) {
                     file.delete();
                 }
             }
-            return pi==null?false:true;
-        } catch(Exception e) {
-            if(pi==null) {
-                File file=new File(path);
-                if(file.exists()) {
+            return pi == null ? false : true;
+        } catch (Exception e) {
+            if (pi == null) {
+                File file = new File(path);
+                if (file.exists()) {
                     file.delete();
                 }
             }
@@ -67,6 +68,7 @@ public class Utils {
 
     /**
      * byte(字节)根据长度转成kb(千字节)和mb(兆字节)
+     *
      * @param bytes
      * @return
      */
@@ -85,7 +87,7 @@ public class Utils {
         BigDecimal filesize = new BigDecimal(bytes);
         BigDecimal megabyte = new BigDecimal(1024 * 1024);
         float returnValue = filesize.divide(megabyte, 2, BigDecimal.ROUND_UP).floatValue();
-        return ((int)returnValue + "MB");
+        return ((int) returnValue + "MB");
     }
 
     public static int getScreenWidth(Context context) {

@@ -5,7 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.renyu.androidcommonlibrary.contentobserver.SMSContentObserver
 import com.renyu.commonlibrary.permission.annotation.NeedPermission
 import com.renyu.commonlibrary.permission.annotation.PermissionDenied

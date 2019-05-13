@@ -1,12 +1,12 @@
 package com.renyu.commonlibrary.baseact;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
@@ -14,15 +14,22 @@ import java.util.ArrayList;
  * Created by Administrator on 2018/4/10.
  */
 public abstract class BaseTabActivity extends BaseActivity {
-
     public abstract ArrayList<Fragment> getFragments();
+
     public abstract ArrayList<String> getTags();
+
     public abstract int getContainerLayout();
+
     public abstract ArrayList<Integer> getSelPic();
+
     public abstract int getSelColor();
+
     public abstract ArrayList<Integer> getNorPic();
+
     public abstract int getNorColor();
+
     public abstract ArrayList<Integer> getTextViews();
+
     public abstract ArrayList<Integer> getImageViews();
 
     public String currentTag = "one";
@@ -66,8 +73,7 @@ public abstract class BaseTabActivity extends BaseActivity {
                 if (fragment == null) {
                     fragment = getFragments().get(i);
                     transaction.add(getContainerLayout(), fragment, tag);
-                }
-                else {
+                } else {
                     transaction.show(fragment);
                 }
                 currentFragment = fragment;

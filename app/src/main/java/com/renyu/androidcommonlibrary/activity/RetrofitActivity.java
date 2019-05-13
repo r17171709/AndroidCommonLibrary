@@ -1,8 +1,7 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-
+import androidx.annotation.Nullable;
 import com.blankj.utilcode.util.ToastUtils;
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.api.RetrofitImpl;
@@ -11,11 +10,10 @@ import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.network.other.AllInfoListResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
-
-import javax.inject.Inject;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+
+import javax.inject.Inject;
 
 public class RetrofitActivity extends RxAppCompatActivity {
     @Inject

@@ -13,11 +13,11 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.app.RemoteInput;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.RemoteInput;
+import androidx.core.content.ContextCompat;
 import com.blankj.utilcode.util.Utils;
 import com.renyu.commonlibrary.R;
 
@@ -583,8 +583,7 @@ public class NotificationUtils {
                 e.printStackTrace();
             }
             return false;
-        }
-        else {
+        } else {
             return NotificationManagerCompat.from(Utils.getApp()).areNotificationsEnabled();
         }
     }
@@ -619,6 +618,7 @@ public class NotificationUtils {
 
     /**
      * 检测通知监听服务是否被授权
+     *
      * @param context
      * @return
      */
@@ -629,6 +629,7 @@ public class NotificationUtils {
 
     /**
      * 把应用的NotificationListenerService实现类disable再enable，即可触发系统rebind操作
+     *
      * @param serviceClass
      */
     public static void toggleNotificationListenerService(Class serviceClass) {

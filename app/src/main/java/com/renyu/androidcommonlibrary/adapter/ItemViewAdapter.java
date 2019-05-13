@@ -1,14 +1,13 @@
 package com.renyu.androidcommonlibrary.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.LayoutHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -28,9 +27,9 @@ public class ItemViewAdapter extends DelegateAdapter.Adapter<ItemViewAdapter.Ite
     private ArrayList<Object> beans;
 
     public ItemViewAdapter(Context context, LayoutHelper layoutHelper, ArrayList<Object> beans) {
-        this.context=context;
-        this.layoutHelper=layoutHelper;
-        this.beans=beans;
+        this.context = context;
+        this.layoutHelper = layoutHelper;
+        this.beans = beans;
     }
 
     @Override
@@ -41,13 +40,13 @@ public class ItemViewAdapter extends DelegateAdapter.Adapter<ItemViewAdapter.Ite
     @NonNull
     @Override
     public ItemViewAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.adapter_friendlist, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_friendlist, parent, false);
         return new ItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewAdapter.ItemViewHolder holder, int position) {
-        holder.tv_adapter_friendlist.setText(""+position);
+        holder.tv_adapter_friendlist.setText("" + position);
     }
 
     @Override

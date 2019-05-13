@@ -1,5 +1,6 @@
 package com.renyu.androidcommonlibrary.activity;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,12 +13,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.Person;
-import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.Person;
+import androidx.core.content.ContextCompat;
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.receiver.RemoteInputReceiver;
@@ -42,7 +43,7 @@ public class NotificationActivity extends BaseActivity {
     TextView tv_send_remoteinput;
     TextView tv_notificationlistener;
 
-    NotificationManager manager=null;
+    NotificationManager manager = null;
 
     NotificationCompat.MessagingStyle style;
 
@@ -62,7 +63,7 @@ public class NotificationActivity extends BaseActivity {
             NotificationUtils.openNotification();
         }
 
-        manager=(NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
             NotificationChannel channel = new NotificationChannel("channel3", "channelName3", NotificationManager.IMPORTANCE_HIGH);
             channel.enableLights(true);
@@ -73,7 +74,7 @@ public class NotificationActivity extends BaseActivity {
             manager.createNotificationChannel(channel);
         }
 
-        if (NotificationUtils.isNotificationListenerEnabled(this)){
+        if (NotificationUtils.isNotificationListenerEnabled(this)) {
             NotificationUtils.toggleNotificationListenerService(NotificationCollectorService.class);
         }
 
@@ -88,11 +89,10 @@ public class NotificationActivity extends BaseActivity {
                     NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter().getSimpleBuilderWithTimeout("ticker", "channel2", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", 10, new Intent());
                     NotificationUtils.getNotificationCenter().getNotificationManager().notify(101, builder.build());
                 }
-            }
-            else {
+            } else {
                 NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter().getSimpleBuilder("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, NotificationUtils.channelDefaultId, new Intent());
                 builder.setDefaults(NotificationCompat.DEFAULT_LIGHTS);
-                Uri sound=Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ring_user_message_high);
+                Uri sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ring_user_message_high);
                 builder.setSound(sound);
                 NotificationUtils.getNotificationCenter().getNotificationManager().notify(100, builder.build());
             }
@@ -112,10 +112,10 @@ public class NotificationActivity extends BaseActivity {
 
         tv_send_messagestyle.setOnClickListener(v -> {
             ArrayList<NotificationCompat.MessagingStyle.Message> messages = new ArrayList<>();
-            for (int i = 0 ; i < 5 ; i++) {
+            for (int i = 0; i < 5; i++) {
                 Person.Builder personBuilder = new Person.Builder();
-                personBuilder.setName("i:"+i);
-                NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(i+" "+System.currentTimeMillis(), System.currentTimeMillis(), personBuilder.build());
+                personBuilder.setName("i:" + i);
+                NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(i + " " + System.currentTimeMillis(), System.currentTimeMillis(), personBuilder.build());
                 messages.add(message);
             }
             style = NotificationUtils.getNotificationCenter().createMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "demo", "2 new messages wtih ", messages, new Intent(), NotificationUtils.channelDefaultId, 104);
@@ -125,7 +125,7 @@ public class NotificationActivity extends BaseActivity {
             ArrayList<NotificationCompat.MessagingStyle.Message> messages = new ArrayList<>();
             Person.Builder personBuilder = new Person.Builder();
             personBuilder.setName("66");
-            NotificationCompat.MessagingStyle.Message message6 = new NotificationCompat.MessagingStyle.Message("6 "+System.currentTimeMillis(), System.currentTimeMillis(), personBuilder.build());
+            NotificationCompat.MessagingStyle.Message message6 = new NotificationCompat.MessagingStyle.Message("6 " + System.currentTimeMillis(), System.currentTimeMillis(), personBuilder.build());
             messages.add(message6);
             NotificationUtils.getNotificationCenter().updateMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, style, messages, new Intent(), NotificationUtils.channelDefaultId, 104);
         });
@@ -144,7 +144,7 @@ public class NotificationActivity extends BaseActivity {
         });
 
         tv_notificationlistener.setOnClickListener((view) -> {
-            if (!NotificationUtils.isNotificationListenerEnabled(this)){
+            if (!NotificationUtils.isNotificationListenerEnabled(this)) {
                 NotificationUtils.openNotificationListenSettings();
             }
             NotificationUtils.toggleNotificationListenerService(NotificationCollectorService.class);
@@ -158,7 +158,7 @@ public class NotificationActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-        
+
     }
 
     @Override
@@ -183,7 +183,7 @@ public class NotificationActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Notification.Builder getSimpleBuilder(String ticker, String title, String content, int color, int smallIcon, int largeIcon, String channelId) {
-        Notification.Builder builder=new Notification.Builder(this, channelId);
+        Notification.Builder builder = new Notification.Builder(this, channelId);
         builder.setTicker(ticker);
         builder.setContentTitle(title);
         builder.setContentText(content);
@@ -203,7 +203,7 @@ public class NotificationActivity extends BaseActivity {
         return builder;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.O)
     public Notification.Builder createNewNotificationMessagingStyle(String ticker, String title, String content, int color, int smallIcon, int largeIcon) {
         android.app.Person.Builder personBuilder = new android.app.Person.Builder();
         personBuilder.setName("66");
@@ -211,7 +211,7 @@ public class NotificationActivity extends BaseActivity {
         historicPersonBuilder.setName("77");
         Notification.MessagingStyle style = new Notification.MessagingStyle(personBuilder.build());
         style.setConversationTitle("How are you?");
-        style.addMessage("Hello: "+System.currentTimeMillis(), 0, personBuilder.build());
+        style.addMessage("Hello: " + System.currentTimeMillis(), 0L, personBuilder.build());
         style.addMessage(new Notification.MessagingStyle.Message("image", 0, personBuilder.build())
                 .setData("image/png", Uri.parse("http://example.com/image.png")));
         style.addHistoricMessage(new Notification.MessagingStyle.Message("Historic Message - not visible", 0, historicPersonBuilder.build()));

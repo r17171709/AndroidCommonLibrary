@@ -1,8 +1,8 @@
 package com.renyu.androidcommonlibrary.binding
 
-import android.databinding.BindingAdapter
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by Administrator on 2018/7/12.

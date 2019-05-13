@@ -1,15 +1,14 @@
 package com.renyu.androidcommonlibrary.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.renyu.androidcommonlibrary.R;
 
@@ -32,14 +31,14 @@ public class ScrollRVAdapter extends RecyclerView.Adapter<ScrollRVAdapter.Scroll
     @NonNull
     @Override
     public ScrollRVViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.adapter_friendlist, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_friendlist, parent, false);
         return new ScrollRVViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ScrollRVViewHolder holder, final int position) {
-        holder.tv_adapter_friendlist.setText(""+position);
-        holder.layout_adapter_friendlist.setOnClickListener(v -> Log.d("ScrollRVAdapter", "点击"+position));
+        holder.tv_adapter_friendlist.setText("" + position);
+        holder.layout_adapter_friendlist.setOnClickListener(v -> Log.d("ScrollRVAdapter", "点击" + position));
     }
 
     @Override

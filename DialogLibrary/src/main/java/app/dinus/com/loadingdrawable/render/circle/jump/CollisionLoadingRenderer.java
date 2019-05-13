@@ -1,18 +1,11 @@
 package app.dinus.com.loadingdrawable.render.circle.jump;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.support.annotation.Size;
+import android.graphics.*;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
-
+import androidx.annotation.Size;
 import app.dinus.com.loadingdrawable.DensityUtil;
 import app.dinus.com.loadingdrawable.render.LoadingRenderer;
 

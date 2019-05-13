@@ -1,10 +1,9 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
+import androidx.annotation.Nullable;
 import com.blankj.utilcode.util.ToastUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.web.activity.X5WebActivity;

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +12,14 @@ import android.view.ViewParent;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import com.renyu.commonlibrary.web.impl.IX5WebApp;
 import com.renyu.commonlibrary.web.params.InitParams;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
-import com.tencent.smtt.sdk.CookieManager;
-import com.tencent.smtt.sdk.CookieSyncManager;
-import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebSettings;
-import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
+import com.tencent.smtt.sdk.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -41,9 +35,13 @@ import java.util.Map;
 public abstract class X5WebActivity extends AppCompatActivity {
 
     public abstract WebView getWebView();
+
     public abstract TextView getTitleView();
+
     public abstract ImageButton getNavClose();
+
     public abstract ImageButton getNavBack();
+
     public abstract void onPageFinished(String url);
 
     // 是否需要展示Close按钮
@@ -75,13 +73,12 @@ public abstract class X5WebActivity extends AppCompatActivity {
                 super.onReceivedTitle(view, title);
                 if (!TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
                     getTitleView().setText(getIntent().getStringExtra("title"));
-                }
-                else {
+                } else {
                     getTitleView().setText(title);
                 }
             }
         });
-        WebSettings settings=getWebView().getSettings();
+        WebSettings settings = getWebView().getSettings();
         settings.setDomStorageEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -97,8 +94,8 @@ public abstract class X5WebActivity extends AppCompatActivity {
         settings.setAllowFileAccess(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setBuiltInZoomControls(false);
-        impl=getIntent().getParcelableExtra("IWebApp");
-        if (impl!=null) {
+        impl = getIntent().getParcelableExtra("IWebApp");
+        if (impl != null) {
             impl.setContext(this);
             impl.setWebView(getWebView());
             getWebView().addJavascriptInterface(impl, getIntent().getStringExtra("IWebAppName"));
@@ -128,8 +125,8 @@ public abstract class X5WebActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("cookieUrl") != null) {
             HashMap<String, String> cookies = new HashMap<>();
             ArrayList<String> cookieValues = getIntent().getStringArrayListExtra("cookieValues");
-            for (int i = 0; i < cookieValues.size()/2; i++) {
-                cookies.put(cookieValues.get(i*2), cookieValues.get(i*2+1));
+            for (int i = 0; i < cookieValues.size() / 2; i++) {
+                cookies.put(cookieValues.get(i * 2), cookieValues.get(i * 2 + 1));
             }
             // cookies同步方法要在WebView的setting设置完之后调用，否则无效。
             syncCookie(this, getIntent().getStringExtra("cookieUrl"), cookies);
@@ -139,7 +136,7 @@ public abstract class X5WebActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (getWebView()!=null) {
+        if (getWebView() != null) {
             getWebView().stopLoading();
             // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
             getWebView().getSettings().setJavaScriptEnabled(false);
@@ -163,8 +160,7 @@ public abstract class X5WebActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (getWebView().canGoBack() && getIntent().getExtras().getBoolean(InitParams.NEED_GOBACK, false)) {
             getWebView().goBack();
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -172,11 +168,11 @@ public abstract class X5WebActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode== Activity.RESULT_OK) {
-            if (impl!=null) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (impl != null) {
                 for (Method method : impl.getClass().getDeclaredMethods()) {
-                    String name=method.getName();
-                    if (name.startsWith("onActivityResult_") && name.split("_")[1].equals(""+requestCode)) {
+                    String name = method.getName();
+                    if (name.startsWith("onActivityResult_") && name.split("_")[1].equals("" + requestCode)) {
                         try {
                             method.invoke(impl);
                         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -190,6 +186,7 @@ public abstract class X5WebActivity extends AppCompatActivity {
 
     /**
      * 添加Cookie
+     *
      * @param context
      * @param url
      * @param cookies

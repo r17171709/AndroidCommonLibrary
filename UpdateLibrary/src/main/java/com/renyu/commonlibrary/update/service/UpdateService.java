@@ -4,10 +4,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
-
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import com.renyu.commonlibrary.network.OKHttpUtils;
 import com.renyu.commonlibrary.update.R;
 import com.renyu.commonlibrary.update.bean.UpdateModel;
@@ -31,16 +30,16 @@ public class UpdateService extends Service {
     HashMap<String, Integer> ids;
 
     static {
-        downloadUrls=new ArrayList<>();
+        downloadUrls = new ArrayList<>();
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        ids=new HashMap<>();
+        ids = new HashMap<>();
 
-        okHttpUtils=new OKHttpUtils();
+        okHttpUtils = new OKHttpUtils();
     }
 
     @Nullable
@@ -63,10 +62,10 @@ public class UpdateService extends Service {
                     intent.getExtras().getInt("largeIcon"),
                     1000);
         }
-        if (intent==null || intent.getExtras()==null || intent.getExtras().getString("url")==null) {
+        if (intent == null || intent.getExtras() == null || intent.getExtras().getString("url") == null) {
             return super.onStartCommand(intent, flags, startId);
         }
-        String url=intent.getExtras().getString("url");
+        String url = intent.getExtras().getString("url");
         if (intent.getExtras().getBoolean("download")) {
             //新增下载添加标志
             downloadUrls.add(url);
@@ -89,7 +88,7 @@ public class UpdateService extends Service {
 
                 @Override
                 public void onSuccess(String string) {
-                    UpdateModel model=new UpdateModel();
+                    UpdateModel model = new UpdateModel();
                     model.setState(UpdateModel.State.SUCCESS);
                     model.setUrl(url);
                     model.setLocalPath(string);
@@ -99,14 +98,14 @@ public class UpdateService extends Service {
 
                 @Override
                 public void onError() {
-                    UpdateModel model=new UpdateModel();
+                    UpdateModel model = new UpdateModel();
                     model.setState(UpdateModel.State.FAIL);
                     model.setUrl(url);
                     model.setNotificationTitle(intent.getExtras().getString("name"));
                     updateInfo(model);
                 }
             }, (progress, bytesRead, contentLength) -> {
-                UpdateModel model=new UpdateModel();
+                UpdateModel model = new UpdateModel();
                 model.setState(UpdateModel.State.DOWNLOADING);
                 model.setUrl(url);
                 model.setProcess(progress);
@@ -115,8 +114,7 @@ public class UpdateService extends Service {
                 model.setNotificationTitle(intent.getExtras().getString("name"));
                 updateInfo(model);
             });
-        }
-        else {
+        } else {
             if (ids.containsKey(url)) {
                 NotificationUtils.getNotificationCenter().cancelNotification(ids.get(url));
             }
@@ -130,12 +128,11 @@ public class UpdateService extends Service {
     }
 
     public void updateInfo(UpdateModel model) {
-        if (model.getState()== UpdateModel.State.DOWNLOADING) {
+        if (model.getState() == UpdateModel.State.DOWNLOADING) {
             if (ids.containsKey(model.getUrl())) {
                 NotificationUtils.getNotificationCenter().updateDownloadNotification(ids.get(model.getUrl()), model.getProcess(), model.getNotificationTitle());
             }
-        }
-        else if (model.getState()== UpdateModel.State.SUCCESS) {
+        } else if (model.getState() == UpdateModel.State.SUCCESS) {
             //区分文件下载完整
             if (Utils.checkAPKState(this, new File(model.getLocalPath()).getPath())) {
                 Toast.makeText(this, "下载成功", Toast.LENGTH_SHORT).show();
@@ -144,12 +141,11 @@ public class UpdateService extends Service {
                 }
 
                 File file = fileExists(model);
-                if (file!=null) {
+                if (file != null) {
                     startActivity(Utils.install(this, file.getPath()));
                     stopSelf();
                 }
-            }
-            else {
+            } else {
                 model.setState(UpdateModel.State.FAIL);
                 Toast.makeText(this, "下载失败", Toast.LENGTH_SHORT).show();
                 if (ids.containsKey(model.getUrl())) {
@@ -157,13 +153,11 @@ public class UpdateService extends Service {
                 }
             }
             downloadUrls.remove(model.getUrl());
-        }
-        else if (model.getState()== UpdateModel.State.FAIL) {
+        } else if (model.getState() == UpdateModel.State.FAIL) {
             if (!downloadUrls.contains(model.getUrl())) {
                 Toast.makeText(this, "下载已取消", Toast.LENGTH_SHORT).show();
                 return;
-            }
-            else {
+            } else {
                 Toast.makeText(this, "下载失败", Toast.LENGTH_SHORT).show();
                 if (ids.containsKey(model.getUrl())) {
                     NotificationUtils.getNotificationCenter().cancelNotification(ids.get(model.getUrl()));
@@ -193,7 +187,7 @@ public class UpdateService extends Service {
             String url_ = url.substring(0, url.indexOf("?"));
             file = new File(InitParams.FILE_PATH + File.separator + url_.substring(url_.lastIndexOf("/") + 1));
         } else {
-            file = new File(InitParams.FILE_PATH  + File.separator + url.substring(url.lastIndexOf("/") + 1));
+            file = new File(InitParams.FILE_PATH + File.separator + url.substring(url.lastIndexOf("/") + 1));
         }
         if (file.exists() && Utils.checkAPKState(this, file.getPath())) {
             return file;

@@ -1,18 +1,15 @@
 package com.renyu.androidcommonlibrary.utils;
 
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import com.blankj.utilcode.util.ToastUtils;
 import com.renyu.commonlibrary.dialog.NetworkLoadingDialog;
 import com.renyu.commonlibrary.network.other.Resource;
-
 import io.reactivex.disposables.Disposable;
 
 public abstract class BaseObserver2<T> implements Observer<Resource<T>> {
-
     public abstract void onError(Resource<T> tResource);
 
     public abstract void onSucess(Resource<T> tResource);

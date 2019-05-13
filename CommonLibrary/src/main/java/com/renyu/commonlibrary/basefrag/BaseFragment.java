@@ -5,23 +5,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by renyu on 15/12/3.
  */
 public abstract class BaseFragment extends Fragment {
-
     public abstract void initParams();
+
     public abstract int initViews();
+
     public abstract void loadData();
 
-    public View view=null;
+    public View view = null;
 
     // 不需要再getActivity()了
     public Context context;
@@ -50,11 +51,11 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (view==null) {
-            view=LayoutInflater.from(getActivity()).inflate(initViews(), container, false);
+        if (view == null) {
+            view = LayoutInflater.from(getActivity()).inflate(initViews(), container, false);
         }
-        ViewGroup parent= (ViewGroup) view.getParent();
-        if (parent!=null) {
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
             parent.removeView(view);
         }
         return view;

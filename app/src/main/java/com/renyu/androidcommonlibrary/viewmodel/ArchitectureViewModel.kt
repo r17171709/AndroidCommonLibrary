@@ -1,9 +1,9 @@
 package com.renyu.androidcommonlibrary.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.renyu.androidcommonlibrary.bean.AccessTokenRequest
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
 import com.renyu.androidcommonlibrary.databinding.ActivityArchitectureBinding
@@ -20,7 +20,7 @@ class ArchitectureViewModel(private val dataBinding: ActivityArchitectureBinding
     init {
         tokenResponse = Transformations.switchMap(tokenRequest) { input ->
             if (input == null) {
-                MutableLiveData()
+                MutableLiveData<Resource<AccessTokenResponse>>()
             } else {
                 Repos.getReposInstance().getTokenResponse(input, "getAccessToken")
             }

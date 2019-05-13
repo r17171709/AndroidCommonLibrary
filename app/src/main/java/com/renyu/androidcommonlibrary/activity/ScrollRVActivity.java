@@ -3,9 +3,6 @@ package com.renyu.androidcommonlibrary.activity;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.GridLayout;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +10,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.core.widget.NestedScrollView;
+import androidx.gridlayout.widget.GridLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
@@ -37,7 +36,6 @@ import java.util.Random;
  */
 
 public class ScrollRVActivity extends BaseActivity {
-
     SwipyRefreshLayout swipy_scrollrv;
     ConvenientBanner cb_scrollrv;
     NestedScrollView ns_scrollrv;
@@ -67,16 +65,16 @@ public class ScrollRVActivity extends BaseActivity {
         grid_scrollrv = findViewById(R.id.grid_scrollrv);
         marquee_scrollrv = findViewById(R.id.marquee_scrollrv);
 
-        linearLayoutBeans1=new ArrayList<>();
+        linearLayoutBeans1 = new ArrayList<>();
         linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160134&di=5f50b14329fdce5d25200b6212f0b8b1&imgtype=0&src=http%3A%2F%2Fold.cicphoto.com%2Fnewcicsite%2Fsyxy%2Ftj%2F201408%2FW020140827418494159324.jpg"));
         linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160134&di=3a25c42f93367a04db3a3de3095e214b&imgtype=0&src=http%3A%2F%2Fpic.hsw.cn%2F0%2F12%2F25%2F40%2F12254064_630448.jpg"));
         linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161182051&di=73ea74c482c56e65bd895dec951884e3&imgtype=jpg&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8644ebf81a4c510fd95d93db6959252dd52aa551.jpg"));
         linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160133&di=bd17c2859efa779ddca3b8ab1e1acb68&imgtype=0&src=http%3A%2F%2Fguangdong.sinaimg.cn%2F2014%2F0508%2FU10729P693DT20140508144234.jpg"));
 
-        linearLayoutBeans2=new ArrayList<>();
+        linearLayoutBeans2 = new ArrayList<>();
         linearLayoutBeans2.addAll(getBeans(15));
 
-        linearLayoutBeans3=new ArrayList<>();
+        linearLayoutBeans3 = new ArrayList<>();
         linearLayoutBeans3.addAll(getBeans(10));
 
         refreshVP();
@@ -106,11 +104,10 @@ public class ScrollRVActivity extends BaseActivity {
         refreshScrollView();
 
         swipy_scrollrv.setOnRefreshListener(direction -> new Handler().postDelayed(() -> {
-            if (direction==SwipyRefreshLayoutDirection.BOTTOM) {
+            if (direction == SwipyRefreshLayoutDirection.BOTTOM) {
                 linearLayoutBeans2.addAll(getBeans(15));
                 adapter.notifyDataSetChanged();
-            }
-            else if (direction==SwipyRefreshLayoutDirection.TOP) {
+            } else if (direction == SwipyRefreshLayoutDirection.TOP) {
                 cb_scrollrv.stopTurning();
                 linearLayoutBeans1.clear();
                 linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161182051&di=73ea74c482c56e65bd895dec951884e3&imgtype=jpg&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8644ebf81a4c510fd95d93db6959252dd52aa551.jpg"));
@@ -135,24 +132,24 @@ public class ScrollRVActivity extends BaseActivity {
         FullyLinearLayoutManager linearLayoutManager = new FullyLinearLayoutManager(this);
         rv_scrollrv.setNestedScrollingEnabled(false);
         rv_scrollrv.setLayoutManager(linearLayoutManager);
-        adapter=new ScrollRVAdapter(this, linearLayoutBeans2);
+        adapter = new ScrollRVAdapter(this, linearLayoutBeans2);
         rv_scrollrv.setAdapter(adapter);
     }
 
     private void refreshScrollView() {
         layout_scrollrv_1.removeAllViews();
         for (int i = 0; i < linearLayoutBeans3.size(); i++) {
-            View v= LayoutInflater.from(this).inflate(R.layout.adapter_item, null, false);
+            View v = LayoutInflater.from(this).inflate(R.layout.adapter_item, null, false);
             v.setOnClickListener(v12 -> Log.d("ScrollRVActivity", "点击2"));
-            TextView tv_releaserentalsuccess_address= v.findViewById(R.id.tv_releaserentalsuccess_address);
+            TextView tv_releaserentalsuccess_address = v.findViewById(R.id.tv_releaserentalsuccess_address);
             tv_releaserentalsuccess_address.setText(linearLayoutBeans3.get(i).toString());
             layout_scrollrv_1.addView(v);
         }
         layout_scrollrv_2.removeAllViews();
         for (int i = 0; i < linearLayoutBeans3.size(); i++) {
-            View v= LayoutInflater.from(this).inflate(R.layout.adapter_item, null, false);
+            View v = LayoutInflater.from(this).inflate(R.layout.adapter_item, null, false);
             v.setOnClickListener(v1 -> Log.d("ScrollRVActivity", "点击3"));
-            TextView tv_releaserentalsuccess_address= v.findViewById(R.id.tv_releaserentalsuccess_address);
+            TextView tv_releaserentalsuccess_address = v.findViewById(R.id.tv_releaserentalsuccess_address);
             tv_releaserentalsuccess_address.setText(linearLayoutBeans3.get(i).toString());
             layout_scrollrv_2.addView(v);
         }
@@ -212,14 +209,14 @@ public class ScrollRVActivity extends BaseActivity {
     }
 
     private ArrayList<Object> getBeans(int num) {
-        ArrayList<Object> linearLayoutBeans=new ArrayList<>();
-        if (num==-1) {
-            Random random=new Random();
-            num=10+random.nextInt(20);
+        ArrayList<Object> linearLayoutBeans = new ArrayList<>();
+        if (num == -1) {
+            Random random = new Random();
+            num = 10 + random.nextInt(20);
         }
-        for (int i=0;i<num;i++) {
-            Random random=new Random();
-            linearLayoutBeans.add(""+i+"-"+random.nextInt(20));
+        for (int i = 0; i < num; i++) {
+            Random random = new Random();
+            linearLayoutBeans.add("" + i + "-" + random.nextInt(20));
         }
         return linearLayoutBeans;
     }

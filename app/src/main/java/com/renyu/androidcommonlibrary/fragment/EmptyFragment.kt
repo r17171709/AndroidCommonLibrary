@@ -1,8 +1,8 @@
 package com.renyu.androidcommonlibrary.fragment
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.basefrag.BaseFragment
 import kotlinx.android.synthetic.main.fragment_empty.*

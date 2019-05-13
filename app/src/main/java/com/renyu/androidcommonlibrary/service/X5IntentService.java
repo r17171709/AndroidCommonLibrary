@@ -2,9 +2,8 @@ package com.renyu.androidcommonlibrary.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.util.Log;
-
+import androidx.annotation.Nullable;
 import com.tencent.smtt.sdk.QbSdk;
 
 public class X5IntentService extends IntentService {
@@ -18,7 +17,7 @@ public class X5IntentService extends IntentService {
         super(name);
     }
 
-    public X5IntentService(){
+    public X5IntentService() {
         super("X5IntentService");
     }
 
@@ -40,6 +39,6 @@ public class X5IntentService extends IntentService {
 
             }
         };
-        QbSdk.initX5Environment(getApplicationContext(),  cb);
+        QbSdk.initX5Environment(getApplicationContext(), cb);
     }
 }

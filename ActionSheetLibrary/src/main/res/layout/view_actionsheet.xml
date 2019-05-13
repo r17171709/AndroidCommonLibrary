@@ -78,17 +78,17 @@
 
             </ListView>
 
-            <android.support.v7.widget.GridLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/pop_grid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
-                android:visibility="gone"
-                app:columnCount="4"
-                app:orientation="horizontal">
+            <androidx.gridlayout.widget.GridLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                  android:id="@+id/pop_grid"
+                                                  android:layout_width="match_parent"
+                                                  android:layout_height="wrap_content"
+                                                  android:layout_marginLeft="10dip"
+                                                  android:layout_marginRight="10dip"
+                                                  android:visibility="gone"
+                                                  app:columnCount="4"
+                                                  app:orientation="horizontal">
 
-            </android.support.v7.widget.GridLayout>
+            </androidx.gridlayout.widget.GridLayout>
 
             <LinearLayout
                 android:id="@+id/pop_toutiaochoice_layout"
@@ -98,21 +98,21 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_toutiaochoice_top"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_toutiaochoice_bottom"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
                 <View
                     android:layout_width="match_parent"

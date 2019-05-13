@@ -5,8 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.RemoteInput;
-
+import androidx.core.app.RemoteInput;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.commonutils.notification.NotificationUtils;
 
@@ -18,8 +17,8 @@ public class RemoteInputReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = RemoteInput.getResultsFromIntent(intent);
-        if (bundle!=null) {
-            String reply = bundle.getCharSequence(NotificationUtils.KEY_TEXT_REPLY)==null?"":bundle.getCharSequence(NotificationUtils.KEY_TEXT_REPLY).toString();
+        if (bundle != null) {
+            String reply = bundle.getCharSequence(NotificationUtils.KEY_TEXT_REPLY) == null ? "" : bundle.getCharSequence(NotificationUtils.KEY_TEXT_REPLY).toString();
             NotificationUtils.getNotificationCenter().createNormalNotification("ticker", "channel1", reply, Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new Intent(), NotificationUtils.channelDefaultId, 105);
         }
     }

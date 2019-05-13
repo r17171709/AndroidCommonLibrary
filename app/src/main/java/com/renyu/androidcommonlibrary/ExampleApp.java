@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 import com.blankj.utilcode.util.ProcessUtils;
 import com.blankj.utilcode.util.Utils;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -41,7 +41,7 @@ public class ExampleApp extends MultiDexApplication {
 
         openClassNames = new ArrayList<>();
 
-        String processName= ProcessUtils.getCurrentProcessName();
+        String processName = ProcessUtils.getCurrentProcessName();
         if (processName != null && processName.equals(getPackageName())) {
             // dagger2注入
             appComponent = DaggerAppComponent.builder()
@@ -65,20 +65,20 @@ public class ExampleApp extends MultiDexApplication {
             // 初始化相关配置参数
             // 项目根目录
             // 请注意修改xml文件夹下filepaths.xml中的external-path节点，此值需与ROOT_PATH值相同，作为fileprovider使用
-            InitParams.ROOT_PATH= Environment.getExternalStorageDirectory().getPath()+ File.separator + "example";
+            InitParams.ROOT_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator + "example";
             // 项目图片目录
-            InitParams.IMAGE_PATH= InitParams.ROOT_PATH + File.separator + "image";
+            InitParams.IMAGE_PATH = InitParams.ROOT_PATH + File.separator + "image";
             // 项目热修复目录
-            InitParams.HOTFIX_PATH= InitParams.ROOT_PATH + File.separator + "hotfix";
+            InitParams.HOTFIX_PATH = InitParams.ROOT_PATH + File.separator + "hotfix";
             // 项目日志目录
-            InitParams.LOG_PATH= InitParams.ROOT_PATH + File.separator + "log";
-            InitParams.LOG_NAME= "example_log";
+            InitParams.LOG_PATH = InitParams.ROOT_PATH + File.separator + "log";
+            InitParams.LOG_NAME = "example_log";
             // 缓存目录
-            InitParams.CACHE_PATH= InitParams.ROOT_PATH + File.separator + "cache";
+            InitParams.CACHE_PATH = InitParams.ROOT_PATH + File.separator + "cache";
             // fresco缓存目录
-            InitParams.FRESCO_CACHE_NAME= "fresco_cache";
+            InitParams.FRESCO_CACHE_NAME = "fresco_cache";
             // app更新功能目录
-            com.renyu.commonlibrary.update.params.InitParams.FILE_PATH= InitParams.ROOT_PATH + File.separator + "file";
+            com.renyu.commonlibrary.update.params.InitParams.FILE_PATH = InitParams.ROOT_PATH + File.separator + "file";
 
             // 初始化fresco
             Fresco.initialize(this, ImagePipelineConfigUtils.getDefaultImagePipelineConfig(this));

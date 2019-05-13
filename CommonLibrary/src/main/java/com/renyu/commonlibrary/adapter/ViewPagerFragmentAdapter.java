@@ -1,10 +1,10 @@
 package com.renyu.commonlibrary.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -20,8 +20,8 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
 
     public ViewPagerFragmentAdapter(List<Fragment> fragments, FragmentManager fm) {
         super(fm);
-        this.fragments=fragments;
-        this.fm=fm;
+        this.fragments = fragments;
+        this.fm = fm;
     }
 
     @Override
@@ -41,11 +41,11 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        removeFragment(container,position);
+        removeFragment(container, position);
         return super.instantiateItem(container, position);
     }
 
-    private void removeFragment(ViewGroup container,int index) {
+    private void removeFragment(ViewGroup container, int index) {
         String tag = getFragmentTag(container.getId(), index);
         Fragment fragment = fm.findFragmentByTag(tag);
         if (fragment == null)
@@ -59,7 +59,7 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
     private String getFragmentTag(int viewId, int index) {
         try {
             Class<FragmentPagerAdapter> cls = FragmentPagerAdapter.class;
-            Class<?>[] parameterTypes = { int.class, long.class };
+            Class<?>[] parameterTypes = {int.class, long.class};
             Method method = cls.getDeclaredMethod("makeFragmentName",
                     parameterTypes);
             method.setAccessible(true);

@@ -2,10 +2,10 @@ package com.renyu.androidcommonlibrary.activity
 
 import android.content.Intent
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.SpanUtils
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
@@ -15,7 +15,7 @@ import java.util.regex.Pattern
 /**
  * Created by renyu on 2018/2/5.
  */
-class SpannableStringActivtiy: BaseActivity() {
+class SpannableStringActivtiy : BaseActivity() {
 
     override fun initParams() {
 
@@ -50,24 +50,24 @@ class SpannableStringActivtiy: BaseActivity() {
         items.forEachIndexed { index, spnnableStringRange ->
             if (index == 0) {
                 spanUtils.append(text.substring(0, spnnableStringRange.start))
-                        .append(text.substring(spnnableStringRange.start, spnnableStringRange.end)).setForegroundColor(Color.BLUE).setClickSpan(HtmlClick(spnnableStringRange.string, this@SpannableStringActivtiy))
+                    .append(text.substring(spnnableStringRange.start, spnnableStringRange.end))
+                    .setForegroundColor(Color.BLUE)
+                    .setClickSpan(HtmlClick(spnnableStringRange.string, this@SpannableStringActivtiy))
                 if (spnnableStringRange.type == ClickType.WEB) {
                     spanUtils.setClickSpan(HtmlClick(spnnableStringRange.string, this@SpannableStringActivtiy))
-                }
-                else if (spnnableStringRange.type == ClickType.PHONE) {
+                } else if (spnnableStringRange.type == ClickType.PHONE) {
                     spanUtils.setClickSpan(PhoneClick(spnnableStringRange.string, this@SpannableStringActivtiy))
                 }
-            }
-            else {
-                spanUtils.append(text.substring(items[index-1].end, spnnableStringRange.start))
-                        .append(text.substring(spnnableStringRange.start, spnnableStringRange.end)).setForegroundColor(Color.BLUE)
+            } else {
+                spanUtils.append(text.substring(items[index - 1].end, spnnableStringRange.start))
+                    .append(text.substring(spnnableStringRange.start, spnnableStringRange.end))
+                    .setForegroundColor(Color.BLUE)
                 if (spnnableStringRange.type == ClickType.WEB) {
                     spanUtils.setClickSpan(HtmlClick(spnnableStringRange.string, this@SpannableStringActivtiy))
-                }
-                else if (spnnableStringRange.type == ClickType.PHONE) {
+                } else if (spnnableStringRange.type == ClickType.PHONE) {
                     spanUtils.setClickSpan(PhoneClick(spnnableStringRange.string, this@SpannableStringActivtiy))
                 }
-                if (index == items.size-1) {
+                if (index == items.size - 1) {
                     spanUtils.append(text.substring(spnnableStringRange.end, text.length))
                 }
             }
@@ -80,7 +80,7 @@ class SpannableStringActivtiy: BaseActivity() {
 
     override fun setStatusBarTranslucent() = 1
 
-    private fun check(text: String, regex: String, type: ClickType) : ArrayList<SpnnableStringRange> {
+    private fun check(text: String, regex: String, type: ClickType): ArrayList<SpnnableStringRange> {
         val items = ArrayList<SpnnableStringRange>()
         val pattern = Pattern.compile(regex)
         val matcherWeb = pattern.matcher(text)

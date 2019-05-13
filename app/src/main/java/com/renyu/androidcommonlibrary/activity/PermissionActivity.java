@@ -1,13 +1,12 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.Manifest;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-
+import androidx.core.content.ContextCompat;
 import com.renyu.androidcommonlibrary.R;
+import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.permission.annotation.NeedPermission;
 import com.renyu.commonlibrary.permission.annotation.PermissionDenied;
-import com.renyu.commonlibrary.baseact.BaseActivity;
 
 /**
  * Created by Administrator on 2018/5/25.

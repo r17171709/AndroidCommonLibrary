@@ -2,15 +2,13 @@ package com.renyu.commonlibrary.permission.aop;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
-
+import androidx.fragment.app.Fragment;
 import com.renyu.commonlibrary.permission.activity.PermissionActivity;
 import com.renyu.commonlibrary.permission.annotation.NeedPermission;
 import com.renyu.commonlibrary.permission.annotation.PermissionDenied;
 import com.renyu.commonlibrary.permission.impl.IPermissionStatue;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

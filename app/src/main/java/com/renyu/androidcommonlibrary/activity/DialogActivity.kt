@@ -2,8 +2,8 @@ package com.renyu.androidcommonlibrary.activity
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.renyu.androidcommonlibrary.R
@@ -21,10 +21,10 @@ class DialogActivity : AppCompatActivity() {
             val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(150f))
             view.layoutParams = layoutParams
             CodeDialog().setMarginTop(SizeUtils.dp2px(100f)).setBoxNum(3)
-                .setVarificationInputType(VerificationCodeInput.VerificationCodeInputType.TYPE_NUMBER)
-                .setCustomerView(view).setOnCodeListener { value ->
-                    ToastUtils.showShort(value)
-                }.show(this)
+                    .setVarificationInputType(VerificationCodeInput.VerificationCodeInputType.TYPE_NUMBER)
+                    .setCustomerView(view).setOnCodeListener { value ->
+                        ToastUtils.showShort(value)
+                    }.show(this)
         }
     }
 }

@@ -1,10 +1,11 @@
 package com.renyu.androidcommonlibrary.activity;
 
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.core.content.ContextCompat;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
@@ -32,7 +33,7 @@ public class DiscreteScrollviewActivity extends BaseActivity {
 
     @Override
     public void initParams() {
-        data=new ArrayList<>();
+        data = new ArrayList<>();
         data.add(new DiscreteBean(1, "name1", "price1", R.mipmap.shop1));
         data.add(new DiscreteBean(2, "name2", "price2", R.mipmap.shop2));
         data.add(new DiscreteBean(3, "name3", "price3", R.mipmap.shop3));
@@ -52,10 +53,10 @@ public class DiscreteScrollviewActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-        ImageView imageView=new ImageView(this);
+        ImageView imageView = new ImageView(this);
         imageView.setImageResource(R.mipmap.ic_launcher);
         imageView.setPadding(SizeUtils.dp2px(16), 0, SizeUtils.dp2px(16), 0);
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         imageView.setLayoutParams(params);
         layout_nav_right.addView(imageView);
         ib_nav_right.setImageResource(R.mipmap.ic_arrow_gray_right);

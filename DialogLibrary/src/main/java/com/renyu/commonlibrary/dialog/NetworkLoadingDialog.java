@@ -8,12 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -21,6 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.renyu.commonlibrary.dialog.utils.Utils;
 
 import java.lang.reflect.Field;
@@ -112,8 +112,8 @@ public class NetworkLoadingDialog extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState!=null) {
-            isDismiss=savedInstanceState.getBoolean("isDismiss");
+        if (savedInstanceState != null) {
+            isDismiss = savedInstanceState.getBoolean("isDismiss");
             FragmentActivity activity = (FragmentActivity) context;
             if (activity != null) {
                 manager = activity.getSupportFragmentManager();
@@ -121,10 +121,10 @@ public class NetworkLoadingDialog extends DialogFragment {
             dismissDialog();
         }
 
-        InputMethodManager manager= (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager manager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (manager.isActive()) {
-            View focusView=((FragmentActivity) context).getCurrentFocus();
-            if (focusView!=null) {
+            View focusView = ((FragmentActivity) context).getCurrentFocus();
+            if (focusView != null) {
                 manager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
             }
         }
@@ -167,11 +167,11 @@ public class NetworkLoadingDialog extends DialogFragment {
             e.printStackTrace();
         }
 
-        FragmentTransaction transaction=manager.beginTransaction();
+        FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(this, tag);
         transaction.commitAllowingStateLoss();
 
-        isDismiss=false;
+        isDismiss = false;
     }
 
     public void close() {
@@ -204,7 +204,7 @@ public class NetworkLoadingDialog extends DialogFragment {
         if (isDismiss) {
             return;
         }
-        isDismiss=true;
+        isDismiss = true;
         try {
             dismissAllowingStateLoss();
         } catch (Exception e) {

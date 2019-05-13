@@ -1,8 +1,7 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-
+import androidx.annotation.Nullable;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.commonutils.AndroidBug5497Workaround;

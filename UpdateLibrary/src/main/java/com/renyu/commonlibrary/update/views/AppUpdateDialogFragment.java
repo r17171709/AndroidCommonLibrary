@@ -10,48 +10,41 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import com.renyu.commonlibrary.update.R;
 import com.renyu.commonlibrary.update.bean.UpdateModel;
 import com.renyu.commonlibrary.update.params.InitParams;
 import com.renyu.commonlibrary.update.service.UpdateService;
 import com.renyu.commonlibrary.update.utils.RxBus;
 import com.renyu.commonlibrary.update.utils.Utils;
-
-import java.io.File;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+
+import java.io.File;
 
 /**
  * Created by renyu on 16/1/23.
  */
 public class AppUpdateDialogFragment extends DialogFragment {
 
-    TextView custom_title;
-    TextView custom_content;
-    Button custom_negativeButton;
-    Button custom_positiveButton;
-    ProgressBar custom_pb;
-    RelativeLayout custom_pblayout;
-    TextView custom_pblayout_readsize;
-    TextView custom_pblayout_totalsize;
-    TextView custom_pblayout_progress;
+    private TextView custom_title;
+    private TextView custom_content;
+    private Button custom_negativeButton;
+    private Button custom_positiveButton;
+    private ProgressBar custom_pb;
+    private RelativeLayout custom_pblayout;
+    private TextView custom_pblayout_readsize;
+    private TextView custom_pblayout_totalsize;
+    private TextView custom_pblayout_progress;
 
     // 不需要再getActivity()了
     public Context context;
@@ -64,33 +57,37 @@ public class AppUpdateDialogFragment extends DialogFragment {
     // 最后一次下载值
     private int lastProgressNum = 0;
     // 是否为首次刷新
-    private boolean isFirstRefresh=true;
+    private boolean isFirstRefresh = true;
 
-    FragmentManager manager;
+    private FragmentManager manager;
 
     // 是否已经关闭
-    boolean isDismiss=true;
+    private boolean isDismiss = true;
 
     // 强制升级接口
-    OnMandatoryUpdateListener mandatoryUpdateListener;
+    private OnMandatoryUpdateListener mandatoryUpdateListener;
+
     public interface OnMandatoryUpdateListener {
         void something();
     }
+
     public void setOnMandatoryUpdateListener(OnMandatoryUpdateListener mandatoryUpdateListener) {
         this.mandatoryUpdateListener = mandatoryUpdateListener;
     }
 
     // 升级弹窗关闭接口
-    OnDismissListener dismissListener;
+    private OnDismissListener dismissListener;
+
     public interface OnDismissListener {
         void dismissFragment();
     }
+
     public void setOnDismissListener(OnDismissListener dismissListener) {
         this.dismissListener = dismissListener;
     }
 
     // RxBus监听
-    CompositeDisposable compositeDisposable;
+    private CompositeDisposable compositeDisposable;
 
     public static AppUpdateDialogFragment getInstance(UpdateModel model, int ids, int smallIcon, int largeIcon) {
         AppUpdateDialogFragment fragment = new AppUpdateDialogFragment();
@@ -166,18 +163,16 @@ public class AppUpdateDialogFragment extends DialogFragment {
             intent.putExtras(bundle);
             if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
                 getActivity().startForegroundService(intent);
-            }
-            else {
+            } else {
                 getActivity().startService(intent);
             }
 
             if (isCanCancel) {
                 dismissDialog();
             } else {
-                if (mandatoryUpdateListener!=null) {
+                if (mandatoryUpdateListener != null) {
                     mandatoryUpdateListener.something();
-                }
-                else {
+                } else {
                     throw new RuntimeException("必须实现强制升级接口");
                 }
             }
@@ -216,7 +211,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
         //如果在下载过程中，不能对文件进行读写操作，否则会下载失败
         else {
             File file = fileExists(model);
-            if (file!=null) {
+            if (file != null) {
                 custom_positiveButton.setText("安装");
             } else {
                 custom_positiveButton.setText("确定");
@@ -228,7 +223,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
     private void normalClick() {
         custom_positiveButton.setOnClickListener(v -> {
             File file = fileExists(model);
-            if (file!=null) {
+            if (file != null) {
                 startActivity(Utils.install(getActivity(), file.getPath()));
                 if (isCanCancel) {
                     dismissDialog();
@@ -246,11 +241,10 @@ public class AppUpdateDialogFragment extends DialogFragment {
                     intent.putExtras(bundle);
                     if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
                         getActivity().startForegroundService(intent);
-                    }
-                    else {
+                    } else {
                         getActivity().startService(intent);
                     }
-                    isFirstRefresh=true;
+                    isFirstRefresh = true;
 
                     //直接设置成下载时的样式
                     if (isCanCancel) {
@@ -285,7 +279,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
             String url_ = url.substring(0, url.indexOf("?"));
             file = new File(InitParams.FILE_PATH + File.separator + url_.substring(url_.lastIndexOf("/") + 1));
         } else {
-            file = new File(InitParams.FILE_PATH  + File.separator + url.substring(url.lastIndexOf("/") + 1));
+            file = new File(InitParams.FILE_PATH + File.separator + url.substring(url.lastIndexOf("/") + 1));
         }
         if (file.exists() && Utils.checkAPKState(getActivity(), file.getPath())) {
             return file;
@@ -296,7 +290,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (dismissListener!=null) {
+        if (dismissListener != null) {
             dismissListener.dismissFragment();
         }
     }
@@ -309,12 +303,12 @@ public class AppUpdateDialogFragment extends DialogFragment {
         if (fragmentActivity.isDestroyed() || !isDismiss) {
             return;
         }
-        isDismiss=false;
+        isDismiss = false;
         manager = fragmentActivity.getSupportFragmentManager();
         new Handler().post(() -> {
             super.show(manager, tag);
 
-            isDismiss=false;
+            isDismiss = false;
         });
     }
 
@@ -323,7 +317,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
             if (isDismiss) {
                 return;
             }
-            isDismiss=true;
+            isDismiss = true;
             try {
                 dismissAllowingStateLoss();
             } catch (Exception e) {
@@ -341,8 +335,8 @@ public class AppUpdateDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState!=null) {
-            isDismiss=savedInstanceState.getBoolean("isDismiss");
+        if (savedInstanceState != null) {
+            isDismiss = savedInstanceState.getBoolean("isDismiss");
             FragmentActivity activity = getActivity();
             if (activity != null) {
                 manager = activity.getSupportFragmentManager();
@@ -374,7 +368,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
         }
         if (model.getState() == UpdateModel.State.DOWNLOADING) {
             if (isFirstRefresh) {
-                isFirstRefresh=false;
+                isFirstRefresh = false;
                 if (isCanCancel) {
                     custom_positiveButton.setText("后台下载");
                     custom_positiveButton.setOnClickListener(v -> {

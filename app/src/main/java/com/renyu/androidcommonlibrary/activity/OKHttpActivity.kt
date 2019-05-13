@@ -6,12 +6,12 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Handler
 import android.provider.Settings
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import com.renyu.androidcommonlibrary.R
-import com.renyu.commonlibrary.permission.annotation.NeedPermission
-import com.renyu.commonlibrary.permission.annotation.PermissionDenied
 import com.renyu.commonlibrary.baseact.BaseActivity
 import com.renyu.commonlibrary.dialog.ChoiceDialog
+import com.renyu.commonlibrary.permission.annotation.NeedPermission
+import com.renyu.commonlibrary.permission.annotation.PermissionDenied
 import com.renyu.commonlibrary.update.bean.UpdateModel
 import com.renyu.commonlibrary.update.views.AppUpdateDialogFragment
 
@@ -136,7 +136,10 @@ class OKHttpActivity : BaseActivity() {
         }
     }
 
-    @NeedPermission(permissions = [(Manifest.permission.READ_EXTERNAL_STORAGE), (Manifest.permission.WRITE_EXTERNAL_STORAGE)], deniedDesp = "请授予存储卡读取权限")
+    @NeedPermission(
+        permissions = [(Manifest.permission.READ_EXTERNAL_STORAGE), (Manifest.permission.WRITE_EXTERNAL_STORAGE)],
+        deniedDesp = "请授予存储卡读取权限"
+    )
     fun update() {
         Handler().post {
             val temp = UpdateModel()
@@ -146,7 +149,8 @@ class OKHttpActivity : BaseActivity() {
             temp.version = "3"
             temp.forced = 0
             temp.url = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk"
-            AppUpdateDialogFragment.getInstance(temp, 1, R.mipmap.ic_launcher, R.mipmap.ic_launcher).show(this@OKHttpActivity)
+            AppUpdateDialogFragment.getInstance(temp, 1, R.mipmap.ic_launcher, R.mipmap.ic_launcher)
+                .show(this@OKHttpActivity)
         }
     }
 

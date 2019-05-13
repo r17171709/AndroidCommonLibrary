@@ -1,9 +1,8 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.graphics.Color;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v7.widget.AppCompatImageView;
-
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 
@@ -18,7 +17,7 @@ public class SVGActivity extends BaseActivity {
     @Override
     public void initParams() {
         iv_svg = findViewById(R.id.iv_svg);
-        VectorDrawableCompat a= VectorDrawableCompat.create(getResources(), R.drawable.ic_white_bottom_arrow, getTheme());
+        VectorDrawableCompat a = VectorDrawableCompat.create(getResources(), R.drawable.ic_white_bottom_arrow, getTheme());
         a.setTint(Color.RED);
         iv_svg.setImageDrawable(a);
     }

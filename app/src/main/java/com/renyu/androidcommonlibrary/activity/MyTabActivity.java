@@ -1,8 +1,7 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
-
+import androidx.fragment.app.Fragment;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.fragment.TabFragment;
 import com.renyu.commonlibrary.baseact.BaseTabActivity;

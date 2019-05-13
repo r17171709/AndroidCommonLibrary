@@ -11,14 +11,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.GridLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,8 +21,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.gridlayout.widget.GridLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.SizeUtils;
-import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding3.view.RxView;
 import com.renyu.commonlibrary.views.utils.DateRangeUtils;
 import com.renyu.commonlibrary.views.utils.Utils;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
@@ -45,16 +45,16 @@ import java.util.concurrent.TimeUnit;
 public class ActionSheetFragment extends Fragment {
 
     //是否已经关闭
-    boolean isDismiss = true;
-    FragmentManager manager = null;
+    private boolean isDismiss = true;
+    private FragmentManager manager = null;
 
-    View decorView;
+    private View decorView;
     //添加进入的view
-    View realView;
+    private View realView;
     //添加进入的第一个view
-    View pop_child_layout;
+    private View pop_child_layout;
     //待添加的view
-    View customerView;
+    private View customerView;
 
     //提供类型
     public enum CHOICE {
@@ -62,12 +62,12 @@ public class ActionSheetFragment extends Fragment {
     }
 
     //是否自动关闭
-    boolean canDismiss = true;
+    private boolean canDismiss = true;
 
-    OnItemClickListener onItemClickListener;
-    OnToutiaoChoiceItemClickListener onToutiaoChoiceItemClickListener;
-    OnCancelListener onCancelListener;
-    OnOKListener onOKListener;
+    private OnItemClickListener onItemClickListener;
+    private OnToutiaoChoiceItemClickListener onToutiaoChoiceItemClickListener;
+    private OnCancelListener onCancelListener;
+    private OnOKListener onOKListener;
 
     public interface OnCancelListener {
         void onCancelClick();

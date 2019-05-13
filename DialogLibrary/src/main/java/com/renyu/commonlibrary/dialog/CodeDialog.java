@@ -8,14 +8,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.*;
 import android.widget.LinearLayout;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.renyu.commonlibrary.dialog.utils.Utils;
 import com.renyu.commonlibrary.dialog.view.VerificationCodeInput;
@@ -28,22 +28,22 @@ public class CodeDialog extends DialogFragment {
     public Context context;
 
     // 自定义视图
-    View customerView;
+    private View customerView;
     // 自定义EditText输入类型
-    VerificationCodeInput.VerificationCodeInputType inputType;
+    private VerificationCodeInput.VerificationCodeInputType inputType;
     // 距离顶部的边距
-    int marginTop;
+    private int marginTop;
     // box数量
-    int boxNum = -1;
+    private int boxNum = -1;
 
-    boolean isDismiss = true;
-    FragmentManager manager = null;
+    private boolean isDismiss = true;
+    private FragmentManager manager = null;
 
     public interface OnCodeListener {
         void getCode(String code);
     }
 
-    OnCodeListener onCodeListener;
+    private OnCodeListener onCodeListener;
 
     public CodeDialog setOnCodeListener(OnCodeListener onCodeListener) {
         this.onCodeListener = onCodeListener;
@@ -145,8 +145,7 @@ public class CodeDialog extends DialogFragment {
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) code_vertication_space.getLayoutParams();
             if (params == null) {
                 params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, marginTop);
-            }
-            else {
+            } else {
                 params.height = marginTop;
             }
             code_vertication_space.setLayoutParams(params);
@@ -156,8 +155,8 @@ public class CodeDialog extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState!=null) {
-            isDismiss=savedInstanceState.getBoolean("isDismiss");
+        if (savedInstanceState != null) {
+            isDismiss = savedInstanceState.getBoolean("isDismiss");
             FragmentActivity activity = (FragmentActivity) context;
             if (activity != null) {
                 manager = activity.getSupportFragmentManager();
@@ -193,18 +192,18 @@ public class CodeDialog extends DialogFragment {
             e.printStackTrace();
         }
 
-        FragmentTransaction transaction=manager.beginTransaction();
+        FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(this, tag);
         transaction.commitAllowingStateLoss();
 
-        isDismiss=false;
+        isDismiss = false;
     }
 
     private void dismissDialog() {
         if (isDismiss) {
             return;
         }
-        isDismiss=true;
+        isDismiss = true;
         try {
             dismissAllowingStateLoss();
         } catch (Exception e) {
