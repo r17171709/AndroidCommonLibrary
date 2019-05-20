@@ -9,7 +9,11 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
+import com.renyu.commonlibrary.commonutils.Utils
+import com.renyu.commonlibrary.commonutils.ioThread
+import com.renyu.commonlibrary.commonutils.mainThread
 import com.renyu.commonlibrary.dialog.ChoiceDialog
+import com.renyu.commonlibrary.network.OKHttpHelper
 import com.renyu.commonlibrary.permission.annotation.NeedPermission
 import com.renyu.commonlibrary.permission.annotation.PermissionDenied
 import com.renyu.commonlibrary.update.bean.UpdateModel
@@ -43,22 +47,24 @@ class OKHttpActivity : BaseActivity() {
         update()
 
         // 普通请求
-//        Thread(Runnable {
-//            val timestamp = (System.currentTimeMillis() / 1000).toInt()
-//            val random = "abcdefghijklmn"
-//            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
-//                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
-//            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
-//                    "&app_id=46877648&rand_str=" + random +
-//                    "&signature=" + Utils.getMD5(signature) +
-//                    "&device_id=" + Utils.getUniquePsuedoID()
-//            val headMaps = HashMap<String, String>()
-//            headMaps["version"] = "v1.0"
-//            headMaps["debug"] = "0"
-//            val tokenResponse = httpHelper.okHttpUtils.syncGet(url, headMaps)
-//            println(tokenResponse.body()?.string())
-//        }).start()
-
+        ioThread {
+            val timestamp = (System.currentTimeMillis() / 1000).toInt()
+            val random = "abcdefghijklmn"
+            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
+                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
+            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
+                    "&app_id=46877648&rand_str=" + random +
+                    "&signature=" + Utils.getMD5(signature) +
+                    "&device_id=" + Utils.getUniquePsuedoID()
+            val headMaps = HashMap<String, String>()
+            headMaps["version"] = "v1.0"
+            headMaps["debug"] = "0"
+            val tokenResponse = OKHttpHelper.getInstance().okHttpUtils.syncGet(url, headMaps)
+            mainThread {
+                println(tokenResponse.body()?.string())
+                println(Thread.currentThread().name)
+            }
+        }
 
         // 下载
 //        httpHelper.okHttpUtils.asyncDownload("http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk",

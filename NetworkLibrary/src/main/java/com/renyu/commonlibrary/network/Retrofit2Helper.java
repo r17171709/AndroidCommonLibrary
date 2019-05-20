@@ -16,7 +16,7 @@ public class Retrofit2Helper {
 
     private Retrofit2Helper(String baseUrl) {
         // 基础请求
-        baseRetrofitBuilder=new Retrofit.Builder()
+        baseRetrofitBuilder = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create()).baseUrl(baseUrl);
     }
@@ -26,14 +26,14 @@ public class Retrofit2Helper {
     }
 
     public void baseBuild() {
-        baseRetrofit=baseRetrofitBuilder.build();
+        baseRetrofit = baseRetrofitBuilder.build();
     }
 
     public static Retrofit2Helper getInstance(String baseUrl) {
-        if (retrofit2Utils==null) {
+        if (retrofit2Utils == null) {
             synchronized (Retrofit2Helper.class) {
-                if (retrofit2Utils==null) {
-                    retrofit2Utils=new Retrofit2Helper(baseUrl);
+                if (retrofit2Utils == null) {
+                    retrofit2Utils = new Retrofit2Helper(baseUrl);
                 }
             }
         }

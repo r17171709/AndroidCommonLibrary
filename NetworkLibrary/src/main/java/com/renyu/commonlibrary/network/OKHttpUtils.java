@@ -1,9 +1,6 @@
 package com.renyu.commonlibrary.network;
 
 import com.renyu.commonlibrary.network.other.ProgressRequestBody;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.*;
 
 import java.io.File;
@@ -26,7 +23,7 @@ public class OKHttpUtils {
 
     public OKHttpUtils() {
         cookieStore = new HashMap<>();
-        OkHttpClient.Builder okbuilder=new OkHttpClient.Builder()
+        OkHttpClient.Builder okbuilder = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS);
@@ -45,14 +42,16 @@ public class OKHttpUtils {
 //                });
 //        setCertificates(okbuilder);
         //https默认信任全部证书
-        HttpsUtils.SSLParams sslParams= HttpsUtils.getSslSocketFactory(null, null, null);
+        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
         okbuilder.hostnameVerifier((hostname, session) -> true).sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-        okHttpClient=okbuilder.build();
+        okHttpClient = okbuilder.build();
     }
 
     public interface RequestListener {
         void onStart();
+
         void onSuccess(String string);
+
         void onError();
     }
 
@@ -62,30 +61,33 @@ public class OKHttpUtils {
 
     public interface OnDownloadListener {
         void onSuccess(String filePath);
+
         void onError();
     }
 
     /**
      * get数据准备
+     *
      * @param url
      * @param headers
      * @return
      */
     public Call getPrepare(String url, HashMap<String, String> headers) {
-        Request.Builder req_builder=new Request.Builder();
-        if (headers!=null&&headers.size()>0) {
-            Iterator<Map.Entry<String, String>> header_it=headers.entrySet().iterator();
+        Request.Builder req_builder = new Request.Builder();
+        if (headers != null && headers.size() > 0) {
+            Iterator<Map.Entry<String, String>> header_it = headers.entrySet().iterator();
             while (header_it.hasNext()) {
-                Map.Entry<String, String> header_en=header_it.next();
+                Map.Entry<String, String> header_en = header_it.next();
                 req_builder.addHeader(header_en.getKey(), header_en.getValue());
             }
         }
-        Request request=req_builder.url(url).tag(url).build();
+        Request request = req_builder.url(url).tag(url).build();
         return okHttpClient.newCall(request);
     }
 
     /**
      * get请求
+     *
      * @param url
      * @param headers
      * @param requestListener
@@ -94,24 +96,27 @@ public class OKHttpUtils {
         if (requestListener != null) {
             requestListener.onStart();
         }
-        Call call=getPrepare(url, headers);
+        Call call = getPrepare(url, headers);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-                    if (requestListener != null) {
-                        requestListener.onError();
-                    }
-                });
+                if (requestListener != null) {
+                    requestListener.onError();
+                }
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (requestListener != null) {
-                    if (response!=null && response.isSuccessful()) {
-                        Observable.just(response.body().string()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onSuccess(s));
+                    if (response.isSuccessful()) {
+                        if (response.body() == null) {
+                            requestListener.onError();
+                        } else {
+                            requestListener.onSuccess(response.body().string());
+                        }
+
                     } else {
-                        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onError());
+                        requestListener.onError();
                     }
                 }
             }
@@ -131,9 +136,9 @@ public class OKHttpUtils {
     }
 
     public Response syncGet(String url, HashMap<String, String> headers) {
-        Call call=getPrepare(url, headers);
+        Call call = getPrepare(url, headers);
         try {
-            Response response=call.execute();
+            Response response = call.execute();
             if (!response.isSuccessful()) {
                 return null;
             }
@@ -150,6 +155,7 @@ public class OKHttpUtils {
 
     /**
      * post数据准备
+     *
      * @param url
      * @param params
      * @param headers
@@ -176,6 +182,7 @@ public class OKHttpUtils {
 
     /**
      * post方式提交json数据
+     *
      * @param url
      * @param json
      * @return
@@ -199,25 +206,27 @@ public class OKHttpUtils {
         if (requestListener != null) {
             requestListener.onStart();
         }
-        Call call=postJsonPrepare(url, json, headers);
+        Call call = postJsonPrepare(url, json, headers);
         call.enqueue(new Callback() {
-
             @Override
             public void onFailure(Call call, IOException e) {
-                Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-                    if (requestListener != null) {
-                        requestListener.onError();
-                    }
-                });
+                if (requestListener != null) {
+                    requestListener.onError();
+                }
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (requestListener != null) {
                     if (response.isSuccessful()) {
-                        Observable.just(response.body().string()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onSuccess(s));
+                        if (response.body() == null) {
+                            requestListener.onError();
+                        } else {
+                            requestListener.onSuccess(response.body().string());
+                        }
+
                     } else {
-                        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onError());
+                        requestListener.onError();
                     }
                 }
             }
@@ -237,9 +246,9 @@ public class OKHttpUtils {
     }
 
     public Response syncPostJson(String url, String json, HashMap<String, String> headers) {
-        Call call=postJsonPrepare(url, json, headers);
+        Call call = postJsonPrepare(url, json, headers);
         try {
-            Response response=call.execute();
+            Response response = call.execute();
             if (!response.isSuccessful()) {
                 return null;
             }
@@ -256,6 +265,7 @@ public class OKHttpUtils {
 
     /**
      * post请求
+     *
      * @param url
      * @param params
      * @param headers
@@ -265,25 +275,27 @@ public class OKHttpUtils {
         if (requestListener != null) {
             requestListener.onStart();
         }
-        Call call=postPrepare(url, params, headers);
+        Call call = postPrepare(url, params, headers);
         call.enqueue(new Callback() {
-
             @Override
             public void onFailure(Call call, IOException e) {
-                Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-                    if (requestListener != null) {
-                        requestListener.onError();
-                    }
-                });
+                if (requestListener != null) {
+                    requestListener.onError();
+                }
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (requestListener != null) {
-                    if (response!=null && response.isSuccessful()) {
-                        Observable.just(response.body().string()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onSuccess(s));
+                    if (response.isSuccessful()) {
+                        if (response.body() == null) {
+                            requestListener.onError();
+                        } else {
+                            requestListener.onSuccess(response.body().string());
+                        }
+
                     } else {
-                        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onError());
+                        requestListener.onError();
                     }
                 }
             }
@@ -303,9 +315,9 @@ public class OKHttpUtils {
     }
 
     public Response syncPost(String url, HashMap<String, String> params, HashMap<String, String> headers) {
-        Call call=postPrepare(url, params, headers);
+        Call call = postPrepare(url, params, headers);
         try {
-            Response response=call.execute();
+            Response response = call.execute();
             if (!response.isSuccessful()) {
                 return null;
             }
@@ -322,6 +334,7 @@ public class OKHttpUtils {
 
     /**
      * 下载数据准备
+     *
      * @param url
      * @param dirPath
      * @param downloadListener
@@ -331,10 +344,9 @@ public class OKHttpUtils {
         if (!new File(dirPath).exists()) {
             new File(dirPath).mkdirs();
         }
-        Request request=new Request.Builder().tag(url).url(url).build();
-        Call call=okHttpClient.newCall(request);
+        Request request = new Request.Builder().tag(url).url(url).build();
+        Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
-
             @Override
             public void onFailure(Call call, IOException e) {
                 downloadListener.onError();
@@ -342,8 +354,8 @@ public class OKHttpUtils {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                InputStream is=null;
-                FileOutputStream fos=null;
+                InputStream is = null;
+                FileOutputStream fos = null;
                 boolean isDownloadOK;
                 File file = null;
                 try {
@@ -368,24 +380,24 @@ public class OKHttpUtils {
                         while ((count = is.read(buffer)) != -1) {
                             fos.write(buffer, 0, count);
                             fileSizeDownloaded += count;
-                            if (progressListener!=null) {
+                            if (progressListener != null) {
                                 progressListener.updateprogress((int) ((100 * fileSizeDownloaded) / fileSize), fileSizeDownloaded, fileSize);
                             }
                         }
                         fos.flush();
-                        isDownloadOK=true;
+                        isDownloadOK = true;
                     } else {
-                        isDownloadOK=false;
+                        isDownloadOK = false;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    isDownloadOK=false;
+                    isDownloadOK = false;
                 } finally {
                     try {
-                        if (is!=null) {
+                        if (is != null) {
                             is.close();
                         }
-                        if (fos!=null) {
+                        if (fos != null) {
                             fos.close();
                         }
                     } catch (Exception e) {
@@ -394,8 +406,7 @@ public class OKHttpUtils {
                 }
                 if (isDownloadOK) {
                     downloadListener.onSuccess(file.getPath());
-                }
-                else {
+                } else {
                     downloadListener.onError();
                 }
             }
@@ -404,6 +415,7 @@ public class OKHttpUtils {
 
     /**
      * 异步下载
+     *
      * @param url
      * @param dirPath
      * @param requestListener
@@ -413,39 +425,36 @@ public class OKHttpUtils {
         prepareDownload(url, dirPath, new OKHttpUtils.OnDownloadListener() {
             @Override
             public void onSuccess(String filePath) {
-                Observable.just(filePath).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-                    if (requestListener != null) {
-                        requestListener.onSuccess(s);
-                    }
-                });
+                if (requestListener != null) {
+                    requestListener.onSuccess(filePath);
+                }
             }
 
             @Override
             public void onError() {
-                Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-                    if (requestListener != null) {
-                        requestListener.onError();
-                    }
-                });
+                if (requestListener != null) {
+                    requestListener.onError();
+                }
             }
         }, progressListener);
     }
 
     /**
      * 同步下载
+     *
      * @param url
      * @param dirPath
      * @return
      */
     public File syncDownload(String url, String dirPath) {
-        Request request=new Request.Builder().tag(url).url(url).build();
-        Call call=okHttpClient.newCall(request);
-        InputStream is=null;
-        FileOutputStream fos=null;
+        Request request = new Request.Builder().tag(url).url(url).build();
+        Call call = okHttpClient.newCall(request);
+        InputStream is = null;
+        FileOutputStream fos = null;
         File file = null;
         try {
             Response response = call.execute();
-            if (response!=null && response.isSuccessful()) {
+            if (response != null && response.isSuccessful()) {
                 is = response.body().byteStream();
                 if (url.indexOf("?") != -1) {
                     String url_ = url.substring(0, url.indexOf("?"));
@@ -467,18 +476,18 @@ public class OKHttpUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            file=null;
+            file = null;
         } finally {
             try {
-                if (is!=null) {
+                if (is != null) {
                     is.close();
                 }
-                if (fos!=null) {
+                if (fos != null) {
                     fos.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                file=null;
+                file = null;
             }
         }
         return file;
@@ -486,6 +495,7 @@ public class OKHttpUtils {
 
     /**
      * 上传参数准备
+     *
      * @param url
      * @param params
      * @param files
@@ -497,9 +507,9 @@ public class OKHttpUtils {
         MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
         multipartBuilder.setType(MultipartBody.FORM);
         if (params != null) {
-            Iterator<Map.Entry<String, String>> params_it=params.entrySet().iterator();
+            Iterator<Map.Entry<String, String>> params_it = params.entrySet().iterator();
             while (params_it.hasNext()) {
-                Map.Entry<String, String> params_en= params_it.next();
+                Map.Entry<String, String> params_en = params_it.next();
                 multipartBuilder.addFormDataPart(params_en.getKey(), params_en.getValue());
             }
         }
@@ -509,9 +519,9 @@ public class OKHttpUtils {
          builder.addFormDataPart("upload", null, RequestBody.create(MEDIA_TYPE_PNG, new File(path)));
          */
         if (files != null) {
-            Iterator<Map.Entry<String, File>> file_it=files.entrySet().iterator();
+            Iterator<Map.Entry<String, File>> file_it = files.entrySet().iterator();
             while (file_it.hasNext()) {
-                Map.Entry<String, File> entry=file_it.next();
+                Map.Entry<String, File> entry = file_it.next();
                 multipartBuilder.addFormDataPart(entry.getKey(), entry.getValue().getName(), RequestBody.create(MediaType.parse("application/octet-stream"), entry.getValue()));
             }
         }
@@ -519,9 +529,9 @@ public class OKHttpUtils {
         formBody = new ProgressRequestBody(formBody, listener);
         Request.Builder builder = new Request.Builder();
         if (headers != null) {
-            Iterator<Map.Entry<String, String>> header_it=headers.entrySet().iterator();
+            Iterator<Map.Entry<String, String>> header_it = headers.entrySet().iterator();
             while (header_it.hasNext()) {
-                Map.Entry<String, String> entry=header_it.next();
+                Map.Entry<String, String> entry = header_it.next();
                 builder.addHeader(entry.getKey(), entry.getValue());
             }
         }
@@ -530,6 +540,7 @@ public class OKHttpUtils {
 
     /**
      * 同步上传
+     *
      * @param url
      * @param params
      * @param files
@@ -538,10 +549,10 @@ public class OKHttpUtils {
      * @return
      */
     public String syncUpload(String url, HashMap<String, String> params, HashMap<String, File> files, HashMap<String, String> headers, ProgressRequestBody.UpProgressListener listener) {
-        Call call=uploadPrepare(url, params, files, headers, listener);
+        Call call = uploadPrepare(url, params, files, headers, listener);
         try {
-            Response response=call.execute();
-            if (response!=null && response.isSuccessful()) {
+            Response response = call.execute();
+            if (response != null && response.isSuccessful()) {
                 return response.body().string();
             }
         } catch (Exception e) {
@@ -552,6 +563,7 @@ public class OKHttpUtils {
 
     /**
      * 异步上传
+     *
      * @param url
      * @param params
      * @param files
@@ -560,24 +572,27 @@ public class OKHttpUtils {
      * @param listener
      */
     public void asyncUpload(String url, HashMap<String, String> params, HashMap<String, File> files, HashMap<String, String> headers, final RequestListener requestListener, ProgressRequestBody.UpProgressListener listener) {
-        Call call=uploadPrepare(url, params, files, headers, listener);
+        Call call = uploadPrepare(url, params, files, headers, listener);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-                    if (requestListener != null) {
-                        requestListener.onError();
-                    }
-                });
+                if (requestListener != null) {
+                    requestListener.onError();
+                }
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (requestListener != null) {
-                    if (response!=null && response.isSuccessful()) {
-                        Observable.just(response.body().string()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onSuccess(s));
+                    if (response.isSuccessful()) {
+                        if (response.body() == null) {
+                            requestListener.onError();
+                        } else {
+                            requestListener.onSuccess(response.body().string());
+                        }
+
                     } else {
-                        Observable.just("").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> requestListener.onError());
+                        requestListener.onError();
                     }
                 }
             }
@@ -615,9 +630,9 @@ public class OKHttpUtils {
     }
 
     public Response syncPutJson(String url, String json, HashMap<String, String> headers) {
-        Call call=putJsonPrepare(url, json, headers);
+        Call call = putJsonPrepare(url, json, headers);
         try {
-            Response response=call.execute();
+            Response response = call.execute();
             if (!response.isSuccessful()) {
                 return null;
             }

@@ -20,7 +20,7 @@ class ArchitectureViewModel(private val dataBinding: ActivityArchitectureBinding
     init {
         tokenResponse = Transformations.switchMap(tokenRequest) { input ->
             if (input == null) {
-                MutableLiveData<Resource<AccessTokenResponse>>()
+                MutableLiveData()
             } else {
                 Repos.getReposInstance().getTokenResponse(input, "getAccessToken")
             }

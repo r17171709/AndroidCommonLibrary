@@ -3,7 +3,9 @@ package com.renyu.commonlibrary.update.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -128,44 +130,46 @@ public class UpdateService extends Service {
     }
 
     public void updateInfo(UpdateModel model) {
-        if (model.getState() == UpdateModel.State.DOWNLOADING) {
-            if (ids.containsKey(model.getUrl())) {
-                NotificationUtils.getNotificationCenter().updateDownloadNotification(ids.get(model.getUrl()), model.getProcess(), model.getNotificationTitle());
-            }
-        } else if (model.getState() == UpdateModel.State.SUCCESS) {
-            //区分文件下载完整
-            if (Utils.checkAPKState(this, new File(model.getLocalPath()).getPath())) {
-                Toast.makeText(this, "下载成功", Toast.LENGTH_SHORT).show();
+        new Handler(Looper.getMainLooper()).post(() -> {
+            if (model.getState() == UpdateModel.State.DOWNLOADING) {
                 if (ids.containsKey(model.getUrl())) {
-                    NotificationUtils.getNotificationCenter().showEndNotification(ids.get(model.getUrl()));
+                    NotificationUtils.getNotificationCenter().updateDownloadNotification(ids.get(model.getUrl()), model.getProcess(), model.getNotificationTitle());
                 }
+            } else if (model.getState() == UpdateModel.State.SUCCESS) {
+                //区分文件下载完整
+                if (Utils.checkAPKState(this, new File(model.getLocalPath()).getPath())) {
+                    Toast.makeText(this, "下载成功", Toast.LENGTH_SHORT).show();
+                    if (ids.containsKey(model.getUrl())) {
+                        NotificationUtils.getNotificationCenter().showEndNotification(ids.get(model.getUrl()));
+                    }
 
-                File file = fileExists(model);
-                if (file != null) {
-                    startActivity(Utils.install(this, file.getPath()));
-                    stopSelf();
-                }
-            } else {
-                model.setState(UpdateModel.State.FAIL);
-                Toast.makeText(this, "下载失败", Toast.LENGTH_SHORT).show();
-                if (ids.containsKey(model.getUrl())) {
-                    NotificationUtils.getNotificationCenter().cancelNotification(ids.get(model.getUrl()));
-                }
-            }
-            downloadUrls.remove(model.getUrl());
-        } else if (model.getState() == UpdateModel.State.FAIL) {
-            if (!downloadUrls.contains(model.getUrl())) {
-                Toast.makeText(this, "下载已取消", Toast.LENGTH_SHORT).show();
-                return;
-            } else {
-                Toast.makeText(this, "下载失败", Toast.LENGTH_SHORT).show();
-                if (ids.containsKey(model.getUrl())) {
-                    NotificationUtils.getNotificationCenter().cancelNotification(ids.get(model.getUrl()));
+                    File file = fileExists(model);
+                    if (file != null) {
+                        startActivity(Utils.install(this, file.getPath()));
+                        stopSelf();
+                    }
+                } else {
+                    model.setState(UpdateModel.State.FAIL);
+                    Toast.makeText(this, "下载失败", Toast.LENGTH_SHORT).show();
+                    if (ids.containsKey(model.getUrl())) {
+                        NotificationUtils.getNotificationCenter().cancelNotification(ids.get(model.getUrl()));
+                    }
                 }
                 downloadUrls.remove(model.getUrl());
+            } else if (model.getState() == UpdateModel.State.FAIL) {
+                if (!downloadUrls.contains(model.getUrl())) {
+                    Toast.makeText(this, "下载已取消", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Toast.makeText(this, "下载失败", Toast.LENGTH_SHORT).show();
+                    if (ids.containsKey(model.getUrl())) {
+                        NotificationUtils.getNotificationCenter().cancelNotification(ids.get(model.getUrl()));
+                    }
+                    downloadUrls.remove(model.getUrl());
+                }
             }
-        }
-        RxBus.getDefault().post(model);
+            RxBus.getDefault().post(model);
+        });
     }
 
     @Override
