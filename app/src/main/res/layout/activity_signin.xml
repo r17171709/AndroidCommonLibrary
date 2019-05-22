@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <include layout="@layout/view_nav" />
+
     <EditText
-        android:layout_marginTop="100dip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:layout_marginTop="100dip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/btn_signin"
-        android:layout_marginTop="100dip"
+        android:id="@+id/tv_signin_uname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="登录"/>
+        android:layout_marginTop="100dip" />
+
+    <EditText
+        android:id="@+id/tv_signin_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dip" />
+
+    <Button
+        android:id="@+id/btn_signin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dip"
+        android:text="登录" />
 </LinearLayout>
