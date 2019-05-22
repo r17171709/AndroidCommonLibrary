@@ -45,8 +45,8 @@ class SignInActivity : BaseActivity() {
 
     override fun loadData() {
         val textChanges = arrayOf(
-                tv_signin_uname.textChanges(),
-                tv_signin_password.textChanges()
+            tv_signin_uname.textChanges(),
+            tv_signin_password.textChanges()
         )
         Observable.combineLatest(textChanges) {
             it.all { value ->
