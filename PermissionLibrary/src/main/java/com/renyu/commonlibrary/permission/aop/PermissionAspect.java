@@ -23,7 +23,6 @@ import java.lang.reflect.Method;
  */
 @Aspect
 public class PermissionAspect {
-
     @Pointcut("execution(@com.renyu.commonlibrary.permission.annotation.NeedPermission * *(..))")
     public void requestPermissionMethod() {
 

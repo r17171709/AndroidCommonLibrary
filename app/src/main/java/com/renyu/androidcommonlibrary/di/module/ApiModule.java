@@ -26,6 +26,7 @@ public class ApiModule {
 
     /**
      * 提供HttpClient对象
+     *
      * @param application
      * @return
      */
@@ -40,20 +41,21 @@ public class ApiModule {
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .connectTimeout(10, TimeUnit.SECONDS);
-        HttpsUtils.SSLParams sslParams= HttpsUtils.getSslSocketFactory(null, null, null);
+        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
         baseBuilder.hostnameVerifier((s, sslSession) -> true).sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
         return baseBuilder.build();
     }
 
     /**
      * 提供Retrofit对象
+     *
      * @param okHttpClient
      * @return
      */
     @Singleton
     @Provides
     public Retrofit provideRetrofit(OkHttpClient okHttpClient) {
-        Retrofit2Helper retrofit2Utils=Retrofit2Helper.getInstance("http://www.mocky.io/v2/");
+        Retrofit2Helper retrofit2Utils = Retrofit2Helper.getInstance("http://www.mocky.io/v2/");
         retrofit2Utils.addBaseOKHttpClient(okHttpClient);
         retrofit2Utils.baseBuild();
         return retrofit2Utils.getBaseRetrofit();
@@ -61,6 +63,7 @@ public class ApiModule {
 
     /**
      * 提供RetrofitImpl接口
+     *
      * @param retrofit
      * @return
      */
@@ -72,6 +75,7 @@ public class ApiModule {
 
     /**
      * 提供OKHttpUtils
+     *
      * @return
      */
     @Singleton
@@ -82,13 +86,14 @@ public class ApiModule {
 
     /**
      * 提供wcdb对象
+     *
      * @param application
      * @return
      */
     @Singleton
     @Provides
     public SQLiteDatabase provideSQLiteDatabase(ExampleApp application) {
-        PlainTextDBHelper dbHelper=new PlainTextDBHelper(application);
+        PlainTextDBHelper dbHelper = new PlainTextDBHelper(application);
         dbHelper.setWriteAheadLoggingEnabled(true);
         return dbHelper.getWritableDatabase();
     }
