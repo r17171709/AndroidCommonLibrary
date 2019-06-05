@@ -11,7 +11,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '3.0.1'
+    publishVersion = '3.0.3'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -73,6 +73,8 @@ dependencies {
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
     // MMKV——基于 mmap 的高性能通用 key-value 组件
     api 'com.tencent:mmkv:1.0.19'
+    // AndroidAutoSize  A low-cost Android screen adaptation solution (今日头条屏幕适配方案终极版，一个极低成本的 Android 屏幕适配方案).
+    api 'me.jessyan:autosize:1.1.2'
     // fresco
     api 'com.facebook.fresco:fresco:1.13.0'
     api 'com.facebook.fresco:animated-gif:1.13.0'

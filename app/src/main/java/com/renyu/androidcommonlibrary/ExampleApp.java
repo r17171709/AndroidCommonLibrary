@@ -52,10 +52,6 @@ public class ExampleApp extends MultiDexApplication {
             // 初始化工具库
             Utils.init(this);
 
-            // 宽高字体缩放适配设置
-            InitParams.designWidthInPx = 360;
-            InitParams.designHeightInPx = 640;
-
             // 设置网络请求成功码
             Retrofit2Utils.sucessedCode = 1;
 

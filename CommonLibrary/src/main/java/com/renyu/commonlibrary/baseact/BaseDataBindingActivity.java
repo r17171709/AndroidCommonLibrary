@@ -35,12 +35,6 @@ public abstract class BaseDataBindingActivity<T> extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (ScreenUtils.isPortrait()) {
-//            AdaptScreenUtils.adaptWidth(InitParams.designWidthInPx);
-//        } else {
-//            AdaptScreenUtils.adaptHeight(InitParams.designHeightInPx);
-//        }
-
         if (!isNeedOnCreate) {
             return;
         }
