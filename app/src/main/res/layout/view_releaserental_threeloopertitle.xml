@@ -5,7 +5,8 @@
     android:gravity="center_horizontal">
     <com.renyu.commonlibrary.views.wheelview.LoopView
         android:id="@+id/view_releaserental_threelooptitleview1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
+        android:layout_weight="1"
         android:layout_height="230dip" />
     <TextView
         android:text="第"
@@ -14,7 +15,8 @@
         android:layout_height="wrap_content" />
     <com.renyu.commonlibrary.views.wheelview.LoopView
         android:id="@+id/view_releaserental_threelooptitleview2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
+        android:layout_weight="1"
         android:layout_height="230dip" />
     <TextView
         android:id="@+id/tv_releaserental_threelooptitleview4"
@@ -25,7 +27,8 @@
         android:layout_height="wrap_content" />
     <com.renyu.commonlibrary.views.wheelview.LoopView
         android:id="@+id/view_releaserental_threelooptitleview4"
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
+        android:layout_weight="1"
         android:layout_height="230dip" />
     <TextView
         android:text="层"
@@ -35,12 +38,13 @@
     <TextView
         android:text="共"
         android:layout_marginTop="75dip"
-        android:layout_marginLeft="20dip"
+        android:layout_marginStart="20dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <com.renyu.commonlibrary.views.wheelview.LoopView
         android:id="@+id/view_releaserental_threelooptitleview3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
+        android:layout_weight="1"
         android:layout_height="230dip" />
     <TextView
         android:text="层"

@@ -4,9 +4,7 @@
 
 package com.renyu.commonlibrary.views.wheelview;
 
-import java.util.TimerTask;
-
-final class SmoothScrollTimerTask extends TimerTask {
+final class SmoothScrollTimerTask implements Runnable {
 
     int realTotalOffset;
     int realOffset;

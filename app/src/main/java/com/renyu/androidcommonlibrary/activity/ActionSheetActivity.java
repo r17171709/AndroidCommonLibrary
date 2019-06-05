@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
@@ -53,11 +56,10 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                    }, this::finish);
 
-            ActionSheetUtils.showCenterList(this, "", Color.BLUE, "cancel", Color.RED,
-                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, position -> {
-
-                    }, this::finish);
-
+//            ActionSheetUtils.showCenterList(this, "", Color.BLUE, "cancel", Color.RED,
+//                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, position -> {
+//
+//                    }, this::finish);
 
 //            ActionSheetUtils.showTime(this, "Title", Color.BLUE, "Cancel", Color.YELLOW, "OK", Color.RED,
 //                    10, 12, value -> {
@@ -76,10 +78,10 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                    });
 
-//            ActionSheetUtils.showDateRange(this, "设置日期", Color.BLUE, "取消", Color.GRAY, "确定", Color.RED, 1545689754000L, System.currentTimeMillis(), false,
-//                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
-//
-//                    });
+            ActionSheetUtils.showDateRange(this, "设置日期", Color.BLUE, "取消", Color.GRAY, "确定", Color.RED, 1545689754000L, System.currentTimeMillis(), false,
+                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
+
+                    });
         });
     }
 

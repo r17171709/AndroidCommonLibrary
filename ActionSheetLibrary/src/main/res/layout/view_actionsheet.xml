@@ -79,14 +79,14 @@
             </ListView>
 
             <androidx.gridlayout.widget.GridLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                  android:id="@+id/pop_grid"
-                                                  android:layout_width="match_parent"
-                                                  android:layout_height="wrap_content"
-                                                  android:layout_marginLeft="10dip"
-                                                  android:layout_marginRight="10dip"
-                                                  android:visibility="gone"
-                                                  app:columnCount="4"
-                                                  app:orientation="horizontal">
+                android:id="@+id/pop_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:visibility="gone"
+                app:columnCount="4"
+                app:orientation="horizontal">
 
             </androidx.gridlayout.widget.GridLayout>
 
@@ -134,8 +134,9 @@
 
                 <com.renyu.commonlibrary.views.wheelview.LoopView
                     android:id="@+id/pop_wheel_timelayout_hour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -145,8 +146,9 @@
 
                 <com.renyu.commonlibrary.views.wheelview.LoopView
                     android:id="@+id/pop_wheel_timelayout_minute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -159,28 +161,33 @@
 
                 <com.renyu.commonlibrary.views.wheelview.LoopView
                     android:id="@+id/pop_wheel_datarangelayout_year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <com.renyu.commonlibrary.views.wheelview.LoopView
                     android:id="@+id/pop_wheel_datarangelayout_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <com.renyu.commonlibrary.views.wheelview.LoopView
                     android:id="@+id/pop_wheel_datarangelayout_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <com.renyu.commonlibrary.views.wheelview.LoopView
                     android:id="@+id/pop_wheel_datarangelayout_hour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <com.renyu.commonlibrary.views.wheelview.LoopView
                     android:id="@+id/pop_wheel_datarangelayout_minute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout

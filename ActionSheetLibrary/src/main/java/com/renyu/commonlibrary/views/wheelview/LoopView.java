@@ -1,6 +1,8 @@
 package com.renyu.commonlibrary.views.wheelview;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -11,6 +13,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,42 +28,43 @@ public class LoopView extends View {
 
     private float scaleX = 1.05F;
 
+    private static final int DEFAULT_TEXT_SIZE = (int) (Resources.getSystem().getDisplayMetrics().density * 15);
+
+    private static final float DEFAULT_LINE_SPACE = 2f;
+
+    private static final int DEFAULT_VISIBIE_ITEMS = 9;
+
     public enum ACTION {
-        // 点击，滑翔(滑到尽头)，拖拽事件
         CLICK, FLING, DAGGLE
     }
-    Context context;
+
+    private Context context;
 
     Handler handler;
-    private GestureDetector gestureDetector;
+    private GestureDetector flingGestureDetector;
     OnItemSelectedListener onItemSelectedListener;
 
     // Timer mTimer;
     ScheduledExecutorService mExecutor = Executors.newSingleThreadScheduledExecutor();
     private ScheduledFuture<?> mFuture;
 
-    Paint paintOuterText;
-    Paint paintCenterText;
-    Paint paintIndicator;
+    private Paint paintOuterText;
+    private Paint paintCenterText;
+    private Paint paintIndicator;
 
-    List<String> items;
+    List<IndexString> items;
 
     int textSize;
-    int maxTextWidth;
     int maxTextHeight;
+
     int outerTextColor;
+
     int centerTextColor;
-    int indicatorColor;
+    int dividerColor;
 
-    int colorGray;
-    int colorBlack;
-    int colorLightGray;
-
-    // 条目间距倍数
     float lineSpacingMultiplier;
     boolean isLoop;
 
-    // 第一条线Y坐标值
     int firstLineY;
     int secondLineY;
 
@@ -69,17 +74,15 @@ public class LoopView extends View {
     int preCurrentIndex;
     int change;
 
-    // 显示几个条目
-    int itemsVisible;
+    int itemsVisibleCount;
+
+    HashMap<Integer, IndexString> drawingStrings;
+//    HashMap<String,Integer> drawingStr
 
     int measuredHeight;
     int measuredWidth;
-    int paddingLeft = 0;
-    int paddingRight = 0;
 
-    // 半圆周长
     int halfCircumference;
-    // 半径
     int radius;
 
     private int mOffset = 0;
@@ -88,44 +91,107 @@ public class LoopView extends View {
 
     private Rect tempRect = new Rect();
 
+    private int paddingLeft, paddingRight;
+
+    /**
+     * set text line space, must more than 1
+     *
+     * @param lineSpacingMultiplier
+     */
+    public void setLineSpacingMultiplier(float lineSpacingMultiplier) {
+        if (lineSpacingMultiplier > 1.0f) {
+            this.lineSpacingMultiplier = lineSpacingMultiplier;
+        }
+    }
+
+    /**
+     * set outer text color
+     *
+     * @param centerTextColor
+     */
+    public void setCenterTextColor(int centerTextColor) {
+        this.centerTextColor = centerTextColor;
+        paintCenterText.setColor(centerTextColor);
+    }
+
+    /**
+     * set center text color
+     *
+     * @param outerTextColor
+     */
+    public void setOuterTextColor(int outerTextColor) {
+        this.outerTextColor = outerTextColor;
+        paintOuterText.setColor(outerTextColor);
+    }
+
+    /**
+     * set divider color
+     *
+     * @param dividerColor
+     */
+    public void setDividerColor(int dividerColor) {
+        this.dividerColor = dividerColor;
+        paintIndicator.setColor(dividerColor);
+    }
+
     public LoopView(Context context) {
         super(context);
-        initLoopView(context);
+        initLoopView(context, null);
     }
 
     public LoopView(Context context, AttributeSet attributeset) {
         super(context, attributeset);
-        initLoopView(context);
+        initLoopView(context, attributeset);
     }
 
     public LoopView(Context context, AttributeSet attributeset, int defStyleAttr) {
         super(context, attributeset, defStyleAttr);
-        initLoopView(context);
+        initLoopView(context, attributeset);
     }
 
-    private void initLoopView(Context context) {
+    private void initLoopView(Context context, AttributeSet attributeset) {
         this.context = context;
         handler = new MessageHandler(this);
-        gestureDetector = new GestureDetector(context, new LoopViewGestureListener(this));
-        gestureDetector.setIsLongpressEnabled(false);
+        flingGestureDetector = new GestureDetector(context, new LoopViewGestureListener(this));
+        flingGestureDetector.setIsLongpressEnabled(false);
 
-        lineSpacingMultiplier = 2.0F;
-        isLoop = true;
-        itemsVisible = 9;
-        textSize = 0;
-        colorGray = 0xffafafaf;
-        colorBlack = 0xff313131;
-        colorLightGray = 0xffc5c5c5;
-        outerTextColor = colorGray;
-        centerTextColor = colorBlack;
-        indicatorColor = colorLightGray;
+        TypedArray typedArray = context.obtainStyledAttributes(attributeset, R.styleable.androidWheelView);
+        textSize = typedArray.getInteger(R.styleable.androidWheelView_awv_textsize, DEFAULT_TEXT_SIZE);
+        textSize = (int) (Resources.getSystem().getDisplayMetrics().density * textSize);
+        lineSpacingMultiplier = typedArray.getFloat(R.styleable.androidWheelView_awv_lineSpace, DEFAULT_LINE_SPACE);
+        centerTextColor = typedArray.getInteger(R.styleable.androidWheelView_awv_centerTextColor, 0xff313131);
+        outerTextColor = typedArray.getInteger(R.styleable.androidWheelView_awv_outerTextColor, 0xffafafaf);
+        dividerColor = typedArray.getInteger(R.styleable.androidWheelView_awv_dividerTextColor, 0xffc5c5c5);
+        itemsVisibleCount =
+                typedArray.getInteger(R.styleable.androidWheelView_awv_itemsVisibleCount, DEFAULT_VISIBIE_ITEMS);
+        if (itemsVisibleCount % 2 == 0) {
+            itemsVisibleCount = DEFAULT_VISIBIE_ITEMS;
+        }
+        isLoop = typedArray.getBoolean(R.styleable.androidWheelView_awv_isLoop, true);
+        typedArray.recycle();
 
+//        drawingStrings = new String[itemsVisibleCount];
+        drawingStrings = new HashMap<>();
         totalScrollY = 0;
         initPosition = -1;
 
         initPaints();
+    }
 
-        setTextSize(16F);
+    /**
+     * visible item count, must be odd number
+     *
+     * @param visibleNumber
+     */
+    public void setItemsVisibleCount(int visibleNumber) {
+        if (visibleNumber % 2 == 0) {
+            return;
+        }
+        if (visibleNumber != itemsVisibleCount) {
+            itemsVisibleCount = visibleNumber;
+//            drawingStrings = new String[itemsVisibleCount];
+            drawingStrings = new HashMap<>();
+        }
     }
 
     private void initPaints() {
@@ -143,12 +209,9 @@ public class LoopView extends View {
         paintCenterText.setTextSize(textSize);
 
         paintIndicator = new Paint();
-        paintIndicator.setColor(indicatorColor);
+        paintIndicator.setColor(dividerColor);
         paintIndicator.setAntiAlias(true);
 
-        if (android.os.Build.VERSION.SDK_INT >= 11) {
-            setLayerType(LAYER_TYPE_SOFTWARE, null);
-        }
     }
 
     private void remeasure() {
@@ -156,12 +219,26 @@ public class LoopView extends View {
             return;
         }
 
-        measureTextWidthHeight();
+        measuredWidth = getMeasuredWidth();
 
-        halfCircumference = (int) (maxTextHeight * lineSpacingMultiplier * (itemsVisible - 1));
-        measuredHeight = (int) ((halfCircumference * 2) / Math.PI);
-        radius = (int) (halfCircumference / Math.PI);
-        measuredWidth = maxTextWidth + paddingLeft + paddingRight;
+        measuredHeight = getMeasuredHeight();
+
+        if (measuredWidth == 0 || measuredHeight == 0) {
+            return;
+        }
+
+        paddingLeft = getPaddingLeft();
+        paddingRight = getPaddingRight();
+
+        measuredWidth = measuredWidth - paddingRight;
+
+        paintCenterText.getTextBounds("\u661F\u671F", 0, 2, tempRect); // 星期
+        maxTextHeight = tempRect.height();
+        halfCircumference = (int) (measuredHeight * Math.PI / 2);
+
+        maxTextHeight = (int) (halfCircumference / (lineSpacingMultiplier * (itemsVisibleCount - 1)));
+
+        radius = measuredHeight / 2;
         firstLineY = (int) ((measuredHeight - lineSpacingMultiplier * maxTextHeight) / 2.0F);
         secondLineY = (int) ((measuredHeight + lineSpacingMultiplier * maxTextHeight) / 2.0F);
         if (initPosition == -1) {
@@ -175,61 +252,48 @@ public class LoopView extends View {
         preCurrentIndex = initPosition;
     }
 
-    private void measureTextWidthHeight() {
-        for (int i = 0; i < items.size(); i++) {
-            String s1 = items.get(i);
-            paintCenterText.getTextBounds(s1, 0, s1.length(), tempRect);
-            int textWidth = tempRect.width();
-            if (textWidth > maxTextWidth) {
-                maxTextWidth = (int) (textWidth * scaleX);
-            }
-            paintCenterText.getTextBounds("\u661F\u671F", 0, 2, tempRect); // 星期
-            int textHeight = tempRect.height();
-            if (textHeight > maxTextHeight) {
-                maxTextHeight = textHeight;
-            }
-        }
-
-    }
-
     void smoothScroll(ACTION action) {
         cancelFuture();
-        if (action== ACTION.FLING||action== ACTION.DAGGLE) {
+        if (action == ACTION.FLING || action == ACTION.DAGGLE) {
             float itemHeight = lineSpacingMultiplier * maxTextHeight;
-            mOffset = (int) ((totalScrollY%itemHeight + itemHeight) % itemHeight);
+            mOffset = (int) ((totalScrollY % itemHeight + itemHeight) % itemHeight);
             if ((float) mOffset > itemHeight / 2.0F) {
                 mOffset = (int) (itemHeight - (float) mOffset);
             } else {
                 mOffset = -mOffset;
             }
         }
-        mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
+        mFuture =
+                mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
     }
-
-//    void smoothScroll() {
-//        int offset = (int) (totalScrollY % (lineSpacingMultiplier * maxTextHeight));
-//        cancelFuture();
-//        mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, offset), 0, 10, TimeUnit.MILLISECONDS);
-//    }
 
     protected final void scrollBy(float velocityY) {
         cancelFuture();
-        // 修改这个值可以改变滑行速度
+        // change this number, can change fling speed
         int velocityFling = 10;
-        mFuture = mExecutor.scheduleWithFixedDelay(new InertiaTimerTask(this, velocityY), 0, velocityFling, TimeUnit.MILLISECONDS);
+        mFuture = mExecutor.scheduleWithFixedDelay(new InertiaTimerTask(this, velocityY), 0, velocityFling,
+                TimeUnit.MILLISECONDS);
     }
 
     public void cancelFuture() {
-        if (mFuture!=null&&!mFuture.isCancelled()) {
+        if (mFuture != null && !mFuture.isCancelled()) {
             mFuture.cancel(true);
             mFuture = null;
         }
     }
 
-    public final void setNotLoop() {
+    /**
+     * set not loop
+     */
+    public void setNotLoop() {
         isLoop = false;
     }
 
+    /**
+     * set text size in dp
+     *
+     * @param size
+     */
     public final void setTextSize(float size) {
         if (size > 0.0F) {
             textSize = (int) (context.getResources().getDisplayMetrics().density * size);
@@ -238,31 +302,11 @@ public class LoopView extends View {
         }
     }
 
-    @Override
-    public void setScaleX(float scaleX) {
-        this.scaleX = scaleX;
-    }
-
-    public void setIndicatorColor(int indicatorColor) {
-        this.indicatorColor = indicatorColor;
-        paintIndicator.setColor(indicatorColor);
-    }
-
-    public void setCenterTextColor(int centerTextColor) {
-        this.centerTextColor = centerTextColor;
-        paintCenterText.setColor(centerTextColor);
-    }
-
-    public void setOuterTextColor(int outerTextColor) {
-        this.outerTextColor = outerTextColor;
-        paintOuterText.setColor(outerTextColor);
-    }
-
     public final void setInitPosition(int initPosition) {
-        if (initPosition<0) {
+        if (initPosition < 0) {
             this.initPosition = 0;
         } else {
-            if (items!=null&&(items.size()-1)>=initPosition) {
+            if (items != null && items.size() > initPosition) {
                 this.initPosition = initPosition;
             }
         }
@@ -273,36 +317,29 @@ public class LoopView extends View {
     }
 
     public final void setItems(List<String> items) {
-        this.items = items;
+
+        this.items = convertData(items);
         requestLayout();
         invalidate();
     }
 
-    @Override
-    public int getPaddingLeft() {
-        return paddingLeft;
-    }
-
-    @Override
-    public int getPaddingRight() {
-        return paddingRight;
-    }
-
-    // 设置左右内边距
-    public void setViewPadding(int left, int top, int right, int bottom) {
-        paddingLeft = left;
-        paddingRight = right;
+    public List<IndexString> convertData(List<String> items) {
+        List<IndexString> data = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            data.add(new IndexString(i, items.get(i)));
+        }
+        return data;
     }
 
     public final int getSelectedItem() {
         return selectedItem;
     }
-//
-//    protected final void scrollBy(float velocityY) {
-//        Timer timer = new Timer();
-//        mTimer = timer;
-//        timer.schedule(new InertiaTimerTask(this, velocityY, timer), 0L, 20L);
-//    }
+    //
+    // protected final void scrollBy(float velocityY) {
+    // Timer timer = new Timer();
+    // mTimer = timer;
+    // timer.schedule(new InertiaTimerTask(this, velocityY, timer), 0L, 20L);
+    // }
 
     protected final void onItemSelected() {
         if (onItemSelectedListener != null) {
@@ -310,8 +347,31 @@ public class LoopView extends View {
         }
     }
 
-    public void setTotalScrollYPosition(int position) {
-        this.totalScrollY = (int) (position*(lineSpacingMultiplier * maxTextHeight));
+    /**
+     * link https://github.com/weidongjian/androidWheelView/issues/10
+     *
+     * @param scaleX
+     */
+    public void setScaleX(float scaleX) {
+        this.scaleX = scaleX;
+    }
+
+    /**
+     * set current item position
+     *
+     * @param position
+     */
+    public void setCurrentPosition(int position) {
+        if (items == null || items.isEmpty()) {
+            return;
+        }
+        int size = items.size();
+        if (position >= 0 && position < size && position != selectedItem) {
+            initPosition = position;
+            totalScrollY = 0;
+            mOffset = 0;
+            invalidate();
+        }
     }
 
     @Override
@@ -320,7 +380,6 @@ public class LoopView extends View {
             return;
         }
 
-        String as[] = new String[itemsVisible];
         change = (int) (totalScrollY / (lineSpacingMultiplier * maxTextHeight));
         preCurrentIndex = initPosition + change % items.size();
 
@@ -341,10 +400,10 @@ public class LoopView extends View {
         }
 
         int j2 = (int) (totalScrollY % (lineSpacingMultiplier * maxTextHeight));
-        // 设置as数组中每个元素的值
+        // put value to drawingString
         int k1 = 0;
-        while (k1 < itemsVisible) {
-            int l1 = preCurrentIndex - (itemsVisible / 2 - k1);
+        while (k1 < itemsVisibleCount) {
+            int l1 = preCurrentIndex - (itemsVisibleCount / 2 - k1);
             if (isLoop) {
                 while (l1 < 0) {
                     l1 = l1 + items.size();
@@ -352,89 +411,97 @@ public class LoopView extends View {
                 while (l1 > items.size() - 1) {
                     l1 = l1 - items.size();
                 }
-                as[k1] = items.get(l1);
+                drawingStrings.put(k1, items.get(l1));
             } else if (l1 < 0) {
-                as[k1] = "";
+//                drawingStrings[k1] = "";
+                drawingStrings.put(k1, new IndexString());
             } else if (l1 > items.size() - 1) {
-                as[k1] = "";
+//                drawingStrings[k1] = "";
+                drawingStrings.put(k1, new IndexString());
             } else {
-                as[k1] = items.get(l1);
+                // drawingStrings[k1] = items.get(l1);
+                drawingStrings.put(k1, items.get(l1));
             }
             k1++;
         }
-        canvas.drawLine(0.0F, firstLineY, measuredWidth, firstLineY, paintIndicator);
-        canvas.drawLine(0.0F, secondLineY, measuredWidth, secondLineY, paintIndicator);
+        canvas.drawLine(paddingLeft, firstLineY, measuredWidth, firstLineY, paintIndicator);
+        canvas.drawLine(paddingLeft, secondLineY, measuredWidth, secondLineY, paintIndicator);
 
-        int j1 = 0;
-        while (j1 < itemsVisible) {
+        int i = 0;
+        while (i < itemsVisibleCount) {
             canvas.save();
-            // L(弧长)=α（弧度）* r(半径) （弧度制）
-            // 求弧度--> (L * π ) / (π * r)   (弧长X派/半圆周长)
             float itemHeight = maxTextHeight * lineSpacingMultiplier;
-            double radian = ((itemHeight * j1 - j2) * Math.PI) / halfCircumference;
-            // 弧度转换成角度(把半圆以Y轴为轴心向右转90度，使其处于第一象限及第四象限
-            float angle = (float) (90D - (radian / Math.PI) * 180D);
-            if (angle >= 90F || angle <= -90F) {
+            double radian = ((itemHeight * i - j2) * Math.PI) / halfCircumference;
+            if (radian >= Math.PI || radian <= 0) {
                 canvas.restore();
             } else {
                 int translateY = (int) (radius - Math.cos(radian) * radius - (Math.sin(radian) * maxTextHeight) / 2D);
                 canvas.translate(0.0F, translateY);
                 canvas.scale(1.0F, (float) Math.sin(radian));
                 if (translateY <= firstLineY && maxTextHeight + translateY >= firstLineY) {
-                    // 条目经过第一条线
+                    // first divider
                     canvas.save();
                     canvas.clipRect(0, 0, measuredWidth, firstLineY - translateY);
-                    canvas.drawText(as[j1], getTextX(as[j1], paintOuterText, tempRect), maxTextHeight, paintOuterText);
+                    canvas.drawText(drawingStrings.get(i).string, getTextX(drawingStrings.get(i).string, paintOuterText, tempRect),
+                            maxTextHeight, paintOuterText);
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, firstLineY - translateY, measuredWidth, (int) (itemHeight));
-                    canvas.drawText(as[j1], getTextX(as[j1], paintCenterText, tempRect), maxTextHeight, paintCenterText);
+                    canvas.drawText(drawingStrings.get(i).string, getTextX(drawingStrings.get(i).string, paintCenterText, tempRect),
+                            maxTextHeight, paintCenterText);
                     canvas.restore();
                 } else if (translateY <= secondLineY && maxTextHeight + translateY >= secondLineY) {
-                    // 条目经过第二条线
+                    // second divider
                     canvas.save();
                     canvas.clipRect(0, 0, measuredWidth, secondLineY - translateY);
-                    canvas.drawText(as[j1], getTextX(as[j1], paintCenterText, tempRect), maxTextHeight, paintCenterText);
+                    canvas.drawText(drawingStrings.get(i).string, getTextX(drawingStrings.get(i).string, paintCenterText, tempRect),
+                            maxTextHeight, paintCenterText);
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, secondLineY - translateY, measuredWidth, (int) (itemHeight));
-                    canvas.drawText(as[j1], getTextX(as[j1], paintOuterText, tempRect), maxTextHeight, paintOuterText);
+                    canvas.drawText(drawingStrings.get(i).string, getTextX(drawingStrings.get(i).string, paintOuterText, tempRect),
+                            maxTextHeight, paintOuterText);
                     canvas.restore();
                 } else if (translateY >= firstLineY && maxTextHeight + translateY <= secondLineY) {
-                    // 中间条目
+                    // center item
                     canvas.clipRect(0, 0, measuredWidth, (int) (itemHeight));
-                    canvas.drawText(as[j1], getTextX(as[j1], paintCenterText, tempRect), maxTextHeight, paintCenterText);
-                    selectedItem = items.indexOf(as[j1]);
+                    canvas.drawText(drawingStrings.get(i).string, getTextX(drawingStrings.get(i).string, paintCenterText, tempRect),
+                            maxTextHeight, paintCenterText);
+                    selectedItem = items.indexOf(drawingStrings.get(i));
                 } else {
-                    // 其他条目
+                    // other item
                     canvas.clipRect(0, 0, measuredWidth, (int) (itemHeight));
-                    canvas.drawText(as[j1], getTextX(as[j1], paintOuterText, tempRect), maxTextHeight, paintOuterText);
+                    canvas.drawText(drawingStrings.get(i).string, getTextX(drawingStrings.get(i).string, paintOuterText, tempRect),
+                            maxTextHeight, paintOuterText);
                 }
                 canvas.restore();
             }
-            j1++;
+            i++;
         }
     }
 
-    // 绘制文字起始位置
+    // text start drawing position
     private int getTextX(String a, Paint paint, Rect rect) {
         paint.getTextBounds(a, 0, a.length(), rect);
-        // 获取到的是实际文字宽度
         int textWidth = rect.width();
-        // 转换成绘制文字宽度
         textWidth *= scaleX;
-        return (measuredWidth - textWidth) / 2;
+        return (measuredWidth - paddingLeft - textWidth) / 2 + paddingLeft;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         remeasure();
-        setMeasuredDimension(measuredWidth, measuredHeight);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        boolean eventConsumed = gestureDetector.onTouchEvent(event);
+        boolean eventConsumed = flingGestureDetector.onTouchEvent(event);
         float itemHeight = lineSpacingMultiplier * maxTextHeight;
 
         switch (event.getAction()) {
@@ -442,6 +509,9 @@ public class LoopView extends View {
                 startTime = System.currentTimeMillis();
                 cancelFuture();
                 previousY = event.getRawY();
+                if (getParent() != null) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -450,7 +520,6 @@ public class LoopView extends View {
 
                 totalScrollY = (int) (totalScrollY + dy);
 
-                // 边界处理。
                 if (!isLoop) {
                     float top = -initPosition * itemHeight;
                     float bottom = (items.size() - 1 - initPosition) * itemHeight;
@@ -464,6 +533,7 @@ public class LoopView extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
             default:
                 if (!eventConsumed) {
                     float y = event.getY();
@@ -471,20 +541,46 @@ public class LoopView extends View {
                     int circlePosition = (int) ((l + itemHeight / 2) / itemHeight);
 
                     float extraOffset = (totalScrollY % itemHeight + itemHeight) % itemHeight;
-                    mOffset = (int) ((circlePosition - itemsVisible / 2) * itemHeight - extraOffset);
+                    mOffset = (int) ((circlePosition - itemsVisibleCount / 2) * itemHeight - extraOffset);
 
                     if ((System.currentTimeMillis() - startTime) > 120) {
-                        // 处理拖拽事件
                         smoothScroll(ACTION.DAGGLE);
                     } else {
-                        // 处理条目点击事件
                         smoothScroll(ACTION.CLICK);
                     }
+                }
+                if (getParent() != null) {
+                    getParent().requestDisallowInterceptTouchEvent(false);
                 }
                 break;
         }
 
         invalidate();
         return true;
+    }
+
+    // 设置左右内边距
+    public void setViewPadding(int left, int top, int right, int bottom) {
+        paddingLeft = left;
+        paddingRight = right;
+    }
+
+    public void setTotalScrollYPosition(int position) {
+        this.totalScrollY = (int) (position*(lineSpacingMultiplier * maxTextHeight));
+    }
+
+    class IndexString {
+
+        public IndexString() {
+            this.string = "";
+        }
+
+        public IndexString(int index, String str) {
+            this.index = index;
+            this.string = str;
+        }
+
+        private String string;
+        private int index;
     }
 }
