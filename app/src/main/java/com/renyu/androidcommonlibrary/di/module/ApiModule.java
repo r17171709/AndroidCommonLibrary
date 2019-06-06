@@ -9,6 +9,7 @@ import com.renyu.commonlibrary.network.OKHttpHelper;
 import com.renyu.commonlibrary.network.OKHttpUtils;
 import com.renyu.commonlibrary.network.Retrofit2Helper;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
+import com.tencent.mmkv.MMKV;
 import com.tencent.wcdb.database.SQLiteDatabase;
 
 import java.net.Proxy;
@@ -23,7 +24,6 @@ import retrofit2.Retrofit;
 
 @Module
 public class ApiModule {
-
     /**
      * 提供HttpClient对象
      *
@@ -96,5 +96,17 @@ public class ApiModule {
         PlainTextDBHelper dbHelper = new PlainTextDBHelper(application);
         dbHelper.setWriteAheadLoggingEnabled(true);
         return dbHelper.getWritableDatabase();
+    }
+
+    /**
+     * 提供mmkv对象
+     *
+     * @param application
+     * @return
+     */
+    @Singleton
+    @Provides
+    public MMKV provideMMKV(ExampleApp application) {
+        return MMKV.defaultMMKV();
     }
 }

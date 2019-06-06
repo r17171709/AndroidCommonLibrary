@@ -16,17 +16,21 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
+import com.blankj.utilcode.util.Utils;
 import com.gongwen.marqueen.MarqueeFactory;
 import com.gongwen.marqueen.MarqueeView;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
+import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.androidcommonlibrary.adapter.ScrollRVAdapter;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.views.FullyLinearLayoutManager;
 import com.renyu.commonlibrary.views.LocalImageHolderView;
 import com.tencent.mars.xlog.Log;
+import com.tencent.mmkv.MMKV;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -52,8 +56,15 @@ public class ScrollRVActivity extends BaseActivity {
     ArrayList<Object> linearLayoutBeans2;
     ArrayList<Object> linearLayoutBeans3;
 
+    @Inject
+    MMKV mmkv;
+
     @Override
     public void initParams() {
+        ((ExampleApp) (Utils.getApp())).appComponent.plusAct().inject(this);
+        mmkv.putBoolean("test", true);
+        mmkv.getBoolean("test", false);
+
         swipy_scrollrv = findViewById(R.id.swipy_scrollrv);
         cb_scrollrv = findViewById(R.id.cb_scrollrv);
         ns_scrollrv = findViewById(R.id.ns_scrollrv);
