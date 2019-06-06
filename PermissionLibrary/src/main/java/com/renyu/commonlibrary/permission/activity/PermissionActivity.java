@@ -22,13 +22,12 @@ import java.util.List;
  * Created by Administrator on 2018/5/26.
  */
 public class PermissionActivity extends AppCompatActivity {
-
     // 权限接口相关
     public static IPermissionStatue impl;
     private List<String> permission;
-    String deniedDesp;
+    private String deniedDesp;
 
-    boolean isCheckAgain;
+    private boolean isCheckAgain;
     // 是否需要关闭
     private boolean needDismiss;
 
@@ -82,9 +81,10 @@ public class PermissionActivity extends AppCompatActivity {
             if (PermissionsUtils.lacksPermissions(this, permissions)) {
                 PermissionsUtils.requestPermissions(this, permissions);
             } else {
+                impl.grant();
+                impl = null;
                 finish();
                 overridePendingTransition(0, 0);
-                impl.grant();
             }
         }
     }
@@ -101,9 +101,10 @@ public class PermissionActivity extends AppCompatActivity {
         }
         if (impl != null) {
             if (isGrant) {
+                impl.grant();
+                impl = null;
                 finish();
                 overridePendingTransition(0, 0);
-                impl.grant();
             } else {
                 openPermissionDialog();
             }
@@ -125,9 +126,10 @@ public class PermissionActivity extends AppCompatActivity {
                 .setNegativeButton("取消", (dialog, which) -> needDismiss = true)
                 .setOnDismissListener(dialog -> {
                     if (needDismiss) {
+                        impl.denied();
+                        impl = null;
                         finish();
                         overridePendingTransition(0, 0);
-                        impl.denied();
                     }
                 }).show();
     }

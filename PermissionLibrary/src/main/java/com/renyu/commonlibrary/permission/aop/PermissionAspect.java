@@ -49,7 +49,7 @@ public class PermissionAspect {
                     public void denied() {
                         Class class_ = joinPoint.getThis().getClass();
                         Method[] methods = class_.getDeclaredMethods();
-                        if (methods == null || methods.length == 0) {
+                        if (methods.length == 0) {
                             return;
                         }
                         for (Method method : methods) {
