@@ -116,8 +116,8 @@ dependencies {
     implementation 'com.github.renyu:AndroidWebLibrary:2.0.0'
 //    implementation project(':WebLibrary')
     // 权限判断
-//    implementation 'com.github.renyu:AndroidPermissionLibrary:2.0.0'
-    implementation project(':PermissionLibrary')
+    implementation 'com.github.renyu:AndroidPermissionLibrary:2.0.1'
+//    implementation project(':PermissionLibrary')
     // 基础库
     implementation 'com.github.renyu:AndroidCommonLibrary:3.0.4'
 //    implementation project(':CommonLibrary')
