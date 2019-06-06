@@ -3,7 +3,6 @@ package com.renyu.androidcommonlibrary.activity;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -26,6 +25,7 @@ import com.renyu.androidcommonlibrary.adapter.ScrollRVAdapter;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.views.FullyLinearLayoutManager;
 import com.renyu.commonlibrary.views.LocalImageHolderView;
+import com.tencent.mars.xlog.Log;
 
 import java.util.ArrayList;
 import java.util.List;
