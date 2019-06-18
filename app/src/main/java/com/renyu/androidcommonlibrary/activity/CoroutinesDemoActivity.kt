@@ -1,34 +1,44 @@
 package com.renyu.androidcommonlibrary.activity
 
+import android.app.ProgressDialog
 import android.graphics.Color
-import android.widget.TextView
 import com.blankj.utilcode.util.Utils
+import com.renyu.androidcommonlibrary.BR
 import com.renyu.androidcommonlibrary.ExampleApp
 import com.renyu.androidcommonlibrary.R
-import com.renyu.commonlibrary.baseact.BaseActivity
+import com.renyu.androidcommonlibrary.databinding.ActivityCoroutinesdemoBinding
+import com.renyu.androidcommonlibrary.fragment.CoroutinesDemoFragment
+import com.renyu.commonlibrary.baseact.BaseDataBindingActivity
 import com.renyu.commonlibrary.network.OKHttpUtils
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class CoroutinesDemoActivity : BaseActivity() {
-
+class CoroutinesDemoActivity : BaseDataBindingActivity<ActivityCoroutinesdemoBinding>() {
     @JvmField
     @Inject
     var okHttpUtils: OKHttpUtils? = null
 
     private var job: Job? = null
 
-    override fun initParams() {
-        (Utils.getApp() as ExampleApp).appComponent.plusAct().inject(this)
+    private var networkDialg: ProgressDialog? = null
+
+    private val fragment by lazy {
+        CoroutinesDemoFragment()
     }
 
-    override fun initViews() = R.layout.activity_main
+    override fun initParams() {
+        (Utils.getApp() as ExampleApp).appComponent.plusAct().inject(this)
+        supportFragmentManager.beginTransaction().replace(R.id.layout_coroutine, fragment).commitAllowingStateLoss()
+        viewDataBinding.setVariable(BR.CoroutinesDemoTitle, "标题")
+    }
+
+    override fun initViews() = R.layout.activity_coroutinesdemo
 
     override fun loadData() {
         job = GlobalScope.launch(Dispatchers.Main) {
             showNetworkDialog("正在加载数据")
             try {
-                findViewById<TextView>(R.id.tv_main).text = getRemoteData()
+                fragment.updateValue(getRemoteData())
             } catch (e: Exception) {
 
             } finally {
@@ -52,8 +62,7 @@ class CoroutinesDemoActivity : BaseActivity() {
         val responseBody = okHttpUtils!!.syncGet("http://www.mocky.io/v2/5943e4dc1200000f08fcb4d4").body()
         if (responseBody == null) {
             throw Exception("出现异常")
-        }
-        else {
+        } else {
             responseBody.string()
         }
     }
@@ -61,5 +70,17 @@ class CoroutinesDemoActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         job?.cancel()
+    }
+
+    private fun showNetworkDialog(content: String) {
+        if (networkDialg == null || (networkDialg != null && !networkDialg!!.isShowing && !isFinishing))
+            networkDialg = ProgressDialog.show(this, "", content)
+    }
+
+    private fun dismissNetworkDialog() {
+        if (networkDialg != null && networkDialg!!.isShowing) {
+            networkDialg!!.dismiss()
+            networkDialg = null
+        }
     }
 }

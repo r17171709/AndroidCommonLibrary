@@ -119,8 +119,8 @@ dependencies {
     implementation 'com.github.renyu:AndroidPermissionLibrary:2.0.1'
 //    implementation project(':PermissionLibrary')
     // 基础库
-    implementation 'com.github.renyu:AndroidCommonLibrary:3.0.5'
-//    implementation project(':CommonLibrary')
+//    implementation 'com.github.renyu:AndroidCommonLibrary:3.0.5'
+    implementation project(':CommonLibrary')
 
     // leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'

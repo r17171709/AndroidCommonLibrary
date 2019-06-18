@@ -1,12 +1,13 @@
 package com.renyu.commonlibrary.baseact;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.blankj.utilcode.util.PermissionUtils;
 import com.renyu.commonlibrary.commonutils.BarUtils;
 import com.renyu.commonlibrary.params.InitParams;
@@ -27,8 +28,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public abstract int setStatusBarColor();
 
     public abstract int setStatusBarTranslucent();
-
-    public ProgressDialog networkDialg;
 
     // 判断是否执行onCreate以下部分
     public boolean isNeedOnCreate = true;
@@ -87,17 +86,5 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         // 关闭xlog，生成日志
         Log.appenderClose();
-    }
-
-    public void showNetworkDialog(String content) {
-        if (networkDialg == null || !networkDialg.isShowing() && !isFinishing())
-            networkDialg = ProgressDialog.show(this, "", content);
-    }
-
-    public void dismissNetworkDialog() {
-        if (networkDialg != null && networkDialg.isShowing()) {
-            networkDialg.dismiss();
-            networkDialg = null;
-        }
     }
 }
