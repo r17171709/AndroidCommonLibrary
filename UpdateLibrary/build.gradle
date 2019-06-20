@@ -8,7 +8,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidUpdateLibrary'
-    publishVersion = '2.0.2'
+    publishVersion = '2.0.3'
     desc = 'Update Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -53,7 +53,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // 工具类
-    implementation 'com.blankj:utilcode:1.23.7'
+    implementation 'com.blankj:utilcode:1.24.4'
 //    implementation project(':NetworkLibrary')
     implementation 'com.github.renyu:AndroidNetworkLibrary:2.0.2'
 }
