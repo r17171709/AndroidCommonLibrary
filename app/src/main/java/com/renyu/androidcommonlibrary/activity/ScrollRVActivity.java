@@ -78,8 +78,8 @@ public class ScrollRVActivity extends BaseActivity {
 
         linearLayoutBeans1 = new ArrayList<>();
         linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160134&di=5f50b14329fdce5d25200b6212f0b8b1&imgtype=0&src=http%3A%2F%2Fold.cicphoto.com%2Fnewcicsite%2Fsyxy%2Ftj%2F201408%2FW020140827418494159324.jpg"));
-        linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160134&di=3a25c42f93367a04db3a3de3095e214b&imgtype=0&src=http%3A%2F%2Fpic.hsw.cn%2F0%2F12%2F25%2F40%2F12254064_630448.jpg"));
-        linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161182051&di=73ea74c482c56e65bd895dec951884e3&imgtype=jpg&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8644ebf81a4c510fd95d93db6959252dd52aa551.jpg"));
+        linearLayoutBeans1.add(Uri.parse("http://f.hiphotos.baidu.com/image/pic/item/8d5494eef01f3a29f863534d9725bc315d607c8e.jpg"));
+        linearLayoutBeans1.add(Uri.parse("http://a.hiphotos.baidu.com/image/h%3D300/sign=a62e824376d98d1069d40a31113eb807/838ba61ea8d3fd1fc9c7b6853a4e251f94ca5f46.jpg"));
         linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160133&di=bd17c2859efa779ddca3b8ab1e1acb68&imgtype=0&src=http%3A%2F%2Fguangdong.sinaimg.cn%2F2014%2F0508%2FU10729P693DT20140508144234.jpg"));
 
         linearLayoutBeans2 = new ArrayList<>();
