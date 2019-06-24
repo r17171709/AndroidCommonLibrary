@@ -6,13 +6,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.os.Build;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.blankj.utilcode.util.DeviceUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.BufferedReader;
@@ -21,7 +19,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.UUID;
 
 /**
  * Created by renyu on 2016/12/26.
@@ -64,33 +61,7 @@ public class Utils {
      * @return
      */
     public static String getUniquePsuedoID() {
-        final String PREFS_FILE = "device_id.xml";
-        final String PREFS_DEVICE_ID = "device_id";
-
-        String id = SPUtils.getInstance(PREFS_FILE).getString(PREFS_DEVICE_ID);
-        if (!TextUtils.isEmpty(id)) {
-            return id;
-        } else {
-            String androidId = DeviceUtils.getAndroidID();
-            UUID uuid;
-            try {
-                uuid = UUID.nameUUIDFromBytes(androidId.getBytes("utf8"));
-            } catch (Exception e) {
-                String m_szDevIDShort = "35" +
-                        Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
-                        Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
-                        Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
-                        Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
-                        Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
-                        Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
-                        Build.USER.length() % 10; //13 位
-                String serial = "serial";
-                uuid = new UUID(m_szDevIDShort.hashCode(), serial.hashCode());
-            }
-            String value = uuid.toString().replace("-", "_");
-            SPUtils.getInstance(PREFS_FILE).put(PREFS_DEVICE_ID, value);
-            return value;
-        }
+        return Settings.System.getString(com.blankj.utilcode.util.Utils.getApp().getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
     /**
