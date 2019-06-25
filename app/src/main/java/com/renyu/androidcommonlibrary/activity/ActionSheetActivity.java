@@ -1,21 +1,14 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
-import com.renyu.commonlibrary.views.actionsheet.ActionSheetFragment;
-import com.renyu.commonlibrary.views.actionsheet.ActionSheetUtils;
+import com.renyu.commonlibrary.views.actionsheet.ActionSheetFactory;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
 
 import java.util.ArrayList;
@@ -28,47 +21,39 @@ public class ActionSheetActivity extends BaseActivity {
     @Override
     public void initParams() {
         findViewById(R.id.btn_click).setOnClickListener(v -> {
-//            View view_threeloopertitle_floor = addAction();
-//            ActionSheetFragment.build()
-//                    .setChoice(ActionSheetFragment.CHOICE.CUSTOMER)
-//                    .setTitle("title", Color.BLUE)
-//                    .setCancelTitle("取消", Color.YELLOW)
-//                    .setOkTitle("确定", Color.RED)
-//                    .setCanDismiss(false)
-//                    .setOnOKListener(value -> {
-//
-//                    })
-//                    .setCustomerView(view_threeloopertitle_floor)
-//                    .show(ActionSheetActivity.this);
+            View view_threeloopertitle_floor = addAction();
+            ActionSheetFactory.createCustomActionSheetFragment(this, "", "自定义视图", Color.BLUE,
+                    "确定", Color.RED,
+                    "取消", Color.GRAY,
+                    false,
+                    view_threeloopertitle_floor);
 
-//            ActionSheetUtils.showGrid(this, "Hello", Color.BLUE, "cancel", Color.RED,
+//            ActionSheetFactory.createGridActionSheetFragment(this, "", "Hello", Color.BLUE, "cancel", Color.RED,
 //                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
 //                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
-//                    3, position -> {
+//                    4, position -> {
 //
 //                    }, () -> {
 //
 //                    });
 
-//            ActionSheetUtils.showList(this, "Hello", Color.BLUE, "cancel", Color.RED,
+//            ActionSheetFactory.createListActionSheetFragment(this, "", "Hello", Color.BLUE, "cancel", Color.RED,
 //                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
 //                    2, position -> {
 //
 //                    }, this::finish);
 
-//            ActionSheetUtils.showCenterList(this, "", Color.BLUE, "cancel", Color.RED,
+//            ActionSheetFactory.createCenterListActionSheetFragment(this, "", "", Color.BLUE, "cancel", Color.RED,
 //                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"}, position -> {
 //
 //                    }, this::finish);
 
-//            ActionSheetUtils.showTime(this, "Title", Color.BLUE, "Cancel", Color.YELLOW, "OK", Color.RED,
-//                    10, 12, value -> {
-//                Toast.makeText(this, "value:" + value, Toast.LENGTH_SHORT).show();
-//            }, () -> {
+//            ActionSheetFactory.createTimeActionSheetFragment(this, "", "Title", Color.BLUE, "OK", Color.RED, "Cancel", Color.YELLOW,
+//                    10, 12, value -> Toast.makeText(this, "value:" + value, Toast.LENGTH_SHORT).show(), () -> {
 //
-//            });
+//                    });
 
-//            ActionSheetUtils.showToutiaoChoice(this, "取消", Color.BLACK, new String[]{"微信好友", "朋友圈", "QQ好友", "微博",
+//            ActionSheetFactory.createTouTiaoActionSheetFragment(this, "", "取消", Color.BLACK, new String[]{"微信好友", "朋友圈", "QQ好友", "微博",
 //                            "微信好友", "朋友圈", "QQ好友", "微博"},
 //                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
 //                            R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher},
@@ -78,10 +63,11 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                    });
 
-            ActionSheetUtils.showDateRange(this, "设置日期", Color.BLUE, "取消", Color.GRAY, "确定", Color.RED, 1545689754000L, System.currentTimeMillis(), false,
-                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
-
-                    });
+//            ActionSheetFactory.createDateRangeActionSheetFragment(this, "", "设置日期", Color.BLUE, "确定", Color.RED, "取消", Color.GRAY,
+//                    1545689754000L, System.currentTimeMillis(), false,
+//                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
+//
+//                    });
         });
     }
 
@@ -111,21 +97,6 @@ public class ActionSheetActivity extends BaseActivity {
         loopview.setItems(strings);
         loopview.setTextSize(18);
         loopview.setInitPosition(0);
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            if (getSupportFragmentManager().getFragments().size() > 0) {
-                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-                    if (fragment instanceof ActionSheetFragment) {
-                        View view_threeloopertitle_floor = addAction();
-                        ((ActionSheetFragment) fragment).restoreCustomerView(view_threeloopertitle_floor);
-                    }
-                }
-            }
-        }
     }
 
     @NonNull

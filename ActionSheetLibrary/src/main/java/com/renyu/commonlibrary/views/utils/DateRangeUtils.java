@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.blankj.utilcode.util.SizeUtils;
-import com.renyu.commonlibrary.views.actionsheet.ActionSheetFragment;
+import com.renyu.commonlibrary.views.actionsheet.fragment.ActionSheetFragment;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
 import com.renyu.commonlibrary.views.wheelview.R;
 
@@ -13,8 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DateRangeUtils {
-
-    public static String[] weeks = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
+    private static String[] weeks = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
 
     // 周期起始时间
     private Calendar calendar_start;

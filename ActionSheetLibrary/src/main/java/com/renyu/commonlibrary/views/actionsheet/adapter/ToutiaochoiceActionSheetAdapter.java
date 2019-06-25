@@ -1,4 +1,4 @@
-package com.renyu.commonlibrary.views.actionsheet;
+package com.renyu.commonlibrary.views.actionsheet.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,16 +7,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.renyu.commonlibrary.views.actionsheet.fragment.TouTiaoActionSheetFragment;
 import com.renyu.commonlibrary.views.wheelview.R;
 
-public class ToutiaochoiceAdapter extends RecyclerView.Adapter<ToutiaochoiceAdapter.ToutiaochoiceViewHolder> {
-
+public class ToutiaochoiceActionSheetAdapter extends RecyclerView.Adapter<ToutiaochoiceActionSheetAdapter.ToutiaochoiceViewHolder> {
     private String[] title;
     private int[] image;
     private int row;
-    private ActionSheetFragment.OnToutiaoChoiceItemClickListener listener;
+    private TouTiaoActionSheetFragment.OnToutiaoChoiceItemClickListener listener;
 
-    ToutiaochoiceAdapter(String[] title, int[] image, int row, ActionSheetFragment.OnToutiaoChoiceItemClickListener listener) {
+    public ToutiaochoiceActionSheetAdapter(String[] title, int[] image, int row, TouTiaoActionSheetFragment.OnToutiaoChoiceItemClickListener listener) {
         this.title = title;
         this.image = image;
         this.row = row;

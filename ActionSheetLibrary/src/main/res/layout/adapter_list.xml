@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="18dip"
+        android:paddingEnd="18dip">
+
+        <TextView
+            android:id="@+id/pop_desp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="12dip"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/pop_sub_desp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dip"
+            android:textColor="#999999"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dip" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/pop_checkcolor"
+        android:layout_width="16dip"
+        android:layout_height="16dip"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="18dip"
+        android:src="@drawable/ic_check_actionsheet" />
+</RelativeLayout>
