@@ -70,12 +70,12 @@ public class TouTiaoActionSheetFragment extends ActionSheetFragment {
     }
 
 
-    public static void newTouTiaoActionSheetFragmentInstance(FragmentActivity activity, String tag,
-                                                      String cancelTitle, int cancelTitleColor,
-                                                      String[] topTitles, int[] topImages,
-                                                      String[] bottomTitles, int[] bottomImages,
-                                                      OnToutiaoChoiceItemClickListener onToutiaoChoiceItemClickListener,
-                                                      ActionSheetFragment.OnCancelListener onCancelListener) {
+    public static TouTiaoActionSheetFragment newTouTiaoActionSheetFragmentInstance(FragmentActivity activity, String tag,
+                                                                                   String cancelTitle, int cancelTitleColor,
+                                                                                   String[] topTitles, int[] topImages,
+                                                                                   String[] bottomTitles, int[] bottomImages,
+                                                                                   OnToutiaoChoiceItemClickListener onToutiaoChoiceItemClickListener,
+                                                                                   ActionSheetFragment.OnCancelListener onCancelListener) {
         TouTiaoActionSheetFragment fragment = new TouTiaoActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("cancelTitle", cancelTitle);
@@ -88,5 +88,6 @@ public class TouTiaoActionSheetFragment extends ActionSheetFragment {
         fragment.setOnToutiaoChoiceItemClickListener(onToutiaoChoiceItemClickListener);
         fragment.setOnCancelListener(onCancelListener);
         fragment.show(activity, tag);
+        return fragment;
     }
 }

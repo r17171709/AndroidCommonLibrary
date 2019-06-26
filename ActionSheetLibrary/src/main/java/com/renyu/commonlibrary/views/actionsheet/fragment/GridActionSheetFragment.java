@@ -101,12 +101,12 @@ public class GridActionSheetFragment extends ActionSheetFragment {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public static void newGridActionSheetFragmentInstance(FragmentActivity activity, String tag,
-                                                          String title, int titleColor,
-                                                          String cancelTitle, int cancelTitleColor,
-                                                          String[] items, int[] images, int columnCount,
-                                                          OnItemClickListener onItemClickListener,
-                                                          ActionSheetFragment.OnCancelListener onCancelListener) {
+    public static GridActionSheetFragment newGridActionSheetFragmentInstance(FragmentActivity activity, String tag,
+                                                                             String title, int titleColor,
+                                                                             String cancelTitle, int cancelTitleColor,
+                                                                             String[] items, int[] images, int columnCount,
+                                                                             OnItemClickListener onItemClickListener,
+                                                                             ActionSheetFragment.OnCancelListener onCancelListener) {
         GridActionSheetFragment fragment = new GridActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -120,5 +120,6 @@ public class GridActionSheetFragment extends ActionSheetFragment {
         fragment.setOnItemClickListener(onItemClickListener);
         fragment.setOnCancelListener(onCancelListener);
         fragment.show(activity, tag);
+        return fragment;
     }
 }

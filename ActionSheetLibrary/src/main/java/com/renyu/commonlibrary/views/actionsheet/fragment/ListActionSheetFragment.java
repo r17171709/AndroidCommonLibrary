@@ -69,12 +69,12 @@ public class ListActionSheetFragment extends ActionSheetFragment {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public static void newListActionSheetFragmentInstance(FragmentActivity activity, String tag,
-                                String title, int titleColor,
-                                String cancelTitle, int cancelTitleColor,
-                                String[] items, String[] subItems, int choiceIndex,
-                                OnItemClickListener onItemClickListener,
-                                ActionSheetFragment.OnCancelListener onCancelListener) {
+    public static ListActionSheetFragment newListActionSheetFragmentInstance(FragmentActivity activity, String tag,
+                                                                             String title, int titleColor,
+                                                                             String cancelTitle, int cancelTitleColor,
+                                                                             String[] items, String[] subItems, int choiceIndex,
+                                                                             OnItemClickListener onItemClickListener,
+                                                                             ActionSheetFragment.OnCancelListener onCancelListener) {
         ListActionSheetFragment fragment = new ListActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -88,5 +88,6 @@ public class ListActionSheetFragment extends ActionSheetFragment {
         fragment.setOnItemClickListener(onItemClickListener);
         fragment.setOnCancelListener(onCancelListener);
         fragment.show(activity, tag);
+        return fragment;
     }
 }

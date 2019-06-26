@@ -64,13 +64,13 @@ public class TimeActionSheetFragment extends ActionSheetFragment {
         pop_wheel_timelayout_minute.setListener(index -> minuteSelectedItem[0] = index);
     }
 
-    public static void newTimeActionSheetFragmentInstance(FragmentActivity activity, String tag,
-                                                   String title, int titleColor,
-                                                   String okTitle, int okTitleColor,
-                                                   String cancelTitle, int cancelTitleColor,
-                                                   int hour, int minute,
-                                                   OnOKListener onOKListener,
-                                                   OnCancelListener onCancelListener) {
+    public static TimeActionSheetFragment newTimeActionSheetFragmentInstance(FragmentActivity activity, String tag,
+                                                                             String title, int titleColor,
+                                                                             String okTitle, int okTitleColor,
+                                                                             String cancelTitle, int cancelTitleColor,
+                                                                             int hour, int minute,
+                                                                             OnOKListener onOKListener,
+                                                                             OnCancelListener onCancelListener) {
         TimeActionSheetFragment fragment = new TimeActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -85,5 +85,6 @@ public class TimeActionSheetFragment extends ActionSheetFragment {
         fragment.setOnOKListener(onOKListener);
         fragment.setOnCancelListener(onCancelListener);
         fragment.show(activity, tag);
+        return fragment;
     }
 }

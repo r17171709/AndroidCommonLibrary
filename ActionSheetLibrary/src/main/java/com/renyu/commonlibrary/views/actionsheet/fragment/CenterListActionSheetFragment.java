@@ -66,11 +66,11 @@ public class CenterListActionSheetFragment extends ActionSheetFragment {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public static void newCenterListActionSheetFragmentInstance(FragmentActivity activity, String tag, String title, int titleColor,
-                                                                String cancelTitle, int cancelTitleColor,
-                                                                String[] items,
-                                                                OnItemClickListener onItemClickListener,
-                                                                ActionSheetFragment.OnCancelListener onCancelListener) {
+    public static CenterListActionSheetFragment newCenterListActionSheetFragmentInstance(FragmentActivity activity, String tag, String title, int titleColor,
+                                                                                         String cancelTitle, int cancelTitleColor,
+                                                                                         String[] items,
+                                                                                         OnItemClickListener onItemClickListener,
+                                                                                         ActionSheetFragment.OnCancelListener onCancelListener) {
         CenterListActionSheetFragment fragment = new CenterListActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -82,5 +82,6 @@ public class CenterListActionSheetFragment extends ActionSheetFragment {
         fragment.setOnItemClickListener(onItemClickListener);
         fragment.setOnCancelListener(onCancelListener);
         fragment.show(activity, tag);
+        return fragment;
     }
 }

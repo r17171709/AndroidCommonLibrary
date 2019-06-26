@@ -30,13 +30,13 @@ public class DateRangeActionSheetFragment extends ActionSheetFragment {
     }
 
 
-    public static void newDateRangeActionSheetFragmentInstance(FragmentActivity activity, String tag,
-                                                               String title, int titleColor,
-                                                               String okTitle, int okTitleColor,
-                                                               String cancelTitle, int cancelTitleColor,
-                                                               long startTime, long endTime, boolean isNeedHM,
-                                                               ActionSheetFragment.OnOKListener onOKListener,
-                                                               ActionSheetFragment.OnCancelListener onCancelListener) {
+    public static DateRangeActionSheetFragment newDateRangeActionSheetFragmentInstance(FragmentActivity activity, String tag,
+                                                                                       String title, int titleColor,
+                                                                                       String okTitle, int okTitleColor,
+                                                                                       String cancelTitle, int cancelTitleColor,
+                                                                                       long startTime, long endTime, boolean isNeedHM,
+                                                                                       ActionSheetFragment.OnOKListener onOKListener,
+                                                                                       ActionSheetFragment.OnCancelListener onCancelListener) {
         DateRangeActionSheetFragment fragment = new DateRangeActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -52,5 +52,6 @@ public class DateRangeActionSheetFragment extends ActionSheetFragment {
         fragment.setOnOKListener(onOKListener);
         fragment.setOnCancelListener(onCancelListener);
         fragment.show(activity, tag);
+        return fragment;
     }
 }

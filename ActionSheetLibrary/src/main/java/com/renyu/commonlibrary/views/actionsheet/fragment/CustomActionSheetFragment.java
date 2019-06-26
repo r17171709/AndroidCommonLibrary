@@ -58,11 +58,11 @@ public class CustomActionSheetFragment extends ActionSheetFragment {
         this.customerView = customerView;
     }
 
-    public static void newCustomActionSheetFragmentInstance(FragmentActivity activity, String tag,
-                                                            String title, int titleColor,
-                                                            String okTitle, int okTitleColor,
-                                                            String cancelTitle, int cancelTitleColor,
-                                                            boolean canDismiss, View customView) {
+    public static CustomActionSheetFragment newCustomActionSheetFragmentInstance(FragmentActivity activity, String tag,
+                                                                                 String title, int titleColor,
+                                                                                 String okTitle, int okTitleColor,
+                                                                                 String cancelTitle, int cancelTitleColor,
+                                                                                 boolean canDismiss, View customView) {
         CustomActionSheetFragment fragment = new CustomActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -75,5 +75,6 @@ public class CustomActionSheetFragment extends ActionSheetFragment {
         fragment.setArguments(bundle);
         fragment.setCustomView(customView);
         fragment.show(activity, tag);
+        return fragment;
     }
 }
