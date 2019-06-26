@@ -4,11 +4,13 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.views.actionsheet.ActionSheetFactory;
+import com.renyu.commonlibrary.views.actionsheet.fragment.CustomActionSheetFragment;
 import com.renyu.commonlibrary.views.wheelview.LoopView;
 
 import java.util.ArrayList;
@@ -18,15 +20,22 @@ import java.util.ArrayList;
  */
 
 public class ActionSheetActivity extends BaseActivity {
+    CustomActionSheetFragment fragment;
+
     @Override
     public void initParams() {
         findViewById(R.id.btn_click).setOnClickListener(v -> {
             View view_threeloopertitle_floor = addAction();
-            ActionSheetFactory.createCustomActionSheetFragment(this, "", "自定义视图", Color.BLUE,
+            fragment = ActionSheetFactory.createCustomActionSheetFragment(this, "", "自定义视图", Color.BLUE,
                     "确定", Color.RED,
                     "取消", Color.GRAY,
                     false,
-                    view_threeloopertitle_floor);
+                    view_threeloopertitle_floor,
+                    value -> {
+                        Toast.makeText(ActionSheetActivity.this, "OK", Toast.LENGTH_SHORT).show();
+                        fragment.dismiss();
+                    },
+                    () -> Toast.makeText(ActionSheetActivity.this, "Cancel", Toast.LENGTH_SHORT).show());
 
 //            ActionSheetFactory.createGridActionSheetFragment(this, "", "Hello", Color.BLUE, "cancel", Color.RED,
 //                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},

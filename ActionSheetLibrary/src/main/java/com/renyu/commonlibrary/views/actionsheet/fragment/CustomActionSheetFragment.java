@@ -62,7 +62,9 @@ public class CustomActionSheetFragment extends ActionSheetFragment {
                                                                                  String title, int titleColor,
                                                                                  String okTitle, int okTitleColor,
                                                                                  String cancelTitle, int cancelTitleColor,
-                                                                                 boolean canDismiss, View customView) {
+                                                                                 boolean canDismiss, View customView,
+                                                                                 ActionSheetFragment.OnOKListener onOKListener,
+                                                                                 ActionSheetFragment.OnCancelListener onCancelListener) {
         CustomActionSheetFragment fragment = new CustomActionSheetFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -74,6 +76,8 @@ public class CustomActionSheetFragment extends ActionSheetFragment {
         bundle.putBoolean("canDismiss", canDismiss);
         fragment.setArguments(bundle);
         fragment.setCustomView(customView);
+        fragment.setOnOKListener(onOKListener);
+        fragment.setOnCancelListener(onCancelListener);
         fragment.show(activity, tag);
         return fragment;
     }

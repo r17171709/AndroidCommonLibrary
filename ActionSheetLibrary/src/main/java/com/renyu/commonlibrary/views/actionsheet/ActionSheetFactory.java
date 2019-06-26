@@ -66,7 +66,9 @@ public class ActionSheetFactory {
                                                                             String title, int titleColor,
                                                                             String okTitle, int okTitleColor,
                                                                             String cancelTitle, int cancelTitleColor,
-                                                                            boolean canDismiss, View customView) {
-        return CustomActionSheetFragment.newCustomActionSheetFragmentInstance(activity, tag, title, titleColor, okTitle, okTitleColor, cancelTitle, cancelTitleColor, canDismiss, customView);
+                                                                            boolean canDismiss, View customView,
+                                                                            ActionSheetFragment.OnOKListener onOKListener,
+                                                                            ActionSheetFragment.OnCancelListener onCancelListener) {
+        return CustomActionSheetFragment.newCustomActionSheetFragmentInstance(activity, tag, title, titleColor, okTitle, okTitleColor, cancelTitle, cancelTitleColor, canDismiss, customView, onOKListener, onCancelListener);
     }
 }
