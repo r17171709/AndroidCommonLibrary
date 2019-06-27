@@ -7,7 +7,6 @@
 * 使用Retrofit2完成网络请求加载
 * 提供多种工具类
 * 支持沉浸式
-* 支持包含强制与非强制的app升级功能
 * 支持多种通知栏效果
 * 支持权限判断
 * 集成腾讯xlog日志记录框架
@@ -33,7 +32,6 @@
 ![ViewPagerTransforms](https://github.com/saiwu-bigkoo/Android-ConvenientBanner/raw/master/preview/convenientbannerdemo.gif)
 
 * 提供统一的网络加载提示框
-* 支持自定义底部弹出框
 * 集成滚轮控件
 * 集成圆形进度条控件
 * 集成流式布局控件
@@ -55,16 +53,6 @@
 
 * 解决SwipyRefreshLayout滑动冲突
 * 集成腾讯浏览服务
-* 集成VasSonic，Hybird框架
-
-Before Using VasSonic
-
-![Before Using VasSonic](https://github.com/Tencent/VasSonic/raw/master/assets/20170705120005424.gif)
-
-After Using VasSonic
-
-![After Using VasSonic](https://github.com/Tencent/VasSonic/raw/master/assets/20170705120029897.gif)
-
 * 新增跑马灯特效
 
 ![MarqueeViewLibrary](https://github.com/gongwen/MarqueeViewLibrary/raw/master/screenshot/screen_shot.gif)
@@ -72,3 +60,7 @@ After Using VasSonic
 * 支持自由定制外观、拖拽消除的MaterialDesign风格Android BadgeView
 
 ![BadgeView](https://github.com/qstumn/BadgeView/raw/master/demo_gif.gif)
+
+* 支持包含强制与非强制的app升级功能
+* 支持自定义底部弹出框
+* 支持权限判断

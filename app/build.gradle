@@ -107,14 +107,14 @@ dependencies {
     implementation 'com.github.renyu:AndroidDialogLibrary:2.0.1'
 //    implementation project(':DialogLibrary')
     // Sheet弹出框
-//    implementation 'com.github.renyu:ActionSheetLibrary:2.1.2'
-    implementation project(':ActionSheetLibrary')
+    implementation 'com.github.renyu:ActionSheetLibrary:2.1.2'
+//    implementation project(':ActionSheetLibrary')
     // 引导框
     implementation 'com.github.renyu:AndroidShowCaseLibrary:2.0.0'
 //    implementation project(':ShowCaseLibrary')
     // Web浏览器
-    implementation 'com.github.renyu:AndroidWebLibrary:2.0.0'
-//    implementation project(':WebLibrary')
+//    implementation 'com.github.renyu:AndroidWebLibrary:2.0.1'
+    implementation project(':WebLibrary')
     // 权限判断
     implementation 'com.github.renyu:AndroidPermissionLibrary:2.0.1'
 //    implementation project(':PermissionLibrary')

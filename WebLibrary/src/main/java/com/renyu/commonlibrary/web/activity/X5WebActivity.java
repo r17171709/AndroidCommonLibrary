@@ -3,19 +3,20 @@ package com.renyu.commonlibrary.web.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.renyu.commonlibrary.web.impl.IX5WebApp;
 import com.renyu.commonlibrary.web.params.InitParams;
+import com.renyu.commonlibrary.web.util.PreloadWebView;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
@@ -33,16 +34,17 @@ import java.util.Map;
  * 缺少样式不可以直接使用
  */
 public abstract class X5WebActivity extends AppCompatActivity {
-
-    public abstract WebView getWebView();
-
     public abstract TextView getTitleView();
 
     public abstract ImageButton getNavClose();
 
     public abstract ImageButton getNavBack();
 
+    public abstract FrameLayout getRootView();
+
     public abstract void onPageFinished(String url);
+
+    public WebView webView;
 
     // 是否需要展示Close按钮
     private int finishTimes = 0;
@@ -60,9 +62,12 @@ public abstract class X5WebActivity extends AppCompatActivity {
             getTitleView().setText(getIntent().getStringExtra("title"));
         }
         getNavBack().setOnClickListener(v -> onBackPressed());
-        getWebView().setSaveEnabled(true);
-        getWebView().setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        getWebView().setWebChromeClient(new WebChromeClient() {
+
+        webView = PreloadWebView.getInstance().getWebView(this);
+        getRootView().addView(webView);
+        PreloadWebView.getInstance().preload();
+
+        webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                 return super.onJsAlert(view, url, message, result);
@@ -78,30 +83,14 @@ public abstract class X5WebActivity extends AppCompatActivity {
                 }
             }
         });
-        WebSettings settings = getWebView().getSettings();
-        settings.setDomStorageEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            settings.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        settings.setDatabaseEnabled(true);
-        settings.setAppCacheEnabled(true);
-        settings.setSavePassword(false);
-        settings.setSaveFormData(false);
-        settings.setUseWideViewPort(true);
-        settings.setLoadWithOverviewMode(true);
-        settings.setJavaScriptEnabled(true);
-        settings.setAllowContentAccess(true);
-        settings.setAllowFileAccess(true);
-        settings.setAllowUniversalAccessFromFileURLs(true);
-        settings.setBuiltInZoomControls(false);
         impl = getIntent().getParcelableExtra("IWebApp");
         if (impl != null) {
             impl.setContext(this);
-            impl.setWebView(getWebView());
-            getWebView().addJavascriptInterface(impl, getIntent().getStringExtra("IWebAppName"));
+            impl.setWebView(webView);
+            webView.addJavascriptInterface(impl, getIntent().getStringExtra("IWebAppName"));
         }
-        getWebView().removeJavascriptInterface("searchBoxJavaBridge_");
-        getWebView().setWebViewClient(new WebViewClient() {
+        webView.removeJavascriptInterface("searchBoxJavaBridge_");
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -131,35 +120,33 @@ public abstract class X5WebActivity extends AppCompatActivity {
             // cookies同步方法要在WebView的setting设置完之后调用，否则无效。
             syncCookie(this, getIntent().getStringExtra("cookieUrl"), cookies);
         }
-        getWebView().loadUrl(getIntent().getStringExtra("url"));
+        webView.loadUrl(getIntent().getStringExtra("url"));
     }
 
     @Override
     protected void onDestroy() {
-        if (getWebView() != null) {
-            getWebView().stopLoading();
-            // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
-            getWebView().getSettings().setJavaScriptEnabled(false);
-            getWebView().clearHistory();
-            getWebView().clearView();
-            getWebView().removeAllViews();
-            try {
-                getWebView().destroy();
-            } catch (Throwable ex) {
-                ex.printStackTrace();
+        try {
+            if (webView != null) {
+                webView.stopLoading();
+                webView.clearCache(true);
+                webView.clearHistory();
+                webView.removeAllViews();
+                webView.destroy();
+                ViewParent parent = webView.getParent();
+                if (parent != null) {
+                    ((ViewGroup) parent).removeView(webView);
+                }
             }
-            ViewParent parent = getWebView().getParent();
-            if (parent != null) {
-                ((ViewGroup) parent).removeView(getWebView());
-            }
+        } catch (Throwable ex) {
+            ex.printStackTrace();
         }
         super.onDestroy();
     }
 
     @Override
     public void onBackPressed() {
-        if (getWebView().canGoBack() && getIntent().getExtras().getBoolean(InitParams.NEED_GOBACK, false)) {
-            getWebView().goBack();
+        if (webView.canGoBack() && getIntent().getExtras().getBoolean(InitParams.NEED_GOBACK, false)) {
+            webView.goBack();
         } else {
             super.onBackPressed();
         }

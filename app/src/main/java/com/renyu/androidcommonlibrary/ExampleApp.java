@@ -16,11 +16,8 @@ import com.renyu.androidcommonlibrary.service.X5IntentService;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
-import com.renyu.commonlibrary.web.sonic.SonicRuntimeImpl;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mmkv.MMKV;
-import com.tencent.sonic.sdk.SonicConfig;
-import com.tencent.sonic.sdk.SonicEngine;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +27,6 @@ import java.util.ArrayList;
  */
 
 public class ExampleApp extends MultiDexApplication {
-
     public AppComponent appComponent;
 
     public ArrayList<String> openClassNames;
@@ -78,11 +74,6 @@ public class ExampleApp extends MultiDexApplication {
 
             // 初始化fresco
             Fresco.initialize(this, ImagePipelineConfigUtils.getDefaultImagePipelineConfig(this));
-
-            // 初始化Sonic
-            if (!SonicEngine.isGetInstanceAllowed()) {
-                SonicEngine.createInstance(new SonicRuntimeImpl(this), new SonicConfig.Builder().build());
-            }
 
             // x5内核初始化接口
             startService(new Intent(this, X5IntentService.class));
