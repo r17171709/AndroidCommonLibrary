@@ -1,16 +1,13 @@
 package com.renyu.androidcommonlibrary.activity;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.util.Log;
-
 import com.blankj.utilcode.util.Utils;
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.R;
-import com.renyu.androidcommonlibrary.db.PlainTextDBHelper;
+import com.renyu.androidcommonlibrary.bean.UserBean;
+import com.renyu.androidcommonlibrary.db.IDBManager;
+import com.renyu.androidcommonlibrary.db.UserDB;
 import com.renyu.commonlibrary.baseact.BaseActivity;
-import com.tencent.wcdb.database.SQLiteDatabase;
 
 import javax.inject.Inject;
 
@@ -19,29 +16,23 @@ import javax.inject.Inject;
  */
 
 public class WCDBActivity extends BaseActivity {
-
     @Inject
-    SQLiteDatabase db;
+    IDBManager db;
 
     @Override
     public void initParams() {
         ((ExampleApp) (Utils.getApp())).appComponent.plusAct().inject(this);
 
-        findViewById(R.id.btn_wcdb_insert).setOnClickListener(v -> {
-            ContentValues cv=new ContentValues();
-            cv.put(PlainTextDBHelper.COLUMNNAME,"hello" );
-            Log.d("WCDBActivity", ""+db.insert(PlainTextDBHelper.TABLENAME, null, cv));
-        });
-
-        findViewById(R.id.btn_wcdb_read).setOnClickListener(v -> {
-            Cursor cursor= db.rawQuery("Select * from "+ PlainTextDBHelper.TABLENAME, new String[]{});
-            cursor.moveToFirst();
-            for (int i=0;i<cursor.getCount();i++) {
-                cursor.moveToPosition(i);
-                Log.d("WCDBActivity", cursor.getString(cursor.getColumnIndex(PlainTextDBHelper.COLUMNNAME)));
-            }
-            cursor.close();
-        });
+        UserBean userBean = new UserBean();
+        userBean.userId = 123;
+        userBean.userName = "pq";
+        db.createDB(UserBean.class);
+        db.insertDB(userBean);
+//        UserBean userBeanM = new UserBean();
+//        userBeanM.userName = "pq";
+//        db.updateDB(userBean, userBeanM);
+//        db.queryDB(UserBean.class);
+//        db.deleteDB(userBeanM);
     }
 
     @Override

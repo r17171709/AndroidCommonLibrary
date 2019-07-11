@@ -3,14 +3,13 @@ package com.renyu.androidcommonlibrary.di.module;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.api.RetrofitImpl;
-import com.renyu.androidcommonlibrary.db.PlainTextDBHelper;
+import com.renyu.androidcommonlibrary.db.IDBManager;
+import com.renyu.androidcommonlibrary.db.UserDB;
 import com.renyu.commonlibrary.network.HttpsUtils;
 import com.renyu.commonlibrary.network.OKHttpHelper;
 import com.renyu.commonlibrary.network.OKHttpUtils;
 import com.renyu.commonlibrary.network.Retrofit2Helper;
-import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.tencent.mmkv.MMKV;
-import com.tencent.wcdb.database.SQLiteDatabase;
 
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
@@ -92,10 +91,8 @@ public class ApiModule {
      */
     @Singleton
     @Provides
-    public SQLiteDatabase provideSQLiteDatabase(ExampleApp application) {
-        PlainTextDBHelper dbHelper = new PlainTextDBHelper(application);
-        dbHelper.setWriteAheadLoggingEnabled(true);
-        return dbHelper.getWritableDatabase();
+    public IDBManager provideUserDB(ExampleApp application) {
+        return UserDB.getInstance();
     }
 
     /**
