@@ -1,4 +1,4 @@
-package com.renyu.androidcommonlibrary.adapter;
+package com.renyu.androidcommonlibrary.adapter.vlayout;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,13 +20,12 @@ import java.util.ArrayList;
  */
 
 public class ItemViewAdapter extends DelegateAdapter.Adapter<ItemViewAdapter.ItemViewHolder> {
-
     private Context context;
     private LayoutHelper layoutHelper;
 
-    private ArrayList<Object> beans;
+    private ArrayList<String> beans;
 
-    public ItemViewAdapter(Context context, LayoutHelper layoutHelper, ArrayList<Object> beans) {
+    public ItemViewAdapter(Context context, LayoutHelper layoutHelper, ArrayList<String> beans) {
         this.context = context;
         this.layoutHelper = layoutHelper;
         this.beans = beans;
@@ -54,7 +53,7 @@ public class ItemViewAdapter extends DelegateAdapter.Adapter<ItemViewAdapter.Ite
         return beans.size();
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
+    class ItemViewHolder extends RecyclerView.ViewHolder {
         LinearLayout layout_adapter_friendlist;
         SimpleDraweeView iv_adapter_friendlist;
         TextView tv_adapter_friendlist;

@@ -9,9 +9,11 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.core.widget.NestedScrollView;
 import androidx.gridlayout.widget.GridLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
@@ -30,10 +32,11 @@ import com.renyu.commonlibrary.views.LocalImageHolderView;
 import com.tencent.mars.xlog.Log;
 import com.tencent.mmkv.MMKV;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import javax.inject.Inject;
 
 /**
  * Created by renyu on 2017/9/1.
@@ -41,7 +44,7 @@ import java.util.Random;
 
 public class ScrollRVActivity extends BaseActivity {
     SwipyRefreshLayout swipy_scrollrv;
-    ConvenientBanner cb_scrollrv;
+    ConvenientBanner<Uri> cb_scrollrv;
     NestedScrollView ns_scrollrv;
     RecyclerView rv_scrollrv;
     ScrollRVAdapter adapter;
@@ -50,11 +53,18 @@ public class ScrollRVActivity extends BaseActivity {
     HorizontalScrollView scroll_scrollrv_2;
     LinearLayout layout_scrollrv_2;
     GridLayout grid_scrollrv;
-    MarqueeView marquee_scrollrv;
+    MarqueeView<TextView, String> marquee_scrollrv;
+    TextView tv_scrollrv_1;
+    TextView tv_scrollrv_2;
+    TextView tv_scrollrv_3;
+    LinearLayout layout_scrollrv_3;
 
     ArrayList<Uri> linearLayoutBeans1;
     ArrayList<Object> linearLayoutBeans2;
     ArrayList<Object> linearLayoutBeans3;
+    List<String> info;
+
+    MarqueeFactory<TextView, String> marqueeFactory1;
 
     @Inject
     MMKV mmkv;
@@ -75,9 +85,12 @@ public class ScrollRVActivity extends BaseActivity {
         layout_scrollrv_2 = findViewById(R.id.layout_scrollrv_2);
         grid_scrollrv = findViewById(R.id.grid_scrollrv);
         marquee_scrollrv = findViewById(R.id.marquee_scrollrv);
+        tv_scrollrv_1 = findViewById(R.id.tv_scrollrv_1);
+        tv_scrollrv_2 = findViewById(R.id.tv_scrollrv_2);
+        tv_scrollrv_3 = findViewById(R.id.tv_scrollrv_3);
+        layout_scrollrv_3 = findViewById(R.id.layout_scrollrv_3);
 
         linearLayoutBeans1 = new ArrayList<>();
-        linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160134&di=5f50b14329fdce5d25200b6212f0b8b1&imgtype=0&src=http%3A%2F%2Fold.cicphoto.com%2Fnewcicsite%2Fsyxy%2Ftj%2F201408%2FW020140827418494159324.jpg"));
         linearLayoutBeans1.add(Uri.parse("http://f.hiphotos.baidu.com/image/pic/item/8d5494eef01f3a29f863534d9725bc315d607c8e.jpg"));
         linearLayoutBeans1.add(Uri.parse("http://a.hiphotos.baidu.com/image/h%3D300/sign=a62e824376d98d1069d40a31113eb807/838ba61ea8d3fd1fc9c7b6853a4e251f94ca5f46.jpg"));
         linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160133&di=bd17c2859efa779ddca3b8ab1e1acb68&imgtype=0&src=http%3A%2F%2Fguangdong.sinaimg.cn%2F2014%2F0508%2FU10729P693DT20140508144234.jpg"));
@@ -102,15 +115,14 @@ public class ScrollRVActivity extends BaseActivity {
             }
         });
 
-        final List<String> info = new ArrayList<>();
-        info.add("1. 大家好，我是孙福生。\n 2. 欢迎大家关注我哦！");
-        info.add("3. GitHub帐号：sfsheng0322 \n 4. 新浪微博：孙福生微博");
-        info.add("5. 个人博客：sunfusheng.com \n 6. 微信公众号：孙福生");
-        MarqueeFactory<TextView, String> marqueeFactory1 = new NoticeMF(this);
-        marquee_scrollrv.setMarqueeFactory(marqueeFactory1);
-        marquee_scrollrv.startFlipping();
-        marquee_scrollrv.setOnItemClickListener((mView, mData, mPosition) -> Toast.makeText(ScrollRVActivity.this, mData.toString(), Toast.LENGTH_SHORT).show());
+        info = new ArrayList<>();
+        info.add("1. 大家好，我是孙福生。\n2. 欢迎大家关注我哦！");
+        info.add("3. GitHub帐号：sfsheng0322 \n4. 新浪微博：孙福生微博");
+        info.add("5. 个人博客：sunfusheng.com \n6. 微信公众号：孙福生");
+        marqueeFactory1 = new NoticeMF(this);
         marqueeFactory1.setData(info);
+        marquee_scrollrv.setMarqueeFactory(marqueeFactory1);
+        marquee_scrollrv.setOnItemClickListener((mView, mData, mPosition) -> Toast.makeText(ScrollRVActivity.this, mData.toString(), Toast.LENGTH_SHORT).show());
 
         refreshScrollView();
 
@@ -119,12 +131,14 @@ public class ScrollRVActivity extends BaseActivity {
                 linearLayoutBeans2.addAll(getBeans(15));
                 adapter.notifyDataSetChanged();
             } else if (direction == SwipyRefreshLayoutDirection.TOP) {
-                cb_scrollrv.stopTurning();
-                linearLayoutBeans1.clear();
-                linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161182051&di=73ea74c482c56e65bd895dec951884e3&imgtype=jpg&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8644ebf81a4c510fd95d93db6959252dd52aa551.jpg"));
-                linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160133&di=bd17c2859efa779ddca3b8ab1e1acb68&imgtype=0&src=http%3A%2F%2Fguangdong.sinaimg.cn%2F2014%2F0508%2FU10729P693DT20140508144234.jpg"));
-                linearLayoutBeans1.add(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1504161160134&di=3a25c42f93367a04db3a3de3095e214b&imgtype=0&src=http%3A%2F%2Fpic.hsw.cn%2F0%2F12%2F25%2F40%2F12254064_630448.jpg"));
+                linearLayoutBeans1.add(Uri.parse("http://a.hiphotos.baidu.com/image/pic/item/0b7b02087bf40ad15a962c0b592c11dfa8ecceec.jpg"));
                 refreshVP();
+
+                info.clear();
+                info.add("11. 大家好，我是孙福生。\n21. 欢迎大家关注我哦！");
+                info.add("31. GitHub帐号：sfsheng0322 \n41. 新浪微博：孙福生微博");
+                info.add("51. 个人博客：sunfusheng.com \n61. 微信公众号：孙福生");
+                marqueeFactory1.setData(info);
 
                 linearLayoutBeans3.clear();
                 linearLayoutBeans3.addAll(getBeans(4));
@@ -138,6 +152,16 @@ public class ScrollRVActivity extends BaseActivity {
             }
             swipy_scrollrv.setRefreshing(false);
         }, 2000));
+
+        tv_scrollrv_1.setOnClickListener((view) -> {
+            update();
+        });
+        tv_scrollrv_2.setOnClickListener((view) -> {
+            update();
+        });
+        tv_scrollrv_3.setOnClickListener((view) -> {
+            update();
+        });
 
         rv_scrollrv.setHasFixedSize(true);
         FullyLinearLayoutManager linearLayoutManager = new FullyLinearLayoutManager(this);
@@ -175,7 +199,6 @@ public class ScrollRVActivity extends BaseActivity {
 
             @Override
             public int getLayoutId() {
-
                 return R.layout.adapter_convenientbanner;
             }
         }, linearLayoutBeans1).setOnItemClickListener(position -> {
@@ -196,7 +219,6 @@ public class ScrollRVActivity extends BaseActivity {
                 Log.d("ScrollRVActivity", "position:" + index);
             }
         });
-        cb_scrollrv.post(() -> cb_scrollrv.startTurning(4000));
     }
 
     @Override
@@ -232,21 +254,27 @@ public class ScrollRVActivity extends BaseActivity {
         return linearLayoutBeans;
     }
 
+    private void update() {
+        swipy_scrollrv.getChildAt(0).scrollTo(0, layout_scrollrv_3.getTop());
+        new Handler().postDelayed(() -> {
+            linearLayoutBeans2.clear();
+            linearLayoutBeans2.addAll(getBeans(-1));
+            adapter.notifyDataSetChanged();
+
+        }, 2000);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
+        cb_scrollrv.startTurning(4000);
         marquee_scrollrv.startFlipping();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        marquee_scrollrv.stopFlipping();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         cb_scrollrv.stopTurning();
+        marquee_scrollrv.stopFlipping();
     }
 }

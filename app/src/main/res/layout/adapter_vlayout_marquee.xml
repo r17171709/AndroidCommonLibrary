@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@android:color/holo_green_light"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <com.gongwen.marqueen.MarqueeView
+        android:id="@+id/marquee_scrollrv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoStart="true"
+        android:flipInterval="2000" />
+</LinearLayout>

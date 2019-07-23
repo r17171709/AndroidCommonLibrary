@@ -1,12 +1,14 @@
-package com.renyu.androidcommonlibrary.adapter;
+package com.renyu.androidcommonlibrary.adapter.vlayout;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.LayoutHelper;
 import com.renyu.androidcommonlibrary.R;
@@ -18,13 +20,12 @@ import java.util.ArrayList;
  */
 
 public class HeaderViewAdapter extends DelegateAdapter.Adapter<HeaderViewAdapter.HeaderViewHolder> {
-
     private Context context;
     private LayoutHelper layoutHelper;
 
-    private ArrayList<Object> beans;
+    private ArrayList<String> beans;
 
-    public HeaderViewAdapter(Context context, LayoutHelper layoutHelper, ArrayList<Object> beans) {
+    public HeaderViewAdapter(Context context, LayoutHelper layoutHelper, ArrayList<String> beans) {
         this.context = context;
         this.layoutHelper = layoutHelper;
         this.beans = beans;
@@ -44,7 +45,7 @@ public class HeaderViewAdapter extends DelegateAdapter.Adapter<HeaderViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull HeaderViewAdapter.HeaderViewHolder holder, int position) {
-        holder.tv_friendlist_head.setText("a" + beans.get(position).toString());
+        holder.tv_friendlist_head.setText("a" + beans.get(position));
     }
 
     @Override
@@ -52,7 +53,7 @@ public class HeaderViewAdapter extends DelegateAdapter.Adapter<HeaderViewAdapter
         return beans.size();
     }
 
-    public class HeaderViewHolder extends RecyclerView.ViewHolder {
+    class HeaderViewHolder extends RecyclerView.ViewHolder {
         TextView tv_friendlist_head;
 
         HeaderViewHolder(View itemView) {
