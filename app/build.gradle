@@ -80,7 +80,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // 协程
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -99,10 +99,10 @@ dependencies {
         exclude group: 'androidx.annotation', module: 'annotation'
     }
     // 网络请求
-    implementation 'com.github.renyu:AndroidNetworkLibrary:2.0.2'
+    implementation 'com.github.renyu:AndroidNetworkLibrary:2.0.3'
 //    implementation project(':NetworkLibrary')
     // 升级
-    implementation('com.github.renyu:AndroidUpdateLibrary:2.0.4') {
+    implementation('com.github.renyu:AndroidUpdateLibrary:2.0.5') {
         exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
     }
 //    implementation project(':UpdateLibrary')
@@ -122,7 +122,7 @@ dependencies {
     implementation 'com.github.renyu:AndroidPermissionLibrary:2.0.1'
 //    implementation project(':PermissionLibrary')
     // 基础库
-//    implementation 'com.github.renyu:AndroidCommonLibrary:3.0.9'
+//    implementation 'com.github.renyu:AndroidCommonLibrary:3.0.10'
     implementation project(':CommonLibrary')
 
     // leakcanary
