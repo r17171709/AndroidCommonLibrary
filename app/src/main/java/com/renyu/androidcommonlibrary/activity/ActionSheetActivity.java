@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+
 import com.blankj.utilcode.util.SizeUtils;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
@@ -36,6 +38,7 @@ public class ActionSheetActivity extends BaseActivity {
                         fragment.dismiss();
                     },
                     () -> Toast.makeText(ActionSheetActivity.this, "Cancel", Toast.LENGTH_SHORT).show());
+            fragment.setOnDismissListener(() -> Toast.makeText(ActionSheetActivity.this, "Dismiss", Toast.LENGTH_SHORT).show());
 
 //            ActionSheetFactory.createGridActionSheetFragment(this, "", "Hello", Color.BLUE, "cancel", Color.RED,
 //                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},

@@ -17,12 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.blankj.utilcode.util.ScreenUtils;
 import com.renyu.commonlibrary.views.utils.NavigationBarUtils;
 import com.renyu.commonlibrary.views.wheelview.R;
@@ -30,6 +32,7 @@ import com.renyu.commonlibrary.views.wheelview.R;
 public abstract class ActionSheetFragment extends Fragment {
     OnCancelListener onCancelListener;
     OnOKListener onOKListener;
+    OnDismissListener onDismissListener;
 
     abstract View initViews(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
@@ -157,7 +160,12 @@ public abstract class ActionSheetFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         stopPlay();
-        new Handler().postDelayed(() -> ((ViewGroup) decorView).removeView(realView), 500);
+        new Handler().postDelayed(() -> {
+            ((ViewGroup) decorView).removeView(realView);
+            if (onDismissListener != null) {
+                onDismissListener.dismiss();
+            }
+        }, 500);
     }
 
     @Override
@@ -258,11 +266,19 @@ public abstract class ActionSheetFragment extends Fragment {
         this.onOKListener = onOKListener;
     }
 
+    public void setOnDismissListener(OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
+
     public interface OnCancelListener {
         void onCancelClick();
     }
 
     public interface OnOKListener {
         void onOKClick(Object value);
+    }
+
+    public interface OnDismissListener {
+        void dismiss();
     }
 }

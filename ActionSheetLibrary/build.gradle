@@ -8,7 +8,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'ActionSheetLibrary'
-    publishVersion = '2.1.3'
+    publishVersion = '2.1.4'
     desc = 'ActionSheet Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
