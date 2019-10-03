@@ -18,11 +18,11 @@ publish {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -84,7 +84,7 @@ dependencies {
     api 'com.facebook.fresco:animated-gif:2.0.0'
     api 'com.facebook.fresco:drawee-span:2.0.0'
     // vlayout
-    api 'com.alibaba.android:vlayout:1.2.29@aar'
+    api 'com.alibaba.android:vlayout:1.2.32@aar'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
     api 'com.kyleduo.switchbutton:library:2.0.0@aar'
     // SwipeDelMenuLayout  史上最简单侧滑菜单，0耦合，支持任意ViewGroup。一步集成侧滑(删除)菜单，高仿QQ、IOS。
