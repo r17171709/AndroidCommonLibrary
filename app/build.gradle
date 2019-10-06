@@ -86,8 +86,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     // 添加支持multidex的兼容包
     implementation 'androidx.multidex:multidex:2.0.1'
-    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
-    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+
+    debugImplementation ('com.readystatesoftware.chuck:library:1.1.0') {
+        exclude group: 'com.google.code.gson', module: 'gson'
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+    releaseImplementation ('com.readystatesoftware.chuck:library-no-op:1.1.0') {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
     // dagger2
     implementation 'com.google.dagger:dagger:2.24'
     kapt 'com.google.dagger:dagger-compiler:2.24'
@@ -99,31 +107,31 @@ dependencies {
         exclude group: 'androidx.annotation', module: 'annotation'
     }
     // 网络请求
-    implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.0'
-//    implementation project(':NetworkLibrary')
+//    implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.0'
+    implementation project(':NetworkLibrary')
     // 升级
-    implementation('com.github.renyu:AndroidUpdateLibrary:2.1.0') {
-        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
-    }
-//    implementation project(':UpdateLibrary')
+//    implementation('com.github.renyu:AndroidUpdateLibrary:2.1.0') {
+//        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
+//    }
+    implementation project(':UpdateLibrary')
     // 弹出框
-    implementation 'com.github.renyu:AndroidDialogLibrary:2.0.2'
-//    implementation project(':DialogLibrary')
+//    implementation 'com.github.renyu:AndroidDialogLibrary:2.0.2'
+    implementation project(':DialogLibrary')
     // Sheet弹出框
-    implementation 'com.github.renyu:ActionSheetLibrary:2.1.4'
-//    implementation project(':ActionSheetLibrary')
+//    implementation 'com.github.renyu:ActionSheetLibrary:2.1.4'
+    implementation project(':ActionSheetLibrary')
     // 引导框
-    implementation 'com.github.renyu:AndroidShowCaseLibrary:2.0.0'
-//    implementation project(':ShowCaseLibrary')
+//    implementation 'com.github.renyu:AndroidShowCaseLibrary:2.0.0'
+    implementation project(':ShowCaseLibrary')
     // Web浏览器
 //    implementation 'com.github.renyu:AndroidWebLibrary:2.0.2'
     implementation project(':WebLibrary')
     // 权限判断
-    implementation 'com.github.renyu:AndroidPermissionLibrary:2.0.1'
-//    implementation project(':PermissionLibrary')
+//    implementation 'com.github.renyu:AndroidPermissionLibrary:2.0.1'
+    implementation project(':PermissionLibrary')
     // 基础库
-    implementation 'com.github.renyu:AndroidCommonLibrary:3.1.0'
-//    implementation project(':CommonLibrary')
+//    implementation 'com.github.renyu:AndroidCommonLibrary:3.1.0'
+    implementation project(':CommonLibrary')
 
     // leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
