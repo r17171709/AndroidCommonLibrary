@@ -19,7 +19,6 @@ public class RemoteInputReceiver extends BroadcastReceiver {
         Bundle bundle = RemoteInput.getResultsFromIntent(intent);
         if (bundle != null) {
             String reply = bundle.getCharSequence(NotificationUtils.KEY_TEXT_REPLY) == null ? "" : bundle.getCharSequence(NotificationUtils.KEY_TEXT_REPLY).toString();
-            NotificationUtils.getNotificationCenter().createNormalNotification("ticker", "channel1", reply, Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new Intent(), NotificationUtils.channelDefaultId, 105);
-        }
+            NotificationUtils.getNotificationCenter().createNormalNotification("ticker", "channel1", reply, Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, NotificationUtils.channelDefaultId, 105, null, new Intent());        }
     }
 }

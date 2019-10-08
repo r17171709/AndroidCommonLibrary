@@ -81,16 +81,16 @@ public class NotificationActivity extends BaseActivity {
         tv_normal.setOnClickListener(v -> {
             if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
                 {
-                    NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter().getSimpleBuilder("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", new Intent());
+                    NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter().getSimpleBuilder("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", null, new Intent());
                     NotificationUtils.getNotificationCenter().getNotificationManager().notify(100, builder.build());
                 }
 
                 {
-                    NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter().getSimpleBuilderWithTimeout("ticker", "channel2", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", 10, new Intent());
+                    NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter().getSimpleBuilderWithTimeout("ticker", "channel2", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", null, 10, new Intent());
                     NotificationUtils.getNotificationCenter().getNotificationManager().notify(101, builder.build());
                 }
             } else {
-                NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter().getSimpleBuilder("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, NotificationUtils.channelDefaultId, new Intent());
+                NotificationCompat.Builder builder = NotificationUtils.getNotificationCenter().getSimpleBuilder("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, NotificationUtils.channelDefaultId, null, new Intent());
                 builder.setDefaults(NotificationCompat.DEFAULT_LIGHTS);
                 Uri sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ring_user_message_high);
                 builder.setSound(sound);
@@ -118,7 +118,7 @@ public class NotificationActivity extends BaseActivity {
                 NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(i + " " + System.currentTimeMillis(), System.currentTimeMillis(), personBuilder.build());
                 messages.add(message);
             }
-            style = NotificationUtils.getNotificationCenter().createMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "demo", "2 new messages wtih ", messages, new Intent(), NotificationUtils.channelDefaultId, 104);
+            style = NotificationUtils.getNotificationCenter().createMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "demo", "2 new messages wtih ", messages, NotificationUtils.channelDefaultId, 104, null, new Intent());
         });
 
         tv_update_messagestyle.setOnClickListener(v -> {
@@ -127,7 +127,7 @@ public class NotificationActivity extends BaseActivity {
             personBuilder.setName("66");
             NotificationCompat.MessagingStyle.Message message6 = new NotificationCompat.MessagingStyle.Message("6 " + System.currentTimeMillis(), System.currentTimeMillis(), personBuilder.build());
             messages.add(message6);
-            NotificationUtils.getNotificationCenter().updateMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, style, messages, new Intent(), NotificationUtils.channelDefaultId, 104);
+            NotificationUtils.getNotificationCenter().updateMessagingStyleNotification("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, style, messages, NotificationUtils.channelDefaultId, 104, null, new Intent());
         });
 
         tv_send_messagestyle8.setOnClickListener(v -> {
@@ -139,7 +139,7 @@ public class NotificationActivity extends BaseActivity {
         });
 
         tv_send_remoteinput.setOnClickListener(v -> {
-            NotificationUtils.getNotificationCenter().createRemoteInput("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", new Intent(), 105,
+            NotificationUtils.getNotificationCenter().createRemoteInput("ticker", "channel1", "content", Color.RED, R.mipmap.ic_launcher, R.mipmap.ic_launcher, "channel3", 105, null, new Intent(),
                     "快速回复", RemoteInputReceiver.class, R.mipmap.ic_launcher, "请输入回复的内容");
         });
 
