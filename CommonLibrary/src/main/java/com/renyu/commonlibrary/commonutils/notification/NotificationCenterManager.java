@@ -591,7 +591,7 @@ public class NotificationCenterManager {
     /**
      * 打开通知监听设置页面
      */
-    public static void openNotificationListenSettings() {
+    public static void openNotificationListenSettings(Context context) {
         try {
             Intent intent;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -599,7 +599,8 @@ public class NotificationCenterManager {
             } else {
                 intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             }
-            Utils.getApp().startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }

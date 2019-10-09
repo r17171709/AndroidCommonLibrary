@@ -232,7 +232,7 @@ public class NotificationActivity extends BaseActivity {
 
         tv_notificationlistener.setOnClickListener((view) -> {
             if (!NotificationCenterManager.isNotificationListenerEnabled(this)) {
-                NotificationCenterManager.openNotificationListenSettings();
+                NotificationCenterManager.openNotificationListenSettings(this);
             }
             NotificationCenterManager.toggleNotificationListenerService(NotificationCollectorService.class);
         });
