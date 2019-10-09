@@ -7,8 +7,10 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+
 import com.renyu.commonlibrary.network.OKHttpUtils;
 import com.renyu.commonlibrary.update.R;
 import com.renyu.commonlibrary.update.bean.UpdateModel;
@@ -58,7 +60,7 @@ public class UpdateService extends Service {
                     this,
                     "提示",
                     "升级服务",
-                    "App在升级",
+                    "App正在升级",
                     R.color.colorPrimary,
                     intent.getExtras().getInt("smallIcon"),
                     intent.getExtras().getInt("largeIcon"),

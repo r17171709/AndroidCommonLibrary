@@ -61,7 +61,9 @@ class OKHttpActivity : BaseActivity() {
             headMaps["debug"] = "0"
             val tokenResponse = OKHttpHelper.getInstance().okHttpUtils.syncGet(url, headMaps)
             mainThread {
-                println(tokenResponse.body()?.string())
+                if (tokenResponse.body() != null) {
+                    println(tokenResponse.body()?.string())
+                }
                 println(Thread.currentThread().name)
             }
         }
