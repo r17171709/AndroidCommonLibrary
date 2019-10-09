@@ -1,69 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
     <TextView
             android:id="@+id/tv_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="触发通知(8.0)"/>
+            android:layout_marginBottom="8dp"
+            android:text="触发通知(8.0)" />
 
     <TextView
             android:id="@+id/tv_channel1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="delete_channel1(8.0)"/>
+            android:layout_marginBottom="8dp"
+            android:text="触发通知(8.0)1" />
 
     <TextView
             android:id="@+id/tv_channel2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="delete_channel2(8.0)"/>
+            android:layout_marginBottom="8dp"
+            android:text="触发通知(8.0)2" />
+
+    <TextView
+            android:id="@+id/tv_channel1_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="delete_channel1(8.0)" />
+
+    <TextView
+            android:id="@+id/tv_channel2_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="delete_channel2(8.0)" />
 
     <TextView
             android:id="@+id/tv_send_messagestyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="创建列表通知"/>
+            android:layout_marginBottom="8dp"
+            android:text="创建列表通知" />
 
     <TextView
             android:id="@+id/tv_update_messagestyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="更新列表通知"/>
+            android:layout_marginBottom="8dp"
+            android:text="更新列表通知" />
 
     <TextView
             android:id="@+id/tv_send_messagestyle8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="创建Historic列表通知(8.0)"/>
+            android:layout_marginBottom="8dp"
+            android:text="创建Historic列表通知(8.0)" />
 
     <TextView
             android:id="@+id/tv_send_remoteinput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="快捷回复"/>
+            android:layout_marginBottom="8dp"
+            android:text="快捷回复" />
 
     <TextView
             android:id="@+id/tv_notificationlistener"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="通知栏监听"/>
+            android:layout_marginBottom="8dp"
+            android:text="通知栏监听" />
 </LinearLayout>
