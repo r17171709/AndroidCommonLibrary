@@ -87,8 +87,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     // 添加支持multidex的兼容包
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
     debugImplementation ('com.readystatesoftware.chuck:library:1.1.0') {
         exclude group: 'com.google.code.gson', module: 'gson'
