@@ -8,7 +8,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'ActionSheetLibrary'
-    publishVersion = '2.2.0'
+    publishVersion = '2.2.1'
     desc = 'ActionSheet Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -57,7 +57,9 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     // rxbinding
-    api 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0'
+    api ('com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0') {
+        exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+    }
     // rxandroid
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     // 工具类
