@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.view.WindowManager;
+
 import androidx.core.content.FileProvider;
 
 import java.io.File;
@@ -54,13 +55,11 @@ public class Utils {
                     file.delete();
                 }
             }
-            return pi == null ? false : true;
+            return pi != null;
         } catch (Exception e) {
-            if (pi == null) {
-                File file = new File(path);
-                if (file.exists()) {
-                    file.delete();
-                }
+            File file = new File(path);
+            if (file.exists()) {
+                file.delete();
             }
             return false;
         }

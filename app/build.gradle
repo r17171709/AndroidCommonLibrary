@@ -103,10 +103,10 @@ dependencies {
     implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.1'
 //    implementation project(':NetworkLibrary')
     // 升级
-    implementation('com.github.renyu:AndroidUpdateLibrary:2.1.2') {
-        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
-    }
-//    implementation project(':UpdateLibrary')
+//    implementation('com.github.renyu:AndroidUpdateLibrary:2.1.2') {
+//        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
+//    }
+    implementation project(':UpdateLibrary')
     // 弹出框
     implementation 'com.github.renyu:AndroidDialogLibrary:2.1.0'
 //    implementation project(':DialogLibrary')

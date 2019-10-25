@@ -19,6 +19,8 @@ public class UpdateModel implements Serializable {
     private String url;
     private String version;
     private int forced;
+    // 下载功能出现异常时，跳转的外部URL
+    private String fatalErrorUrl;
 
     //下载相关
     private int process;
@@ -110,6 +112,14 @@ public class UpdateModel implements Serializable {
 
     public void setForced(int forced) {
         this.forced = forced;
+    }
+
+    public String getFatalErrorUrl() {
+        return fatalErrorUrl;
+    }
+
+    public void setFatalErrorUrl(String fatalErrorUrl) {
+        this.fatalErrorUrl = fatalErrorUrl;
     }
 
     public String getNotificationTitle() {

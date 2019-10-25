@@ -31,19 +31,19 @@ class OKHttpActivity : BaseActivity() {
     override fun initViews() = R.layout.activity_main
 
     override fun loadData() {
-        val haveInstallPermission: Boolean
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //先获取是否有安装未知来源应用的权限
-            haveInstallPermission = packageManager.canRequestPackageInstalls()
-            if (!haveInstallPermission) {//没有权限
-                val loadingDialog = ChoiceDialog.getInstanceByTextCommit("安装应用需要打开未知来源权限，请去设置中开启权限", "确定")
-                loadingDialog.setOnDialogPosListener {
-                    startInstallPermissionSettingActivity()
-                }
-                loadingDialog.show(this)
-                return
-            }
-        }
+//        val haveInstallPermission: Boolean
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            //先获取是否有安装未知来源应用的权限
+//            haveInstallPermission = packageManager.canRequestPackageInstalls()
+//            if (!haveInstallPermission) {//没有权限
+//                val loadingDialog = ChoiceDialog.getInstanceByTextCommit("安装应用需要打开未知来源权限，请去设置中开启权限", "确定")
+//                loadingDialog.setOnDialogPosListener {
+//                    startInstallPermissionSettingActivity()
+//                }
+//                loadingDialog.show(this)
+//                return
+//            }
+//        }
         update()
 
         // 普通请求
@@ -155,7 +155,8 @@ class OKHttpActivity : BaseActivity() {
             temp.content = "测试"
             temp.title = "标题"
             temp.version = "3"
-            temp.forced = 0
+            temp.forced = 1
+//            temp.fatalErrorUrl = "http://www.baidu.com"
             temp.url = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk"
             AppUpdateDialogFragment.getInstance(temp, 1, R.mipmap.ic_launcher, R.mipmap.ic_launcher)
                 .show(this@OKHttpActivity)
