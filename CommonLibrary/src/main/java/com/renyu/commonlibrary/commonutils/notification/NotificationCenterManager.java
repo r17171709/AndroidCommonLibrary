@@ -581,11 +581,26 @@ public class NotificationCenterManager {
      * 跳转通知设置界面
      */
     public static void openNotification() {
-        Intent localIntent = new Intent();
-        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-        localIntent.setData(Uri.fromParts("package", Utils.getApp().getPackageName(), null));
-        Utils.getApp().startActivity(localIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Intent localIntent = new Intent();
+            localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            localIntent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+            localIntent.putExtra(Settings.EXTRA_APP_PACKAGE, Utils.getApp().getPackageName());
+            Utils.getApp().startActivity(localIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Intent localIntent = new Intent();
+            localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            localIntent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+            localIntent.putExtra("app_package", Utils.getApp().getPackageName());
+            localIntent.putExtra("app_uid", Utils.getApp().getApplicationInfo().uid);
+            Utils.getApp().startActivity(localIntent);
+        } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            Intent localIntent = new Intent();
+            localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            localIntent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            localIntent.setData(Uri.fromParts("package", Utils.getApp().getPackageName(), null));
+            Utils.getApp().startActivity(localIntent);
+        }
     }
 
     /**
