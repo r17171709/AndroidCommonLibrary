@@ -3,6 +3,8 @@ package com.renyu.commonlibrary.web.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,15 +14,22 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.renyu.commonlibrary.web.R;
 import com.renyu.commonlibrary.web.impl.IX5WebApp;
 import com.renyu.commonlibrary.web.params.InitParams;
 import com.renyu.commonlibrary.web.util.PreloadWebView;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
-import com.tencent.smtt.sdk.*;
+import com.tencent.smtt.sdk.CookieManager;
+import com.tencent.smtt.sdk.CookieSyncManager;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -80,6 +89,17 @@ public abstract class X5WebActivity extends AppCompatActivity {
                     getTitleView().setText(getIntent().getStringExtra("title"));
                 } else {
                     getTitleView().setText(title);
+                }
+            }
+
+            @Override
+            public Bitmap getDefaultVideoPoster() {
+                // 使用webview的视频全屏播放功能，Android8.0以上的手机可以会遇到如下崩溃
+                try {
+                    return BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                            R.drawable.ic_default_webview);
+                } catch (Exception e) {
+                    return super.getDefaultVideoPoster();
                 }
             }
         });
