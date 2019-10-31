@@ -1,12 +1,14 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.util.Log;
 import androidx.core.content.ContextCompat;
 import com.renyu.androidcommonlibrary.R;
 import com.renyu.commonlibrary.baseact.BaseActivity;
 import com.renyu.commonlibrary.permission.annotation.NeedPermission;
 import com.renyu.commonlibrary.permission.annotation.PermissionDenied;
+import com.renyu.commonlibrary.permission.utils.PermissionsUtils;
 
 /**
  * Created by Administrator on 2018/5/25.
@@ -25,6 +27,11 @@ public class PermissionActivity extends BaseActivity {
     @Override
     public void loadData() {
         needPermission();
+
+        Intent powerManagerIntent = PermissionsUtils.presentPowerManagerIntent(this);
+        if (powerManagerIntent != null) {
+            startActivity(powerManagerIntent);
+        }
     }
 
     @Override
