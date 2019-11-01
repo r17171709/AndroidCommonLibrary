@@ -27,9 +27,6 @@ class EMUISettingsIntentGenerator : SettingIntentGenerator() {
             "com.android.packageinstaller",
             "com.android.packageinstaller.permission.ui.ManagePermissionsActivity"
         )
-
-
-
         return if (checkIntentAvailable(context, intent)) {
             intent
         } else null
