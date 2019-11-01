@@ -28,7 +28,7 @@ public class PermissionActivity extends BaseActivity {
     public void loadData() {
         needPermission();
 
-        Intent powerManagerIntent = PermissionsUtils.presentPowerManagerIntent(this);
+        Intent powerManagerIntent = PermissionsUtils.presentSettingIntent(this);
         if (powerManagerIntent != null) {
             startActivity(powerManagerIntent);
         }
