@@ -108,8 +108,8 @@ dependencies {
     }
 //    implementation project(':UpdateLibrary')
     // 弹出框
-    implementation 'com.github.renyu:AndroidDialogLibrary:2.1.0'
-//    implementation project(':DialogLibrary')
+//    implementation 'com.github.renyu:AndroidDialogLibrary:2.1.1'
+    implementation project(':DialogLibrary')
     // Sheet弹出框
     implementation 'com.github.renyu:ActionSheetLibrary:2.2.1'
 //    implementation project(':ActionSheetLibrary')

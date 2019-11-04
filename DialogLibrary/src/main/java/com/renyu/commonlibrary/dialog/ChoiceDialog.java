@@ -39,10 +39,6 @@ public class ChoiceDialog extends DialogFragment {
     // 是否由手动触发关闭产生
     private boolean isHandlerDismiss = false;
 
-    private ChoiceDialog() {
-
-    }
-
     public interface OnDialogDismiss {
         void onDismiss();
     }
