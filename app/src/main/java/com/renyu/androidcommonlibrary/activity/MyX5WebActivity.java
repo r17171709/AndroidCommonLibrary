@@ -1,7 +1,7 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.os.Bundle;
-import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -31,7 +31,7 @@ public class MyX5WebActivity extends X5WebActivity {
     }
 
     @Override
-    public ViewGroup getRootView() {
+    public FrameLayout getRootView() {
         return findViewById(R.id.layout_x5webview);
     }
 

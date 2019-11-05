@@ -52,7 +52,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
-    api 'com.tencent.tbs.tbssdk:sdk:43697'
     // 工具类
     api 'com.blankj:utilcode:1.25.0'
 }

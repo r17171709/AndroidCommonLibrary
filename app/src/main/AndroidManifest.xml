@@ -56,10 +56,6 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-        <!-- 腾讯浏览服务 -->
-        <service
-            android:name=".service.X5IntentService"
-            android:enabled="true" />
         <!-- 文件使用权限 -->
         <provider
             android:name="androidx.core.content.FileProvider"

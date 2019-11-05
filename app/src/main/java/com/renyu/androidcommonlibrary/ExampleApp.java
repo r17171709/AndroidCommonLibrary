@@ -3,7 +3,6 @@ package com.renyu.androidcommonlibrary;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 
 import androidx.multidex.MultiDexApplication;
 
@@ -19,7 +18,6 @@ import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mmkv.MMKV;
-import com.tencent.smtt.sdk.QbSdk;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,21 +74,6 @@ public class ExampleApp extends MultiDexApplication {
 
             // 初始化fresco
             Fresco.initialize(this, ImagePipelineConfigUtils.getDefaultImagePipelineConfig(this));
-
-            // x5内核初始化
-            QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
-                @Override
-                public void onViewInitFinished(boolean arg0) {
-                    //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-                    Log.d(getPackageName(), " x5加载成功：" + arg0);
-                }
-
-                @Override
-                public void onCoreInitFinished() {
-
-                }
-            };
-            QbSdk.initX5Environment(getApplicationContext(), cb);
 
             // 注册统计Activity生命周期所用的LifeCycle
             registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {

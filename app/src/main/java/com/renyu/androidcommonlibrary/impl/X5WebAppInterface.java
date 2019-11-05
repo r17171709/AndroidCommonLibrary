@@ -7,7 +7,7 @@ import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 import com.renyu.commonlibrary.web.impl.IX5WebApp;
-import com.tencent.smtt.sdk.WebView;
+import android.webkit.WebView;
 
 /**
  * Created by renyu on 2017/8/14.
