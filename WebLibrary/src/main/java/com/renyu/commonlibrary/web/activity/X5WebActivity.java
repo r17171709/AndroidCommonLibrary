@@ -49,7 +49,7 @@ public abstract class X5WebActivity extends AppCompatActivity {
 
     public abstract ImageButton getNavBack();
 
-    public abstract FrameLayout getRootView();
+    public abstract ViewGroup getRootView();
 
     public abstract void onPageFinished(String url);
 
