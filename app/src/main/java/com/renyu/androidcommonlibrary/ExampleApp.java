@@ -18,6 +18,7 @@ import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mmkv.MMKV;
+import com.tencent.smtt.sdk.QbSdk;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -112,6 +113,20 @@ public class ExampleApp extends MultiDexApplication {
 
                 }
             });
+
+            QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+                @Override
+                public void onViewInitFinished(boolean arg0) {
+
+                }
+
+                @Override
+                public void onCoreInitFinished() {
+
+                }
+            };
+            //x5内核初始化接口
+            QbSdk.initX5Environment(getApplicationContext(), cb);
 
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 return;

@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.renyu.androidcommonlibrary.R;
+import com.renyu.androidcommonlibrary.impl.IX5WebApp;
 import com.renyu.commonlibrary.web.activity.X5WebActivity;
 
 /**
@@ -15,6 +16,8 @@ import com.renyu.commonlibrary.web.activity.X5WebActivity;
  */
 
 public class MyX5WebActivity extends X5WebActivity {
+    IX5WebApp impl;
+
     @Override
     public TextView getTitleView() {
         return findViewById(R.id.tv_nav_title);
@@ -48,5 +51,11 @@ public class MyX5WebActivity extends X5WebActivity {
         getNavClose().setImageResource(R.mipmap.ic_web_close);
         getNavBack().setImageResource(R.mipmap.ic_arrow_black_left);
         initViews();
+        impl = getIntent().getParcelableExtra("IWebApp");
+        if (impl != null) {
+            impl.setContext(this);
+            impl.setWebView(webView);
+            webView.addJavascriptInterface(impl, getIntent().getStringExtra("IWebAppName"));
+        }
     }
 }

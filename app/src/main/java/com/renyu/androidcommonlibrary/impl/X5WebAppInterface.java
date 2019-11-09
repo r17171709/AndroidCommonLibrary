@@ -6,8 +6,8 @@ import android.os.Parcelable;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
-import com.renyu.commonlibrary.web.impl.IX5WebApp;
-import android.webkit.WebView;
+import com.tencent.smtt.sdk.WebView;
+
 
 /**
  * Created by renyu on 2017/8/14.
@@ -60,11 +60,11 @@ public class X5WebAppInterface implements Parcelable, IX5WebApp {
 
     @Override
     public void setContext(Context context) {
-        this.context=context;
+        this.context = context;
     }
 
     @Override
     public void setWebView(WebView webView) {
-        this.webView=webView;
+        this.webView = webView;
     }
 }

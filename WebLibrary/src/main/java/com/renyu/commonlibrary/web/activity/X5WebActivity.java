@@ -1,24 +1,14 @@
 package com.renyu.commonlibrary.web.activity;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.http.SslError;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.JsResult;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -26,12 +16,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.renyu.commonlibrary.web.R;
-import com.renyu.commonlibrary.web.impl.IX5WebApp;
 import com.renyu.commonlibrary.web.params.InitParams;
 import com.renyu.commonlibrary.web.util.PreloadWebView;
+import com.tencent.smtt.export.external.interfaces.JsResult;
+import com.tencent.smtt.export.external.interfaces.SslError;
+import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
+import com.tencent.smtt.sdk.CookieManager;
+import com.tencent.smtt.sdk.CookieSyncManager;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -56,8 +51,6 @@ public abstract class X5WebActivity extends AppCompatActivity {
 
     // 是否需要展示Close按钮
     private int finishTimes = 0;
-
-    IX5WebApp impl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,12 +93,6 @@ public abstract class X5WebActivity extends AppCompatActivity {
                 }
             }
         });
-        impl = getIntent().getParcelableExtra("IWebApp");
-        if (impl != null) {
-            impl.setContext(this);
-            impl.setWebView(webView);
-            webView.addJavascriptInterface(impl, getIntent().getStringExtra("IWebAppName"));
-        }
         webView.removeJavascriptInterface("searchBoxJavaBridge_");
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -166,25 +153,6 @@ public abstract class X5WebActivity extends AppCompatActivity {
             webView.goBack();
         } else {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (impl != null) {
-                for (Method method : impl.getClass().getDeclaredMethods()) {
-                    String name = method.getName();
-                    if (name.startsWith("onActivityResult_") && name.split("_")[1].equals("" + requestCode)) {
-                        try {
-                            method.invoke(impl);
-                        } catch (IllegalAccessException | InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
         }
     }
 

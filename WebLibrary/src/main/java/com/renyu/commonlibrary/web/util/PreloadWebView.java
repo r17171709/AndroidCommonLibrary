@@ -2,13 +2,12 @@ package com.renyu.commonlibrary.web.util;
 
 import android.content.Context;
 import android.content.MutableContextWrapper;
-import android.os.Build;
 import android.os.Looper;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 
 import com.blankj.utilcode.util.Utils;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
 
 import java.util.Stack;
 
@@ -41,9 +40,6 @@ public class PreloadWebView {
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         WebSettings settings = webView.getSettings();
         settings.setDomStorageEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
         settings.setDatabaseEnabled(true);
         settings.setAppCacheEnabled(true);
         settings.setSavePassword(false);
