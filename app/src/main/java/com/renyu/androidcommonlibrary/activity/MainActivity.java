@@ -15,7 +15,7 @@ import com.tencent.mars.xlog.Log;
 import java.util.Random;
 
 public class MainActivity extends BaseActivity {
-    String[] urls = {"http://www.baidu.com", "https://www.qq.com", "https://www.sina.com", "https://www.sohu.com"};
+    String[] urls = {"http://newrent.house365.com/zsbapi/public/consult-list?city="};
 
     @Override
     public void initParams() {
@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity {
 //        intent.putExtra("url", "http://house.3dnest.cn/house365/index.html?city=nj&house_type=sell&house_id=211246849");
 //        intent.putExtra("url", "https://mtt.house365.com/H5/test/vrapp.php?addtionaltype=1");
 //        intent.putExtra("url", "file:///android_asset/new_file.html");
-        intent.putExtra("url", urls[new Random().nextInt(100) / 25]);
+        intent.putExtra("url", urls[0]);
         intent.putExtra(com.renyu.commonlibrary.web.params.InitParams.NEED_GOBACK, true);
         startActivity(intent);
 

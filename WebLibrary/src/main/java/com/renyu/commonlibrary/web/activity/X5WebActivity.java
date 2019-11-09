@@ -93,11 +93,9 @@ public abstract class X5WebActivity extends AppCompatActivity {
 
             @Override
             public Bitmap getDefaultVideoPoster() {
-                // 使用webview的视频全屏播放功能，Android8.0以上的手机可以会遇到如下崩溃
-                try {
-                    return BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                            R.drawable.ic_default_webview);
-                } catch (Exception e) {
+                if (super.getDefaultVideoPoster() == null) {
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.ic_default_webview);
+                } else {
                     return super.getDefaultVideoPoster();
                 }
             }
