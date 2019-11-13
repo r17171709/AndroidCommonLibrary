@@ -23,7 +23,7 @@ class CoroutinesDemoActivity : BaseDataBindingActivity<ActivityCoroutinesdemoBin
     private var networkDialg: ProgressDialog? = null
 
     private val fragment by lazy {
-        CoroutinesDemoFragment()
+        CoroutinesDemoFragment.getInstance()
     }
 
     override fun initParams() {
