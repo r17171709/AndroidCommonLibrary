@@ -8,7 +8,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidWebLibrary'
-    publishVersion = '2.1.5'
+    publishVersion = '2.1.6'
     desc = 'Web Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -54,5 +54,5 @@ dependencies {
 
     api 'com.tencent.tbs.tbssdk:sdk:43697'
     // 工具类
-    api 'com.blankj:utilcode:1.25.0'
+    api 'com.blankj:utilcode:1.25.9'
 }

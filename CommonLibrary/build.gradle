@@ -11,7 +11,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '3.1.5'
+    publishVersion = '3.1.6'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -71,15 +71,13 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
     // 工具类
-    api 'com.blankj:utilcode:1.25.0'
+    api 'com.blankj:utilcode:1.25.9'
     // rxandroid
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
     // MMKV——基于 mmap 的高性能通用 key-value 组件
-    api('com.tencent:mmkv-static:1.0.22') {
-        exclude group: 'androidx.annotation', module: 'annotation'
-    }
+    api 'com.tencent:mmkv-static:1.0.23'
     // mars  Mars is a cross-platform network component developed by WeChat.
-    api 'com.tencent.mars:mars-xlog:1.0.7'
+    api 'com.tencent.mars:mars-xlog:1.2.3'
     // AndroidAutoSize  A low-cost Android screen adaptation solution (今日头条屏幕适配方案终极版，一个极低成本的 Android 屏幕适配方案).
     api 'me.jessyan:autosize:1.1.2'
     // fresco
@@ -101,7 +99,7 @@ dependencies {
     // ViewPagerTransforms  Library containing common animations needed for transforming ViewPager scrolling for Android v13+.
     api 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
     // CircleIndicator  A lightweight viewpager indicator like in nexus 5 launcher
-    api 'me.relex:circleindicator:2.1.2@aar'
+    api 'me.relex:circleindicator:2.1.4@aar'
     // SwipyRefreshLayout  A SwipeRefreshLayout extension that allows to swipe in both direction
     api 'com.github.orangegangsters:swipy:1.2.3@aar'
     // DiscreteScrollView  Scrollable list of items, where current item is centered and can be changed using swipes
