@@ -10,28 +10,37 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.renyu.commonlibrary.update.R;
 import com.renyu.commonlibrary.update.bean.UpdateModel;
 import com.renyu.commonlibrary.update.params.InitParams;
 import com.renyu.commonlibrary.update.service.UpdateService;
 import com.renyu.commonlibrary.update.utils.RxBus;
 import com.renyu.commonlibrary.update.utils.Utils;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 
 import java.io.File;
+import java.lang.reflect.Field;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by renyu on 16/1/23.
@@ -314,27 +323,36 @@ public class AppUpdateDialogFragment extends DialogFragment {
         if (fragmentActivity.isDestroyed() || !isDismiss) {
             return;
         }
-        isDismiss = false;
         manager = fragmentActivity.getSupportFragmentManager();
-        new Handler().post(() -> {
-            super.show(manager, tag);
+        try {
+            Field fieldDismissed = DialogFragment.class.getDeclaredField("mDismissed");
+            fieldDismissed.setAccessible(true);
+            fieldDismissed.setBoolean(this, false);
 
-            isDismiss = false;
-        });
+            Field fieldShownByMe = DialogFragment.class.getDeclaredField("mShownByMe");
+            fieldShownByMe.setAccessible(true);
+            fieldShownByMe.setBoolean(this, true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(this, tag);
+        transaction.commitAllowingStateLoss();
+
+        isDismiss = false;
     }
 
     private void dismissDialog() {
-        new Handler().post(() -> {
-            if (isDismiss) {
-                return;
-            }
-            isDismiss = true;
-            try {
-                dismissAllowingStateLoss();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        if (isDismiss) {
+            return;
+        }
+        isDismiss = true;
+        try {
+            dismissAllowingStateLoss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
