@@ -2,7 +2,6 @@ package com.renyu.androidcommonlibrary;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Environment;
 
 import androidx.multidex.MultiDexApplication;
 
@@ -58,7 +57,7 @@ public class ExampleApp extends MultiDexApplication {
             // 初始化相关配置参数
             // 项目根目录
             // 请注意修改xml文件夹下filepaths.xml中的external-path节点，此值需与ROOT_PATH值相同，作为fileprovider使用
-            InitParams.ROOT_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator + "example";
+            InitParams.ROOT_PATH = Utils.getApp().getExternalFilesDir(null).getPath();
             // 项目图片目录
             InitParams.IMAGE_PATH = InitParams.ROOT_PATH + File.separator + "image";
             // 项目热修复目录

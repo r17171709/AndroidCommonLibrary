@@ -1,6 +1,6 @@
 package com.renyu.commonlibrary.params;
 
-import android.os.Environment;
+import com.blankj.utilcode.util.Utils;
 
 import java.io.File;
 
@@ -10,7 +10,7 @@ import java.io.File;
 
 public class InitParams {
     // 项目根目录
-    public static String ROOT_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator + "example";
+    public static String ROOT_PATH = Utils.getApp().getExternalFilesDir(null).getPath();
     // 项目图片目录
     public static String IMAGE_PATH = ROOT_PATH + File.separator + "image";
     // 项目热修复目录

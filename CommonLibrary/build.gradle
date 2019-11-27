@@ -11,7 +11,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '3.1.6'
+    publishVersion = '3.1.7'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -64,7 +64,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.1.0'
     api 'com.google.android.material:material:1.0.0'
     api 'androidx.gridlayout:gridlayout:1.0.0'
-    api 'androidx.recyclerview:recyclerview:1.0.0'
+    api 'androidx.recyclerview:recyclerview:1.1.0'
     api 'androidx.cardview:cardview:1.0.0'
     api 'com.google.android:flexbox:1.1.0'
     api 'androidx.appcompat:appcompat:1.1.0'
@@ -81,9 +81,9 @@ dependencies {
     // AndroidAutoSize  A low-cost Android screen adaptation solution (今日头条屏幕适配方案终极版，一个极低成本的 Android 屏幕适配方案).
     api 'me.jessyan:autosize:1.1.2'
     // fresco
-    api 'com.facebook.fresco:fresco:2.0.0'
-    api 'com.facebook.fresco:animated-gif:2.0.0'
-    api 'com.facebook.fresco:drawee-span:2.0.0'
+    api 'com.facebook.fresco:fresco:2.1.0'
+    api 'com.facebook.fresco:animated-gif:2.1.0'
+    api 'com.facebook.fresco:drawee-span:2.1.0'
     // vlayout
     api 'com.alibaba.android:vlayout:1.2.32@aar'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
