@@ -56,14 +56,16 @@ public class UpdateService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // android o 开启前台服务
         if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+            int smallIcon = intent.getExtras() == null ? R.mipmap.ic_launcher : intent.getExtras().getInt("smallIcon");
+            int largeIcon = intent.getExtras() == null ? R.mipmap.ic_launcher : intent.getExtras().getInt("largeIcon");
             NotificationUtils.getNotificationCenter().showStartForeground(
                     this,
                     "提示",
                     "升级服务",
                     "App正在升级",
                     R.color.colorPrimary,
-                    intent.getExtras().getInt("smallIcon"),
-                    intent.getExtras().getInt("largeIcon"),
+                    smallIcon,
+                    largeIcon,
                     1000);
         }
         if (intent == null || intent.getExtras() == null || intent.getExtras().getString("url") == null) {
