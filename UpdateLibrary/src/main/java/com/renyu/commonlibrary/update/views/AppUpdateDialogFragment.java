@@ -3,7 +3,6 @@ package com.renyu.commonlibrary.update.views;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -74,28 +73,6 @@ public class AppUpdateDialogFragment extends DialogFragment {
 
     // 是否已经关闭
     private boolean isDismiss = true;
-
-    // 强制升级接口
-    private OnMandatoryUpdateListener mandatoryUpdateListener;
-
-    public interface OnMandatoryUpdateListener {
-        void something();
-    }
-
-    public void setOnMandatoryUpdateListener(OnMandatoryUpdateListener mandatoryUpdateListener) {
-        this.mandatoryUpdateListener = mandatoryUpdateListener;
-    }
-
-    // 升级弹窗关闭接口
-    private OnDismissListener dismissListener;
-
-    public interface OnDismissListener {
-        void dismissFragment();
-    }
-
-    public void setOnDismissListener(OnDismissListener dismissListener) {
-        this.dismissListener = dismissListener;
-    }
 
     // RxBus监听
     private CompositeDisposable compositeDisposable;
@@ -180,12 +157,6 @@ public class AppUpdateDialogFragment extends DialogFragment {
 
             if (isCanCancel) {
                 dismissDialog();
-            } else {
-                if (mandatoryUpdateListener != null) {
-                    mandatoryUpdateListener.something();
-                } else {
-                    throw new RuntimeException("必须实现强制升级接口");
-                }
             }
         });
         custom_positiveButton = view.findViewById(R.id.custom_positiveButton);
@@ -305,14 +276,6 @@ public class AppUpdateDialogFragment extends DialogFragment {
             return file;
         }
         return null;
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (dismissListener != null) {
-            dismissListener.dismissFragment();
-        }
     }
 
     public void show(FragmentActivity fragmentActivity) {
