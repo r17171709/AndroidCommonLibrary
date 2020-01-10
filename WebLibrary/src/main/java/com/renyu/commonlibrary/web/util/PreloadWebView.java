@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.MutableContextWrapper;
 import android.os.Looper;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import com.blankj.utilcode.util.Utils;
-import com.tencent.smtt.sdk.WebSettings;
-import com.tencent.smtt.sdk.WebView;
 
 import java.util.Stack;
 
