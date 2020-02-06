@@ -27,18 +27,18 @@ public class ActionSheetActivity extends BaseActivity {
     @Override
     public void initParams() {
         findViewById(R.id.btn_click).setOnClickListener(v -> {
-            View view_threeloopertitle_floor = addAction();
-            fragment = ActionSheetFactory.createCustomActionSheetFragment(this, "", "自定义视图", Color.BLUE,
-                    "确定", Color.RED,
-                    "取消", Color.GRAY,
-                    false,
-                    view_threeloopertitle_floor,
-                    value -> {
-                        Toast.makeText(ActionSheetActivity.this, "OK", Toast.LENGTH_SHORT).show();
-                        fragment.dismiss();
-                    },
-                    () -> Toast.makeText(ActionSheetActivity.this, "Cancel", Toast.LENGTH_SHORT).show());
-            fragment.setOnDismissListener(() -> Toast.makeText(ActionSheetActivity.this, "Dismiss", Toast.LENGTH_SHORT).show());
+//            View view_threeloopertitle_floor = addAction();
+//            fragment = ActionSheetFactory.createCustomActionSheetFragment(this, "", "自定义视图", Color.BLUE,
+//                    "确定", Color.RED,
+//                    "取消", Color.GRAY,
+//                    false,
+//                    view_threeloopertitle_floor,
+//                    value -> {
+//                        Toast.makeText(ActionSheetActivity.this, "OK", Toast.LENGTH_SHORT).show();
+//                        fragment.dismiss();
+//                    },
+//                    () -> Toast.makeText(ActionSheetActivity.this, "Cancel", Toast.LENGTH_SHORT).show());
+//            fragment.setOnDismissListener(() -> Toast.makeText(ActionSheetActivity.this, "Dismiss", Toast.LENGTH_SHORT).show());
 
 //            ActionSheetFactory.createGridActionSheetFragment(this, "", "Hello", Color.BLUE, "cancel", Color.RED,
 //                    new String[]{"微信好友", "朋友圈", "QQ好友", "微博"},
@@ -75,11 +75,11 @@ public class ActionSheetActivity extends BaseActivity {
 //
 //                    });
 
-//            ActionSheetFactory.createDateRangeActionSheetFragment(this, "", "设置日期", Color.BLUE, "确定", Color.RED, "取消", Color.GRAY,
-//                    1545689754000L, System.currentTimeMillis(), false,
-//                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
-//
-//                    });
+            ActionSheetFactory.createDateRangeActionSheetFragment(this, "", "设置日期", Color.BLUE, "确定", Color.RED, "取消", Color.GRAY,
+                    1578268203000L, 1588722603000L, false,
+                    value -> Toast.makeText(ActionSheetActivity.this, value.toString(), Toast.LENGTH_SHORT).show(), () -> {
+
+                    });
         });
     }
 

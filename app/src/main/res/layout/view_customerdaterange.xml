@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pop_wheel_datarangelayout"
+    android:layout_width="match_parent"
+    android:layout_height="230dip"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <com.renyu.commonlibrary.views.wheelview.LoopView
+        android:id="@+id/pop_wheel_datarangelayout_year"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <com.renyu.commonlibrary.views.wheelview.LoopView
+        android:id="@+id/pop_wheel_datarangelayout_month"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <com.renyu.commonlibrary.views.wheelview.LoopView
+        android:id="@+id/pop_wheel_datarangelayout_day"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <com.renyu.commonlibrary.views.wheelview.LoopView
+        android:id="@+id/pop_wheel_datarangelayout_hour"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <com.renyu.commonlibrary.views.wheelview.LoopView
+        android:id="@+id/pop_wheel_datarangelayout_minute"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+</LinearLayout>
