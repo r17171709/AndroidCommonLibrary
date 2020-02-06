@@ -123,7 +123,10 @@ public class DateRangeUtils {
                 months.clear();
                 // 得到当前选中的月份索引
                 if (Integer.parseInt(years.get(index)) == year_start) {
-                    for (int i = (month_start + 1); i <= 12; i++) {
+                    // 通过当前月份判断是否为开始时间与结束时间年份
+                    int beginTmp = special ? (year_start == calendar_start.get(Calendar.YEAR) ? (month_start + 1) : 1) : (year_start == calendar_today.get(Calendar.YEAR) ? (month_start + 1) : 1);
+                    int endTmp = special ? (year_start == calendar_end.get(Calendar.YEAR) ? (month_end + 1) : 12) : (year_end == calendar_today.get(Calendar.YEAR) ? (month_end + 1) : 12);
+                    for (int i = beginTmp; i <= endTmp; i++) {
                         months.add(i < 10 ? "0" + i : "" + i);
                         if (lastSelectedMonth == i) {
                             currentSelectedMonth = i;
@@ -384,8 +387,9 @@ public class DateRangeUtils {
         }
         // 调整滚轮位置
         if (lastSelectedDay > dayCount) {
+            // 如果之前选择的月份的日期数值比当前选择的月份的日期大，选择当前可用日期数组的最后一个值
             pop_wheel_datarangelayout_day.setInitPosition(0);
-            pop_wheel_datarangelayout_day.setTotalScrollYPosition(dayCount - 1);
+            pop_wheel_datarangelayout_day.setTotalScrollYPosition(days.size() - 1);
         } else {
             int tempIndex = 0;
             iterator = days.entrySet().iterator();

@@ -3,6 +3,7 @@ package com.renyu.commonlibrary.baseact;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -47,7 +48,7 @@ public abstract class BaseTabActivity extends BaseActivity {
             }
             transaction.commit();
 
-            currentTag = savedInstanceState.getString("currentTag");
+            currentTag = savedInstanceState.getString("currentTag") == null ? "one" : savedInstanceState.getString("currentTag");
             currentFragment = manager.findFragmentByTag(currentTag);
 
             switchFragment(currentTag);
