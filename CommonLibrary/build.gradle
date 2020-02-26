@@ -11,7 +11,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '3.1.7'
+    publishVersion = '3.1.8'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -61,15 +61,15 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.1.0'
-    api 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    api 'com.google.android.material:material:1.1.0'
     api 'androidx.gridlayout:gridlayout:1.0.0'
     api 'androidx.recyclerview:recyclerview:1.1.0'
     api 'androidx.cardview:cardview:1.0.0'
     api 'com.google.android:flexbox:1.1.0'
     api 'androidx.appcompat:appcompat:1.1.0'
-    api 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
     // 工具类
     api 'com.blankj:utilcode:1.25.9'
@@ -86,7 +86,7 @@ dependencies {
     api 'com.facebook.fresco:animated-gif:2.1.0'
     api 'com.facebook.fresco:drawee-span:2.1.0'
     // vlayout
-    api 'com.alibaba.android:vlayout:1.2.32@aar'
+    api 'com.alibaba.android:vlayout:1.2.37.2@aar'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
     api 'com.kyleduo.switchbutton:library:2.0.0@aar'
     // SwipeDelMenuLayout  史上最简单侧滑菜单，0耦合，支持任意ViewGroup。一步集成侧滑(删除)菜单，高仿QQ、IOS。

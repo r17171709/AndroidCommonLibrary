@@ -8,7 +8,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'ActionSheetLibrary'
-    publishVersion = '2.2.3'
+    publishVersion = '2.2.4'
     desc = 'ActionSheet Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -52,12 +52,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     // rxbinding
-    api ('com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0') {
+    api ('com.jakewharton.rxbinding3:rxbinding-appcompat:3.1.0') {
         exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
     }
     // rxandroid
