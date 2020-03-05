@@ -2,6 +2,7 @@ package com.renyu.commonlibrary.web.util;
 
 import android.content.Context;
 import android.content.MutableContextWrapper;
+import android.os.Build;
 import android.os.Looper;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -51,6 +52,10 @@ public class PreloadWebView {
         settings.setAllowFileAccess(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setBuiltInZoomControls(false);
+        settings.setBlockNetworkImage(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
         return webView;
     }
 
