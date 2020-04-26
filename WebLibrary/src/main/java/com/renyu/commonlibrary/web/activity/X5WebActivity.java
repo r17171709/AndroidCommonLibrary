@@ -50,9 +50,6 @@ public abstract class X5WebActivity extends AppCompatActivity {
 
     public WebView webView;
 
-    // 是否需要展示Close按钮
-    private int finishTimes = 0;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
@@ -107,8 +104,7 @@ public abstract class X5WebActivity extends AppCompatActivity {
                 X5WebActivity.this.onPageFinished(url);
                 // 判断是否展示Close按钮
                 if (getIntent().getExtras().getBoolean(InitParams.NEED_GOBACK, false)) {
-                    finishTimes++;
-                    if (finishTimes > 1) {
+                    if (webView.canGoBack()) {
                         getNavClose().setVisibility(View.VISIBLE);
                     }
                 }
