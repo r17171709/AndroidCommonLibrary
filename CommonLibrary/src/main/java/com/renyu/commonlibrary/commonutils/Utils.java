@@ -6,19 +6,19 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
+
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 
 /**
  * Created by renyu on 2016/12/26.
@@ -137,26 +137,6 @@ public class Utils {
         return metric;
     }
 
-    public static String getMD5(String str) {
-        try {
-            // 生成一个MD5加密计算摘要
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            // 计算md5函数
-            md.update(str.getBytes());
-            // digest()最后确定返回md5 hash值，返回值为8为字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
-            // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
-            String value = new BigInteger(1, md.digest()).toString(16);
-            // 确保32位
-            while (32 - value.length() > 0) {
-                value = "0" + value;
-            }
-            return value;
-        } catch (Exception e) {
-
-        }
-        return "";
-    }
-
     /**
      * 通过getRunningTasks判断App是否位于前台
      * getRunningTask方法在Android5.0以上已经被废弃，只会返回自己和系统的一些不敏感的task，不再返回其他应用的task，用此方法来判断自身App是否处于后台，仍然是有效的，但是无法判断其他应用是否位于前台，因为不再能获取信息
@@ -184,6 +164,18 @@ public class Utils {
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
+        return bitmap;
+    }
+
+    public static Bitmap getViewBitmap2(View view) {
+        view.setDrawingCacheEnabled(true);
+        view.setDrawingCacheBackgroundColor(Color.TRANSPARENT);
+        view.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache(),
+                0, 0,
+                view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.setDrawingCacheEnabled(false);
+        view.destroyDrawingCache();
         return bitmap;
     }
 }
