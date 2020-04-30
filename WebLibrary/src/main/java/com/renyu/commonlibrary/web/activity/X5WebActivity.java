@@ -48,6 +48,8 @@ public abstract class X5WebActivity extends AppCompatActivity {
 
     public abstract void onPageFinished(String url);
 
+    public abstract boolean shouldOverrideUrlLoading(WebView view, String url);
+
     public WebView webView;
 
     @Override
@@ -114,6 +116,14 @@ public abstract class X5WebActivity extends AppCompatActivity {
             public void onReceivedSslError(WebView webView, SslErrorHandler sslErrorHandler, SslError sslError) {
                 sslErrorHandler.proceed();
                 super.onReceivedSslError(webView, sslErrorHandler, sslError);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (X5WebActivity.this.shouldOverrideUrlLoading(view, url)) {
+                    return true;
+                }
+                return super.shouldOverrideUrlLoading(view, url);
             }
         });
         // 设置cookies

@@ -1,6 +1,7 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.os.Bundle;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -41,6 +42,15 @@ public class MyX5WebActivity extends X5WebActivity {
     @Override
     public void onPageFinished(String url) {
 
+    }
+
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        // 判断是否需要拦截
+//        if (url.contains("weixin")) {
+//            return true;
+//        }
+        return false;
     }
 
     @Override
