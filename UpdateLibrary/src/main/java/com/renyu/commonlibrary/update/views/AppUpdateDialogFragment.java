@@ -3,6 +3,7 @@ package com.renyu.commonlibrary.update.views;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -73,6 +74,15 @@ public class AppUpdateDialogFragment extends DialogFragment {
 
     // 是否已经关闭
     private boolean isDismiss = true;
+
+    // 升级弹窗关闭接口
+    private OnDismissListener dismissListener;
+    public interface OnDismissListener {
+        void dismissFragment();
+    }
+    public void setOnDismissListener(OnDismissListener dismissListener) {
+        this.dismissListener = dismissListener;
+    }
 
     // RxBus监听
     private CompositeDisposable compositeDisposable;
@@ -276,6 +286,14 @@ public class AppUpdateDialogFragment extends DialogFragment {
             return file;
         }
         return null;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (dismissListener != null) {
+            dismissListener.dismissFragment();
+        }
     }
 
     public void show(FragmentActivity fragmentActivity) {
