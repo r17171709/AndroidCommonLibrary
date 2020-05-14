@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@android:color/transparent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginLeft="16dip"
         android:layout_marginRight="16dip"
-        android:background="@drawable/shape_loadingdialog">
+        android:background="@drawable/shape_loadingdialog"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:orientation="vertical"
             android:paddingTop="30dip"
-            android:paddingBottom="30dip"
-            android:orientation="vertical">
+            android:paddingBottom="30dip">
+
             <TextView
                 android:id="@+id/choice_container_title"
                 android:layout_width="match_parent"
@@ -24,39 +28,54 @@
                 android:layout_marginEnd="20dip"
                 android:layout_marginBottom="20dip"
                 android:gravity="center"
-                android:text="标题"
                 android:lineSpacingExtra="7dip"
+                android:text="标题"
                 android:textColor="#666666"
                 android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/choice_container_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="30dip"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dip"
                 android:layout_marginEnd="20dip"
                 android:gravity="center"
-                android:text="内容"
                 android:lineSpacingExtra="7dip"
+                android:minHeight="30dip"
+                android:text="内容"
                 android:textColor="#666666"
                 android:textSize="14sp" />
+
+            <ProgressBar
+                android:id="@+id/choice_container_pb"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:paddingLeft="24dp"
+                android:paddingRight="23dp"
+                android:visibility="gone" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
                 android:background="#e5e5e5"></View>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="44dip"
                 android:layout_alignParentBottom="true"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/choice_container_negative"
                     android:layout_width="match_parent"
@@ -66,11 +85,13 @@
                     android:text="取消"
                     android:textColor="#999999"
                     android:textSize="14sp" />
+
                 <View
                     android:id="@+id/choice_container_line"
                     android:layout_width="1dip"
                     android:layout_height="match_parent"
                     android:background="#e5e5e5"></View>
+
                 <Button
                     android:id="@+id/choice_container_positive"
                     android:layout_width="match_parent"

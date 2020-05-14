@@ -9,20 +9,21 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
-import com.renyu.commonlibrary.commonutils.Utils
-import com.renyu.commonlibrary.commonutils.ioThread
 import com.renyu.commonlibrary.commonutils.mainThread
 import com.renyu.commonlibrary.dialog.ChoiceDialog
 import com.renyu.commonlibrary.network.OKHttpHelper
+import com.renyu.commonlibrary.network.OKHttpUtils
 import com.renyu.commonlibrary.permission.annotation.NeedPermission
 import com.renyu.commonlibrary.permission.annotation.PermissionDenied
 import com.renyu.commonlibrary.update.bean.UpdateModel
+import com.renyu.commonlibrary.update.params.InitParams
 import com.renyu.commonlibrary.update.views.AppUpdateDialogFragment
 
 /**
  * Created by Administrator on 2017/12/7.
  */
 class OKHttpActivity : BaseActivity() {
+    private val httpHelper = OKHttpHelper.getInstance()
 
     override fun initParams() {
 
@@ -44,46 +45,55 @@ class OKHttpActivity : BaseActivity() {
 //                return
 //            }
 //        }
+
         update()
 
         // 普通请求
-        ioThread {
-            val timestamp = (System.currentTimeMillis() / 1000).toInt()
-            val random = "abcdefghijklmn"
-            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
-                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
-            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
-                    "&app_id=46877648&rand_str=" + random +
-                    "&signature=" + Utils.getMD5(signature) +
-                    "&device_id=" + Utils.getUniquePsuedoID()
-            val headMaps = HashMap<String, String>()
-            headMaps["version"] = "v1.0"
-            headMaps["debug"] = "0"
-            val tokenResponse = OKHttpHelper.getInstance().okHttpUtils.syncGet(url, headMaps)
-            mainThread {
-                if (tokenResponse.body() != null) {
-                    println(tokenResponse.body()?.string())
-                }
-                println(Thread.currentThread().name)
-            }
-        }
+//        ioThread {
+//            val timestamp = (System.currentTimeMillis() / 1000).toInt()
+//            val random = "abcdefghijklmn"
+//            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
+//                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
+//            val url = "https://aznapi.house365.com/api/58bf98c1dcb63?city=nj&timestamp=" + timestamp +
+//                    "&app_id=46877648&rand_str=" + random +
+//                    "&signature=" + Utils.getMD5(signature) +
+//                    "&device_id=" + Utils.getUniquePsuedoID()
+//            val headMaps = HashMap<String, String>()
+//            headMaps["version"] = "v1.0"
+//            headMaps["debug"] = "0"
+//            val tokenResponse = OKHttpHelper.getInstance().okHttpUtils.syncGet(url, headMaps)
+//            mainThread {
+//                if (tokenResponse.body() != null) {
+//                    println(tokenResponse.body()?.string())
+//                }
+//                println(Thread.currentThread().name)A
+//            }
+//        }
 
         // 下载
+//        val choiceDialog = ChoiceDialog.getInstanceByPB("开始下载", "停止")
+//        choiceDialog.show(this)
 //        httpHelper.okHttpUtils.asyncDownload("http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk",
-//                InitParams.FILE_PATH,
-//                object : OKHttpUtils.RequestListener {
-//                    override fun onStart() {
+//            InitParams.FILE_PATH,
+//            object : OKHttpUtils.RequestListener {
+//                override fun onStart() {
 //
-//                    }
+//                }
 //
-//                    override fun onSuccess(string: String?) {
-//                        println("onSuccess:$string")
-//                    }
+//                override fun onSuccess(string: String?) {
+//                    println("onSuccess:$string")
+//                    choiceDialog.dismissAllowingStateLoss()
+//                }
 //
-//                    override fun onError() {
-//
-//                    }
-//                }) { progress, _, _ -> println("1:$progress")}
+//                override fun onError() {
+//                    choiceDialog.dismissAllowingStateLoss()
+//                }
+//            }) { progress, _, _ ->
+//            mainThread {
+//                println("1:$progress")
+//                choiceDialog.setPb(progress)
+//            }
+//        }
 //
 //        httpHelper.okHttpUtils.asyncDownload("https://bos.pgzs.com/cloudsto/weitest/official_website6.0.3.268.apk",
 //                InitParams.FILE_PATH,
@@ -157,7 +167,8 @@ class OKHttpActivity : BaseActivity() {
             temp.version = "3"
             temp.forced = 1
 //            temp.fatalErrorUrl = "http://www.baidu.com"
-            temp.url = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk"
+            temp.url =
+                "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_209269_web_inner_referral_binded.apk"
             AppUpdateDialogFragment.getInstance(temp, 1, R.mipmap.ic_launcher, R.mipmap.ic_launcher)
                 .show(this@OKHttpActivity)
         }

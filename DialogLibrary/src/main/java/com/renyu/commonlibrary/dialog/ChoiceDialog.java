@@ -8,16 +8,24 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.renyu.commonlibrary.dialog.utils.Utils;
 
 import java.lang.reflect.Field;
@@ -32,6 +40,7 @@ public class ChoiceDialog extends DialogFragment {
     private TextView choice_container_title;
     private Button choice_container_positive;
     private Button choice_container_negative;
+    private ProgressBar choice_container_pb;
     private View choice_container_line;
 
     private boolean isDismiss = true;
@@ -87,7 +96,7 @@ public class ChoiceDialog extends DialogFragment {
     }
 
     /**
-     * 選擇弹出框 title+content
+     * 选择弹出框 title+content
      *
      * @param title
      * @param content
@@ -120,6 +129,23 @@ public class ChoiceDialog extends DialogFragment {
         bundle.putInt("type", 12);
         bundle.putString("content", content);
         bundle.putString("pos", pos);
+        dialog.setArguments(bundle);
+        return dialog;
+    }
+
+    /**
+     * 进度条框
+     *
+     * @param title
+     * @param neg
+     * @return
+     */
+    public static ChoiceDialog getInstanceByPB(String title, String neg) {
+        ChoiceDialog dialog = new ChoiceDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", 1);
+        bundle.putString("title", title);
+        bundle.putString("neg", neg);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -188,6 +214,7 @@ public class ChoiceDialog extends DialogFragment {
             isHandlerDismiss = true;
             dismissDialog();
         });
+        choice_container_pb = view.findViewById(R.id.choice_container_pb);
         choice_container_line = view.findViewById(R.id.choice_container_line);
         // 设置选择对话框
         if (getArguments().getInt("type") == 4) {
@@ -211,8 +238,25 @@ public class ChoiceDialog extends DialogFragment {
             choice_container_content.setText(getArguments().getString("content"));
             choice_container_positive.setText(getArguments().getString("pos"));
         }
-
+        // 设置进度条框
+        else if (getArguments().getInt("type") == 1) {
+            choice_container_title.setText(getArguments().getString("title"));
+            choice_container_content.setVisibility(View.GONE);
+            choice_container_line.setVisibility(View.GONE);
+            choice_container_positive.setVisibility(View.GONE);
+            choice_container_negative.setText(getArguments().getString("neg"));
+            choice_container_pb.setVisibility(View.VISIBLE);
+        }
         return view;
+    }
+
+    /**
+     * 更新进度
+     *
+     * @param num
+     */
+    public void setPb(int num) {
+        choice_container_pb.setProgress(num);
     }
 
     @Override
