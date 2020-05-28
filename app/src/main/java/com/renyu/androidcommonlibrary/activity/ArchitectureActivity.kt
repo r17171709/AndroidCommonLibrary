@@ -6,6 +6,7 @@ import android.view.View
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.ViewModelProviders
+import com.blankj.utilcode.util.EncryptUtils
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.bean.AccessTokenRequest
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
@@ -49,15 +50,16 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
         viewDataBinding.also {
             val timestamp = (System.currentTimeMillis() / 1000).toInt()
             val random = "abcdefghijklmn"
-            val signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
-                    Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
+            val signature =
+                "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
+                        Utils.getUniquePsuedoID() + "&rand_str=" + random + "&timestamp=" + timestamp
             it.tokenRequest =
                 AccessTokenRequest(
                     "nj",
                     timestamp,
                     "46877648",
                     random,
-                    Utils.getMD5(signature),
+                    EncryptUtils.encryptMD5ToString(signature),
                     Utils.getUniquePsuedoID()
                 )
             it.eventImpl = this
