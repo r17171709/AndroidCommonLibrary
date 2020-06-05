@@ -15,6 +15,7 @@ import com.renyu.androidcommonlibrary.di.module.AppModule;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
+import com.renyu.commonlibrary.web.util.PreloadWebView;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mmkv.MMKV;
 
@@ -73,6 +74,8 @@ public class ExampleApp extends MultiDexApplication {
 
             // 初始化fresco
             Fresco.initialize(this, ImagePipelineConfigUtils.getDefaultImagePipelineConfig(this));
+
+            PreloadWebView.getInstance().preload();
 
             // 注册统计Activity生命周期所用的LifeCycle
             registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
