@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.renyu.commonlibrary.web.R;
 import com.renyu.commonlibrary.web.params.InitParams;
+import com.renyu.commonlibrary.web.util.HtmlFormat;
 import com.renyu.commonlibrary.web.util.PreloadWebView;
 
 import java.util.ArrayList;
@@ -70,6 +71,13 @@ public abstract class X5WebActivity extends AppCompatActivity {
         getNavBack().setOnClickListener(v -> onBackPressed());
 
         webView = PreloadWebView.getInstance().getWebView(this);
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("url"))) {
+            webView.getSettings().setUseWideViewPort(true);
+            webView.getSettings().setLoadWithOverviewMode(true);
+        } else if (!TextUtils.isEmpty(getIntent().getStringExtra("htmlCode"))) {
+            webView.getSettings().setUseWideViewPort(false);
+            webView.getSettings().setLoadWithOverviewMode(false);
+        }
         getRootView().addView(webView);
         PreloadWebView.getInstance().preload();
 
@@ -136,7 +144,11 @@ public abstract class X5WebActivity extends AppCompatActivity {
             // cookies同步方法要在WebView的setting设置完之后调用，否则无效。
             syncCookie(this, getIntent().getStringExtra("cookieUrl"), cookies);
         }
-        webView.loadUrl(getIntent().getStringExtra("url"));
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("url"))) {
+            webView.loadUrl(getIntent().getStringExtra("url"));
+        } else if (!TextUtils.isEmpty(getIntent().getStringExtra("htmlCode"))) {
+            webView.loadDataWithBaseURL(null, HtmlFormat.getNewContent(getIntent().getStringExtra("htmlCode")), "text/html", "UTF-8", null);
+        }
     }
 
     @Override
