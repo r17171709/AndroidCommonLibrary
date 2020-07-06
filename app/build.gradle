@@ -6,7 +6,6 @@ apply plugin: 'com.hujiang.android-aspectjx'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
 
     defaultConfig {
         applicationId "com.renyu.androidcommonlibrary"
@@ -22,7 +21,8 @@ android {
 
         ndk {
             //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi-v7a', 'x86' // 还可以添加 'armeabi', 'x86_64', 'mips', 'mips64', 'arm64-v8a'
+            abiFilters 'armeabi-v7a', 'x86'
+            // 还可以添加 'armeabi', 'x86_64', 'mips', 'mips64', 'arm64-v8a'
         }
     }
     signingConfigs {
@@ -81,7 +81,7 @@ kapt {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -91,22 +91,22 @@ dependencies {
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     // dagger2
-    implementation 'com.google.dagger:dagger:2.26'
-    kapt 'com.google.dagger:dagger-compiler:2.26'
+    implementation 'com.google.dagger:dagger:2.28.1'
+    kapt 'com.google.dagger:dagger-compiler:2.28.1'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     implementation 'com.tencent.wcdb:wcdb-android:1.0.8'
     // AutoDispose  Automatic binding+disposal of RxJava 2 streams.
-    implementation ('com.uber.autodispose:autodispose-android-archcomponents:1.4.0') {
+    implementation('com.uber.autodispose:autodispose-android-archcomponents:1.4.0') {
         exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
     }
     // 网络请求
-    implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.2'
-//    implementation project(':NetworkLibrary')
+//    implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.2'
+    implementation project(':NetworkLibrary')
     // 升级
-    implementation('com.github.renyu:AndroidUpdateLibrary:2.1.8') {
-        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
-    }
-//    implementation project(':UpdateLibrary')
+//    implementation('com.github.renyu:AndroidUpdateLibrary:2.1.8') {
+//        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
+//    }
+    implementation project(':UpdateLibrary')
     // 弹出框
     implementation 'com.github.renyu:AndroidDialogLibrary:2.1.3'
 //    implementation project(':DialogLibrary')
@@ -123,8 +123,8 @@ dependencies {
     implementation 'com.github.renyu:AndroidPermissionLibrary:2.1.3'
 //    implementation project(':PermissionLibrary')
     // 基础库
-    implementation 'com.github.renyu:AndroidCommonLibrary:3.1.9'
-//    implementation project(':CommonLibrary')
+//    implementation 'com.github.renyu:AndroidCommonLibrary:3.1.9'
+    implementation project(':CommonLibrary')
 
     // leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'

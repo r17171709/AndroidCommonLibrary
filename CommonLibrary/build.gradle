@@ -83,10 +83,10 @@ dependencies {
     api 'me.jessyan:autosize:1.1.2'
     // fresco
     api 'com.facebook.fresco:fresco:2.1.0'
-    api 'com.facebook.fresco:animated-gif:2.1.0'
-    api 'com.facebook.fresco:drawee-span:2.1.0'
+    api 'com.facebook.fresco:animated-gif:2.2.0'
+    api 'com.facebook.fresco:drawee-span:2.2.0'
     // vlayout
-    api 'com.alibaba.android:vlayout:1.2.37.2@aar'
+    api 'com.alibaba.android:vlayout:1.2.40@aar'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
     api 'com.kyleduo.switchbutton:library:2.0.0@aar'
     // SwipeDelMenuLayout  史上最简单侧滑菜单，0耦合，支持任意ViewGroup。一步集成侧滑(删除)菜单，高仿QQ、IOS。
