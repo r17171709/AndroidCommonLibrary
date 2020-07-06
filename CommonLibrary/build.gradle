@@ -82,7 +82,7 @@ dependencies {
     // AndroidAutoSize  A low-cost Android screen adaptation solution (今日头条屏幕适配方案终极版，一个极低成本的 Android 屏幕适配方案).
     api 'me.jessyan:autosize:1.1.2'
     // fresco
-    api 'com.facebook.fresco:fresco:2.1.0'
+    api 'com.facebook.fresco:fresco:2.2.0'
     api 'com.facebook.fresco:animated-gif:2.2.0'
     api 'com.facebook.fresco:drawee-span:2.2.0'
     // vlayout
