@@ -10,4 +10,10 @@
         android:layout_height="match_parent">
 
     </androidx.viewpager.widget.ViewPager>
+
+    <Button
+        android:id="@+id/btn_empty_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="delete" />
 </RelativeLayout>

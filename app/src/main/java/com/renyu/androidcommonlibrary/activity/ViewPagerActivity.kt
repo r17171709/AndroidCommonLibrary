@@ -9,6 +9,8 @@ import com.renyu.commonlibrary.views.LineIndicatorView
 
 /**
  * Created by renyu on 2017/9/15.
+ * 不错的文章：https://www.jianshu.com/p/266861496508
+ * adapter.notifyDataSetChanged起作用的关键，在于Fragment在增删改查之后要重新创建
  */
 class ViewPagerActivity : BaseActivity() {
     override fun initParams() {
