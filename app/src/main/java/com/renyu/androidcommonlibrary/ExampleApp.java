@@ -1,7 +1,9 @@
 package com.renyu.androidcommonlibrary;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
+import android.webkit.WebView;
 
 import androidx.multidex.MultiDexApplication;
 
@@ -36,6 +38,15 @@ public class ExampleApp extends MultiDexApplication {
         super.onCreate();
 
         openClassNames = new ArrayList<>();
+
+        // Android P 以及之后版本不支持同时从多个进程使用具有相同数据目录的WebView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            String processName = ProcessUtils.getCurrentProcessName();
+            if (!Utils.getApp().getPackageName().equals(processName)) {
+                //判断不等于默认进程名称
+                WebView.setDataDirectorySuffix(processName);
+            }
+        }
 
         String processName = ProcessUtils.getCurrentProcessName();
         if (processName != null && processName.equals(getPackageName())) {
