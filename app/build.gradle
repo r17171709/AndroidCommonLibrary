@@ -81,7 +81,7 @@ kapt {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation 'androidx.core:core-ktx:1.3.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -91,8 +91,8 @@ dependencies {
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     // dagger2
-    implementation 'com.google.dagger:dagger:2.28.1'
-    kapt 'com.google.dagger:dagger-compiler:2.28.1'
+    implementation 'com.google.dagger:dagger:2.28.3'
+    kapt 'com.google.dagger:dagger-compiler:2.28.3'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     implementation 'com.tencent.wcdb:wcdb-android:1.0.8'
     // AutoDispose  Automatic binding+disposal of RxJava 2 streams.
@@ -100,28 +100,28 @@ dependencies {
         exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
     }
     // 网络请求
-    implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.3'
-//    implementation project(':NetworkLibrary')
+//    implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.3'
+    implementation project(':NetworkLibrary')
     // 升级
-    implementation('com.github.renyu:AndroidUpdateLibrary:2.1.9') {
-        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
-    }
-//    implementation project(':UpdateLibrary')
+//    implementation('com.github.renyu:AndroidUpdateLibrary:2.1.9') {
+//        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
+//    }
+    implementation project(':UpdateLibrary')
     // 弹出框
-    implementation 'com.github.renyu:AndroidDialogLibrary:2.1.3'
-//    implementation project(':DialogLibrary')
+//    implementation 'com.github.renyu:AndroidDialogLibrary:2.1.3'
+    implementation project(':DialogLibrary')
     // Sheet弹出框
-    implementation 'com.github.renyu:ActionSheetLibrary:2.2.4'
-//    implementation project(':ActionSheetLibrary')
+//    implementation 'com.github.renyu:ActionSheetLibrary:2.2.4'
+    implementation project(':ActionSheetLibrary')
     // 引导框
-    implementation 'com.github.renyu:AndroidShowCaseLibrary:2.1.0'
-//    implementation project(':ShowCaseLibrary')
+//    implementation 'com.github.renyu:AndroidShowCaseLibrary:2.1.0'
+    implementation project(':ShowCaseLibrary')
     // Web浏览器
 //    implementation 'com.github.renyu:AndroidWebLibrary:2.1.11'
     implementation project(':WebLibrary')
     // 权限判断
-    implementation 'com.github.renyu:AndroidPermissionLibrary:2.1.3'
-//    implementation project(':PermissionLibrary')
+//    implementation 'com.github.renyu:AndroidPermissionLibrary:2.1.3'
+    implementation project(':PermissionLibrary')
     // 基础库
 //    implementation 'com.github.renyu:AndroidCommonLibrary:3.1.11'
     implementation project(':CommonLibrary')
