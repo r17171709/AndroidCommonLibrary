@@ -5,6 +5,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.webkit.WebView;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.multidex.MultiDexApplication;
 
 import com.blankj.utilcode.util.ProcessUtils;
@@ -28,16 +31,20 @@ import java.util.ArrayList;
  * Created by renyu on 2016/12/26.
  */
 
-public class ExampleApp extends MultiDexApplication {
+public class ExampleApp extends MultiDexApplication implements ViewModelStoreOwner {
     public AppComponent appComponent;
 
     public ArrayList<String> openClassNames;
+
+    private ViewModelStore viewModelStore;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         openClassNames = new ArrayList<>();
+
+        viewModelStore = new ViewModelStore();
 
         // Android P 以及之后版本不支持同时从多个进程使用具有相同数据目录的WebView
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -127,5 +134,11 @@ public class ExampleApp extends MultiDexApplication {
             });
             LeakCanary.install(this);
         }
+    }
+
+    @NonNull
+    @Override
+    public ViewModelStore getViewModelStore() {
+        return viewModelStore;
     }
 }
