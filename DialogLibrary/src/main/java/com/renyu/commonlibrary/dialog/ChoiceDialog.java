@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -247,6 +248,11 @@ public class ChoiceDialog extends DialogFragment {
             choice_container_negative.setText(getArguments().getString("neg"));
             choice_container_pb.setVisibility(View.VISIBLE);
         }
+        choice_container_content.post(() -> {
+            if (choice_container_content.getLineCount() > 1) {
+                choice_container_content.setGravity(Gravity.LEFT);
+            }
+        });
         return view;
     }
 
