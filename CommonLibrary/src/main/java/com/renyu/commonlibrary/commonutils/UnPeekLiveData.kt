@@ -6,7 +6,7 @@ import java.util.*
 /**
  * Created by Administrator on 2019/5/22.
  */
-class LiveDataBus<T> : LiveData<T>() {
+class UnPeekLiveData<T> : LiveData<T>() {
     private var mTask: TimerTask? = null
     private val mTimer by lazy {
         Timer()
