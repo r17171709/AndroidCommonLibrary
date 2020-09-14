@@ -103,7 +103,7 @@ dependencies {
     implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.4'
 //    implementation project(':NetworkLibrary')
     // 升级
-    implementation('com.github.renyu:AndroidUpdateLibrary:2.1.10') {
+    implementation('com.github.renyu:AndroidUpdateLibrary:2.1.11') {
         exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
     }
 //    implementation project(':UpdateLibrary')
