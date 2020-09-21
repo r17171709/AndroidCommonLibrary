@@ -120,7 +120,7 @@ dependencies {
     implementation 'com.github.renyu:AndroidWebLibrary:2.1.12'
 //    implementation project(':WebLibrary')
     // 权限判断
-    implementation 'com.github.renyu:AndroidPermissionLibrary:2.1.4'
+    implementation 'com.github.renyu:AndroidPermissionLibrary:2.1.5'
 //    implementation project(':PermissionLibrary')
     // 基础库
 //    implementation 'com.github.renyu:AndroidCommonLibrary:3.1.12'
