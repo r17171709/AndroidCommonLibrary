@@ -6,7 +6,7 @@ import com.renyu.commonlibrary.commonutils.UnPeekLiveData
 /**
  * Created by Administrator on 2020/9/1.
  */
-public class SharedViewModel : ViewModel() {
+class SharedViewModel : ViewModel() {
     val liveDataBus by lazy {
         UnPeekLiveData<Boolean>()
     }
