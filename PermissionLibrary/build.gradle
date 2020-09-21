@@ -10,7 +10,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidPermissionLibrary'
-    publishVersion = '2.1.4'
+    publishVersion = '2.1.5'
     desc = 'Permission Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'

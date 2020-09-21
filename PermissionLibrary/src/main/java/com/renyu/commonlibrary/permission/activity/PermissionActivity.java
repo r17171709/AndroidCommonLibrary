@@ -8,9 +8,11 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.renyu.commonlibrary.permission.R;
 import com.renyu.commonlibrary.permission.impl.IPermissionStatue;
 import com.renyu.commonlibrary.permission.utils.PermissionsUtils;
@@ -114,6 +116,7 @@ public class PermissionActivity extends AppCompatActivity {
     public void openPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(PermissionActivity.this);
         builder.setTitle("提示")
+                .setCancelable(false)
                 .setMessage(deniedDesp)
                 .setPositiveButton("确定", (dialog, which) -> {
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -131,6 +134,7 @@ public class PermissionActivity extends AppCompatActivity {
                         finish();
                         overridePendingTransition(0, 0);
                     }
-                }).show();
+                }).create();
+        builder.show();
     }
 }
