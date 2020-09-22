@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -50,6 +52,8 @@ public abstract class X5WebActivity extends AppCompatActivity {
     public abstract void onPageFinished(String url);
 
     public abstract boolean shouldOverrideUrlLoading(WebView view, String url);
+
+    public abstract boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams);
 
     public WebView webView;
 
@@ -104,6 +108,11 @@ public abstract class X5WebActivity extends AppCompatActivity {
                 } else {
                     return super.getDefaultVideoPoster();
                 }
+            }
+
+            @Override
+            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+                return X5WebActivity.this.onShowFileChooser(webView, filePathCallback, fileChooserParams);
             }
         });
         webView.removeJavascriptInterface("searchBoxJavaBridge_");

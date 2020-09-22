@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity {
 //        intent.putExtra("url", "http://house.3dnest.cn/house365/index.html?city=nj&house_type=sell&house_id=211246849");
 //        intent.putExtra("url", "https://mtt.house365.com/H5/test/vrapp.php?addtionaltype=1");
 //        intent.putExtra("url", "file:///android_asset/new_file.html");
+//        intent.putExtra("url", "http://app.wokeshop.com/chatlink.html");
         int value = new Random().nextInt(10);
         if (value % 2 == 0) {
             intent.putExtra("url", urls[0]);
