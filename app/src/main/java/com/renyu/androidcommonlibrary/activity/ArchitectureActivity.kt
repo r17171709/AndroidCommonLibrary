@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.EncryptUtils
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.bean.AccessTokenRequest
@@ -66,9 +66,9 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
             it.tokenResponse = AccessTokenResponse("", 0)
             it.demo = demo
 
-            vm = ViewModelProviders.of(this, ArchitectureViewModelFactory(it))
+            vm = ViewModelProvider(this, ArchitectureViewModelFactory(it))
                 .get(ArchitectureViewModel::class.java)
-            vm?.tokenResponse?.observe(this, object : BaseObserver2<AccessTokenResponse>() {
+            vm?.tokenResponse?.observe(this, object : BaseObserver2<AccessTokenResponse>(this) {
                 override fun onError(tResource: Resource<AccessTokenResponse>?) {
 
                 }

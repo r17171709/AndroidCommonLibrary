@@ -7,10 +7,8 @@ import com.renyu.androidcommonlibrary.api.RetrofitImpl
 import com.renyu.androidcommonlibrary.bean.AccessTokenRequest
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
 import com.renyu.commonlibrary.network.Retrofit2Utils
-import com.renyu.commonlibrary.network.impl.IRetryCondition
 import com.renyu.commonlibrary.network.other.NetworkException
 import com.renyu.commonlibrary.network.other.Resource
-import com.renyu.commonlibrary.network.other.RetryFunction
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
@@ -47,44 +45,47 @@ class Repos {
         (Utils.getApp() as ExampleApp).appComponent.plusRepos().inject(this)
     }
 
-    fun getTokenResponse(input: AccessTokenRequest, cancelTag: String): MutableLiveData<Resource<AccessTokenResponse>> {
+    fun getTokenResponse(
+        input: AccessTokenRequest,
+        cancelTag: String
+    ): MutableLiveData<Resource<AccessTokenResponse>> {
         val tokenResponse = MutableLiveData<Resource<AccessTokenResponse>>()
-        val disposable = retrofitImpl!!.getAccessToken(
-            input.city,
-            input.timestamp,
-            input.app_id,
-            input.rand_str,
-            input.signature,
-            input.device_id,
-            "v1.0",
-            0,
-            1,
-            6000
-        )
+        val disposable = retrofitImpl!!.accessToken
             .compose(Retrofit2Utils.background<AccessTokenResponse>())
-            .retryWhen(
-                RetryFunction(3, 3,
-                    object : IRetryCondition {
-                        override fun canRetry(throwable: Throwable?): Boolean {
-                            return throwable is NetworkException && throwable.result == 1
-                        }
-
-                        override fun doBeforeRetry() {
-                            Thread.sleep(2000)
-                        }
-                    })
-            )
+//            .retryWhen(
+//                RetryFunction(3, 3,
+//                    object : IRetryCondition {
+//                        override fun canRetry(throwable: Throwable?): Boolean {
+//                            return throwable is NetworkException && throwable.result == 1
+//                        }
+//
+//                        override fun doBeforeRetry() {
+//                            Thread.sleep(2000)
+//                        }
+//                    })
+//            )
             .compose(Retrofit2Utils.withSchedulers())
             .subscribe({
-                tokenResponse.value = Resource.sucess(it)
+                tokenResponse.postValue(Resource.sucess(it))
             }, { error ->
-                tokenResponse.value = Resource.error(error as NetworkException)
+                fixNetworkError(tokenResponse, error)
             }, {
 
             }, {
-                tokenResponse.value = Resource.loading(it)
+                tokenResponse.postValue(Resource.loading(it))
             })
         disposoables[cancelTag] = disposable
         return tokenResponse
+    }
+
+    private fun <T : Any> fixNetworkError(response: MutableLiveData<Resource<T>>, t: Throwable?) {
+        if (t != null && t is NetworkException) {
+            response.postValue(Resource.error(t))
+        } else {
+            val exception = NetworkException()
+            exception.result = -1
+            exception.setMessage("未知错误")
+            response.postValue(Resource.error(exception))
+        }
     }
 }
