@@ -1,10 +1,12 @@
 package com.renyu.androidcommonlibrary.activity
 
 import android.graphics.Color
+import android.os.Bundle
 import android.os.Handler
 import com.renyu.androidcommonlibrary.R
-import com.renyu.androidcommonlibrary.fragment.EmptyFragment
+import com.renyu.androidcommonlibrary.fragment.ColorFragment
 import com.renyu.commonlibrary.baseact.BaseActivity
+import com.renyu.commonlibrary.commonutils.BarUtils
 import com.renyu.commonlibrary.views.LineIndicatorView
 
 /**
@@ -17,7 +19,7 @@ class ViewPagerActivity : BaseActivity() {
         findViewById<LineIndicatorView>(R.id.indicator_vp).setIndicatorNums(2)
         findViewById<LineIndicatorView>(R.id.indicator_vp).setCurrentPosition(0)
 
-        supportFragmentManager.beginTransaction().replace(R.id.layout_vp, EmptyFragment(), "tag")
+        supportFragmentManager.beginTransaction().replace(R.id.layout_vp, ColorFragment(), "tag")
             .commitAllowingStateLoss()
 
         Handler().postDelayed({
@@ -34,10 +36,15 @@ class ViewPagerActivity : BaseActivity() {
     }
 
     override fun setStatusBarColor(): Int {
-        return Color.BLACK
+        return Color.BLUE
     }
 
     override fun setStatusBarTranslucent(): Int {
         return 0
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        BarUtils.setDark(this)
+        super.onCreate(savedInstanceState)
     }
 }

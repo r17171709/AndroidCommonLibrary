@@ -23,37 +23,37 @@ public class BarUtils {
      */
     public static void setColor(Activity activity, int color) {
         //设置contentview为fitsSystemWindows
-        ViewGroup viewGroup= (ViewGroup) activity.findViewById(android.R.id.content);
-        if (viewGroup.getChildAt(0)!=null) {
+        ViewGroup viewGroup = (ViewGroup) activity.findViewById(android.R.id.content);
+        if (viewGroup.getChildAt(0) != null) {
             viewGroup.getChildAt(0).setFitsSystemWindows(true);
         }
-        Window window=activity.getWindow();
-        WindowManager.LayoutParams params=window.getAttributes();
-        if (Build.VERSION.SDK_INT==Build.VERSION_CODES.KITKAT) {
+        Window window = activity.getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
             //将状态栏设置成全透明
-            int bits=WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            if ((params.flags & bits)==0) {
+            int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            if ((params.flags & bits) == 0) {
                 params.flags |= bits;
                 //如果是取消全透明，params.flags &= ~bits;
                 window.setAttributes(params);
             }
 
             //给statusbar着色
-            View view=new View(activity);
+            View view = new View(activity);
             view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, com.blankj.utilcode.util.BarUtils.getStatusBarHeight()));
             view.setBackgroundColor(calculateStatusColor(color, 0));
             viewGroup.addView(view);
 
             return;
         }
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //取消设置透明状态栏,使 ContentView 内容不再覆盖状态栏
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             //设置状态栏颜色
             window.setStatusBarColor(calculateStatusColor(color, 0));
-            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 // 去掉系统状态栏下的windowContentOverlay
                 View v = window.findViewById(android.R.id.content);
                 if (v != null) {
@@ -67,17 +67,16 @@ public class BarUtils {
      * 状态栏全透明沉浸式
      */
     public static void setTranslucent(Activity activity) {
-        Window window=activity.getWindow();
-        WindowManager.LayoutParams params=window.getAttributes();
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+        Window window = activity.getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.getDecorView().setSystemUiVisibility(window.getDecorView().getSystemUiVisibility() |
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             window.setStatusBarColor(Color.TRANSPARENT);
-        }
-        else if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //将状态栏设置成全透明
-            int bits=WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            if ((params.flags & bits)==0) {
+            int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            if ((params.flags & bits) == 0) {
                 params.flags |= bits;
                 //如果是取消全透明，params.flags &= ~bits;
                 window.setAttributes(params);
@@ -87,6 +86,7 @@ public class BarUtils {
 
     /**
      * 计算状态栏颜色
+     *
      * @param color color值
      * @param alpha alpha值
      * @return 最终的状态栏颜色
@@ -104,9 +104,9 @@ public class BarUtils {
     }
 
     public static void adjustStatusBar(Activity activity, ViewGroup contentLayout, int color) {
-        View view=new View(activity);
+        View view = new View(activity);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, com.blankj.utilcode.util.BarUtils.getStatusBarHeight()));
-        if (color!=-1) {
+        if (color != -1) {
             view.setBackgroundColor(calculateStatusColor(color, 0));
         }
         contentLayout.addView(view, 0);
@@ -114,6 +114,7 @@ public class BarUtils {
 
     /**
      * 获取底部导航栏高度
+     *
      * @return
      */
     public static int getNavBarHeight() {
@@ -149,39 +150,51 @@ public class BarUtils {
     }
 
     public static void setDark(Activity activity) {
-        String brand= Build.BRAND;
-        if (brand.indexOf("Xiaomi")!=-1) {
+        String brand = Build.BRAND;
+        if (brand.indexOf("Xiaomi") != -1) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                setMstatusBarDarkMode(activity);
+                setMstatusBarDarkMode(activity, true);
+            } else {
+                setMIStatusBarDarkMode(activity, true);
             }
-            else {
-                setMIStatusBarDarkMode(true, activity);
-            }
-        }
-        else if (brand.indexOf("Meizu")!=-1) {
-            FlymeStatusbarColorUtils.setStatusBarDarkIcon(activity, true);
-        }
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setMstatusBarDarkMode(activity);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setMstatusBarDarkMode(activity, true);
         }
     }
 
-    private static void setMstatusBarDarkMode(Activity activity) {
+    public static void setWhite(Activity activity) {
+        String brand = Build.BRAND;
+        if (brand.indexOf("Xiaomi") != -1) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                setMstatusBarDarkMode(activity, false);
+            } else {
+                setMIStatusBarDarkMode(activity, false);
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setMstatusBarDarkMode(activity, false);
+        }
+    }
+
+    private static void setMstatusBarDarkMode(Activity activity, boolean isDark) {
         View decor = activity.getWindow().getDecorView();
         int ui = decor.getSystemUiVisibility();
-        // 设置浅色状态栏时的界面显示
-        ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-        // 设置深色状态栏时的界面显示
-//            ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        if (isDark) {
+            // 设置浅色状态栏时的界面显示
+            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        } else {
+            // 设置深色状态栏时的界面显示
+            ui &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        }
         decor.setSystemUiVisibility(ui);
     }
 
     /**
      * 小米修改状态栏字体颜色
+     *
      * @param darkmode
      * @param activity
      */
-    private static void setMIStatusBarDarkMode(boolean darkmode, Activity activity) {
+    private static void setMIStatusBarDarkMode(Activity activity, boolean darkmode) {
         Class<? extends Window> clazz = activity.getWindow().getClass();
         try {
             int darkModeFlag = 0;
