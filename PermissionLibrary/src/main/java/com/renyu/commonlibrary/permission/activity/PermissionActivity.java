@@ -22,6 +22,8 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2018/5/26.
+ *
+ * https://www.jianshu.com/p/e94cea26e213
  */
 public class PermissionActivity extends AppCompatActivity {
     // 权限接口相关

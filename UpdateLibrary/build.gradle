@@ -15,11 +15,11 @@ publish {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -54,6 +54,6 @@ dependencies {
 
     // 工具类
     implementation 'com.blankj:utilcode:1.29.0'
-//    implementation project(':NetworkLibrary')
-    implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.4'
+    implementation project(':NetworkLibrary')
+//    implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.4'
 }
