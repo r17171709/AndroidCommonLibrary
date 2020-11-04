@@ -17,6 +17,7 @@ import com.renyu.androidcommonlibrary.di.component.AppComponent;
 import com.renyu.androidcommonlibrary.di.component.DaggerAppComponent;
 import com.renyu.androidcommonlibrary.di.module.ApiModule;
 import com.renyu.androidcommonlibrary.di.module.AppModule;
+import com.renyu.androidcommonlibrary.utils.TestManager;
 import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
@@ -134,6 +135,9 @@ public class ExampleApp extends MultiDexApplication implements ViewModelStoreOwn
             });
             LeakCanary.install(this);
         }
+
+        // 测试epic
+        TestManager.getInstance().initAllSuites();
     }
 
     @NonNull
