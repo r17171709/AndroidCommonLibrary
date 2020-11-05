@@ -22,7 +22,6 @@ import com.renyu.commonlibrary.commonutils.ImagePipelineConfigUtils;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.params.InitParams;
 import com.renyu.commonlibrary.web.util.PreloadWebView;
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mmkv.MMKV;
 
 import java.io.File;
@@ -133,7 +132,6 @@ public class ExampleApp extends MultiDexApplication implements ViewModelStoreOwn
 
                 }
             });
-            LeakCanary.install(this);
         }
 
         // 测试epic
