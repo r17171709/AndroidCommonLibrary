@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.EncryptUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.bean.AccessTokenRequest
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
@@ -16,6 +18,7 @@ import com.renyu.androidcommonlibrary.impl.EventImpl
 import com.renyu.androidcommonlibrary.utils.BaseObserver2
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModel
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModelFactory
+import com.renyu.androidcommonlibrary.viewmodel.SavedStateViewModel
 import com.renyu.commonlibrary.baseact.BaseDataBindingActivity
 import com.renyu.commonlibrary.commonutils.Utils
 import com.renyu.commonlibrary.network.other.Resource
@@ -39,6 +42,14 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
     override fun setStatusBarTranslucent() = 0
 
     private var vm: ArchitectureViewModel? = null
+    private val dataVM by lazy {
+        ViewModelProvider(
+            this,
+            SavedStateViewModelFactory(application, this@ArchitectureActivity)
+        ).get(
+            SavedStateViewModel::class.java
+        )
+    }
 
     val demo: Demo by lazy {
         Demo(ObservableField(""), ObservableInt(0))
@@ -81,10 +92,20 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
                     }
                 }
             })
+
+            dataVM.liveId.observe(this,
+                { t -> ToastUtils.showShort(t) })
         }
     }
 
     override fun click(view: View, request: AccessTokenRequest) {
         vm?.sendRequest(request)
     }
+
+    override fun clickSaveData(view: View) {
+        // 当与key相对应的value改变时，MutableLiveData也会更新
+        dataVM.updateLIVE(dataVM.getCurrentUser())
+        dataVM.saveCurrentUser("ABC")
+    }
+
 }

@@ -8,4 +8,5 @@ import com.renyu.androidcommonlibrary.bean.AccessTokenRequest
  */
 interface EventImpl {
     fun click(view: View, request: AccessTokenRequest)
+    fun clickSaveData(view: View)
 }
