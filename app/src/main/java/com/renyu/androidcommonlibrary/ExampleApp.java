@@ -3,9 +3,14 @@ package com.renyu.androidcommonlibrary;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.multidex.MultiDexApplication;
@@ -134,6 +139,8 @@ public class ExampleApp extends MultiDexApplication implements ViewModelStoreOwn
             });
         }
 
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(new ApplicationLifeCycleObserver());
+
         // 测试epic
         TestManager.getInstance().initAllSuites();
     }
@@ -142,5 +149,23 @@ public class ExampleApp extends MultiDexApplication implements ViewModelStoreOwn
     @Override
     public ViewModelStore getViewModelStore() {
         return viewModelStore;
+    }
+
+    /**
+     * Application生命周期观察，提供整个应用进程的生命周期
+     * Lifecycle.Event.ON_CREATE只会分发一次，Lifecycle.Event.ON_DESTROY不会被分发。
+     * 第一个Activity进入时，ProcessLifecycleOwner将分派Lifecycle.Event.ON_START, Lifecycle.Event.ON_RESUME。
+     * 而Lifecycle.Event.ON_PAUSE, Lifecycle.Event.ON_STOP，将在最后一个Activit退出后后延迟分发。如果由于配置更改而销毁并重新创建活动，则此延迟足以保证ProcessLifecycleOwner不会发送任何事件。
+     */
+    private static class ApplicationLifeCycleObserver implements LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_START)
+        private void onAppForeground() {
+            Log.w("TAGTAGTAG", "ApplicationObserver: app moved to foreground");
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+        private void onAppBackground() {
+            Log.w("TAGTAGTAG", "ApplicationObserver: app moved to background");
+        }
     }
 }

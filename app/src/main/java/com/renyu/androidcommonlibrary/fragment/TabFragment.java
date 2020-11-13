@@ -1,22 +1,21 @@
 package com.renyu.androidcommonlibrary.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.widget.LinearLayout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.renyu.androidcommonlibrary.R;
-import com.renyu.commonlibrary.basefrag.BaseFragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-import java.lang.ref.WeakReference;
+import com.renyu.androidcommonlibrary.databinding.FragmentTabBinding;
 
 /**
  * Created by Administrator on 2018/4/10.
  */
-public class TabFragment extends BaseFragment {
-
-    LinearLayout layout_tab;
+public class TabFragment extends Fragment {
+    private FragmentTabBinding viewBinding;
 
     public static TabFragment getInstance(int color) {
         TabFragment tabFragment = new TabFragment();
@@ -26,21 +25,23 @@ public class TabFragment extends BaseFragment {
         return tabFragment;
     }
 
+    @Nullable
     @Override
-    public void initParams() {
-        layout_tab = view.findViewById(R.id.layout_tab);
-        layout_tab.setBackgroundColor(getArguments().getInt("color"));
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        viewBinding = FragmentTabBinding.inflate(inflater, container, false);
+        return viewBinding.getRoot();
     }
 
     @Override
-    public int initViews() {
-        return R.layout.fragment_tab;
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        viewBinding.layoutTab.setBackgroundColor(getArguments().getInt("color"));
     }
 
     @Override
-    public void loadData() {
-
+    public void onDestroyView() {
+        super.onDestroyView();
+        // 在Fragment中使用View Binding需要多加注意，如果使用不当它会引发内存泄漏，如果你没有在onDestroy中将view置空，那么它就不会从内存中清除
+        viewBinding = null;
     }
-
-
 }
