@@ -21,7 +21,7 @@ class Repos {
     var retrofitImpl: RetrofitImpl? = null
 
     // 全部网络连接
-    val disposoables: HashMap<String, Disposable> by lazy {
+    private val disposoables: HashMap<String, Disposable> by lazy {
         HashMap<String, Disposable>()
     }
 
@@ -50,7 +50,7 @@ class Repos {
         cancelTag: String
     ): MutableLiveData<Resource<AccessTokenResponse>> {
         val tokenResponse = MutableLiveData<Resource<AccessTokenResponse>>()
-        val disposable = retrofitImpl!!.accessToken
+        val disposable = retrofitImpl!!.getAccessToken()
             .compose(Retrofit2Utils.background<AccessTokenResponse>())
 //            .retryWhen(
 //                RetryFunction(3, 3,

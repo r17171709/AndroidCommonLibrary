@@ -16,12 +16,14 @@ import com.renyu.androidcommonlibrary.bean.Demo
 import com.renyu.androidcommonlibrary.databinding.ActivityArchitectureBinding
 import com.renyu.androidcommonlibrary.impl.EventImpl
 import com.renyu.androidcommonlibrary.utils.BaseObserver2
+import com.renyu.androidcommonlibrary.utils.BaseObserver3
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModel
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModelFactory
 import com.renyu.androidcommonlibrary.viewmodel.SavedStateViewModel
 import com.renyu.commonlibrary.baseact.BaseDataBindingActivity
 import com.renyu.commonlibrary.commonutils.Utils
 import com.renyu.commonlibrary.network.other.Resource
+import com.renyu.commonlibrary.network.other.ResourceCoroutine
 
 /**
  * Created by Administrator on 2018/7/7.
@@ -99,7 +101,22 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
     }
 
     override fun click(view: View, request: AccessTokenRequest) {
-        vm?.sendRequest(request)
+//        vm?.sendRequest(request)
+
+        vm?.getAccessToken2()
+            ?.observe(this, object : BaseObserver3<AccessTokenResponse>(this) {
+                override fun onError(tResource: ResourceCoroutine<AccessTokenResponse>?) {
+
+                }
+
+                override fun onSucess(tResource: ResourceCoroutine<AccessTokenResponse>?) {
+                    if (tResource?.data != null) {
+                        vm?.refreshUI(tResource.data!!)
+                        demo.access_token.set(tResource.data!!.access_token)
+                        demo.expires_in.set(tResource.data!!.expires_in)
+                    }
+                }
+            })
     }
 
     override fun clickSaveData(view: View) {

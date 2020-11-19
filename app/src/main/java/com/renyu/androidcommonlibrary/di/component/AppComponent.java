@@ -15,4 +15,6 @@ public interface AppComponent {
     ActivityComponent plusAct();
 
     ReposComponent plusRepos();
+
+    CoroutineReposComponent plusCoroutineRepos();
 }
