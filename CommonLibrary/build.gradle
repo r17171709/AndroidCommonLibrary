@@ -108,8 +108,6 @@ dependencies {
     api 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
     // CircleIndicator  A lightweight viewpager indicator like in nexus 5 launcher
     api 'me.relex:circleindicator:2.1.4@aar'
-    // SwipyRefreshLayout  A SwipeRefreshLayout extension that allows to swipe in both direction
-    api 'com.github.orangegangsters:swipy:1.2.3@aar'
     // DiscreteScrollView  Scrollable list of items, where current item is centered and can be changed using swipes
     api 'com.yarolegovich:discrete-scrollview:1.5.1@aar'
     // MarqueeViewLibrary  一个帮您快速实现跑马灯效果的library
@@ -118,4 +116,8 @@ dependencies {
     api 'me.codeboy.android:align-text-view:2.3.2'
     // android-autofittextview  A TextView that automatically resizes text to fit perfectly within its bounds.
     api 'me.grantland:autofittextview:0.2.1'
+    // SmartRefreshLayout  下拉刷新、上拉加载、二级刷新、淘宝二楼、RefreshLayout、OverScroll，Android智能下拉刷新框架，支持越界回弹、越界拖动，具有极强的扩展性，集成了几十种炫酷的Header和 Footer。
+    api 'com.scwang.smart:refresh-layout-kernel:2.0.1'
+    api 'com.scwang.smart:refresh-header-material:2.0.1'
+    api 'com.scwang.smart:refresh-footer-ball:2.0.1'
 }

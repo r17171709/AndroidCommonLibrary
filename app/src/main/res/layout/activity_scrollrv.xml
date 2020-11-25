@@ -5,7 +5,7 @@
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
-    <com.renyu.commonlibrary.views.InsideSwipyRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.renyu.androidcommonlibrary.view.InsideSwipyRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/swipy_scrollrv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -113,5 +113,5 @@
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </com.renyu.commonlibrary.views.InsideSwipyRefreshLayout>
+    </com.renyu.androidcommonlibrary.view.InsideSwipyRefreshLayout>
 </RelativeLayout>

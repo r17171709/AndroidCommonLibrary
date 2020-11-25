@@ -1,4 +1,4 @@
-package com.renyu.commonlibrary.views;
+package com.renyu.androidcommonlibrary.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

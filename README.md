@@ -11,7 +11,7 @@
 * 支持权限判断
 * 集成腾讯xlog日志记录框架
 * 集成MMKV——基于 mmap 的高性能通用 key-value 组件
-* 使用SwipyRefreshLayout完成下拉上拉加载
+* 使用SmartRefreshLayout完成下拉上拉加载
 * 集成侧滑删除RecyclerView子项控件
 
 ![SwipeDelMenuLayout](https://github.com/mcxtzhang/SwipeDelMenuLayout/raw/master/gif/ItemDecorationIndexBar_SwipeDel.gif)

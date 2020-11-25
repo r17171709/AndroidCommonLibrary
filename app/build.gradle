@@ -99,6 +99,8 @@ dependencies {
     // 添加支持multidex的兼容包
     implementation 'androidx.multidex:multidex:2.0.1'
 
+    // SwipyRefreshLayout  A SwipeRefreshLayout extension that allows to swipe in both direction
+    api 'com.github.orangegangsters:swipy:1.2.3@aar'
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     // dagger2
@@ -138,7 +140,7 @@ dependencies {
     implementation project(':CommonLibrary')
 
     // leakcanary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 
     implementation 'me.weishu:epic:0.8.0-c'
 }
