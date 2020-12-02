@@ -13,13 +13,13 @@ object LiveDataBus {
         return if (liveData != null) {
             liveData as StickLiveData<T>
         } else {
-            liveData = StickLiveData<T>(eventName)
+            liveData = StickLiveData<T>()
             eventMap[eventName] = liveData
             liveData
         }
     }
 
-    class StickLiveData<T>(private val eventName: String) : LiveData<T>() {
+    class StickLiveData<T>() : LiveData<T>() {
         // 事件发送版本号
         var mVersion = 0
 
@@ -55,14 +55,10 @@ object LiveDataBus {
 
         fun observeStick(owner: LifecycleOwner, observer: Observer<in T>, stick: Boolean = true) {
             super.observe(owner, StickWarpObserver(this@StickLiveData, observer, stick))
-            eventMap[eventName] = this
-            owner.lifecycle.addObserver(object : LifecycleEventObserver {
-                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                    if (event == Lifecycle.Event.ON_DESTROY) {
-                        // 移除ON_DESTROY下的livedata
-                    }
-                }
-            })
+        }
+
+        override fun observeForever(observer: Observer<in T>) {
+            throw Exception("Do not use observeForever for communication between pages to avoid lifecycle security issues")
         }
     }
 
@@ -82,6 +78,5 @@ object LiveDataBus {
             }
             observer.onChanged(t)
         }
-
     }
 }
