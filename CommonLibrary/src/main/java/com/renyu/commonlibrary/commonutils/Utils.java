@@ -1,6 +1,5 @@
 package com.renyu.commonlibrary.commonutils;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,15 +8,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.ScreenUtils;
 import com.google.android.material.tabs.TabLayout;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Field;
 
 /**
@@ -25,36 +21,6 @@ import java.lang.reflect.Field;
  */
 
 public class Utils {
-
-    /**
-     * 获取进程号对应的进程名
-     *
-     * @param pid 进程号
-     * @return 进程名
-     */
-    public static String getProcessName(int pid) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
-            String processName = reader.readLine();
-            if (!TextUtils.isEmpty(processName)) {
-                processName = processName.trim();
-            }
-            return processName;
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        }
-        return null;
-    }
-
     /**
      * 获得独一无二的Psuedo ID
      *
@@ -114,8 +80,8 @@ public class Utils {
                 e.printStackTrace();
             }
 
-            int left = (int) (getDisplayMetrics(context).density * leftDip);
-            int right = (int) (getDisplayMetrics(context).density * rightDip);
+            int left = (int) (ScreenUtils.getScreenDensity() * leftDip);
+            int right = (int) (ScreenUtils.getScreenDensity() * rightDip);
 
             if (ll_tab != null) {
                 for (int i = 0; i < ll_tab.getChildCount(); i++) {
@@ -129,12 +95,6 @@ public class Utils {
                 }
             }
         }
-    }
-
-    public static DisplayMetrics getDisplayMetrics(Context context) {
-        DisplayMetrics metric = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(metric);
-        return metric;
     }
 
     /**

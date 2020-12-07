@@ -5,8 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
-import androidx.lifecycle.SavedStateViewModelFactory
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.blankj.utilcode.util.EncryptUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.renyu.androidcommonlibrary.R
@@ -79,24 +78,27 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
             it.tokenResponse = AccessTokenResponse("", 0)
             it.demo = demo
 
-            vm = ViewModelProvider(this, ArchitectureViewModelFactory(it))
-                .get(ArchitectureViewModel::class.java)
-            vm?.tokenResponse?.observe(this, object : BaseObserver2<AccessTokenResponse>(this) {
-                override fun onError(tResource: Resource<AccessTokenResponse>?) {
+            vm = getSelfViewModel<ArchitectureViewModel> {
+                tokenResponse?.observe(
+                    this@ArchitectureActivity,
+                    object : BaseObserver2<AccessTokenResponse>(this@ArchitectureActivity) {
+                        override fun onError(tResource: Resource<AccessTokenResponse>?) {
 
-                }
+                        }
 
-                override fun onSucess(tResource: Resource<AccessTokenResponse>?) {
-                    if (tResource?.data != null) {
-                        vm?.refreshUI(tResource.data!!)
-                        demo.access_token.set(tResource.data!!.access_token)
-                        demo.expires_in.set(tResource.data!!.expires_in)
-                    }
-                }
-            })
+                        override fun onSucess(tResource: Resource<AccessTokenResponse>?) {
+                            if (tResource?.data != null) {
+                                vm?.refreshUI(tResource.data!!)
+                                demo.access_token.set(tResource.data!!.access_token)
+                                demo.expires_in.set(tResource.data!!.expires_in)
+                            }
+                        }
+                    })
+            }
 
             dataVM.liveId.observe(this,
                 { t -> ToastUtils.showShort(t) })
+
         }
     }
 
@@ -119,10 +121,23 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
             })
     }
 
+    private inline fun <reified T : ViewModel> ViewModelStoreOwner.getSelfViewModel(configLiveData: T.() -> Unit): T {
+        return getViewModel(this, ArchitectureViewModelFactory(viewDataBinding), configLiveData)
+    }
+
+    private inline fun <reified T : ViewModel> getViewModel(
+        owner: ViewModelStoreOwner,
+        factory: ViewModelProvider.NewInstanceFactory,
+        configLiveData: T.() -> Unit
+    ): T {
+        return ViewModelProvider(owner, factory).get(T::class.java).apply {
+            configLiveData()
+        }
+    }
+
     override fun clickSaveData(view: View) {
         // 当与key相对应的value改变时，MutableLiveData也会更新
         dataVM.updateLIVE(dataVM.getCurrentUser())
         dataVM.saveCurrentUser("ABC")
     }
-
 }
