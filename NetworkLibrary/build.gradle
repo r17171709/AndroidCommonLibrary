@@ -11,7 +11,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidNetworkLibrary'
-    publishVersion = '2.1.4'
+    publishVersion = '2.2.0'
     desc = 'Network Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
