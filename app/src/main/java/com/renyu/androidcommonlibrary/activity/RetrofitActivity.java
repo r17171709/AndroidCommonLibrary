@@ -1,24 +1,21 @@
 package com.renyu.androidcommonlibrary.activity;
 
 import android.os.Bundle;
-import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.api.RetrofitImpl;
 import com.renyu.androidcommonlibrary.bean.DataListResponse;
 import com.renyu.commonlibrary.network.Retrofit2Utils;
 import com.renyu.commonlibrary.network.other.AllInfoListResponse;
-import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 
 import javax.inject.Inject;
-import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class RetrofitActivity extends AppCompatActivity {
     @Inject
@@ -82,7 +79,6 @@ public class RetrofitActivity extends AppCompatActivity {
         retrofitImpl.getDataList()
                 .compose(Retrofit2Utils.backgroundListWithAllInfo())
                 .compose(Retrofit2Utils.withSchedulers())
-                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
                 .subscribe(new Observer<AllInfoListResponse<DataListResponse>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -92,31 +88,6 @@ public class RetrofitActivity extends AppCompatActivity {
                     @Override
                     public void onNext(AllInfoListResponse<DataListResponse> dataListResponseAllInfoListResponse) {
                         ToastUtils.showShort(dataListResponseAllInfoListResponse.getMessage());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-        Observable.interval(1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-                .subscribe(new Observer<Long>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(Long aLong) {
-                        Log.d("DEMO", aLong.toString());
                     }
 
                     @Override

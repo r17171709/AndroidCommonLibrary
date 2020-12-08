@@ -111,10 +111,6 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.29.1'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     implementation 'com.tencent.wcdb:wcdb-android:1.0.8'
-    // AutoDispose  Automatic binding+disposal of RxJava 2 streams.
-    implementation('com.uber.autodispose:autodispose-android-archcomponents:1.4.0') {
-        exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
-    }
     // 网络请求
 //    implementation 'com.github.renyu:AndroidNetworkLibrary:2.1.4'
     implementation project(':NetworkLibrary')
