@@ -13,6 +13,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/choice_origin_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -56,6 +57,15 @@
                 android:paddingLeft="24dp"
                 android:paddingRight="23dp"
                 android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/choice_container_innerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
         </LinearLayout>
 
         <LinearLayout

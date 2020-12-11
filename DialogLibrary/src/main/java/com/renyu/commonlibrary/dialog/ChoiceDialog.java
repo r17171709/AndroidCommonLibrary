@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -42,12 +43,16 @@ public class ChoiceDialog extends DialogFragment {
     private Button choice_container_positive;
     private Button choice_container_negative;
     private ProgressBar choice_container_pb;
+    private LinearLayout choice_origin_view;
+    private LinearLayout choice_container_innerview;
     private View choice_container_line;
 
     private boolean isDismiss = true;
     private FragmentManager manager = null;
     // 是否由手动触发关闭产生
     private boolean isHandlerDismiss = false;
+
+    private View customerView;
 
     public interface OnDialogDismiss {
         void onDismiss();
@@ -78,7 +83,7 @@ public class ChoiceDialog extends DialogFragment {
     }
 
     /**
-     * 選擇弹出框
+     * 选择弹出框
      *
      * @param content
      * @param pos
@@ -151,12 +156,29 @@ public class ChoiceDialog extends DialogFragment {
         return dialog;
     }
 
+    /**
+     * 进度条框
+     *
+     * @param pos
+     * @param neg
+     * @return
+     */
+    public static ChoiceDialog getInstanceByCustomerView(String pos, String neg) {
+        ChoiceDialog dialog = new ChoiceDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", 13);
+        bundle.putString("pos", pos);
+        bundle.putString("neg", neg);
+        dialog.setArguments(bundle);
+        return dialog;
+    }
+
     // 不需要再getActivity()了
     public Context context;
 
     @TargetApi(23)
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
         onAttachToContext(context);
@@ -164,7 +186,7 @@ public class ChoiceDialog extends DialogFragment {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(@NonNull Activity activity) {
         super.onAttach(activity);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             onAttachToContext(activity);
@@ -216,6 +238,8 @@ public class ChoiceDialog extends DialogFragment {
             dismissDialog();
         });
         choice_container_pb = view.findViewById(R.id.choice_container_pb);
+        choice_origin_view = view.findViewById(R.id.choice_origin_view);
+        choice_container_innerview = view.findViewById(R.id.choice_container_innerview);
         choice_container_line = view.findViewById(R.id.choice_container_line);
         // 设置选择对话框
         if (getArguments().getInt("type") == 4) {
@@ -248,6 +272,17 @@ public class ChoiceDialog extends DialogFragment {
             choice_container_negative.setText(getArguments().getString("neg"));
             choice_container_pb.setVisibility(View.VISIBLE);
         }
+        // 设置添加自定义View的选择对话框
+        else if (getArguments().getInt("type") == 13) {
+            choice_container_positive.setText(getArguments().getString("pos"));
+            choice_container_negative.setText(getArguments().getString("neg"));
+            choice_origin_view.setVisibility(View.GONE);
+            choice_container_innerview.setVisibility(View.VISIBLE);
+            choice_container_innerview.removeAllViews();
+            if (customerView != null) {
+                choice_container_innerview.addView(customerView);
+            }
+        }
         choice_container_content.post(() -> {
             if (choice_container_content.getLineCount() > 1) {
                 choice_container_content.setGravity(Gravity.LEFT);
@@ -263,6 +298,10 @@ public class ChoiceDialog extends DialogFragment {
      */
     public void setPb(int num) {
         choice_container_pb.setProgress(num);
+    }
+
+    public void setCustomerView(View customerView) {
+        this.customerView = customerView;
     }
 
     @Override
