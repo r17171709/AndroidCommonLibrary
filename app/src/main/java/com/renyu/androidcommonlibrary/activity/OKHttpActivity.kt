@@ -23,7 +23,11 @@ import com.renyu.commonlibrary.update.views.AppUpdateDialogFragment
  * Created by Administrator on 2017/12/7.
  */
 class OKHttpActivity : BaseActivity() {
-    private val httpHelper = OKHttpHelper.getInstance()
+    private val httpHelper: OKHttpHelper by inflate()
+
+    private fun inflate() = lazy {
+        OKHttpHelper.getInstance()
+    }
 
     override fun initParams() {
 
