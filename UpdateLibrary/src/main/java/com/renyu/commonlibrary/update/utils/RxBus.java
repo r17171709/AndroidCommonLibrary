@@ -1,8 +1,8 @@
 package com.renyu.commonlibrary.update.utils;
 
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+import io.reactivex.rxjava3.subjects.Subject;
 
 /**
  * Created by Administrator on 2018/7/24.

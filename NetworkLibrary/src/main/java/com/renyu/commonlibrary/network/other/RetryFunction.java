@@ -1,11 +1,12 @@
 package com.renyu.commonlibrary.network.other;
 
 import com.renyu.commonlibrary.network.impl.IRetryCondition;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.functions.Function;
 
 import java.util.concurrent.TimeUnit;
+
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableSource;
+import io.reactivex.rxjava3.functions.Function;
 
 public class RetryFunction implements Function<Observable<Throwable>, ObservableSource<?>> {
 

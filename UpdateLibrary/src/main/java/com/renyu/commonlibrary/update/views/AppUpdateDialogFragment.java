@@ -39,8 +39,8 @@ import com.renyu.commonlibrary.update.utils.Utils;
 import java.io.File;
 import java.lang.reflect.Field;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 /**
  * Created by renyu on 16/1/23.
@@ -77,9 +77,11 @@ public class AppUpdateDialogFragment extends DialogFragment {
 
     // 升级弹窗关闭接口
     private OnDismissListener dismissListener;
+
     public interface OnDismissListener {
         void dismissFragment();
     }
+
     public void setOnDismissListener(OnDismissListener dismissListener) {
         this.dismissListener = dismissListener;
     }

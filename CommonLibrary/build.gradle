@@ -81,7 +81,7 @@ dependencies {
     // 工具类
     api 'com.blankj:utilcode:1.29.0'
     // rxandroid
-    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     // MMKV——基于 mmap 的高性能通用 key-value 组件
     api 'com.tencent:mmkv-static:1.2.2'
     // mars  Mars is a cross-platform network component developed by WeChat.

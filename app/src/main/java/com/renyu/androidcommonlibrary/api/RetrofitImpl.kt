@@ -1,7 +1,10 @@
 package com.renyu.androidcommonlibrary.api
 
-import com.renyu.androidcommonlibrary.bean.*
-import io.reactivex.Observable
+import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
+import com.renyu.androidcommonlibrary.bean.DataListResponse
+import com.renyu.androidcommonlibrary.bean.ExampleResponseList
+import com.renyu.androidcommonlibrary.bean.RentResponse
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 
 interface RetrofitImpl {

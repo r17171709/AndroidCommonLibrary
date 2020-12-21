@@ -14,8 +14,8 @@ import com.renyu.commonlibrary.network.other.AllInfoListResponse;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class RetrofitActivity extends AppCompatActivity {
     @Inject

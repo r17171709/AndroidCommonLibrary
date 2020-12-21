@@ -2,7 +2,7 @@ package com.renyu.commonlibrary.network;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -17,7 +17,7 @@ public class Retrofit2Helper {
     private Retrofit2Helper(String baseUrl) {
         // 基础请求
         baseRetrofitBuilder = new Retrofit.Builder()
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create()).baseUrl(baseUrl);
     }
 

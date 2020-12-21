@@ -9,7 +9,7 @@ import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
 import com.renyu.commonlibrary.network.Retrofit2Utils
 import com.renyu.commonlibrary.network.other.NetworkException
 import com.renyu.commonlibrary.network.other.Resource
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
 
 /**
@@ -69,11 +69,8 @@ class Repos {
                 tokenResponse.postValue(Resource.sucess(it))
             }, { error ->
                 fixNetworkError(tokenResponse, error)
-            }, {
-
-            }, {
-                tokenResponse.postValue(Resource.loading(it))
             })
+        tokenResponse.postValue(Resource.loading(disposable))
         disposoables[cancelTag] = disposable
         return tokenResponse
     }

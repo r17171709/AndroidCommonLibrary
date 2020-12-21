@@ -1,6 +1,6 @@
 package com.renyu.commonlibrary.network.other
 
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 /**
  * Created by Administrator on 2018/7/17.

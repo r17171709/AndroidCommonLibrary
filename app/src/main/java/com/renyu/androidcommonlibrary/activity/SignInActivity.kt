@@ -5,11 +5,11 @@ import android.graphics.Rect
 import android.view.View
 import android.widget.FrameLayout
 import com.blankj.utilcode.util.ToastUtils
-import com.jakewharton.rxbinding3.view.clicks
-import com.jakewharton.rxbinding3.widget.textChanges
+import com.jakewharton.rxbinding4.view.clicks
+import com.jakewharton.rxbinding4.widget.textChanges
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.android.synthetic.main.activity_signin.*
 import java.util.concurrent.TimeUnit
 import com.blankj.utilcode.util.BarUtils as BarUtils1
@@ -24,7 +24,8 @@ class SignInActivity : BaseActivity() {
             val rect = Rect()
             window.decorView.getWindowVisibleDisplayFrame(rect)
             val displayHeight = rect.bottom - rect.top
-            val decorViewHeight = window.decorView.height - BarUtils1.getStatusBarHeight() - BarUtils2.getNavBarHeight()
+            val decorViewHeight =
+                window.decorView.height - BarUtils1.getStatusBarHeight() - BarUtils2.getNavBarHeight()
             // 输入法的高度
             val keyboardHeight = decorViewHeight - displayHeight
             if (previousKeyboardHeight != keyboardHeight) {
@@ -44,11 +45,11 @@ class SignInActivity : BaseActivity() {
     override fun initViews() = R.layout.activity_signin
 
     override fun loadData() {
-        val textChanges = arrayOf(
+        val textChanges: Array<Observable<CharSequence>> = arrayOf(
             tv_signin_uname.textChanges(),
             tv_signin_password.textChanges()
         )
-        Observable.combineLatest(textChanges) {
+        Observable.combineLatestArray(textChanges) {
             it.all { value ->
                 value.toString().isNotEmpty()
             }

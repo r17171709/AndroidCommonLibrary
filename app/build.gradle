@@ -107,24 +107,24 @@ dependencies {
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     // dagger2
-    implementation 'com.google.dagger:dagger:2.29.1'
-    kapt 'com.google.dagger:dagger-compiler:2.29.1'
+    implementation 'com.google.dagger:dagger:2.30.1'
+    kapt 'com.google.dagger:dagger-compiler:2.30.1'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     implementation 'com.tencent.wcdb:wcdb-android:1.0.8'
     // 网络请求
-    implementation 'com.github.renyu:AndroidNetworkLibrary:2.2.0'
-//    implementation project(':NetworkLibrary')
+//    implementation 'com.github.renyu:AndroidNetworkLibrary:2.2.0'
+    implementation project(':NetworkLibrary')
     // 升级
-    implementation('com.github.renyu:AndroidUpdateLibrary:2.2.0') {
-        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
-    }
-//    implementation project(':UpdateLibrary')
+//    implementation('com.github.renyu:AndroidUpdateLibrary:2.2.0') {
+//        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
+//    }
+    implementation project(':UpdateLibrary')
     // 弹出框
     implementation 'com.github.renyu:AndroidDialogLibrary:2.2.1'
 //    implementation project(':DialogLibrary')
     // Sheet弹出框
-    implementation 'com.github.renyu:ActionSheetLibrary:2.3.0'
-//    implementation project(':ActionSheetLibrary')
+//    implementation 'com.github.renyu:ActionSheetLibrary:2.3.0'
+    implementation project(':ActionSheetLibrary')
     // 引导框
     implementation 'com.github.renyu:AndroidShowCaseLibrary:2.1.0'
 //    implementation project(':ShowCaseLibrary')
@@ -139,7 +139,7 @@ dependencies {
     implementation project(':CommonLibrary')
 
     // leakcanary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
 
     implementation 'me.weishu:epic:0.8.0-c'
 }

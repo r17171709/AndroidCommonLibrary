@@ -6,16 +6,17 @@ import com.renyu.commonlibrary.network.other.AllInfoListResponse;
 import com.renyu.commonlibrary.network.other.AllInfoResponse;
 import com.renyu.commonlibrary.network.other.EmptyResponse;
 import com.renyu.commonlibrary.network.other.NetworkException;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableSource;
+import io.reactivex.rxjava3.core.ObservableTransformer;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * Created by renyu on 2017/2/3.

@@ -103,8 +103,10 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
     }
 
     override fun click(view: View, request: AccessTokenRequest) {
-//        vm?.sendRequest(request)
+        vm?.sendRequest(request)
+    }
 
+    override fun clickCourtine(view: View, request: AccessTokenRequest) {
         vm?.getAccessToken2()
             ?.observe(this, object : BaseObserver3<AccessTokenResponse>(this) {
                 override fun onError(tResource: ResourceCoroutine<AccessTokenResponse>?) {

@@ -5,18 +5,15 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
-import com.renyu.commonlibrary.commonutils.mainThread
-import com.renyu.commonlibrary.dialog.ChoiceDialog
 import com.renyu.commonlibrary.network.OKHttpHelper
-import com.renyu.commonlibrary.network.OKHttpUtils
 import com.renyu.commonlibrary.permission.annotation.NeedPermission
 import com.renyu.commonlibrary.permission.annotation.PermissionDenied
 import com.renyu.commonlibrary.update.bean.UpdateModel
-import com.renyu.commonlibrary.update.params.InitParams
 import com.renyu.commonlibrary.update.views.AppUpdateDialogFragment
 
 /**
@@ -163,7 +160,7 @@ class OKHttpActivity : BaseActivity() {
         deniedDesp = "请授予存储卡读取权限"
     )
     fun update() {
-        Handler().post {
+        Handler(Looper.getMainLooper()).post {
             val temp = UpdateModel()
             temp.notificationTitle = "Demo"
             temp.content = "测试"
