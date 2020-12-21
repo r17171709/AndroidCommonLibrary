@@ -8,7 +8,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidUpdateLibrary'
-    publishVersion = '2.2.0'
+    publishVersion = '2.2.1'
     desc = 'Update Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -54,6 +54,6 @@ dependencies {
 
     // 工具类
     implementation 'com.blankj:utilcode:1.29.0'
-    implementation project(':NetworkLibrary')
-//    implementation 'com.github.renyu:AndroidNetworkLibrary:2.2.0'
+//    implementation project(':NetworkLibrary')
+    implementation 'com.github.renyu:AndroidNetworkLibrary:2.2.1'
 }
