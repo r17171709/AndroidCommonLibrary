@@ -11,7 +11,7 @@ publish {
     userOrg = 'r17171709'
     groupId = 'com.github.renyu'
     artifactId = 'AndroidCommonLibrary'
-    publishVersion = '3.2.1'
+    publishVersion = '3.2.2'
     desc = 'Common Library'
     website = 'https://github.com/r17171709'
     repoName = 'AndroidCommonLibrary'
@@ -81,7 +81,7 @@ dependencies {
     // 工具类
     api 'com.blankj:utilcode:1.29.0'
     // rxandroid
-    api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+    api 'io.reactivex.rxjava3:rxandroid:3.0.0'
     // MMKV——基于 mmap 的高性能通用 key-value 组件
     api 'com.tencent:mmkv-static:1.2.2'
     // mars  Mars is a cross-platform network component developed by WeChat.
