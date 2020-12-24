@@ -2,15 +2,21 @@ package com.renyu.commonlibrary.basefrag;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 /**
  * Created by renyu on 15/12/3.
@@ -67,5 +73,27 @@ public abstract class BaseFragment extends Fragment {
 
         initParams();
         loadData();
+    }
+
+    public <D extends ViewModel> D getFragmentScopeViewModel(Class<D> modelClass) {
+        return new ViewModelProvider(this).get(modelClass);
+    }
+
+    public <D extends ViewModel> D getFragmentScopeViewModel(Class<D> modelClass, ViewModelProvider.Factory factory) {
+        return new ViewModelProvider(this, factory).get(modelClass);
+    }
+
+    public <D extends ViewModel> D getActivityScopeViewModel(Class<D> modelClass) {
+        return new ViewModelProvider((AppCompatActivity) context).get(modelClass);
+    }
+
+    public <D extends ViewModel> D getActivityScopeViewModel(Class<D> modelClass, ViewModelProvider.Factory factory) {
+        return new ViewModelProvider((AppCompatActivity) context, factory).get(modelClass);
+    }
+
+    public <D extends ViewModel, R extends Application & ViewModelStoreOwner> D getApplicationScopeViewModel(Class<D> modelClass, R application) {
+        Context context = application.getApplicationContext();
+        ViewModelProvider.AndroidViewModelFactory androidViewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(application);
+        return new ViewModelProvider((ViewModelStoreOwner) context, androidViewModelFactory).get(modelClass);
     }
 }

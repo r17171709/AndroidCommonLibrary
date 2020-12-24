@@ -123,16 +123,11 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
             })
     }
 
-    private inline fun <reified T : ViewModel> ViewModelStoreOwner.getSelfViewModel(configLiveData: T.() -> Unit): T {
-        return getViewModel(this, ArchitectureViewModelFactory(viewDataBinding), configLiveData)
-    }
-
-    private inline fun <reified T : ViewModel> getViewModel(
-        owner: ViewModelStoreOwner,
-        factory: ViewModelProvider.NewInstanceFactory,
-        configLiveData: T.() -> Unit
-    ): T {
-        return ViewModelProvider(owner, factory).get(T::class.java).apply {
+    private inline fun <reified T : ViewModel> getSelfViewModel(configLiveData: T.() -> Unit): T {
+        return getActivityScopeViewModel(
+            T::class.java,
+            ArchitectureViewModelFactory(viewDataBinding)
+        ).apply {
             configLiveData()
         }
     }

@@ -1,12 +1,17 @@
 package com.renyu.commonlibrary.baseact;
 
 import android.Manifest;
+import android.app.Application;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.blankj.utilcode.util.PermissionUtils;
 import com.renyu.commonlibrary.commonutils.BarUtils;
@@ -63,16 +68,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         loadData();
     }
 
-    public void openLog(String path) {
-        String[] permissionsSD = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-        if (PermissionUtils.isGranted(permissionsSD)) {
-            // 初始化xlog
-            Xlog.open(true, Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", path, InitParams.LOG_NAME, "");
-            Xlog.setConsoleLogOpen(true);
-            Log.setLogImp(new Xlog());
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -86,5 +81,29 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         // 关闭xlog，生成日志
         Log.appenderClose();
+    }
+
+    public void openLog(String path) {
+        String[] permissionsSD = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (PermissionUtils.isGranted(permissionsSD)) {
+            // 初始化xlog
+            Xlog.open(true, Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", path, InitParams.LOG_NAME, "");
+            Xlog.setConsoleLogOpen(true);
+            Log.setLogImp(new Xlog());
+        }
+    }
+
+    public <D extends ViewModel> D getActivityScopeViewModel(Class<D> modelClass) {
+        return new ViewModelProvider(this).get(modelClass);
+    }
+
+    public <D extends ViewModel> D getActivityScopeViewModel(Class<D> modelClass, ViewModelProvider.Factory factory) {
+        return new ViewModelProvider(this, factory).get(modelClass);
+    }
+
+    public <D extends ViewModel, R extends Application & ViewModelStoreOwner> D getApplicationScopeViewModel(Class<D> modelClass, R application) {
+        Context context = application.getApplicationContext();
+        ViewModelProvider.AndroidViewModelFactory androidViewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(application);
+        return new ViewModelProvider((ViewModelStoreOwner) context, androidViewModelFactory).get(modelClass);
     }
 }
