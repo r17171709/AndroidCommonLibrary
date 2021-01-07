@@ -5,6 +5,7 @@ import com.renyu.androidcommonlibrary.ExampleApp;
 import com.renyu.androidcommonlibrary.api.RetrofitImpl;
 import com.renyu.androidcommonlibrary.db.IDBManager;
 import com.renyu.androidcommonlibrary.db.UserDB;
+import com.renyu.androidcommonlibrary.utils.PrintingEventListener;
 import com.renyu.commonlibrary.network.HttpsUtils;
 import com.renyu.commonlibrary.network.OKHttpHelper;
 import com.renyu.commonlibrary.network.OKHttpUtils;
@@ -35,6 +36,7 @@ public class ApiModule {
         OkHttpClient.Builder baseBuilder = new OkHttpClient.Builder()
                 // 限制抓包
                 .proxy(Proxy.NO_PROXY)
+                .eventListener(new PrintingEventListener())
 //                    .addInterceptor(new TokenInterceptor(this))
                 .addInterceptor(new ChuckInterceptor(application))
                 .readTimeout(10, TimeUnit.SECONDS)
