@@ -8,13 +8,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Cookie;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -29,10 +27,14 @@ import okhttp3.Response;
 public class OKHttpUtils {
     private OkHttpClient okHttpClient;
 
-    private HashMap<String, List<Cookie>> cookieStore;
+//    private HashMap<String, List<Cookie>> cookieStore;
 
-    public OKHttpUtils() {
-        cookieStore = new HashMap<>();
+    protected OKHttpUtils(OkHttpClient okHttpClient) {
+        this.okHttpClient = okHttpClient;
+    }
+
+    protected OKHttpUtils() {
+//        cookieStore = new HashMap<>();
         OkHttpClient.Builder okbuilder = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
@@ -73,6 +75,14 @@ public class OKHttpUtils {
         void onSuccess(String filePath);
 
         void onError();
+    }
+
+    /**
+     * 提供OkHttpClient对象
+     * @return
+     */
+    public OkHttpClient getOkHttpClient() {
+        return okHttpClient;
     }
 
     /**

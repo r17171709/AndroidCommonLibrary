@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.renyu.commonlibrary.network.OKHttpHelper;
 import com.renyu.commonlibrary.network.OKHttpUtils;
 import com.renyu.commonlibrary.update.R;
 import com.renyu.commonlibrary.update.bean.UpdateModel;
@@ -43,7 +44,7 @@ public class UpdateService extends Service {
 
         ids = new HashMap<>();
 
-        okHttpUtils = new OKHttpUtils();
+        okHttpUtils = OKHttpHelper.getInstance().getOkHttpUtils();
     }
 
     @Nullable

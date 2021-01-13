@@ -44,7 +44,7 @@ public class ApiModule {
                 .connectTimeout(10, TimeUnit.SECONDS);
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
         baseBuilder.hostnameVerifier((s, sslSession) -> true).sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-        return baseBuilder.build();
+        return OKHttpHelper.getInstanceWithOKHttpClient(baseBuilder.build()).getOkHttpUtils().getOkHttpClient();
     }
 
     /**

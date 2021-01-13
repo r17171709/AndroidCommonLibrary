@@ -1,6 +1,7 @@
 package com.renyu.androidcommonlibrary.di.component;
 
 import com.renyu.androidcommonlibrary.activity.CoroutinesDemoActivity;
+import com.renyu.androidcommonlibrary.activity.OKHttpActivity;
 import com.renyu.androidcommonlibrary.activity.RetrofitActivity;
 import com.renyu.androidcommonlibrary.activity.ScrollRVActivity;
 import com.renyu.androidcommonlibrary.activity.WCDBActivity;
@@ -16,4 +17,6 @@ public interface ActivityComponent {
     void inject(CoroutinesDemoActivity coroutinesDemoActivity);
 
     void inject(ScrollRVActivity scrollRVActivity);
+
+    void inject(OKHttpActivity okHttpActivity);
 }
