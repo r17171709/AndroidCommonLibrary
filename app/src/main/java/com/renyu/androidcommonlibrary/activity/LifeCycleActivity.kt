@@ -4,12 +4,22 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
+import com.blankj.utilcode.util.ToastUtils
+import com.renyu.androidcommonlibrary.databinding.ActivityLifecycleBinding
+import com.renyu.commonlibrary.commonutils.binding
 
 class LifeCycleActivity : AppCompatActivity() {
     private var lifecycleRegistry: LifecycleRegistry? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        setContentView(ActivityLifecycleBinding.inflate(layoutInflater).root)
+
+        val binding = binding<ActivityLifecycleBinding>()
+        binding.btnLifecycle.setOnClickListener {
+            ToastUtils.showShort("LifeCycleActivity")
+        }
 
         lifecycleRegistry = LifecycleRegistry(this)
         lifecycleRegistry?.currentState = Lifecycle.State.CREATED

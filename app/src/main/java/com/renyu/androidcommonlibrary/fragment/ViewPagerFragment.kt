@@ -1,19 +1,20 @@
 package com.renyu.androidcommonlibrary.fragment
 
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
 import com.renyu.androidcommonlibrary.R
-import com.renyu.commonlibrary.basefrag.BaseFragment
-import kotlinx.android.synthetic.main.fragment_viewpager.*
+import com.renyu.androidcommonlibrary.databinding.FragmentViewpagerBinding
+import com.renyu.commonlibrary.commonutils.binding
 
 /**
  * Created by renyu on 2018/1/18.
  */
-class ViewPagerFragment(val color: Int) : BaseFragment() {
-    override fun initParams() {
-        layout_vp.setBackgroundColor(color)
-    }
+class ViewPagerFragment(val color: Int) : Fragment(R.layout.fragment_viewpager) {
+    private val binding: FragmentViewpagerBinding by binding()
 
-    override fun initViews() = R.layout.fragment_viewpager
-
-    override fun loadData() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.layoutVp.setBackgroundColor(color)
     }
 }
