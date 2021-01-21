@@ -1,6 +1,5 @@
 package com.renyu.androidcommonlibrary.activity
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
@@ -12,7 +11,7 @@ import com.renyu.commonlibrary.commonutils.livedatabus.LiveDataBusCore
 /**
  * Created by Administrator on 2019/5/22.
  */
-class LiveDataBusActivity : BaseActivity() {
+class LiveDataBus2Activity : BaseActivity() {
     private val busLiveData by lazy { LiveDataBusCore.instance.getChannel<String>("event") }
 
     override fun initParams() {
@@ -23,21 +22,14 @@ class LiveDataBusActivity : BaseActivity() {
 
     override fun loadData() {
         Handler(Looper.myLooper()!!).postDelayed({
-            busLiveData.setValue("1")
+            busLiveData.observe(this,
+                { t -> ToastUtils.showShort(t) })
         }, 2000)
 
         Handler(Looper.myLooper()!!).postDelayed({
-            busLiveData.observe(this,
-                { t -> ToastUtils.showShort(t) })
-        }, 4000)
-
-        Handler(Looper.myLooper()!!).postDelayed({
-            busLiveData.setValue("2")
+            busLiveData.setValue("3")
         }, 6000)
 
-        Handler(Looper.myLooper()!!).postDelayed({
-            startActivity(Intent(this, LiveDataBus2Activity::class.java))
-        }, 8000)
     }
 
     override fun setStatusBarColor() = Color.BLACK
