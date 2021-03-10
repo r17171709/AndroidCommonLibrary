@@ -94,6 +94,38 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
                             }
                         }
                     })
+
+                tokenResponse2?.observe(
+                    this@ArchitectureActivity,
+                    object : BaseObserver2<AccessTokenResponse>(this@ArchitectureActivity) {
+                        override fun onError(tResource: Resource<AccessTokenResponse>?) {
+
+                        }
+
+                        override fun onSucess(tResource: Resource<AccessTokenResponse>?) {
+                            if (tResource?.data != null) {
+                                vm?.refreshUI(tResource.data!!)
+                                demo.access_token.set(tResource.data!!.access_token)
+                                demo.expires_in.set(tResource.data!!.expires_in)
+                            }
+                        }
+                    })
+
+                tokenResponse3?.observe(
+                    this@ArchitectureActivity,
+                    object : BaseObserver2<AccessTokenResponse>(this@ArchitectureActivity) {
+                        override fun onError(tResource: Resource<AccessTokenResponse>?) {
+
+                        }
+
+                        override fun onSucess(tResource: Resource<AccessTokenResponse>?) {
+                            if (tResource?.data != null) {
+                                vm?.refreshUI(tResource.data!!)
+                                demo.access_token.set(tResource.data!!.access_token)
+                                demo.expires_in.set(tResource.data!!.expires_in)
+                            }
+                        }
+                    })
             }
 
             dataVM.liveId.observe(this,
@@ -106,21 +138,12 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
         vm?.sendRequest(request)
     }
 
-    override fun clickCourtine(view: View, request: AccessTokenRequest) {
-        vm?.getAccessToken2()
-            ?.observe(this, object : BaseObserver3<AccessTokenResponse>(this) {
-                override fun onError(tResource: ResourceCoroutine<AccessTokenResponse>?) {
+    override fun clickCourtine2(view: View, request: AccessTokenRequest) {
+        vm?.sendRequest2(request)
+    }
 
-                }
-
-                override fun onSucess(tResource: ResourceCoroutine<AccessTokenResponse>?) {
-                    if (tResource?.data != null) {
-                        vm?.refreshUI(tResource.data!!)
-                        demo.access_token.set(tResource.data!!.access_token)
-                        demo.expires_in.set(tResource.data!!.expires_in)
-                    }
-                }
-            })
+    override fun clickCourtine3(view: View, request: AccessTokenRequest) {
+        vm?.sendRequest3(request)
     }
 
     private inline fun <reified T : ViewModel> getSelfViewModel(configLiveData: T.() -> Unit): T {

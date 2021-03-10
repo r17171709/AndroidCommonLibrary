@@ -6,9 +6,7 @@ import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
 import com.renyu.androidcommonlibrary.databinding.ActivityArchitectureBinding
 import com.renyu.androidcommonlibrary.repository.CoroutineRepos
 import com.renyu.androidcommonlibrary.repository.Repos
-import com.renyu.androidcommonlibrary.utils.commonRequest
 import com.renyu.commonlibrary.network.other.Resource
-import com.renyu.commonlibrary.network.other.ResourceCoroutine
 import kotlinx.coroutines.Dispatchers
 
 /**
@@ -18,12 +16,37 @@ class ArchitectureViewModel(private val dataBinding: ActivityArchitectureBinding
     private val tokenRequest: MutableLiveData<AccessTokenRequest> = MutableLiveData()
     var tokenResponse: LiveData<Resource<AccessTokenResponse>>? = null
 
+    private val tokenRequest2: MutableLiveData<AccessTokenRequest> = MutableLiveData()
+    var tokenResponse2: LiveData<Resource<AccessTokenResponse>>? = null
+
+    private val tokenRequest3: MutableLiveData<AccessTokenRequest> = MutableLiveData()
+    var tokenResponse3: LiveData<Resource<AccessTokenResponse>>? = null
+
     init {
         tokenResponse = Transformations.switchMap(tokenRequest) { input ->
             if (input == null) {
                 MutableLiveData()
             } else {
                 Repos.getReposInstance().getTokenResponse(input, "getAccessToken")
+            }
+        }
+
+        tokenResponse2 = Transformations.switchMap(tokenRequest2) { input ->
+            if (input == null) {
+                MutableLiveData()
+            } else {
+                CoroutineRepos.getCoroutineReposInstance().getAccessToken2(
+                    viewModelScope.coroutineContext + Dispatchers.Main.immediate,
+                    input
+                )
+            }
+        }
+
+        tokenResponse3 = Transformations.switchMap(tokenRequest3) { input ->
+            if (input == null) {
+                MutableLiveData()
+            } else {
+                CoroutineRepos.getCoroutineReposInstance().getAccessToken3(viewModelScope, input)
             }
         }
     }
@@ -36,11 +59,11 @@ class ArchitectureViewModel(private val dataBinding: ActivityArchitectureBinding
         dataBinding.tokenResponse = response
     }
 
-    fun getAccessToken2(): LiveData<ResourceCoroutine<AccessTokenResponse>> {
-        return liveData<ResourceCoroutine<AccessTokenResponse>>(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            commonRequest {
-                CoroutineRepos.getCoroutineReposInstance().getAccessToken2()
-            }
-        }
+    fun sendRequest2(request: AccessTokenRequest) {
+        tokenRequest2.value = request
+    }
+
+    fun sendRequest3(request: AccessTokenRequest) {
+        tokenRequest3.value = request
     }
 }

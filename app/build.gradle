@@ -107,8 +107,8 @@ dependencies {
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     // dagger2
-    implementation 'com.google.dagger:dagger:2.30.1'
-    kapt 'com.google.dagger:dagger-compiler:2.30.1'
+    implementation 'com.google.dagger:dagger:2.33'
+    kapt 'com.google.dagger:dagger-compiler:2.33'
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     implementation 'com.tencent.wcdb:wcdb-android:1.0.8'
     // 网络请求
