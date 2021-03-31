@@ -112,31 +112,31 @@ dependencies {
     // wcdb  WCDB is a cross-platform database framework developed by WeChat.
     implementation 'com.tencent.wcdb:wcdb-android:1.0.8'
     // 网络请求
-//    implementation 'com.github.renyu:AndroidNetworkLibrary:2.2.1'
-    implementation project(':NetworkLibrary')
+    implementation 'com.github.renyu17:AndroidNetworkLibrary:2.2.1'
+//    implementation project(':NetworkLibrary')
     // 升级
-//    implementation('com.github.renyu:AndroidUpdateLibrary:2.2.1') {
-//        exclude group: 'com.github.renyu', module: 'AndroidNetworkLibrary'
-//    }
-    implementation project(':UpdateLibrary')
+    implementation('com.github.renyu17:AndroidUpdateLibrary:2.2.1') {
+        exclude group: 'com.github.renyu17', module: 'AndroidNetworkLibrary'
+    }
+//    implementation project(':UpdateLibrary')
     // 弹出框
-    implementation 'com.github.renyu:AndroidDialogLibrary:2.2.1'
+    implementation 'com.github.renyu17:AndroidDialogLibrary:2.2.1'
 //    implementation project(':DialogLibrary')
     // Sheet弹出框
-    implementation 'com.github.renyu:ActionSheetLibrary:2.3.1'
+    implementation 'com.github.renyu17:ActionSheetLibrary:2.3.1'
 //    implementation project(':ActionSheetLibrary')
     // 引导框
-    implementation 'com.github.renyu:AndroidShowCaseLibrary:2.1.0'
+    implementation 'com.github.renyu17:AndroidShowCaseLibrary:2.1.0'
 //    implementation project(':ShowCaseLibrary')
     // Web浏览器
-    implementation 'com.github.renyu:AndroidWebLibrary:2.2.0'
+    implementation 'com.github.renyu17:AndroidWebLibrary:2.2.0'
 //    implementation project(':WebLibrary')
     // 权限判断
-    implementation 'com.github.renyu:AndroidPermissionLibrary:2.2.0'
+    implementation 'com.github.renyu17:AndroidPermissionLibrary:2.2.0'
 //    implementation project(':PermissionLibrary')
     // 基础库
-//    implementation 'com.github.renyu:AndroidCommonLibrary:3.2.2'
-    implementation project(':CommonLibrary')
+    implementation 'com.github.renyu17:AndroidCommonLibrary:3.2.2'
+//    implementation project(':CommonLibrary')
 
     // leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'

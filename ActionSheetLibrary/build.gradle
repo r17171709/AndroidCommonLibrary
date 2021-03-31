@@ -1,17 +1,26 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'maven'
 
-group='com.github.renyu'
-
-publish {
-    userOrg = 'r17171709'
-    groupId = 'com.github.renyu'
-    artifactId = 'ActionSheetLibrary'
-    publishVersion = '2.3.1'
-    desc = 'ActionSheet Library'
-    website = 'https://github.com/r17171709'
-    repoName = 'AndroidCommonLibrary'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: rootProject.ext.maven.repositoryUrl) {
+                authentication(
+                        userName: rootProject.ext.maven.username,
+                        password: rootProject.ext.maven.password
+                )
+            }
+            snapshotRepository(url: rootProject.ext.maven.repositorySnapshotUrl) {
+                authentication(
+                        userName: rootProject.ext.maven.username,
+                        password: rootProject.ext.maven.password
+                )
+            }
+            pom.version = '2.3.1'
+            pom.artifactId = 'ActionSheetLibrary'
+            pom.groupId = rootProject.ext.maven.groupId
+        }
+    }
 }
 
 android {

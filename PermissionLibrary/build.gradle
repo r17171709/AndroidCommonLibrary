@@ -1,19 +1,28 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'maven'
 
-group='com.github.renyu'
-
-publish {
-    userOrg = 'r17171709'
-    groupId = 'com.github.renyu'
-    artifactId = 'AndroidPermissionLibrary'
-    publishVersion = '2.2.0'
-    desc = 'Permission Library'
-    website = 'https://github.com/r17171709'
-    repoName = 'AndroidCommonLibrary'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: rootProject.ext.maven.repositoryUrl) {
+                authentication(
+                        userName: rootProject.ext.maven.username,
+                        password: rootProject.ext.maven.password
+                )
+            }
+            snapshotRepository(url: rootProject.ext.maven.repositorySnapshotUrl) {
+                authentication(
+                        userName: rootProject.ext.maven.username,
+                        password: rootProject.ext.maven.password
+                )
+            }
+            pom.version = '2.2.0'
+            pom.artifactId = 'AndroidPermissionLibrary'
+            pom.groupId = rootProject.ext.maven.groupId
+        }
+    }
 }
 
 android {

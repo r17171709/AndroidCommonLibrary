@@ -1,0 +1,9 @@
+ext {
+    maven = [
+            username             : "6063132d711fb4f37e6ba495",
+            password             : "bZM9=ua8h)Zw",
+            repositoryUrl        : "https://packages.aliyun.com/maven/repository/2090525-release-8yY1iE/",
+            repositorySnapshotUrl: "https://packages.aliyun.com/maven/repository/2090525-snapshot-nSA6nB/",
+            groupId              : "com.github.renyu17"
+    ]
+}
