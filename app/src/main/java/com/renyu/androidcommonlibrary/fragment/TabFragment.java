@@ -1,10 +1,12 @@
 package com.renyu.androidcommonlibrary.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,9 @@ import com.renyu.androidcommonlibrary.databinding.FragmentTabBinding;
  */
 public class TabFragment extends Fragment {
     private FragmentTabBinding viewBinding;
+
+    // Fragment监听Activity的onBackPressed
+    private OnBackPressedCallback onBackPressedCallback;
 
     public static TabFragment getInstance(int color) {
         TabFragment tabFragment = new TabFragment();
@@ -36,6 +41,16 @@ public class TabFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewBinding.layoutTab.setBackgroundColor(getArguments().getInt("color"));
+
+        onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Log.d("TAGTAGTAG", TabFragment.this + "handleOnBackPressed");
+                onBackPressedCallback.setEnabled(false);
+                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
     }
 
     @Override
@@ -43,5 +58,6 @@ public class TabFragment extends Fragment {
         super.onDestroyView();
         // 在Fragment中使用View Binding需要多加注意，如果使用不当它会引发内存泄漏，如果你没有在onDestroy中将view置空，那么它就不会从内存中清除
         viewBinding = null;
+        onBackPressedCallback.remove();
     }
 }
