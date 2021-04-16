@@ -72,5 +72,15 @@
         <meta-data
             android:name="design_height_in_dp"
             android:value="640" />
+
     </application>
+    <!-- Android11软件包可见性 -->
+    <queries>
+        <!-- 微信 -->
+        <package android:name="com.tencent.mm" />
+        <!-- QQ -->
+        <package android:name="com.tencent.mobileqq" />
+        <!-- 支付宝 -->
+        <package android:name="com.eg.android.AlipayGphone" />
+    </queries>
 </manifest>

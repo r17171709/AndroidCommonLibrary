@@ -133,4 +133,6 @@ dependencies {
     api 'com.scwang.smart:refresh-layout-kernel:2.0.1'
     api 'com.scwang.smart:refresh-header-material:2.0.1'
     api 'com.scwang.smart:refresh-footer-ball:2.0.1'
+    // Broccoli  预加载时显示view占位符的效果
+    api 'me.samlss:broccoli:1.0.0'
 }

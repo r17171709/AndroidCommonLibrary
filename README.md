@@ -61,6 +61,15 @@
 
 ![BadgeView](https://github.com/qstumn/BadgeView/raw/master/demo_gif.gif)
 
+* 支持预加载时显示view占位符的效果
+
+![Broccoli](https://github.com/samlss/Broccoli/blob/master/screenshots/screenshot1.gif)
+
 * 支持包含强制与非强制的app升级功能
 * 支持自定义底部弹出框
 * 支持权限判断
+
+### 适配注意点
+![Android 11 变更及适配攻略](https://blog.csdn.net/qq_17766199/article/details/115351949)
+
+* 使用 gradle build --scan 去分析编译数据
