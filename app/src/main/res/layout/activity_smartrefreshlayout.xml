@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+        <variable
+            name="adapter"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
+    </data>
+
     <com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/refresh_smart"
         android:layout_width="match_parent"
@@ -11,7 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#fff"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:rvs="@{adapter}"/>
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </layout>

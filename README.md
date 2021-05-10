@@ -22,6 +22,7 @@
 
 ![RecyclerItemDecoration](https://raw.githubusercontent.com/magiepooh/RecyclerItemDecoration/master/art/demo_horizontal.gif)
 
+* 集成RecyclerView元素加载、增删动画控件
 * 集成仿IOS SwitchButton控件
 * 集成vlayout
 
