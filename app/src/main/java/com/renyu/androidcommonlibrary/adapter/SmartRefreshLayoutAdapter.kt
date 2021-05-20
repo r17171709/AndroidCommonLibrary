@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.renyu.androidcommonlibrary.BR
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.databinding.AdapterSmartrefreshlayoutBinding
 
@@ -28,6 +29,7 @@ class SmartRefreshLayoutAdapter(private val beans: ArrayList<String>) :
     }
 
     override fun onBindViewHolder(holder: SmartRefreshLayoutViewHolder, position: Int) {
+        holder.viewDataBinding.setVariable(BR.value, "$position")
         holder.viewDataBinding.executePendingBindings()
     }
 

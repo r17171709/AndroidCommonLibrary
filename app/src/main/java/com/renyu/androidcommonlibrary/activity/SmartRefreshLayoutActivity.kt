@@ -24,6 +24,7 @@ class SmartRefreshLayoutActivity : BaseDataBindingActivity<ActivitySmartrefreshl
         viewDataBinding.refreshSmart.setRefreshHeader(MaterialHeader(this))
         //设置 Footer 为 球脉冲
         viewDataBinding.refreshSmart.setRefreshFooter(BallPulseFooter(this))
+        viewDataBinding.refreshSmart.autoRefresh()
         viewDataBinding.refreshSmart.setOnMultiListener(object : SimpleMultiListener() {
             override fun onStateChanged(
                 refreshLayout: RefreshLayout,
@@ -35,22 +36,43 @@ class SmartRefreshLayoutActivity : BaseDataBindingActivity<ActivitySmartrefreshl
 
             override fun onLoadMore(refreshLayout: RefreshLayout) {
                 super.onLoadMore(refreshLayout)
-                viewDataBinding.refreshSmart.finishLoadMore(2000)
+
+                beans.apply {
+                    for (i in 0 until 20) {
+                        add("$i")
+                    }
+                }
+                viewDataBinding.adapter!!.notifyDataSetChanged()
+
+                if (viewDataBinding.adapter!!.itemCount < 100) {
+                    viewDataBinding.refreshSmart.finishLoadMore()
+                } else {
+                    viewDataBinding.refreshSmart.finishLoadMoreWithNoMoreData()
+                }
             }
 
             override fun onRefresh(refreshLayout: RefreshLayout) {
                 super.onRefresh(refreshLayout)
-                viewDataBinding.refreshSmart.finishRefresh(2000)
+
+                beans.clear()
+                beans.apply {
+                    for (i in 0 until 20) {
+                        add("$i")
+                    }
+                }
+
+                if (beans.size == 0) {
+                    viewDataBinding.refreshSmart.finishRefreshWithNoMoreData()
+                } else {
+                    viewDataBinding.refreshSmart.finishRefresh()
+                }
+
+                viewDataBinding.adapter!!.notifyDataSetChanged()
             }
         })
 
         viewDataBinding.rvSmart.layoutManager = LinearLayoutManager(this)
         viewDataBinding.rvSmart.itemAnimator = SlideInLeftAnimator()
-        beans.apply {
-            for (i in 0 until 20) {
-                add("$i")
-            }
-        }
         viewDataBinding.adapter = ScaleInAnimationAdapter(adapter).apply {
             setFirstOnly(true)
             setDuration(500)

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+        <variable
+            name="value"
+            type="String" />
+    </data>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,7 +18,7 @@
             android:background="@android:color/holo_orange_light"
             android:gravity="center"
             android:padding="16dip"
-            android:text="123"
+            android:text="@{value}"
             android:textSize="14sp" />
 
     </LinearLayout>
