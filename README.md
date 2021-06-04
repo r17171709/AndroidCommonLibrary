@@ -66,6 +66,10 @@
 
 ![Broccoli](https://github.com/samlss/Broccoli/blob/master/screenshots/screenshot1.gif)
 
+* 支持多个滑动布局(RecyclerView、WebView、ScrollView等)和普通控件(TextView、ImageView、LinearLayout、自定义View等)持续连贯滑动的容器,它使所有的子View像一个整体一样连续顺畅滑动。并且支持布局吸顶功能
+
+![ConsecutiveScroller](https://camo.githubusercontent.com/72dcec1524ae45fd9cf157ac96af8b40465ef01434d2855d584d8e40874db90b/68747470733a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f323336353031302d663262363464323030323264323536362e6769663f696d6167654d6f6772322f6175746f2d6f7269656e742f7374726970)
+
 * 支持包含强制与非强制的app升级功能
 * 支持自定义底部弹出框
 * 支持权限判断

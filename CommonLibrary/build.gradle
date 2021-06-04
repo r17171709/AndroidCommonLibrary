@@ -137,4 +137,6 @@ dependencies {
     api 'com.scwang.smart:refresh-footer-ball:2.0.1'
     // Broccoli  预加载时显示view占位符的效果
     api 'me.samlss:broccoli:1.0.0'
+    // ConsecutiveScroller  支持多个滑动布局(RecyclerView、WebView、ScrollView等)和普通控件(TextView、ImageView、LinearLayout、自定义View等)持续连贯滑动的容器,它使所有的子View像一个整体一样连续顺畅滑动。并且支持布局吸顶功能。
+    api 'com.github.donkingliang:ConsecutiveScroller:4.5.0'
 }

@@ -8,7 +8,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.renyu.androidcommonlibrary.databinding.ActivityLifecycleBinding
 import com.renyu.commonlibrary.commonutils.binding
 
-class LifeCycleActivity : AppCompatActivity() {
+class LifecycleActivity : AppCompatActivity() {
     private var lifecycleRegistry: LifecycleRegistry? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,8 @@ class LifeCycleActivity : AppCompatActivity() {
         lifecycleRegistry?.currentState = Lifecycle.State.CREATED
 
         // 自定义LifecycleOwner
-        lifecycleRegistry?.addObserver(MyObserver())
+//        lifecycleRegistry?.addObserver(MyObserver())
+        lifecycleRegistry?.addObserver(MyObserver2())
 
 //        lifecycle.addObserver(MyObserver())
 
@@ -76,6 +77,32 @@ class LifeCycleActivity : AppCompatActivity() {
         @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
         fun onAny(owner: LifecycleOwner, event: Lifecycle.Event) {
 
+        }
+    }
+
+    class MyObserver2 : DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            super.onCreate(owner)
+        }
+
+        override fun onStart(owner: LifecycleOwner) {
+            super.onStart(owner)
+        }
+
+        override fun onResume(owner: LifecycleOwner) {
+            super.onResume(owner)
+        }
+
+        override fun onPause(owner: LifecycleOwner) {
+            super.onPause(owner)
+        }
+
+        override fun onStop(owner: LifecycleOwner) {
+            super.onStop(owner)
+        }
+
+        override fun onDestroy(owner: LifecycleOwner) {
+            super.onDestroy(owner)
         }
     }
 }
