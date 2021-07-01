@@ -129,7 +129,7 @@ dependencies {
     implementation 'com.github.renyu17:AndroidShowCaseLibrary:2.1.0'
 //    implementation project(':ShowCaseLibrary')
     // Web浏览器
-    implementation 'com.github.renyu17:AndroidWebLibrary:2.2.0'
+    implementation 'com.github.renyu17:AndroidWebLibrary:2.2.1'
 //    implementation project(':WebLibrary')
     // 权限判断
     implementation 'com.github.renyu17:AndroidPermissionLibrary:2.2.0'

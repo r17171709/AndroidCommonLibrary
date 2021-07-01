@@ -1,7 +1,9 @@
 package com.renyu.commonlibrary.web.activity;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -49,6 +51,8 @@ public abstract class X5WebActivity extends AppCompatActivity {
 
     public abstract ViewGroup getRootView();
 
+    public abstract ViewGroup getVideoView();
+
     public abstract void onPageFinished(String url);
 
     public abstract boolean shouldOverrideUrlLoading(WebView view, String url);
@@ -56,6 +60,8 @@ public abstract class X5WebActivity extends AppCompatActivity {
     public abstract boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams);
 
     public WebView webView;
+
+    private View mCustomView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,6 +119,37 @@ public abstract class X5WebActivity extends AppCompatActivity {
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
                 return X5WebActivity.this.onShowFileChooser(webView, filePathCallback, fileChooserParams);
+            }
+
+            @Override
+            public void onShowCustomView(View view, CustomViewCallback callback) {
+                super.onShowCustomView(view, callback);
+                if (getVideoView() == null) {
+                    return;
+                }
+                if (mCustomView != null) {
+                    return;
+                }
+                mCustomView = view;
+                getVideoView().addView(mCustomView);
+                getVideoView().setVisibility(View.VISIBLE);
+                fullScreen();
+            }
+
+            @Override
+            public void onHideCustomView() {
+                super.onHideCustomView();
+                if (getVideoView() == null) {
+                    return;
+                }
+                if (mCustomView == null) {
+                    return;
+                }
+                mCustomView.setVisibility(View.GONE);
+                getVideoView().removeView(mCustomView);
+                mCustomView = null;
+                getVideoView().setVisibility(View.GONE);
+                fullScreen();
             }
         });
         webView.removeJavascriptInterface("searchBoxJavaBridge_");
@@ -189,6 +226,21 @@ public abstract class X5WebActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        switch (newConfig.orientation) {
+            case Configuration.ORIENTATION_LANDSCAPE:
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                break;
+            case Configuration.ORIENTATION_PORTRAIT:
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+                break;
+        }
+    }
+
     /**
      * 添加Cookie
      *
@@ -211,5 +263,13 @@ public abstract class X5WebActivity extends AppCompatActivity {
         }
         // 如果API是21以下的话,在for循环结束后加
         CookieSyncManager.getInstance().sync();
+    }
+
+    private void fullScreen() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 }

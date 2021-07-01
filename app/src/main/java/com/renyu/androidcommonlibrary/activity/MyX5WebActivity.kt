@@ -30,6 +30,8 @@ class MyX5WebActivity : X5WebActivity() {
 
     override fun getRootView() = findViewById<FrameLayout>(R.id.layout_x5webview)
 
+    override fun getVideoView() = findViewById<FrameLayout>(R.id.layout_x5webview_video)
+
     override fun onPageFinished(url: String) {}
 
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {

@@ -53,6 +53,7 @@ public class PreloadWebView {
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setBuiltInZoomControls(false);
         settings.setBlockNetworkImage(false);
+        settings.setMediaPlaybackRequiresUserGesture(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }

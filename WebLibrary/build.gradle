@@ -16,7 +16,7 @@ uploadArchives {
                         password: rootProject.ext.maven.password
                 )
             }
-            pom.version = '2.2.0'
+            pom.version = '2.2.1'
             pom.artifactId = 'AndroidWebLibrary'
             pom.groupId = rootProject.ext.maven.groupId
         }

@@ -16,7 +16,8 @@ import com.tencent.mars.xlog.Log;
 import java.util.Random;
 
 public class MainActivity extends BaseActivity {
-    private String[] urls = {"http://newrent.house365.com/zsbapi/public/consult-list?city="};
+    private String[] urls = {"http://newrenttest.house365.com/activity/house-show/#/pages/index/index",
+            "http://newrent.house365.com/zsbapi/public/consult-list?city="};
     private String htmlCode = "<p style=\"\"><strong>365淘房 魏玉蓉 今天给大家带来一套城东140.06㎡的精装</strong><strong>房源，房主容女士是我们安家城东的铁杆粉丝，这次让我们帮他出售的是银城东苑</strong><strong>房源。</strong></p><p style=\"\"><strong>房源信息</strong></p><p style=\"\"><strong>【小区】银城东苑东篱园</strong></p><p style=\"\"><strong>【居室】3房2厅2卫</strong></p><p style=\"\"><strong>【面积】</strong><strong>140.06㎡</strong><strong> </strong></p><p style=\"\"><strong>【楼层】21/22</strong></p><p style=\"\"><strong>【装修】精装</strong></p><p style=\"\"><strong>【总价】</strong><strong>640万</strong></p><p style=\"\"><strong><strong>【均价】</strong></strong><strong><strong>45694元/㎡</strong></strong></p><p style=\"\"><strong>【房屋年限】满5年不唯一</strong></p><p style=\"\"><strong>【房主联系方式】</strong><strong>容女土，电话：<strong>13305192718</strong></strong></p><p style=\"\"><strong>房主自述</strong></p><p style=\"\"><img src=\"http://img31.house365.com/M01/E9/F8/rBEBYF7CYnWALt5cAAP65eZ_Ahg04.jpeg\"/>";
 
     @Override
