@@ -19,7 +19,7 @@ uploadArchives {
                         password: rootProject.ext.maven.password
                 )
             }
-            pom.version = '3.2.2'
+            pom.version = '3.2.3'
             pom.artifactId = 'AndroidCommonLibrary'
             pom.groupId = rootProject.ext.maven.groupId
         }
@@ -102,9 +102,9 @@ dependencies {
     // AndroidAutoSize  A low-cost Android screen adaptation solution (今日头条屏幕适配方案终极版，一个极低成本的 Android 屏幕适配方案).
     api 'me.jessyan:autosize:1.2.1'
     // fresco
-    api 'com.facebook.fresco:fresco:2.3.0'
-    api 'com.facebook.fresco:animated-gif:2.3.0'
-    api 'com.facebook.fresco:drawee-span:2.3.0'
+    api 'com.facebook.fresco:fresco:2.5.0'
+    api 'com.facebook.fresco:animated-gif:2.5.0'
+    api 'com.facebook.fresco:drawee-span:2.5.0'
     // vlayout
     api 'com.alibaba.android:vlayout:1.2.40@aar'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
