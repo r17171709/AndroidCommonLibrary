@@ -3,6 +3,7 @@ package com.renyu.androidcommonlibrary.activity
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.*
@@ -15,14 +16,12 @@ import com.renyu.androidcommonlibrary.bean.Demo
 import com.renyu.androidcommonlibrary.databinding.ActivityArchitectureBinding
 import com.renyu.androidcommonlibrary.impl.EventImpl
 import com.renyu.androidcommonlibrary.utils.BaseObserver2
-import com.renyu.androidcommonlibrary.utils.BaseObserver3
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModel
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModelFactory
 import com.renyu.androidcommonlibrary.viewmodel.SavedStateViewModel
 import com.renyu.commonlibrary.baseact.BaseDataBindingActivity
 import com.renyu.commonlibrary.commonutils.Utils
 import com.renyu.commonlibrary.network.other.Resource
-import com.renyu.commonlibrary.network.other.ResourceCoroutine
 
 /**
  * Created by Administrator on 2018/7/7.
@@ -43,14 +42,7 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
     override fun setStatusBarTranslucent() = 0
 
     private var vm: ArchitectureViewModel? = null
-    private val dataVM by lazy {
-        ViewModelProvider(
-            this,
-            SavedStateViewModelFactory(application, this@ArchitectureActivity)
-        ).get(
-            SavedStateViewModel::class.java
-        )
-    }
+    private val dataVM by viewModels<SavedStateViewModel>()
 
     val demo: Demo by lazy {
         Demo(ObservableField(""), ObservableInt(0))
@@ -128,9 +120,8 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
                     })
             }
 
-            dataVM.liveId.observe(this,
+            dataVM.getCurrentUserByLiveData().observe(this,
                 { t -> ToastUtils.showShort(t) })
-
         }
     }
 
@@ -156,8 +147,6 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
     }
 
     override fun clickSaveData(view: View) {
-        // 当与key相对应的value改变时，MutableLiveData也会更新
-        dataVM.updateLIVE(dataVM.getCurrentUser())
         dataVM.saveCurrentUser("ABC")
     }
 }

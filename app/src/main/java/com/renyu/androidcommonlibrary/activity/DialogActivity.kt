@@ -2,6 +2,8 @@ package com.renyu.androidcommonlibrary.activity
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.SizeUtils
@@ -12,6 +14,10 @@ import com.renyu.commonlibrary.dialog.view.VerificationCodeInput
 
 class DialogActivity : AppCompatActivity() {
     private lateinit var viewDataBinding: ActivityDialogBinding
+
+    private val listener = ViewTreeObserver.OnGlobalLayoutListener {
+        Log.d("TAGTAGTAG", "OnGlobalLayoutListener")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,5 +39,12 @@ class DialogActivity : AppCompatActivity() {
                     ToastUtils.showShort(value)
                 }.show(this)
         }
+
+        window.decorView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        window.decorView.viewTreeObserver.removeOnGlobalLayoutListener(listener)
     }
 }

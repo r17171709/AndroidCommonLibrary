@@ -45,12 +45,18 @@ public class TabFragment extends Fragment {
         onBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
+                // 拦截返回事件
                 Log.d("TAGTAGTAG", TabFragment.this + "handleOnBackPressed");
-                onBackPressedCallback.setEnabled(false);
-                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+                setEnabled(getChildFragmentManager().getBackStackEntryCount() > 0);
+                if (isEnabled()) {
+                    getChildFragmentManager().popBackStackImmediate();
+                } else {
+                    requireActivity().getOnBackPressedDispatcher().onBackPressed();
+                }
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
+        // 此 callback 仅当 TabFragment 至少是 Started 状态下调用
+        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), onBackPressedCallback);
     }
 
     @Override

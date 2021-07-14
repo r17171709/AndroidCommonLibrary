@@ -1,21 +1,19 @@
 package com.renyu.androidcommonlibrary.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 
-class SavedStateViewModel(stateHandle: SavedStateHandle) : ViewModel() {
-    private val savedStateHandle = stateHandle
-    val liveId = savedStateHandle.getLiveData<String>("LIVE")
-
+class SavedStateViewModel(private val stateHandle: SavedStateHandle) : ViewModel() {
     fun saveCurrentUser(id: String) {
-        savedStateHandle.set("ID", id)
+        stateHandle.set("ID", id)
+    }
+
+    fun getCurrentUserByLiveData(): MutableLiveData<String> {
+        return stateHandle.getLiveData<String>("ID")
     }
 
     fun getCurrentUser(): String {
-        return savedStateHandle.get<String>("ID") ?: ""
-    }
-
-    fun updateLIVE(value: String) {
-        savedStateHandle.set("LIVE", value)
+        return stateHandle.get<String>("ID") ?: ""
     }
 }

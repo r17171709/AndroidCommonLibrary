@@ -1,7 +1,15 @@
 package com.renyu.androidcommonlibrary.activity
 
+import android.content.Context
 import android.graphics.Color
+import android.os.Bundle
+import android.util.AttributeSet
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
 import android.view.animation.OvershootInterpolator
+import android.widget.TextView
+import androidx.core.view.LayoutInflaterCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.adapter.SmartRefreshLayoutAdapter
@@ -89,6 +97,45 @@ class SmartRefreshLayoutActivity : BaseDataBindingActivity<ActivitySmartrefreshl
     override fun setStatusBarColor() = Color.BLACK
 
     override fun setStatusBarTranslucent() = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // 统一修改页面样式
+        LayoutInflaterCompat.setFactory2(layoutInflater, object : LayoutInflater.Factory2 {
+            override fun onCreateView(
+                parent: View?,
+                name: String,
+                context: Context,
+                attrs: AttributeSet
+            ): View? {
+                for (i in 0 until attrs.attributeCount) {
+                    Log.d(
+                        "TAGTAGTAG",
+                        "${attrs.getAttributeName(i)}  ${attrs.getAttributeValue(i)}"
+                    )
+                }
+                var view: View? = null
+                if (name.indexOf(".") == 1) {
+                    // 表示自定义View
+                    // 通过反射创建
+                    view = layoutInflater.createView(name, null, attrs)
+                }
+                if (view == null) {
+                    //通过系统创建一系列 appcompat 的 View
+                    view = delegate.createView(parent, name, context, attrs)
+                }
+                if (view is TextView) {
+                    //如果是 TextView 或其子类，则进行相应处理
+                    view.setTextColor(Color.WHITE)
+                }
+                return view
+            }
+
+            override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+                return null
+            }
+        })
+        super.onCreate(savedInstanceState)
+    }
 
     // 页面灰色
 //    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
