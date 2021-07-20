@@ -104,6 +104,10 @@ public class MainActivity extends BaseActivity {
 //                            });
 //                });
 //                choiceDialog.show(MainActivity.this);
+
+//        Intent intent = new Intent(this, FileProviderActivity.class);
+//        intent.putExtra("file", "/mnt/sdcard/DCIM/Camera/IMG_20210517_152012877.jpg");
+//        startActivity(intent);
     }
 
     @PermissionDenied(permissions = {

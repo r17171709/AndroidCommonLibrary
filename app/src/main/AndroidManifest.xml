@@ -28,6 +28,20 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:hardwareAccelerated="true" />
         <activity android:name=".activity.NotificationShowActivity" />
+        <!--  读取第三方信息内容 -->
+        <activity android:name=".activity.FileProviderActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="content" />
+                <data android:scheme="file" />
+                <data android:scheme="http" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
 
         <receiver android:name=".receiver.RemoteInputReceiver" />
         <!-- 新短信通知广播 -->

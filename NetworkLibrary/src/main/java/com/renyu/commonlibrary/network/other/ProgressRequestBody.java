@@ -12,6 +12,8 @@ import okio.Sink;
 
 /**
  * Created by RG on 2016/4/28.
+ * <p>
+ * https://juejin.cn/post/6981210499815833631 Android Studio 或其他拦截器调用writeTo方法，可能导致上传进度出现问题
  */
 public class ProgressRequestBody extends RequestBody {
 
@@ -33,6 +35,7 @@ public class ProgressRequestBody extends RequestBody {
 
     /**
      * 重写调用实际的响应体的contentType
+     *
      * @return MediaType
      */
     @Override
@@ -42,6 +45,7 @@ public class ProgressRequestBody extends RequestBody {
 
     /**
      * 重写调用实际的响应体的contentLength
+     *
      * @return contentLength
      * @throws IOException 异常
      */
@@ -52,6 +56,7 @@ public class ProgressRequestBody extends RequestBody {
 
     /**
      * 重写进行写入
+     *
      * @param sink BufferedSink
      * @throws IOException 异常
      */
@@ -67,6 +72,7 @@ public class ProgressRequestBody extends RequestBody {
 
     /**
      * 写入，回调进度接口
+     *
      * @param sink Sink
      * @return Sink
      */
