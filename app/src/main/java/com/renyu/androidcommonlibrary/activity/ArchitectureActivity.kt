@@ -102,22 +102,6 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
                             }
                         }
                     })
-
-                tokenResponse3?.observe(
-                    this@ArchitectureActivity,
-                    object : BaseObserver2<AccessTokenResponse>(this@ArchitectureActivity) {
-                        override fun onError(tResource: Resource<AccessTokenResponse>?) {
-
-                        }
-
-                        override fun onSucess(tResource: Resource<AccessTokenResponse>?) {
-                            if (tResource?.data != null) {
-                                vm?.refreshUI(tResource.data!!)
-                                demo.access_token.set(tResource.data!!.access_token)
-                                demo.expires_in.set(tResource.data!!.expires_in)
-                            }
-                        }
-                    })
             }
 
             dataVM.getCurrentUserByLiveData().observe(this,
@@ -134,7 +118,19 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
     }
 
     override fun clickCourtine3(view: View, request: AccessTokenRequest) {
-        vm?.sendRequest3(request)
+        vm?.sendRequest3(this, request, object : BaseObserver2<AccessTokenResponse>(this) {
+            override fun onError(tResource: Resource<AccessTokenResponse>?) {
+
+            }
+
+            override fun onSucess(tResource: Resource<AccessTokenResponse>?) {
+                if (tResource?.data != null) {
+                    vm?.refreshUI(tResource.data!!)
+                    demo.access_token.set(tResource.data!!.access_token)
+                    demo.expires_in.set(tResource.data!!.expires_in)
+                }
+            }
+        })
     }
 
     private inline fun <reified T : ViewModel> getSelfViewModel(configLiveData: T.() -> Unit): T {

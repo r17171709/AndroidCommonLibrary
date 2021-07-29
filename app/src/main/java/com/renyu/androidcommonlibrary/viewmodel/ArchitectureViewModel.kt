@@ -1,5 +1,6 @@
 package com.renyu.androidcommonlibrary.viewmodel
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import com.renyu.androidcommonlibrary.bean.AccessTokenRequest
 import com.renyu.androidcommonlibrary.bean.AccessTokenResponse
@@ -8,6 +9,7 @@ import com.renyu.androidcommonlibrary.repository.CoroutineRepos
 import com.renyu.androidcommonlibrary.repository.Repos
 import com.renyu.commonlibrary.network.other.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Created by Administrator on 2018/7/7.
@@ -18,9 +20,6 @@ class ArchitectureViewModel(private val dataBinding: ActivityArchitectureBinding
 
     private val tokenRequest2: MutableLiveData<AccessTokenRequest> = MutableLiveData()
     var tokenResponse2: LiveData<Resource<AccessTokenResponse>>? = null
-
-    private val tokenRequest3: MutableLiveData<AccessTokenRequest> = MutableLiveData()
-    var tokenResponse3: LiveData<Resource<AccessTokenResponse>>? = null
 
     init {
         tokenResponse = Transformations.switchMap(tokenRequest) { input ->
@@ -41,14 +40,6 @@ class ArchitectureViewModel(private val dataBinding: ActivityArchitectureBinding
                 )
             }
         }
-
-        tokenResponse3 = Transformations.switchMap(tokenRequest3) { input ->
-            if (input == null) {
-                MutableLiveData()
-            } else {
-                CoroutineRepos.getCoroutineReposInstance().getAccessToken3(viewModelScope, input)
-            }
-        }
     }
 
     fun sendRequest(request: AccessTokenRequest) {
@@ -63,7 +54,13 @@ class ArchitectureViewModel(private val dataBinding: ActivityArchitectureBinding
         tokenRequest2.value = request
     }
 
-    fun sendRequest3(request: AccessTokenRequest) {
-        tokenRequest3.value = request
-    }
+    fun sendRequest3(
+        activity: AppCompatActivity,
+        request: AccessTokenRequest,
+        oberver: Observer<Resource<AccessTokenResponse>>
+    ) =
+        viewModelScope.launch {
+            CoroutineRepos.getCoroutineReposInstance().getAccessToken3()
+                .observe(activity, oberver)
+        }
 }
