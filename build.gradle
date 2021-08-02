@@ -2,7 +2,7 @@
 apply from: "config.gradle"
 
 buildscript {
-    ext.kotlin_version = '1.5.20'
+    ext.kotlin_version = '1.5.21'
     repositories {
         google()
         mavenCentral()
@@ -10,7 +10,7 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/google' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -51,12 +51,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-//tasks.getByPath(":CommonLibrary:bintrayUpload").enabled = false
-//tasks.getByPath(":NetworkLibrary:bintrayUpload").enabled = false
-//tasks.getByPath(":UpdateLibrary:bintrayUpload").enabled = false
-//tasks.getByPath(":DialogLibrary:bintrayUpload").enabled = false
-//tasks.getByPath(":ActionSheetLibrary:bintrayUpload").enabled = false
-//tasks.getByPath(":ShowCaseLibrary:bintrayUpload").enabled = false
-//tasks.getByPath(":WebLibrary:bintrayUpload").enabled = false
-//tasks.getByPath(":PermissionLibrary:bintrayUpload").enabled = false

@@ -1,6 +1,7 @@
 package com.renyu.androidcommonlibrary.activity
 
 import android.graphics.Color
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -8,7 +9,6 @@ import com.google.android.flexbox.JustifyContent
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.adapter.FlexAdapter
 import com.renyu.commonlibrary.baseact.BaseActivity
-import kotlinx.android.synthetic.main.activity_flex.*
 
 /**
  * Created by Administrator on 2019/5/23.
@@ -34,6 +34,7 @@ class FlexActivity : BaseActivity() {
         beans.add("11111")
         beans.add("1")
 
+        val rv_flex = findViewById<RecyclerView>(R.id.rv_flex)
         val layoutManager = FlexboxLayoutManager(this)
         layoutManager.justifyContent = JustifyContent.FLEX_START
         layoutManager.alignItems = AlignItems.CENTER

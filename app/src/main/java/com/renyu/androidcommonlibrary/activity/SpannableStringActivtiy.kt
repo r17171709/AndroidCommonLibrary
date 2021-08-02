@@ -5,11 +5,11 @@ import android.graphics.Color
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.SpanUtils
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
-import kotlinx.android.synthetic.main.activtiy_spannablestring.*
 import java.util.regex.Pattern
 
 /**
@@ -103,8 +103,8 @@ class SpannableStringActivtiy : BaseActivity() {
                 }
             }
         }
-        tv_spannable.movementMethod = LinkMovementMethod.getInstance()
-        tv_spannable.text = spanUtils.create()
+        findViewById<TextView>(R.id.tv_spannable).movementMethod = LinkMovementMethod.getInstance()
+        findViewById<TextView>(R.id.tv_spannable).text = spanUtils.create()
     }
 
     override fun setStatusBarColor() = 0

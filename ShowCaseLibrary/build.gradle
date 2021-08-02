@@ -1,27 +1,27 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
+//apply plugin: 'maven'
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: rootProject.ext.maven.repositoryUrl) {
-                authentication(
-                        userName: rootProject.ext.maven.username,
-                        password: rootProject.ext.maven.password
-                )
-            }
-            snapshotRepository(url: rootProject.ext.maven.repositorySnapshotUrl) {
-                authentication(
-                        userName: rootProject.ext.maven.username,
-                        password: rootProject.ext.maven.password
-                )
-            }
-            pom.version = '2.1.0'
-            pom.artifactId = 'AndroidShowCaseLibrary'
-            pom.groupId = rootProject.ext.maven.groupId
-        }
-    }
-}
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: rootProject.ext.maven.repositoryUrl) {
+//                authentication(
+//                        userName: rootProject.ext.maven.username,
+//                        password: rootProject.ext.maven.password
+//                )
+//            }
+//            snapshotRepository(url: rootProject.ext.maven.repositorySnapshotUrl) {
+//                authentication(
+//                        userName: rootProject.ext.maven.username,
+//                        password: rootProject.ext.maven.password
+//                )
+//            }
+//            pom.version = '2.1.0'
+//            pom.artifactId = 'AndroidShowCaseLibrary'
+//            pom.groupId = rootProject.ext.maven.groupId
+//        }
+//    }
+//}
 
 android {
     compileSdkVersion 29
@@ -29,8 +29,6 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

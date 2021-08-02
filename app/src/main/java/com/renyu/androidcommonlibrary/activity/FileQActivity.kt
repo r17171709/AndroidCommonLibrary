@@ -17,7 +17,6 @@ import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.commonutils.mainThread
 import com.renyu.commonlibrary.permission.annotation.NeedPermission
 import com.renyu.commonlibrary.permission.annotation.PermissionDenied
-import kotlinx.android.synthetic.main.activity_fileq.*
 
 class FileQActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +60,7 @@ class FileQActivity : AppCompatActivity() {
                     it.getLong(it.getColumnIndex(MediaStore.Images.Media._ID))
                 )
                 mainThread {
-                    loadFresco(uri, 720f, 1080f, iv_fileq)
+                    loadFresco(uri, 720f, 1080f, findViewById(R.id.iv_fileq))
                 }
             }
         }

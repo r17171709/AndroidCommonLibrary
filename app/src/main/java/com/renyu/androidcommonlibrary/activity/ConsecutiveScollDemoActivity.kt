@@ -5,10 +5,11 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.donkingliang.consecutivescroller.ConsecutiveScrollerLayout
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.adapter.ScrollRVAdapter
 import com.renyu.commonlibrary.baseact.BaseActivity
-import kotlinx.android.synthetic.main.activity_consecutivescolldemo.*
 import java.util.*
 
 class ConsecutiveScollDemoActivity : BaseActivity() {
@@ -19,18 +20,23 @@ class ConsecutiveScollDemoActivity : BaseActivity() {
     override fun initViews() = R.layout.activity_consecutivescolldemo
 
     override fun loadData() {
+        val scrollerLayout = findViewById<ConsecutiveScrollerLayout>(R.id.scrollerLayout)
+        val web_consecutive = findViewById<WebView>(R.id.web_consecutive)
+        val rv_consecutive1 = findViewById<RecyclerView>(R.id.rv_consecutive1)
+        val rv_consecutive2 = findViewById<RecyclerView>(R.id.rv_consecutive2)
+
         web_consecutive!!.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
                 scrollerLayout.checkLayoutChange()
             }
         }
-        web_consecutive!!.webViewClient = object : WebViewClient() {
+        web_consecutive.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 return false
             }
         }
-        web_consecutive!!.loadUrl("https://www.baidu.com/")
+        web_consecutive.loadUrl("https://www.baidu.com/")
 
         rv_consecutive1.setHasFixedSize(true)
         rv_consecutive1.layoutManager = LinearLayoutManager(this)

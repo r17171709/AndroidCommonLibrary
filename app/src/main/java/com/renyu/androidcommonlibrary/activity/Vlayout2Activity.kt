@@ -11,11 +11,11 @@ import com.alibaba.android.vlayout.layout.RangeGridLayoutHelper
 import com.alibaba.android.vlayout.layout.SingleLayoutHelper
 import com.alibaba.android.vlayout.layout.StickyLayoutHelper
 import com.bigkoo.convenientbanner.ConvenientBanner
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.adapter.vlayout.*
 import com.renyu.commonlibrary.baseact.BaseActivity
-import kotlinx.android.synthetic.main.activity_vlayout.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -54,6 +54,8 @@ class Vlayout2Activity : BaseActivity() {
     private var cbScrollrv: ConvenientBanner<Uri>? = null
 
     override fun initParams() {
+        val rv_vlayout = findViewById<RecyclerView>(R.id.rv_vlayout)
+        val swipy_vlayout = findViewById<SwipyRefreshLayout>(R.id.swipy_vlayout)
         rv_vlayout.layoutManager = manager
         val pool = RecyclerView.RecycledViewPool()
         pool.setMaxRecycledViews(0, 20)

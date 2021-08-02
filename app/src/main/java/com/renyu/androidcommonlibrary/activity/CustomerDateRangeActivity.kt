@@ -11,7 +11,6 @@ import com.renyu.commonlibrary.baseact.BaseActivity
 import com.renyu.commonlibrary.views.actionsheet.ActionSheetFactory
 import com.renyu.commonlibrary.views.actionsheet.fragment.ActionSheetFragment
 import com.renyu.commonlibrary.views.actionsheet.fragment.CustomActionSheetFragment
-import kotlinx.android.synthetic.main.activity_actionsheet.*
 
 class CustomerDateRangeActivity : BaseActivity() {
     var fragment: CustomActionSheetFragment? = null
@@ -41,7 +40,7 @@ class CustomerDateRangeActivity : BaseActivity() {
     override fun initParams() {
         val viewDateChoice = addAction()
 
-        btn_click.setOnClickListener {
+        findViewById<View>(R.id.btn_click).setOnClickListener {
             fragment = ActionSheetFactory.createCustomActionSheetFragment(
                 this, "", "自定义视图", Color.BLUE,
                 "确定", Color.RED,

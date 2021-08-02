@@ -4,13 +4,13 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
 import com.blankj.utilcode.util.ToastUtils
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.android.synthetic.main.activity_signin.*
 import java.util.concurrent.TimeUnit
 import com.blankj.utilcode.util.BarUtils as BarUtils1
 import com.renyu.commonlibrary.commonutils.BarUtils as BarUtils2
@@ -33,8 +33,8 @@ class SignInActivity : BaseActivity() {
                 if (hide) {
                     rootView.scrollTo(0, 0)
                 } else {
-                    btn_signin.post {
-                        rootView.scrollBy(0, keyboardHeight - (decorViewHeight - btn_signin.bottom))
+                    findViewById<View>(R.id.btn_signin).post {
+                        rootView.scrollBy(0, keyboardHeight - (decorViewHeight - findViewById<View>(R.id.btn_signin).bottom))
                     }
                 }
             }
@@ -46,8 +46,8 @@ class SignInActivity : BaseActivity() {
 
     override fun loadData() {
         val textChanges: Array<Observable<CharSequence>> = arrayOf(
-            tv_signin_uname.textChanges(),
-            tv_signin_password.textChanges()
+            findViewById<TextView>(R.id.tv_signin_uname).textChanges(),
+            findViewById<TextView>(R.id.tv_signin_password).textChanges()
         )
         Observable.combineLatestArray(textChanges) {
             it.all { value ->
@@ -60,7 +60,7 @@ class SignInActivity : BaseActivity() {
                 ToastUtils.showShort("不可点击")
             }
         }
-        btn_signin.apply {
+        findViewById<View>(R.id.btn_signin).apply {
             onAntiShakeClick {
                 ToastUtils.showShort("点击了")
             }

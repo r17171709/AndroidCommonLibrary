@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.view.Gravity
 import com.renyu.androidcommonlibrary.R
 import com.renyu.commonlibrary.baseact.BaseActivity
-import kotlinx.android.synthetic.main.activity_badgeview.*
 import q.rorbin.badgeview.QBadgeView
 
 /**
@@ -12,7 +11,7 @@ import q.rorbin.badgeview.QBadgeView
  */
 class BadgeViewActivity : BaseActivity() {
     override fun initParams() {
-        val badge = QBadgeView(this).bindTarget(tv_badge)
+        val badge = QBadgeView(this).bindTarget(findViewById(R.id.tv_badge))
         badge.badgeGravity = Gravity.END or Gravity.TOP
         badge.badgeTextColor = Color.WHITE
         badge.badgeBackgroundColor = Color.RED

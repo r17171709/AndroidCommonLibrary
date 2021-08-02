@@ -2,12 +2,13 @@ package com.renyu.androidcommonlibrary.activity
 
 import android.graphics.Color
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.fragment.ViewPagerFragment
 import com.renyu.commonlibrary.baseact.BaseActivity
-import kotlinx.android.synthetic.main.activity_viewpager.*
 
 class ViewPager2Activity : BaseActivity() {
     private val colors by lazy {
@@ -37,7 +38,7 @@ class ViewPager2Activity : BaseActivity() {
                 ViewPagerFragment(it)
             }.toList()
         )
-        vp_vpdemo.adapter = adapter
+        findViewById<ViewPager2>(R.id.vp_vpdemo).adapter = adapter
 
         R.id.button1_vp.onClick {
             fragments.add(ViewPagerFragment(colors[index % colors.size]))

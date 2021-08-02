@@ -1,29 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'maven'
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: rootProject.ext.maven.repositoryUrl) {
-                authentication(
-                        userName: rootProject.ext.maven.username,
-                        password: rootProject.ext.maven.password
-                )
-            }
-            snapshotRepository(url: rootProject.ext.maven.repositorySnapshotUrl) {
-                authentication(
-                        userName: rootProject.ext.maven.username,
-                        password: rootProject.ext.maven.password
-                )
-            }
-            pom.version = '2.2.0'
-            pom.artifactId = 'AndroidPermissionLibrary'
-            pom.groupId = rootProject.ext.maven.groupId
-        }
-    }
-}
+apply from: "publish.gradle"
 
 android {
     compileSdkVersion 30
@@ -31,8 +8,6 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
