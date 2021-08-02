@@ -83,7 +83,7 @@ dependencies {
     // vlayout
     api 'com.alibaba.android:vlayout:1.2.40@aar'
     // SwitchButton  A cute widget of Switch Button for you to create beautiful and friendly UI.
-    api 'com.kyleduo.switchbutton:library:2.0.0@aar'
+    api 'com.kyleduo.switchbutton:library:2.1.0@aar'
     // SwipeDelMenuLayout  史上最简单侧滑菜单，0耦合，支持任意ViewGroup。一步集成侧滑(删除)菜单，高仿QQ、IOS。
     api 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
     // RecyclerItemDecoration  ItemDecoration for RecyclerView using LinearLayoutManager for Android
@@ -97,7 +97,7 @@ dependencies {
     // ViewPagerTransforms  Library containing common animations needed for transforming ViewPager scrolling for Android v13+.
     api 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
     // CircleIndicator  A lightweight viewpager indicator like in nexus 5 launcher
-    api 'me.relex:circleindicator:2.1.4@aar'
+    api 'me.relex:circleindicator:2.1.6@aar'
     // DiscreteScrollView  Scrollable list of items, where current item is centered and can be changed using swipes
     api 'com.yarolegovich:discrete-scrollview:1.5.1@aar'
     // MarqueeViewLibrary  一个帮您快速实现跑马灯效果的library
