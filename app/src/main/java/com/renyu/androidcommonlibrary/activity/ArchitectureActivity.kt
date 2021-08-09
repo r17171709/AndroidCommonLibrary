@@ -16,17 +16,21 @@ import com.renyu.androidcommonlibrary.bean.Demo
 import com.renyu.androidcommonlibrary.databinding.ActivityArchitectureBinding
 import com.renyu.androidcommonlibrary.impl.EventImpl
 import com.renyu.androidcommonlibrary.utils.BaseObserver2
+import com.renyu.androidcommonlibrary.utils.BaseObserver3
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModel
 import com.renyu.androidcommonlibrary.viewmodel.ArchitectureViewModelFactory
 import com.renyu.androidcommonlibrary.viewmodel.SavedStateViewModel
 import com.renyu.commonlibrary.baseact.BaseDataBindingActivity
 import com.renyu.commonlibrary.commonutils.Utils
+import com.renyu.commonlibrary.dialog.NetworkLoadingDialog
 import com.renyu.commonlibrary.network.other.Resource
 
 /**
  * Created by Administrator on 2018/7/7.
  */
 class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding>(), EventImpl {
+    private var networkLoadingDialog: NetworkLoadingDialog? = null
+
     override fun initParams() {
 
     }
@@ -89,23 +93,34 @@ class ArchitectureActivity : BaseDataBindingActivity<ActivityArchitectureBinding
 
                 tokenResponse2?.observe(
                     this@ArchitectureActivity,
-                    object : BaseObserver2<AccessTokenResponse>(this@ArchitectureActivity) {
-                        override fun onError(tResource: Resource<AccessTokenResponse>?) {
-
+                    BaseObserver3<AccessTokenResponse> {
+                        onLoading {
+                            networkLoadingDialog = NetworkLoadingDialog.getInstance()
+                            networkLoadingDialog?.setDialogDismissListener {
+                                networkLoadingDialog = null
+                            }
+                            networkLoadingDialog?.show(this@ArchitectureActivity)
                         }
 
-                        override fun onSucess(tResource: Resource<AccessTokenResponse>?) {
-                            if (tResource?.data != null) {
+                        onError {
+                            networkLoadingDialog?.close();
+                        }
+
+                        onSuccess { tResource ->
+                            if (tResource.data != null) {
                                 vm?.refreshUI(tResource.data!!)
                                 demo.access_token.set(tResource.data!!.access_token)
                                 demo.expires_in.set(tResource.data!!.expires_in)
                             }
+                            networkLoadingDialog?.close();
                         }
                     })
             }
 
             dataVM.getCurrentUserByLiveData().observe(this,
-                { t -> ToastUtils.showShort(t) })
+                Observer<String> {
+                    ToastUtils.showShort(it)
+                })
         }
     }
 
