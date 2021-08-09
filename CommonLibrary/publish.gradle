@@ -34,7 +34,7 @@ afterEvaluate {
             mavenAndroid(MavenPublication) {
                 groupId rootProject.ext.maven.groupId
                 artifactId 'AndroidCommonLibrary'
-                version '3.2.7'
+                version '3.2.8'
                 artifact sourcesJar
                 artifact javadocJar
                 artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
