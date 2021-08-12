@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -117,4 +118,46 @@ class DataParcelableDelegate<U, T : Parcelable?>(private val params: String) :
             else -> null
         }
     }
+}
+
+/**
+ * RecyclerView滚动到指定位置
+ */
+fun RecyclerView.smoothMoveToPosition(position: Int) {
+    //目标项是否在最后一个可见项之后
+    var mShouldScroll = false
+    //记录目标项位置
+    var mToPosition = 0
+
+    // 第一个可见位置
+    val firstItem = getChildLayoutPosition(getChildAt(0))
+    // 最后一个可见位置
+    val lastItem = getChildLayoutPosition(getChildAt(childCount - 1))
+    if (position < firstItem) {
+        // 第一种可能:跳转位置在第一个可见位置之前，使用smoothScrollToPosition
+        smoothScrollToPosition(position)
+    } else if (position <= lastItem) {
+        // 第二种可能:跳转位置在第一个可见位置之后，最后一个可见项之前
+        val movePosition = position - firstItem
+        if (movePosition in 0 until childCount) {
+            val top = getChildAt(movePosition).top
+            // smoothScrollToPosition 不会有效果，此时调用smoothScrollBy来滑动到指定位置
+            smoothScrollBy(0, top)
+        }
+    } else {
+        // 第三种可能:跳转位置在最后可见项之后，则先调用smoothScrollToPosition将要跳转的位置滚动到可见位置
+        // 再通过onScrollStateChanged控制再次调用smoothMoveToPosition，执行上一个判断中的方法
+        smoothScrollToPosition(position)
+        mToPosition = position
+        mShouldScroll = true
+    }
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (mShouldScroll && RecyclerView.SCROLL_STATE_IDLE == newState) {
+                mShouldScroll = false
+                smoothMoveToPosition(mToPosition)
+            }
+        }
+    })
 }

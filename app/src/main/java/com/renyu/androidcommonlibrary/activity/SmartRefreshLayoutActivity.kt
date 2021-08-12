@@ -15,6 +15,7 @@ import com.renyu.androidcommonlibrary.R
 import com.renyu.androidcommonlibrary.adapter.SmartRefreshLayoutAdapter
 import com.renyu.androidcommonlibrary.databinding.ActivitySmartrefreshlayoutBinding
 import com.renyu.commonlibrary.baseact.BaseDataBindingActivity
+import com.renyu.commonlibrary.commonutils.smoothMoveToPosition
 import com.scwang.smart.refresh.footer.BallPulseFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -64,7 +65,7 @@ class SmartRefreshLayoutActivity : BaseDataBindingActivity<ActivitySmartrefreshl
 
                 beans.clear()
                 beans.apply {
-                    for (i in 0 until 20) {
+                    for (i in 0 until 30) {
                         add("$i")
                     }
                 }
@@ -85,6 +86,10 @@ class SmartRefreshLayoutActivity : BaseDataBindingActivity<ActivitySmartrefreshl
             setFirstOnly(true)
             setDuration(500)
             setInterpolator(OvershootInterpolator(.5f))
+        }
+
+        viewDataBinding.btnSmart.setOnClickListener {
+            viewDataBinding.rvSmart.smoothMoveToPosition(40)
         }
     }
 
