@@ -6,14 +6,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_vp"
+        android:layout_width="0dip"
+        android:layout_height="50dip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorFullWidth="false"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/colorAccent" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_vpdemo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dip"
+        android:layout_height="0dip"
+        android:background="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tab_vp">
 
     </androidx.viewpager2.widget.ViewPager2>
 
@@ -23,7 +37,7 @@
         android:layout_height="wrap_content"
         android:text="增"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/vp_vpdemo" />
 
     <Button
         android:id="@+id/button2_vp"
@@ -31,7 +45,7 @@
         android:layout_height="wrap_content"
         android:text="减"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/vp_vpdemo" />
 
     <Button
         android:id="@+id/button3_vp"
