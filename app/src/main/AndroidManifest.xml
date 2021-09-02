@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.ArchitectureActivity"
+            android:name=".activity.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SplashScreen"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,13 +25,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.ArchitectureActivity" />
         <activity
             android:name=".activity.MyX5WebActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:hardwareAccelerated="true" />
         <activity android:name=".activity.NotificationShowActivity" />
         <!--  读取第三方信息内容 -->
-        <activity android:name=".activity.FileProviderActivity">
+        <activity
+            android:name=".activity.FileProviderActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -47,6 +52,7 @@
         <!-- 新短信通知广播 -->
         <receiver
             android:name=".receiver.SmsReceiver"
+            android:exported="true"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.provider.Telephony.SMS_DELIVER" />
@@ -54,7 +60,9 @@
             </intent-filter>
         </receiver>
         <!-- 来电通知广播 -->
-        <receiver android:name=".receiver.IncomingCallReceiver">
+        <receiver
+            android:name=".receiver.IncomingCallReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
@@ -62,6 +70,7 @@
         <!-- 通知栏增删监听 -->
         <service
             android:name=".service.NotificationCollectorService"
+            android:exported="true"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />

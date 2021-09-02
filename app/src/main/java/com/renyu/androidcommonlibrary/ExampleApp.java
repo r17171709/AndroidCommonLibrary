@@ -142,7 +142,7 @@ public class ExampleApp extends MultiDexApplication implements ViewModelStoreOwn
         ProcessLifecycleOwner.get().getLifecycle().addObserver(new ApplicationLifeCycleObserver());
 
         // 测试epic
-        TestManager.getInstance().initAllSuites();
+//        TestManager.getInstance().initAllSuites();
     }
 
     @NonNull

@@ -8,4 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Theme.SplashScreen" parent="Theme.SplashScreenBase">
+
+    </style>
+
+    <style name="Theme.SplashScreenBase" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/drawable_launch_screens</item>
+        <item name="android:opacity">opaque</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:fitsSystemWindows">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
 </resources>

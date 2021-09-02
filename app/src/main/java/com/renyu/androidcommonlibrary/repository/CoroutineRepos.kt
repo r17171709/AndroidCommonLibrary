@@ -16,10 +16,7 @@ import com.renyu.commonlibrary.network.other.NetworkException
 import com.renyu.commonlibrary.network.other.Resource
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -131,7 +128,7 @@ private fun <T> httpRequestWithFlow(
         exception.result = response.result
         emit(Resource.error(exception))
     }
-}.onStart {
+}.flowOn(Dispatchers.IO).onStart {
     emit(Resource.loading(null))
 }.catch { cause ->
     // 未知异常均转换为NetworkException

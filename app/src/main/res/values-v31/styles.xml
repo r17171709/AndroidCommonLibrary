@@ -1,0 +1,12 @@
+<resources>
+
+    <style name="Theme.SplashScreen" parent="Theme.SplashScreenBase">
+        <item name="android:windowSplashScreenAnimatedIcon">
+            @drawable/ic_kotlin_hero_new_animated_total
+        </item>
+        <item name="android:windowSplashScreenIconBackgroundColor">#7CC4CD</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_tm_brand</item>
+        <item name="android:windowSplashScreenBackground">@android:color/background_light</item>
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
+    </style>
+</resources>

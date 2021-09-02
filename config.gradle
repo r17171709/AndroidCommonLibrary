@@ -6,4 +6,10 @@ ext {
             repositorySnapshotUrl: "https://packages.aliyun.com/maven/repository/2090525-snapshot-nSA6nB/",
             groupId              : "com.github.renyu17"
     ]
+
+    app = [
+            compileSdk: 31,
+            minSdk    : 21,
+            targetSdk : 31
+    ]
 }
